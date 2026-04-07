@@ -6,7 +6,7 @@ class AppRoutes {
   static const carsPage = '/carsPage';
 
   //////////////// Auth Part ///////////////////////
-  static const initialPage = '/';
+  static const splashScreen = '/splashScreen';
   static const onboardScreen = '/onboardScreen';
   static const navbar = '/navbar';
   static const signUp = '/signUp';

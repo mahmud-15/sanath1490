@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ConstColor {
-  static const userPrimaryColor = Color(0xFFD00D0D);
+  static const primaryColor = Color(0xFF0B3C6D);
+  static const primaryDeepColor = Color(0xFF031D4B);
   static const userDeepPrimaryColor = Color(0xFFBE0D0D);
   static const appDarkBackGround = Color(0xFF111518);
-  static const primaryColor = Color(0xFF009E99);
   static const cardBorderColour = Color(0xFF939393);
   static const tabButtonColour = Color(0xFFB0E6E4);
   static const textColor = Color(0xFF363636);
@@ -17,8 +17,6 @@ class ConstColor {
   static const yellow = Color(0xFFFFF7D7);
   static const textTealColor = Color(0xFF14B8A6);
   static const white = Colors.white;
-
-
 }
 
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes_file.dart';
 import 'initializer.dart';
 
 void main() async {
@@ -29,8 +31,8 @@ class MainApp extends StatelessWidget {
           themeMode: ThemeMode.light,
           // theme: themeDataLight,
           defaultTransition: Transition.noTransition,
-          // getPages: appRouteFile,
-          // initialRoute: AppRoutes.initialPage,
+          getPages: appRouteFile,
+          initialRoute: AppRoutes.splashScreen,
           // scaffoldMessengerKey: ToastService.scaffoldMessengerKey,
         );
       },
