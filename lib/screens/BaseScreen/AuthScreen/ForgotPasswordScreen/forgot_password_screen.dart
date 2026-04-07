@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
-
 import '../../../../Widget/text/custom_text.dart';
 import '../../../../constant/const_color.dart';
+import '../../../../routes/app_routes/app_routes.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/auth_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
+import '../VerifyOtpScreen/Controller/verify_otp_controller.dart';
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -108,11 +112,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   },
                 ),
                 SizedBox(height: 17.h),
-
-                // Send OTP Button
                 CustomElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      Get.find<VerifyOtpController>().email.value = _emailController.text.trim();
+                      Get.toNamed(AppRoutes.verifyOtpScreen);
+                    }
                   },
                   color: ConstColor.primaryColor,
                   height: 48,

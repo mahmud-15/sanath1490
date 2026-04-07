@@ -22,5 +22,8 @@ class ConstString {
   static const donHaveSnAccount = "Don't have an account?";
   static const signUp = 'Sign Up';
   static const sendOtp = 'Send OTP';
+  static const verifyOtp = 'Verify OTP';
+  static const verify = 'Verify';
+  static const enterThe4Digit = "Enter the 4-digit code we’ve sent to your email \nyourname@example.com";
   static const noWorriesEnterYourEmail = "No worries! Enter your email and we'll send you\nan OTP code to reset your password.";
 }
