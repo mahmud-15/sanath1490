@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 
 import '../../../../Widget/text/custom_text.dart';
 import '../../../../constant/const_color.dart';
@@ -36,12 +38,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 32.h),
+                SizedBox(height: 123.h),
 
                 // Key Icon
                 Container(
-                  width: 72.w,
-                  height: 72.h,
+                  width: 64.w,
+                  height: 64.h,
                   decoration: BoxDecoration(
                     color: ConstColor.primaryColor,
                     borderRadius: BorderRadius.circular(18.r),
@@ -49,9 +51,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: Center(
                     child: AppImage(
                       path: 'assets/images/key.png',
-                      width: 36.w,
-                      height: 36.h,
-                      iconColor: Colors.white,
+                      width: 56.w,
+                      height: 56.h,
                     ),
                   ),
                 ),
@@ -59,10 +60,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                 // Title
                 CustomText(
-                  title: 'Forgot Password?',
+                  title: ConstString.forgotPassword,
                   textColor: ConstColor.primaryColor,
-                  textSize: 26.sp,
-                  fontWeight: FontWeight.bold,
+                  textSize: 30.sp,
+                  fontWeight: FontWeight.w700,
                   textAlign: TextAlign.center,
                   maxLine: 1,
                 ),
@@ -70,32 +71,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                 // Subtitle
                 CustomText(
-                  title: "No worries! Enter your email and we'll send you\nan OTP code to reset your password.",
+                  title: ConstString.noWorriesEnterYourEmail,
                   textColor: ConstColor.bodyColor,
                   textSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.center,
                   maxLine: 3,
                 ),
-                SizedBox(height: 36.h),
+                SizedBox(height: 32.h),
 
                 // Email Field
                 CustomTextFormField(
-                  fromTitle: 'Email',
+                  fromTitle: ConstString.email,
                   textController: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                   hintText: const CustomText(
-                    title: 'your.email@example.com',
+                    title: ConstString.yourEmailExample,
                     textColor: Colors.grey,
                     textSize: 13,
                   ),
                   prefixIcon: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: Icon(
-                      Icons.email_outlined,
-                      size: 20.sp,
-                      color: ConstColor.bodyColor,
+                    child: SvgPicture.asset(
+                      'assets/icons/email.svg',
+                      width: 19.w,
+                      height: 19.h,
+                      colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
                     ),
                   ),
                   prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
@@ -105,7 +107,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     return null;
                   },
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 17.h),
 
                 // Send OTP Button
                 CustomElevatedButton(
@@ -113,15 +115,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     if (_formKey.currentState!.validate()) {}
                   },
                   color: ConstColor.primaryColor,
-                  height: 52,
+                  height: 48,
                   left: 0,
                   right: 0,
                   top: 0,
                   child: CustomText(
-                    title: 'Send OTP',
-                    textColor: Colors.white,
+                    title: ConstString.sendOtp,
+                    textColor: ConstColor.backgroundColor,
                     textSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],

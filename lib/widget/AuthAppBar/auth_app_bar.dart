@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sanath1490_flutter_app/constant/const_color.dart';
 
 class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onBack;
@@ -9,24 +10,23 @@ class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xFFF9FAFB),
+      backgroundColor: ConstColor.primaryColor,
       elevation: 0,
       leadingWidth: 56.w,
       leading: GestureDetector(
         onTap: onBack ?? () => Navigator.pop(context),
         child: Container(
           margin: EdgeInsets.only(left: 16.w),
-          width: 36.w,
-          height: 36.h,
+          width: 40.w,
+          height: 40.h,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.white.withAlpha(30),
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFE5E7EB)),
           ),
           child: Icon(
             Icons.arrow_back,
-            size: 18.sp,
-            color: const Color(0xFF0B3C6D),
+            size: 20.sp,
+            color: ConstColor.backgroundColor,
           ),
         ),
       ),

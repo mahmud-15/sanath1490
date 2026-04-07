@@ -21,4 +21,6 @@ class ConstString {
   static const continueWithGoogle = 'Continue with Google';
   static const donHaveSnAccount = "Don't have an account?";
   static const signUp = 'Sign Up';
+  static const sendOtp = 'Send OTP';
+  static const noWorriesEnterYourEmail = "No worries! Enter your email and we'll send you\nan OTP code to reset your password.";
 }
