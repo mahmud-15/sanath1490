@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_color.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../Widget/text/custom_text.dart';
@@ -48,15 +50,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
   }
 
   void _navigateToLogin() {
-    // TODO: Replace with your actual Login screen
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            const Scaffold(body: Center(child: Text("Login Screen"))),
-        // builder: (context) => const LoginScreen(),
-      ),
-    );
+    Get.toNamed(AppRoutes.signInScreen);
   }
 
   @override

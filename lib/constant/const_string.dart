@@ -9,4 +9,10 @@ class ConstString {
   static const contactAgentsEasily = 'Contact Agents Easily';
   static const callOrEmailAgentsDirectly = 'Call or email agents directly from the listing. Get quick answers and arrange a viewing fast.';
   static const skip = 'Skip';
+  static const welcomeBack = 'Welcome Back';
+  static const signInToContinue = 'Sign in to continue your property search';
+  static const email = "Email";
+  static const yourEmailExample = 'your.email@example.com';
+  static const password = 'Password';
+  static const enterYourPassWord = 'Enter your password';
 }
