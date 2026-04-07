@@ -20,6 +20,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   google_fonts: ^8.0.2
   flutter_svg: ^2.2.4
+  smooth_page_indicator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -29,8 +30,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #   - assets/images/
+  assets:
+     - assets/images/
   #   - assets/icons/
   #   - assets/icons/navbar_Icons/
   #   - assets/icons/profile_icons/
