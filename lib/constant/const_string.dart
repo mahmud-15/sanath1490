@@ -8,4 +8,5 @@ class ConstString {
   static const viewPhotosVideos = 'View photos, videos, and key details in one place. Understand the property before you book a visit.';
   static const contactAgentsEasily = 'Contact Agents Easily';
   static const callOrEmailAgentsDirectly = 'Call or email agents directly from the listing. Get quick answers and arrange a viewing fast.';
+  static const skip = 'Skip';
 }

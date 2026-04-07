@@ -32,7 +32,7 @@ flutter:
 
   assets:
      - assets/images/
-  #   - assets/icons/
+     - assets/icons/
   #   - assets/icons/navbar_Icons/
   #   - assets/icons/profile_icons/
   #   - assets/temp/

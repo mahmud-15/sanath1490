@@ -78,7 +78,7 @@ class CustomTextFormField extends StatelessWidget {
             controller: textController,
             focusNode: focusNode,
             style: TextStyle(
-              color: ConstColor.textColor,
+              color: ConstColor.titleColor   ,
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Poppins',
@@ -111,7 +111,7 @@ class CustomTextFormField extends StatelessWidget {
               suffixIconConstraints: suffixIconConstraints,
               suffixText: suffixText,
               suffixStyle: TextStyle(
-                color: suffixTextColor ?? ConstColor.grey,
+                color: suffixTextColor ?? ConstColor.bodyColor ,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -120,7 +120,7 @@ class CustomTextFormField extends StatelessWidget {
               hoverColor: ConstColor.primaryColor,
               label: hintText,
               hintStyle: TextStyle(
-                color: ConstColor.cardBorderColour,
+                color: ConstColor.outLineColor,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w300,
                 fontFamily: 'Poppins',
@@ -132,11 +132,11 @@ class CustomTextFormField extends StatelessWidget {
 
               // --- Borders ---
               enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: ConstColor.cardBorderColour),
+                borderSide: const BorderSide(color: ConstColor.outLineColor),
                 borderRadius: BorderRadius.circular((borderRadius ?? 12).r),
               ),
               border: OutlineInputBorder(
-                borderSide: const BorderSide(color: ConstColor.cardBorderColour),
+                borderSide: const BorderSide(color: ConstColor.outLineColor),
                 borderRadius: BorderRadius.circular((borderRadius ?? 12).r),
               ),
               focusedBorder: OutlineInputBorder(

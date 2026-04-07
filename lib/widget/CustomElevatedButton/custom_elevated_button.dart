@@ -31,7 +31,7 @@ class CustomElevatedButton extends StatelessWidget {
     super.key,
     required this.child,
     required this.onPressed,
-    this.color = ConstColor.userDeepPrimaryColor,
+    this.color = ConstColor.primaryColor,
     this.height = 56,
     this.fontSize = 12,
     this.width,
@@ -179,7 +179,7 @@ ButtonStyle _filledButtonStyle(
   return ElevatedButton.styleFrom(
     backgroundColor: color,
     shadowColor: Colors.transparent,
-    foregroundColor: ConstColor.black,
+    foregroundColor: ConstColor.titleColor,
     textStyle: GoogleFonts.poppins(
         fontSize: fontSize, fontWeight: fontWeight, textStyle: const TextStyle()),
     shape: RoundedRectangleBorder(
