@@ -44,7 +44,7 @@ class SignInScreenState extends State<SignInScreen> {
                 // Title
                 CustomText(
                   title: ConstString.welcomeBack,
-                  textColor: const Color(0xFF1A3C6E),
+                  textColor: ConstColor.primaryColor,
                   textSize: 30.sp,
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.center,
@@ -71,7 +71,7 @@ class SignInScreenState extends State<SignInScreen> {
                   textInputAction: TextInputAction.next,
                   hintText: const CustomText(
                     title: ConstString.yourEmailExample,
-                    textColor: Colors.grey,
+                    textColor: ConstColor.bodyColor,
                     textSize: 14,
                   ),
                   prefixIcon: Padding(
@@ -80,7 +80,7 @@ class SignInScreenState extends State<SignInScreen> {
                       'assets/icons/email.svg',
                       width: 19.w,
                       height: 19.h,
-                      colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
                     ),
                   ),
                   prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
@@ -133,9 +133,9 @@ class SignInScreenState extends State<SignInScreen> {
                   child: GestureDetector(
                     onTap: () {},
                     child: CustomText(
-                      title: 'Forgot password?',
-                      textColor: const Color(0xFF1A3C6E),
-                      textSize: 13.sp,
+                      title: ConstString.forgotPassword,
+                      textColor: ConstColor.secondaryColor,
+                      textSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       top: 4,
                       bottom: 8,
@@ -150,12 +150,12 @@ class SignInScreenState extends State<SignInScreen> {
                     if (_formKey.currentState!.validate()) {}
                   },
                   color: const Color(0xFF1A3C6E),
-                  height: 52,
+                  height: 48,
                   left: 0,
                   right: 0,
                   top: 0,
                   child: CustomText(
-                    title: 'Sign In',
+                    title: ConstString.signIn,
                     textColor: Colors.white,
                     textSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -166,17 +166,31 @@ class SignInScreenState extends State<SignInScreen> {
                 // OR Divider
                 Row(
                   children: [
-                    Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+                    Expanded(
+                      child: ShaderMask(
+                        shaderCallback: (bounds) => LinearGradient(
+                          colors: [ConstColor.outLineColor, ConstColor.bodyColor],
+                        ).createShader(bounds),
+                        child: Divider(color: Colors.white, thickness: 1),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: CustomText(
-                        title: 'OR',
-                        textColor: Colors.grey,
-                        textSize: 13.sp,
+                        title: ConstString.or,
+                        textColor: ConstColor.bodyColor,
+                        textSize: 14.sp,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+                    Expanded(
+                      child: ShaderMask(
+                        shaderCallback: (bounds) => LinearGradient(
+                          colors: [ConstColor.bodyColor, ConstColor.outLineColor],
+                        ).createShader(bounds),
+                        child: Divider(color: Colors.white, thickness: 1),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 24.h),
@@ -185,7 +199,7 @@ class SignInScreenState extends State<SignInScreen> {
                 CustomElevatedButton(
                   onPressed: () {},
                   color: Colors.white,
-                  height: 52,
+                  height: 48,
                   left: 0,
                   right: 0,
                   top: 0,
@@ -193,14 +207,14 @@ class SignInScreenState extends State<SignInScreen> {
                   borderWidth: 1,
                   icon: Image.asset(
                     'assets/images/google_icon.png',
-                    width: 20.w,
-                    height: 20.h,
+                    width: 24.w,
+                    height: 24.h,
                   ),
                   child: CustomText(
-                    title: 'Continue with Google',
-                    textColor: Colors.black87,
+                    title: ConstString.continueWithGoogle,
+                    textColor: ConstColor.titleColor,
                     textSize: 15.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 SizedBox(height: 32.h),
@@ -210,18 +224,18 @@ class SignInScreenState extends State<SignInScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      title: "Don't have an account? ",
-                      textColor: Colors.grey,
+                      title: ConstString.donHaveSnAccount,
+                      textColor: ConstColor.bodyColor,
                       textSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
                     GestureDetector(
                       onTap: () {},
                       child: CustomText(
-                        title: 'Sign Up',
-                        textColor: const Color(0xFF1A3C6E),
+                        title: ConstString.signUp,
+                        textColor: ConstColor.primaryColor,
                         textSize: 14.sp,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],

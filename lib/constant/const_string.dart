@@ -15,4 +15,10 @@ class ConstString {
   static const yourEmailExample = 'your.email@example.com';
   static const password = 'Password';
   static const enterYourPassWord = 'Enter your password';
+  static const forgotPassword = 'Forgot password?';
+  static const signIn = 'Sign In';
+  static const or = 'OR';
+  static const continueWithGoogle = 'Continue with Google';
+  static const donHaveSnAccount = "Don't have an account?";
+  static const signUp = 'Sign Up';
 }
