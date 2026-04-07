@@ -8,6 +8,8 @@ class AppRoutes {
   static const signInScreen = '/signInScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const verifyOtpScreen = '/verifyOtpScreen';
+  static const resetPasswordScreen = '/resetPasswordScreen';
+  static const chooseRoleScreen = '/chooseRoleScreen';
 
 
 }

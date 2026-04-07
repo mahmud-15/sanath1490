@@ -5,6 +5,8 @@ import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/VerifyOtpSc
 import 'package:sanath1490_flutter_app/screens/BaseScreen/OnboardScreen/onboarding_screen.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/SplashScreen/splash_screen.dart';
 
+import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.dart';
+import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../bindings/authBindings.dart';
 import 'app_routes.dart';
 
@@ -15,5 +17,7 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.signInScreen,        page: () => SignInScreen(),        binding: AuthBindings()),
   GetPage(name: AppRoutes.forgotPasswordScreen,page: () => ForgotPasswordScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.verifyOtpScreen,     page: () => VerifyOtpScreen(),     binding: AuthBindings()),
+  GetPage(name: AppRoutes.resetPasswordScreen,     page: () => ResetPasswordScreen(),     binding: AuthBindings()),
+  GetPage(name: AppRoutes.chooseRoleScreen,     page: () => ChooseRoleScreen(),     binding: AuthBindings()),
 
 ];

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
 class VerifyOtpController extends GetxController {
 
@@ -43,6 +44,7 @@ class VerifyOtpController extends GetxController {
 
   void verifyOtp() {
     if (currentPin.length < 6) return;
+    Get.toNamed(AppRoutes.resetPasswordScreen);
   }
 
   void resendOtp() {

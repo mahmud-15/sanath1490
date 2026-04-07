@@ -6,6 +6,7 @@ class ConstColor {
   static const secondaryColor = Color(0xFF14B8A6);
   static const titleColor = Color(0xFF191919);
   static const bodyColor = Color(0xFF6B7280);
+  static const iconColor = Color(0xFF99A1AF);
   static const outLineColor = Color(0xFFE5E7EB);
   static const red = Color(0xFFFB0006);
   static const backgroundColor = Color(0xFFF9FAFB);

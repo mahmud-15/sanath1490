@@ -26,4 +26,10 @@ class ConstString {
   static const verify = 'Verify';
   static const enterThe4Digit = "Enter the 4-digit code we’ve sent to your email \nyourname@example.com";
   static const noWorriesEnterYourEmail = "No worries! Enter your email and we'll send you\nan OTP code to reset your password.";
+  static const resetPassword = "Reset Password";
+  static const createANewStrongPassword = "Create a new strong password  to keep your account safe";
+  static const newPassword = "New Password";
+  static const confirmNewPassword = "Confirm New Password";
+  static const createAStrongPassword = "Create a strong password";
+  static const reEnterYourPassword = "Re-enter your password";
 }

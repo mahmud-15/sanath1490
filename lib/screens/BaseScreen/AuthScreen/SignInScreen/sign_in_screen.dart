@@ -151,7 +151,9 @@ class SignInScreenState extends State<SignInScreen> {
                 // Sign In Button
                 CustomElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+
+                    }
                   },
                   color: const Color(0xFF1A3C6E),
                   height: 48,
@@ -234,7 +236,9 @@ class SignInScreenState extends State<SignInScreen> {
                       fontWeight: FontWeight.w400,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoutes.chooseRoleScreen);
+                      },
                       child: CustomText(
                         title: ConstString.signUp,
                         textColor: ConstColor.primaryColor,
