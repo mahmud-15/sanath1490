@@ -32,4 +32,9 @@ class ConstString {
   static const confirmNewPassword = "Confirm New Password";
   static const createAStrongPassword = "Create a strong password";
   static const reEnterYourPassword = "Re-enter your password";
+  static const chooseRole = 'Choose Role';
+  static const howDoYouWant = 'How do you want to use My home?';
+  static const propertySeeker = 'Property Seeker';
+  static const lookingToBuy = 'Looking to buy or rent';
+  static const continueA = 'Continue';
 }

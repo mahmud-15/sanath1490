@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../widget/text/custom_text.dart';
-import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/auth_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../constant/const_color.dart';
@@ -26,19 +27,19 @@ class ChooseRoleScreen extends StatelessWidget {
               SizedBox(height: 48.h),
 
               CustomText(
-                title: 'Choose Role',
+                title: ConstString.chooseRole,
                 textColor: ConstColor.primaryColor,
-                textSize: 28.sp,
+                textSize: 30.sp,
                 fontWeight: FontWeight.w700,
                 textAlign: TextAlign.center,
                 maxLine: 1,
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 6.h),
 
               CustomText(
-                title: 'How do you want to use Myhome?',
+                title: ConstString.howDoYouWant,
                 textColor: ConstColor.bodyColor,
-                textSize: 14.sp,
+                textSize: 16.sp,
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.center,
                 maxLine: 2,
@@ -47,8 +48,8 @@ class ChooseRoleScreen extends StatelessWidget {
 
               // ─── Role Cards ──────────────────────
               Obx(() => _RoleCard(
-                title: 'Property Seeker',
-                subtitle: 'Looking to buy or rent',
+                title: ConstString.propertySeeker,
+                subtitle: ConstString.lookingToBuy,
                 iconPath: 'assets/icons/profile_icon.svg',
                 iconColor: ConstColor.primaryColor,
                 isSelected: controller.selectedRole.value == 'seeker',
@@ -59,14 +60,14 @@ class ChooseRoleScreen extends StatelessWidget {
               Obx(() => _RoleCard(
                 title: 'Agent',
                 subtitle: 'List & manage properties',
-                iconPath: 'assets/icons/agent_icon.svg',
-                iconColor: const Color(0xFFF59E0B),
+                iconPath: "assets/icons/agent_icon.svg",
+                iconColor: const Color(0xFFFE9A00),
                 isSelected: controller.selectedRole.value == 'agent',
                 onTap: () => controller.selectRole('agent'),
               )),
 
-              const Spacer(),
 
+              SizedBox(height: 32.h,),
               // ─── Continue Button ─────────────────
               Obx(() => CustomElevatedButton(
                 onPressed: controller.isRoleSelected
@@ -76,13 +77,13 @@ class ChooseRoleScreen extends StatelessWidget {
                 color: controller.isRoleSelected
                     ? ConstColor.primaryColor
                     : ConstColor.primaryColor.withAlpha(100),
-                height: 52,
+                height: 48,
                 left: 0,
                 right: 0,
                 top: 0,
                 bottom: 24,
                 child: CustomText(
-                  title: 'Continue',
+                  title: ConstString.continueA,
                   textColor: Colors.white,
                   textSize: 16.sp,
                   fontWeight: FontWeight.w600,
@@ -140,18 +141,18 @@ class _RoleCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 44.w,
-              height: 44.h,
+              width: 47.w,
+              height: 47.h,
               decoration: BoxDecoration(
                 color: iconColor.withAlpha(20),
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Center(
-                child: AppImage(
-                  path: iconPath,
+                child: SvgPicture.asset(
+                  iconPath,
                   width: 24.w,
                   height: 24.h,
-                  iconColor: iconColor,
+                  colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
                 ),
               ),
             ),
@@ -164,7 +165,7 @@ class _RoleCard extends StatelessWidget {
                   CustomText(
                     title: title,
                     textColor: ConstColor.titleColor,
-                    textSize: 15.sp,
+                    textSize: 18.sp,
                     fontWeight: FontWeight.w600,
                     maxLine: 1,
                   ),
@@ -172,7 +173,7 @@ class _RoleCard extends StatelessWidget {
                   CustomText(
                     title: subtitle,
                     textColor: ConstColor.bodyColor,
-                    textSize: 13.sp,
+                    textSize: 14.sp,
                     fontWeight: FontWeight.w400,
                     maxLine: 1,
                   ),
