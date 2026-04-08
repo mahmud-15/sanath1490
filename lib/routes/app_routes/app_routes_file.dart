@@ -6,6 +6,7 @@ import 'package:sanath1490_flutter_app/screens/BaseScreen/OnboardScreen/onboardi
 import 'package:sanath1490_flutter_app/screens/BaseScreen/SplashScreen/splash_screen.dart';
 
 import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.dart';
+import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../bindings/authBindings.dart';
 import 'app_routes.dart';
@@ -19,5 +20,6 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.verifyOtpScreen,     page: () => VerifyOtpScreen(),     binding: AuthBindings()),
   GetPage(name: AppRoutes.resetPasswordScreen,     page: () => ResetPasswordScreen(),     binding: AuthBindings()),
   GetPage(name: AppRoutes.chooseRoleScreen,     page: () => ChooseRoleScreen(),     binding: AuthBindings()),
+  GetPage(name: AppRoutes.createAccountScreen,     page: () => CreateAccountScreen(),     binding: AuthBindings()),
 
 ];

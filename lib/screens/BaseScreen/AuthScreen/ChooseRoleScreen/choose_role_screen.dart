@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AuthAppBar/auth_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
@@ -72,6 +73,7 @@ class ChooseRoleScreen extends StatelessWidget {
               Obx(() => CustomElevatedButton(
                 onPressed: controller.isRoleSelected
                     ? () {
+                  Get.toNamed(AppRoutes.createAccountScreen);
                 }
                     : null,
                 color: controller.isRoleSelected

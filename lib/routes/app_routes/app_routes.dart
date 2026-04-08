@@ -10,6 +10,7 @@ class AppRoutes {
   static const verifyOtpScreen = '/verifyOtpScreen';
   static const resetPasswordScreen = '/resetPasswordScreen';
   static const chooseRoleScreen = '/chooseRoleScreen';
+  static const createAccountScreen = '/createAccountScreen';
 
 
 }
