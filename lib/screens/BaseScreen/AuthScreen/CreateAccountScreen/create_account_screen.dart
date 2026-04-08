@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:sanath1490_flutter_app/widget/Divider/divider.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
@@ -208,6 +209,7 @@ class CreateAccountScreen extends StatelessWidget {
                       ? () {
                     if (formKey.currentState!.validate()) {
                       controller.onContinue();
+                      Get.toNamed(AppRoutes.accountVerifyOtpScreen);
                     }
                   }
                       : null,
@@ -371,7 +373,7 @@ class _SignInRow extends StatelessWidget {
         ),
         SizedBox(width: 4.w,),
         GestureDetector(
-          onTap: () => Get.back(),
+          onTap: () => Get.toNamed(AppRoutes.signInScreen),
           child: CustomText(
             title: ConstString.signInHere,
             textColor: ConstColor.primaryColor,

@@ -8,7 +8,7 @@ import '../../../../constant/const_color.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/auth_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
-import 'Controller/verify_otp_controller.dart';
+import 'Controller/reset_verify_otp_controller.dart';
 
 class ResetVerifyOtpScreen extends StatelessWidget {
   const ResetVerifyOtpScreen({super.key});
