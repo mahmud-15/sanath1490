@@ -1,8 +1,10 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/ForgotPasswordScreen/forgot_password_screen.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/SignInScreen/sign_in_screen.dart';
+import 'package:sanath1490_flutter_app/screens/BaseScreen/NavBar/nav_bar.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/OnboardScreen/onboarding_screen.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/SplashScreen/splash_screen.dart';
+import 'package:sanath1490_flutter_app/screens/UserScreen/HomeScreen/home_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/AccountVerifyOtpScreen/account_verify_otp_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
@@ -13,6 +15,8 @@ import 'app_routes.dart';
 
 List<GetPage> appRouteFile = <GetPage>[
 
+
+  ////////////Auth Part////////////
   GetPage(name: AppRoutes.splashScreen,        page: () => SplashScreen()),
   GetPage(name: AppRoutes.onboardingScreen,    page: () => OnboardScreen()),
   GetPage(name: AppRoutes.signInScreen,        page: () => SignInScreen(),binding: AuthBindings()),
@@ -22,5 +26,17 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.chooseRoleScreen,     page: () => ChooseRoleScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.createAccountScreen,     page: () => CreateAccountScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.accountVerifyOtpScreen,     page: () => AccountVerifyOtpScreen(),binding: AuthBindings()),
+
+
+
+  ///////////////NavBar////////////////
+  GetPage(name: AppRoutes.navBar,     page: () => NavBar(),binding: AuthBindings()),
+
+
+
+
+
+  ///////////////Home Part////////////////
+  GetPage(name: AppRoutes.homeScreen,     page: () => HomeScreen(),binding: AuthBindings()),
 
 ];

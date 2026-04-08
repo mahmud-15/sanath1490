@@ -51,4 +51,8 @@ class ConstString {
   static const privacyPolicy = 'Privacy Policy';
   static const alreadyHaveAnAccount = 'Already have an account? ';
   static const signInHere = 'Sign in here';
+  static const searchByLocation = 'Search by location or postcode or place';
+  static const searchProperties = 'Search Properties';
+  static const propertiesNearYou = 'Properties near you';
+  static const popularLocation = 'Popular Locations';
 }

@@ -21,8 +21,8 @@ class NavBarBottom extends StatelessWidget {
     final bool isUser = icons.length == 3;
 
     final List<String> labels = isUser
-        ? ['Home', 'Saved', 'Enquires', 'Profile']
-        : ['Overview', 'Listing', 'Leads', 'Profile'];
+        ? ['Overview', 'Listing', 'Leads', 'Profile']
+        : ['Home', 'Saved', 'Enquires', 'Profile'];
 
     return Container(
       height: 64.h + MediaQuery.of(context).padding.bottom,
@@ -67,7 +67,7 @@ class NavBarBottom extends StatelessWidget {
                         color: isSelected
                             ? ConstColor.secondaryColor
                             : Colors.white.withAlpha(153),
-                        fontSize: 11.sp,
+                        fontSize: 12.sp,
                         fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                         fontFamily: 'Poppins',
                       ),

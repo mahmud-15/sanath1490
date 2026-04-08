@@ -14,4 +14,13 @@ class AppRoutes {
   static const accountVerifyOtpScreen = '/accountVerifyOtpScreen';
 
 
+  ///////////////NavBar///////////////
+  static const navBar = '/navBar';
+
+
+
+  ///////////////Home Part///////////////
+  static const homeScreen = '/homeScreen';
+
+
 }

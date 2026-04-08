@@ -1,23 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rimaiziza/screens/HostScreen/host_screen/chart_screen/view/host_dashboard_screen.dart';
-import 'package:rimaiziza/constant/const_icons.dart';
-import 'package:rimaiziza/utils/app_role.dart';
-import 'package:rimaiziza/utils/log_print.dart';
+import 'package:sanath1490_flutter_app/screens/UserScreen/HomeScreen/home_screen.dart';
 import '../../../../constant/const_icons.dart';
 import '../../../../utils/app_role.dart';
 import '../../../../utils/log_print.dart';
-import '../../../HostScreen/host_screen/host_booking_screen/host_booking_all_tab/host_booking_page.dart';
-import '../../../HostScreen/host_screen/host_my_cars_screen/view/host_my_cars_screen.dart';
-import '../../../HostScreen/host_screen/host_profile_screen/host_profile_screen.dart';
-import '../../../UserScreen/home_screen/home_page.dart';
-import '../../../UserScreen/profile_screen/profile_page.dart';
-import '../../../UserScreen/user_booking_screen/user_booking_all_tab/user_booking_page.dart';
-
 class NavbarController extends GetxController {
   List<String> icons = [];
-
   List<Widget> pages = [];
 
   RxInt selectedIndex = 0.obs;
@@ -44,24 +32,40 @@ class NavbarController extends GetxController {
   }
 
   void onAppInitial() {
+    // --- Pages Initialization with Placeholders ---
     pages = selectedUserRole == AppUserType.user
-        ? [HomePage(navbarController: this), UserBookingPage(), ProfilePage()]
-        : selectedUserRole == AppUserType.host
-        ? [HostDashBoardScreen(), HostMyCarsScreen(), HostBookingPage(), HostProfilePage()] : [];
+        ? [
+      HomeScreen(), // Ready
 
+      // Temporary Placeholders for User (Total 4 tabs as per icons)
+      const Scaffold(body: Center(child: Text("Saved Page Pending"))),
+      const Scaffold(body: Center(child: Text("Enquires Page Pending"))),
+      const Scaffold(body: Center(child: Text("Profile Page Pending"))),
+    ]
+        : selectedUserRole == AppUserType.host
+        ? [
+      // Temporary Placeholders for Host (Total 4 tabs)
+      const Scaffold(body: Center(child: Text("Host Dashboard Pending"))),
+      const Scaffold(body: Center(child: Text("Host Listings Pending"))),
+      const Scaffold(body: Center(child: Text("Host Dashboard Pending"))),
+      const Scaffold(body: Center(child: Text("Host Profile Pending"))),
+    ]
+        : [];
+
+    // --- Icons Initialization (Untouched) ---
     icons = selectedUserRole == AppUserType.user
         ? [
-            ConstIcons.homeTabIcon,
-            ConstIcons.savedTabIcon,
-            ConstIcons.enquiresTabIcon,
-            ConstIcons.profileTabIcon,
-          ]
+      ConstIcons.homeTabIcon,
+      ConstIcons.savedTabIcon,
+      ConstIcons.enquiresTabIcon,
+      ConstIcons.profileTabIcon,
+    ]
         : [
-            ConstIcons.overviewTabIcon,
-            ConstIcons.listingTabIcon,
-            ConstIcons.dashBoardTabIcon,
-            ConstIcons.profileTabIcon,
-          ];
+      ConstIcons.overviewTabIcon,
+      ConstIcons.listingTabIcon,
+      ConstIcons.dashBoardTabIcon,
+      ConstIcons.profileTabIcon,
+    ];
   }
 
   @override
