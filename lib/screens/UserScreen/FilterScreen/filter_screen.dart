@@ -343,6 +343,7 @@ class _OptionSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: options.map((option) {
         final bool isSelected = selected.value == option;
         return Padding(
@@ -351,7 +352,7 @@ class _OptionSelector extends StatelessWidget {
             onTap: () => onSelect(option),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 10.h),
               decoration: BoxDecoration(
                 color: isSelected ? ConstColor.primaryColor : Colors.white,
                 border: Border.all(
@@ -493,10 +494,10 @@ class _CheckItem extends StatelessWidget {
             width: 18.w,
             height: 18.h,
             decoration: BoxDecoration(
-              color: value ? ConstColor.primaryColor : Colors.transparent,
+              color: value ? ConstColor.primaryColor : Colors.white,
               border: Border.all(
                 color: value ? ConstColor.primaryColor : ConstColor.outLineColor,
-                width: 1.5,
+                width: 2.5,
               ),
               borderRadius: BorderRadius.circular(3.r),
             ),

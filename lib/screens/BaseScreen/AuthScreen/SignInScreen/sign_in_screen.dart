@@ -153,7 +153,7 @@ class SignInScreenState extends State<SignInScreen> {
                 CustomElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-
+                      Get.toNamed(AppRoutes.navBar);
                     }
                   },
                   color: const Color(0xFF1A3C6E),
