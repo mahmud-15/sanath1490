@@ -18,7 +18,7 @@ class ResetVerifyOtpScreen extends StatelessWidget {
     final controller = Get.find<ResetVerifyOtpController>();
 
     return Scaffold(
-      appBar: const AuthAppBar(),
+      appBar: const GlobalAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),

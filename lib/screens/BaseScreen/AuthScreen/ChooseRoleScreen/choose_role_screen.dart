@@ -18,7 +18,7 @@ class ChooseRoleScreen extends StatelessWidget {
     final controller = Get.find<ChooseRoleController>();
 
     return Scaffold(
-      appBar: const AuthAppBar(),
+      appBar: const GlobalAppBar(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
