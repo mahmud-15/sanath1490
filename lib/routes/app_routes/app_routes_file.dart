@@ -10,6 +10,7 @@ import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/reset_verify_otp_screen.dart';
+import '../../screens/UserScreen/FilterScreen/filter_screen.dart';
 import '../bindings/authBindings.dart';
 import 'app_routes.dart';
 
@@ -38,5 +39,6 @@ List<GetPage> appRouteFile = <GetPage>[
 
   ///////////////Home Part////////////////
   GetPage(name: AppRoutes.homeScreen,     page: () => HomeScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.filterScreen,     page: () => FilterScreen(),binding: AuthBindings()),
 
 ];

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/text/custom_text.dart';
@@ -233,10 +234,15 @@ class _HomeHeader extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.all(6.w),
-                          padding: EdgeInsets.all(6.w),
-                          child: SvgPicture.asset('assets/icons/filtter_icon.svg'),
+                        InkWell(
+                          onTap: (){
+                            Get.toNamed(AppRoutes.filterScreen);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(6.w),
+                            padding: EdgeInsets.all(6.w),
+                            child: SvgPicture.asset('assets/icons/filtter_icon.svg'),
+                          ),
                         ),
                       ],
                     ),

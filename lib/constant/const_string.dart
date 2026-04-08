@@ -55,4 +55,15 @@ class ConstString {
   static const searchProperties = 'Search Properties';
   static const propertiesNearYou = 'Properties near you';
   static const popularLocation = 'Popular Locations';
+  static const filter = "Filters";
+  static const searchLocationOr = 'Search location or postcode';
+  static const location = "Location";
+  static const propertyType = 'Property Type';
+  static const priceRange = 'Price Range';
+  static const bedrooms = 'Bedrooms';
+  static const bathroom = 'Bathroom';
+  static const addedToSite = 'Added to site';
+  static const tenure = 'Tenure';
+  static const propertyFeatures = 'Property features';
+  static const radius = 'Radius';
 }
