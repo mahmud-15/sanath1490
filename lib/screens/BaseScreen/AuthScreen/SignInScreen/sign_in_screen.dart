@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_color.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
+import 'package:sanath1490_flutter_app/widget/Divider/divider.dart';
 
 import '../../../../Widget/text/custom_text.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
@@ -119,7 +120,7 @@ class SignInScreenState extends State<SignInScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: SvgPicture.asset(
-                        _obscurePassword ? 'assets/icons/password_icon.svg' : 'assets/icons/password_icon.svg',
+                        _obscurePassword ? 'assets/icons/eye_off_icon.svg' : 'assets/icons/password_icon.svg',
                         width: 19.w,
                         height: 19.h,
                         colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
@@ -170,35 +171,7 @@ class SignInScreenState extends State<SignInScreen> {
                 SizedBox(height: 24.h),
 
                 // OR Divider
-                Row(
-                  children: [
-                    Expanded(
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          colors: [ConstColor.outLineColor, ConstColor.bodyColor],
-                        ).createShader(bounds),
-                        child: Divider(color: Colors.white, thickness: 1),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
-                      child: CustomText(
-                        title: ConstString.or,
-                        textColor: ConstColor.bodyColor,
-                        textSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    Expanded(
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          colors: [ConstColor.bodyColor, ConstColor.outLineColor],
-                        ).createShader(bounds),
-                        child: Divider(color: Colors.white, thickness: 1),
-                      ),
-                    ),
-                  ],
-                ),
+                OrDivider(),
                 SizedBox(height: 24.h),
 
                 // Continue with Google
@@ -235,6 +208,7 @@ class SignInScreenState extends State<SignInScreen> {
                       textSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
+                    SizedBox(width: 5.w,),
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(AppRoutes.chooseRoleScreen);

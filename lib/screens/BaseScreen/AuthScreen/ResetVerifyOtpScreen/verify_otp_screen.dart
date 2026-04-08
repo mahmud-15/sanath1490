@@ -10,12 +10,12 @@ import '../../../../widget/AuthAppBar/auth_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import 'Controller/verify_otp_controller.dart';
 
-class VerifyOtpScreen extends StatelessWidget {
-  const VerifyOtpScreen({super.key});
+class ResetVerifyOtpScreen extends StatelessWidget {
+  const ResetVerifyOtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<VerifyOtpController>();
+    final controller = Get.find<ResetVerifyOtpController>();
 
     return Scaffold(
       appBar: const AuthAppBar(),
@@ -96,7 +96,7 @@ class VerifyOtpScreen extends StatelessWidget {
 }
 
 class _OtpPinPut extends StatelessWidget {
-  final VerifyOtpController controller;
+  final ResetVerifyOtpController controller;
 
   const _OtpPinPut({required this.controller});
 
@@ -150,7 +150,7 @@ class _OtpPinPut extends StatelessWidget {
 }
 
 class _ResendOtpRow extends StatelessWidget {
-  final VerifyOtpController controller;
+  final ResetVerifyOtpController controller;
 
   const _ResendOtpRow({required this.controller});
 

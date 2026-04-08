@@ -37,4 +37,18 @@ class ConstString {
   static const propertySeeker = 'Property Seeker';
   static const lookingToBuy = 'Looking to buy or rent';
   static const continueA = 'Continue';
+  static const createAccount = 'Create Account';
+  static const joinMyHome = 'Join My Home and find your perfect property';
+  static const fullName = 'Full Name';
+  static const enterYourFullName = 'Enter your full name';
+  static const emailAddress = 'Email Address';
+  static const min8Character = 'Min 8 characters';
+  static const confirmPassword = 'Confirm Password';
+  static const repeatYorPassword = 'Repeat your password';
+  static const iAgreeYourThe = 'I agree to the';
+  static const termsAndCondition = 'Terms & Conditions';
+  static const and = 'and';
+  static const privacyPolicy = 'Privacy Policy';
+  static const alreadyHaveAnAccount = 'Already have an account? ';
+  static const signInHere = 'Sign in here';
 }

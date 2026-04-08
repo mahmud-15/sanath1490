@@ -118,7 +118,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: SvgPicture.asset(
-                        _obscurePassword ? 'assets/icons/password_icon.svg' : 'assets/icons/password_icon.svg',
+                        _obscurePassword ? 'assets/icons/eye_off_icon.svg' : 'assets/icons/password_icon.svg',
                         width: 19.w,
                         height: 19.h,
                         colorFilter: const ColorFilter.mode(ConstColor.iconColor, BlendMode.srcIn),
@@ -159,7 +159,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: SvgPicture.asset(
-                        _obscureConfirmPassword ? 'assets/icons/password_icon.svg' : 'assets/icons/password_icon.svg',
+                        _obscureConfirmPassword ? 'assets/icons/eye_off_icon.svg' : 'assets/icons/password_icon.svg',
                         width: 19.w,
                         height: 19.h,
                         colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),

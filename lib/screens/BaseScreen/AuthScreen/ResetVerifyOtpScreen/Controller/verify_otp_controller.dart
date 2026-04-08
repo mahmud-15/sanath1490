@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
-class VerifyOtpController extends GetxController {
+class ResetVerifyOtpController extends GetxController {
 
-  VerifyOtpController({String initialEmail = ''}) {
+  ResetVerifyOtpController({String initialEmail = ''}) {
     email.value = initialEmail;
   }
 

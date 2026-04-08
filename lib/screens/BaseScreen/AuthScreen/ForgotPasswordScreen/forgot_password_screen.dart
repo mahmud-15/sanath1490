@@ -12,7 +12,7 @@ import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/auth_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
-import '../VerifyOtpScreen/Controller/verify_otp_controller.dart';
+import '../ResetVerifyOtpScreen/Controller/verify_otp_controller.dart';
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -115,8 +115,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 CustomElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Get.find<VerifyOtpController>().email.value = _emailController.text.trim();
-                      Get.toNamed(AppRoutes.verifyOtpScreen);
+                      Get.find<ResetVerifyOtpController>().email.value = _emailController.text.trim();
+                      Get.toNamed(AppRoutes.resetVerifyOtpScreen);
                     }
                   },
                   color: ConstColor.primaryColor,

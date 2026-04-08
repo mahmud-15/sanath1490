@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
+import 'package:sanath1490_flutter_app/widget/Divider/divider.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/auth_app_bar.dart';
@@ -33,9 +35,9 @@ class CreateAccountScreen extends StatelessWidget {
                 // ─── Header ──────────────────────────
                 Center(
                   child: CustomText(
-                    title: 'Create Account',
+                    title: ConstString.createAccount,
                     textColor: ConstColor.primaryColor,
-                    textSize: 28.sp,
+                    textSize: 30.sp,
                     fontWeight: FontWeight.w700,
                     textAlign: TextAlign.center,
                     maxLine: 1,
@@ -44,30 +46,30 @@ class CreateAccountScreen extends StatelessWidget {
                 SizedBox(height: 6.h),
                 Center(
                   child: CustomText(
-                    title: 'Join MyHome and find your perfect property',
+                    title: ConstString.joinMyHome,
                     textColor: ConstColor.bodyColor,
-                    textSize: 14.sp,
+                    textSize: 15.sp,
                     fontWeight: FontWeight.w400,
                     textAlign: TextAlign.center,
-                    maxLine: 2,
+                    maxLine: 1,
                   ),
                 ),
                 SizedBox(height: 28.h),
 
                 // ─── Full Name ───────────────────────
                 CustomTextFormField(
-                  fromTitle: 'Full Name',
+                  fromTitle: ConstString.fullName,
                   textController: controller.fullNameController,
                   textInputAction: TextInputAction.next,
                   hintText: const CustomText(
-                    title: 'Enter your full name',
+                    title: ConstString.enterYourFullName,
                     textColor: Colors.grey,
-                    textSize: 13,
+                    textSize: 14,
                   ),
                   prefixIcon: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     child: SvgPicture.asset(
-                      'assets/icons/user_icon.svg',
+                      'assets/icons/profile_icon.svg',
                       width: 19.w,
                       height: 19.h,
                       colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
@@ -82,14 +84,14 @@ class CreateAccountScreen extends StatelessWidget {
 
                 // ─── Email ───────────────────────────
                 CustomTextFormField(
-                  fromTitle: 'Email Address',
+                  fromTitle: ConstString.emailAddress,
                   textController: controller.emailController,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   hintText: const CustomText(
-                    title: 'your.email@example.com',
+                    title: ConstString.yourEmailExample,
                     textColor: Colors.grey,
-                    textSize: 13,
+                    textSize: 14,
                   ),
                   prefixIcon: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -110,12 +112,12 @@ class CreateAccountScreen extends StatelessWidget {
 
                 // ─── Password ────────────────────────
                 Obx(() => CustomTextFormField(
-                  fromTitle: 'Password',
+                  fromTitle: AutofillHints.password,
                   textController: controller.passwordController,
                   textInputAction: TextInputAction.next,
                   obscureText: controller.obscurePassword.value,
                   hintText: const CustomText(
-                    title: 'Min 8 characters',
+                    title: ConstString.min8Character,
                     textColor: Colors.grey,
                     textSize: 13,
                   ),
@@ -135,7 +137,7 @@ class CreateAccountScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: SvgPicture.asset(
                         controller.obscurePassword.value
-                            ? 'assets/icons/password_icon.svg'
+                            ? 'assets/icons/eye_off_icon.svg'
                             : 'assets/icons/password_icon.svg',
                         width: 19.w,
                         height: 19.h,
@@ -146,21 +148,21 @@ class CreateAccountScreen extends StatelessWidget {
                   suffixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) return 'Password is required';
-                    if (value.length < 8) return 'Minimum 8 characters';
+                    if (value.length < 8) return ConstString.min8Character;
                     return null;
                   },
                 )),
 
                 // ─── Confirm Password ────────────────
                 Obx(() => CustomTextFormField(
-                  fromTitle: 'Confirm Password',
+                  fromTitle: ConstString.confirmPassword,
                   textController: controller.confirmPasswordController,
                   textInputAction: TextInputAction.done,
                   obscureText: controller.obscureConfirmPassword.value,
                   hintText: const CustomText(
-                    title: 'Repeat your password',
+                    title: ConstString.repeatYorPassword,
                     textColor: Colors.grey,
-                    textSize: 13,
+                    textSize: 14,
                   ),
                   prefixIcon: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -178,7 +180,7 @@ class CreateAccountScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: SvgPicture.asset(
                         controller.obscureConfirmPassword.value
-                            ? 'assets/icons/password_icon.svg'
+                            ? 'assets/icons/eye_off_icon.svg'
                             : 'assets/icons/password_icon.svg',
                         width: 19.w,
                         height: 19.h,
@@ -212,50 +214,50 @@ class CreateAccountScreen extends StatelessWidget {
                   color: controller.isTermsAccepted.value
                       ? ConstColor.primaryColor
                       : ConstColor.primaryColor.withAlpha(100),
-                  height: 52,
+                  height: 48,
                   left: 0,
                   right: 0,
                   top: 0,
                   child: CustomText(
-                    title: 'Continue',
+                    title: ConstString.continueA,
                     textColor: Colors.white,
                     textSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 )),
                 SizedBox(height: 20.h),
 
                 // ─── OR Divider ──────────────────────
-                const _OrDivider(),
+                OrDivider(),
                 SizedBox(height: 20.h),
 
                 // ─── Google Button ───────────────────
                 CustomElevatedButton(
-                  onPressed: controller.onGoogleSignUp,
-                  isOutLined: true,
-                  outLineColour: const Color(0xFFE5E7EB),
-                  borderColor: const Color(0xFFE5E7EB),
-                  height: 52,
+                  onPressed: () {},
+                  color: Colors.white,
+                  height: 48,
                   left: 0,
                   right: 0,
                   top: 0,
-                  icon: AppImage(
-                    path: 'assets/images/google_logo.png',
-                    width: 20.w,
-                    height: 20.h,
+                  borderColor: Colors.grey.shade300,
+                  borderWidth: 1,
+                  icon: Image.asset(
+                    'assets/images/google_icon.png',
+                    width: 24.w,
+                    height: 24.h,
                   ),
                   child: CustomText(
-                    title: 'Continue with Google',
+                    title: ConstString.continueWithGoogle,
                     textColor: ConstColor.titleColor,
                     textSize: 15.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 SizedBox(height: 24.h),
 
                 // ─── Sign In Row ─────────────────────
                 const _SignInRow(),
-                SizedBox(height: 32.h),
+                SizedBox(height: 68.h),
               ],
             ),
           ),
@@ -280,8 +282,8 @@ class _TermsRow extends StatelessWidget {
           onTap: controller.toggleTerms,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            width: 20.w,
-            height: 20.h,
+            width: 18.w,
+            height: 18.h,
             decoration: BoxDecoration(
               color: controller.isTermsAccepted.value
                   ? ConstColor.primaryColor
@@ -289,8 +291,8 @@ class _TermsRow extends StatelessWidget {
               border: Border.all(
                 color: controller.isTermsAccepted.value
                     ? ConstColor.primaryColor
-                    : ConstColor.outLineColor,
-                width: 1.5,
+                    : ConstColor.iconColor,
+                width: 2.5,
               ),
               borderRadius: BorderRadius.circular(4.r),
             ),
@@ -304,35 +306,38 @@ class _TermsRow extends StatelessWidget {
           child: Wrap(
             children: [
               CustomText(
-                title: 'I agree to the ',
+                title: ConstString.iAgreeYourThe,
                 textColor: ConstColor.bodyColor,
-                textSize: 13.sp,
+                textSize: 12.sp,
                 fontWeight: FontWeight.w400,
                 maxLine: 1,
               ),
+              SizedBox(width: 5.w,),
               GestureDetector(
                 onTap: () {},
                 child: CustomText(
-                  title: 'Terms & Conditions',
+                  title: ConstString.termsAndCondition,
                   textColor: ConstColor.primaryColor,
-                  textSize: 13.sp,
+                  textSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   maxLine: 1,
                 ),
               ),
+              SizedBox(width: 5.w,),
               CustomText(
-                title: ' and ',
+                title: ConstString.and,
                 textColor: ConstColor.bodyColor,
-                textSize: 13.sp,
+                textSize: 11.sp,
                 fontWeight: FontWeight.w400,
                 maxLine: 1,
               ),
+              SizedBox(width: 5.w,),
               GestureDetector(
                 onTap: () {},
                 child: CustomText(
-                  title: 'Privacy Policy',
+                  title: ConstString.privacyPolicy,
                   textColor: ConstColor.primaryColor,
-                  textSize: 13.sp,
+                  textSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   maxLine: 1,
                 ),
@@ -346,29 +351,7 @@ class _TermsRow extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────
-class _OrDivider extends StatelessWidget {
-  const _OrDivider();
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: ConstColor.outLineColor, thickness: 1)),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          child: CustomText(
-            title: 'OR',
-            textColor: ConstColor.bodyColor,
-            textSize: 13.sp,
-            fontWeight: FontWeight.w400,
-            maxLine: 1,
-          ),
-        ),
-        Expanded(child: Divider(color: ConstColor.outLineColor, thickness: 1)),
-      ],
-    );
-  }
-}
 
 // ─────────────────────────────────────────
 class _SignInRow extends StatelessWidget {
@@ -380,19 +363,20 @@ class _SignInRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomText(
-          title: 'Already have an account? ',
+          title: ConstString.alreadyHaveAnAccount,
           textColor: ConstColor.bodyColor,
           textSize: 13.sp,
           fontWeight: FontWeight.w400,
           maxLine: 1,
         ),
+        SizedBox(width: 4.w,),
         GestureDetector(
           onTap: () => Get.back(),
           child: CustomText(
-            title: 'Sign in here',
+            title: ConstString.signInHere,
             textColor: ConstColor.primaryColor,
             textSize: 13.sp,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             maxLine: 1,
           ),
         ),
