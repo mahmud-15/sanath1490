@@ -19,22 +19,28 @@ class FilterScreen extends StatelessWidget {
     final controller = Get.find<FilterController>();
 
     return Scaffold(
+      appBar: GlobalAppBar(
+        showBack: false,
+        title: ConstString.filter,
+        action: InkWell(
+          onTap: (){
+            Get.back();
+          },
+          child: SvgPicture.asset(
+            'assets/icons/remove_icon.svg',
+            width: 24.0,
+            height: 24.0,
+            colorFilter: ColorFilter.mode(
+              ConstColor.backgroundColor,
+              BlendMode.srcIn,
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            GlobalAppBar(
-              showBack: false,
-              title: ConstString.filter,
-              action: SvgPicture.asset(
-                'assets/icons/remove_icon.svg',
-                width: 24.0,
-                height: 24.0,
-                colorFilter: ColorFilter.mode(
-                  ConstColor.backgroundColor,
-                  BlendMode.srcIn,
-                ),
-              ),
-            ),
+
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),

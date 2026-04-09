@@ -74,4 +74,6 @@ class ConstString {
   static const noResultFound = 'No results found';
   static const london = 'London';
   static const sort = "Sort";
+  static const list = 'List';
+  static const map = 'Map';
 }

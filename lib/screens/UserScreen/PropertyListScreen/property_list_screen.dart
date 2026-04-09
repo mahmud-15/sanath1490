@@ -9,6 +9,7 @@ import '../../../../widget/text/custom_text.dart';
 import '../../../widget/AuthAppBar/global_app_bar.dart';
 import '../HomeScreen/Controller/home_controller.dart';
 import '../HomeScreen/Widget/property_card.dart';
+import '../SearchResultMapScreen/search_result_map_screen.dart';
 import 'Controller/property_list_controller.dart';
 import 'Widget/sort_bottom_sheet.dart';
 
@@ -113,7 +114,7 @@ class PropertyListScreen extends StatelessWidget {
         ],
       ),
 
-      bottomNavigationBar: _ListMapToggle(controller: controller),
+        bottomNavigationBar: _ListMapToggle(controller: controller),
     );
   }
 }
@@ -128,7 +129,7 @@ class _ListMapToggle extends StatelessWidget {
     return Container(
       height: 56.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ConstColor.primaryColor,
         border: Border(
           top: BorderSide(color: ConstColor.outLineColor, width: 1.h),
         ),
@@ -139,7 +140,7 @@ class _ListMapToggle extends StatelessWidget {
           // ─── List Tab ───────────────────────────
           _ToggleItem(
             icon: Icons.list,
-            label: 'List',
+            label: ConstString.list,
             isSelected: controller.isListView.value,
             onTap: () => controller.isListView.value = true,
           ),
@@ -155,9 +156,13 @@ class _ListMapToggle extends StatelessWidget {
           // ─── Map Tab ────────────────────────────
           _ToggleItem(
             icon: Icons.map_outlined,
-            label: 'Map',
+            label: ConstString.map,
             isSelected: !controller.isListView.value,
-            onTap: () => controller.isListView.value = false,
+            // PropertyListScreen-এ Map button-এ
+            onTap: () {
+              controller.isListView.value = false;
+              Get.to(() => const SearchResultMapScreen());
+            },
           ),
         ],
       )),
@@ -181,7 +186,7 @@ class _ToggleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected ? ConstColor.primaryColor : ConstColor.bodyColor;
+    final color = isSelected ? ConstColor.secondaryColor : ConstColor.bodyColor;
 
     return GestureDetector(
       onTap: onTap,
@@ -193,7 +198,7 @@ class _ToggleItem extends StatelessWidget {
             title: label,
             textColor: color,
             textSize: 13.sp,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w600,
             maxLine: 1,
           ),
         ],
