@@ -76,4 +76,7 @@ class ConstString {
   static const sort = "Sort";
   static const list = 'List';
   static const map = 'Map';
+  static const propertyDetails = 'Property Details';
+  static const gallery = 'Gallery';
+  static const tourDegree = '360° Tour';
 }

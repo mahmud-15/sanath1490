@@ -24,6 +24,7 @@ class AppRoutes {
   static const filterScreen = '/filterScreen';
   static const searchScreen = '/searchScreen';
   static const propertyListScreen = '/propertyListScreen';
+  static const propertyDetails = '/propertyDetails';
 
 
 }

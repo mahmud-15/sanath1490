@@ -44,7 +44,13 @@ class HomeScreen extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                     (context, index) => Padding(
                   padding: EdgeInsets.only(bottom: 16.h),
-                      child: PropertyCard(property: controller.currentProperties[index]),
+                      child: PropertyCard(
+                        onTap: () => Get.toNamed(
+                          AppRoutes.propertyDetails,
+                          arguments: controller.currentProperties[index], // ─── This missing line caused the error!
+                        ),
+                        property: controller.currentProperties[index],
+                      ),
                 ),
                 childCount: controller.currentProperties.length,
               ),

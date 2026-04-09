@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sanath1490_flutter_app/screens/UserScreen/HomeScreen/home_screen.dart';
 import '../../../../constant/const_icons.dart';
 import '../../../../utils/app_role.dart';
 import '../../../../utils/log_print.dart';
+import '../../../UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
 class NavbarController extends GetxController {
   List<String> icons = [];
   List<Widget> pages = [];

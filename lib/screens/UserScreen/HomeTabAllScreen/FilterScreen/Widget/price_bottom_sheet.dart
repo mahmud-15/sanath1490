@@ -6,7 +6,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:sanath1490_flutter_app/constant/const_color.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 
-import '../../../../Widget/text/custom_text.dart';
+import '../../../../../Widget/text/custom_text.dart';
 
 class MinPriceBottomSheetWidget extends StatelessWidget {
   final TextEditingController controller;

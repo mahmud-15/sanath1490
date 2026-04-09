@@ -3,10 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
-
-import '../../../../constant/const_color.dart';
-import '../../../../widget/AppImage/app_image.dart';
-import '../../../../widget/text/custom_text.dart';
+import '../../../../../Widget/text/custom_text.dart';
+import '../../../../../constant/const_color.dart';
+import '../../../../../widget/AppImage/app_image.dart';
 import '../Controller/home_controller.dart';
 
 class PropertyCard extends StatelessWidget {
