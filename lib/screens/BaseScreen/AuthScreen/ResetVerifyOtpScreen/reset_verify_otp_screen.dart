@@ -6,7 +6,7 @@ import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../Widget/text/custom_text.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AppImage/app_image.dart';
-import '../../../../widget/AuthAppBar/auth_app_bar.dart';
+import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import 'Controller/reset_verify_otp_controller.dart';
 

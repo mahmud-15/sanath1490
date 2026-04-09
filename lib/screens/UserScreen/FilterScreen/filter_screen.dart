@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
-import 'package:sanath1490_flutter_app/widget/AuthAppBar/auth_app_bar.dart';
+import 'package:sanath1490_flutter_app/widget/AuthAppBar/global_app_bar.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/text/custom_text.dart';

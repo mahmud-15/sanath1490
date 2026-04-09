@@ -9,7 +9,7 @@ import '../../../../Widget/text/custom_text.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../routes/app_routes/app_routes.dart';
 import '../../../../widget/AppImage/app_image.dart';
-import '../../../../widget/AuthAppBar/auth_app_bar.dart';
+import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
 import '../ResetVerifyOtpScreen/Controller/reset_verify_otp_controller.dart';

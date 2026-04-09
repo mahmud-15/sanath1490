@@ -22,6 +22,18 @@ class HomeController extends GetxController {
       addedDate: '01/03/2026',
       isFeatured: true,
     ),
+    PropertyModel(
+      images: [
+        'assets/images/property_img3.png',
+        'assets/images/property_img.png',
+        'assets/images/property_img2.png',
+      ],
+      price: '£875,000',
+      title: '4 bed House',
+      address: '42 Morning Lane, London',
+      addedDate: '01/03/2026',
+      isFeatured: true,
+    ),
   ].obs;
 
   final rentProperties = <PropertyModel>[

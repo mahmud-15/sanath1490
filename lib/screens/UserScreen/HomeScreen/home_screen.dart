@@ -245,7 +245,7 @@ class _HomeHeader extends StatelessWidget {
                               child: Container(
                                 margin: EdgeInsets.all(6.w),
                                 padding: EdgeInsets.all(6.w),
-                                child: SvgPicture.asset('assets/icons/filtter_icon.svg'),
+                                child: SvgPicture.asset('assets/icons/filter_icon.svg'),
                               ),
                             ),
                           ],
@@ -257,7 +257,9 @@ class _HomeHeader extends StatelessWidget {
 
                   // ─── Search Button ────────────
                   CustomElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.propertyListScreen);
+                    },
                     color: ConstColor.secondaryColor,
                     height: 48,
                     top: 0,

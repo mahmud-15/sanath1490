@@ -11,6 +11,7 @@ import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_s
 import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/reset_verify_otp_screen.dart';
 import '../../screens/UserScreen/FilterScreen/filter_screen.dart';
+import '../../screens/UserScreen/PropertyListScreen/property_list_screen.dart';
 import '../../screens/UserScreen/SearchScreen/search_screen.dart';
 import '../bindings/authBindings.dart';
 import 'app_routes.dart';
@@ -42,5 +43,6 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.homeScreen,     page: () => HomeScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.filterScreen,     page: () => FilterScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.searchScreen,     page: () => SearchScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.propertyListScreen,     page: () => PropertyListScreen(),binding: AuthBindings()),
 
 ];

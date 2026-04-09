@@ -72,4 +72,6 @@ class ConstString {
   static const useCurrentLocation = 'Use current location';
   static const recentSearches = 'Recent searches';
   static const noResultFound = 'No results found';
+  static const london = 'London';
+  static const sort = "Sort";
 }
