@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/CreateAccountScreen/Controller/create_account_controller.dart';
 import 'package:sanath1490_flutter_app/screens/UserScreen/FilterScreen/Controller/filter_controller.dart';
@@ -24,6 +25,7 @@ class AuthBindings extends Bindings {
     //=========Home Controller Part=========//
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => FilterController());
+    Get.lazyPut(() => SearchController());
 
 
   }

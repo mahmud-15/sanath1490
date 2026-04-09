@@ -202,49 +202,55 @@ class _HomeHeader extends StatelessWidget {
                   SizedBox(height: 14.h),
 
                   // ─── Search Bar ───────────────
-                  Container(
-                    height: 46.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 12.w),
-                        SvgPicture.asset('assets/icons/search_icon.svg'),
-                        SizedBox(width: 8.w),
-                        Expanded(
-                          child: TextField(
-                            onChanged: controller.onSearchChanged,
-                            style: TextStyle(
-                              fontSize: 13.sp,
-                              color: ConstColor.titleColor,
-                              fontFamily: 'Roboto',
-                            ),
-                            decoration: InputDecoration(
-                              hintText: ConstString.searchByLocation,
-                              hintStyle: TextStyle(
-                                fontSize: 12.sp,
-                                color: ConstColor.bodyColor,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w400
+                  InkWell(
+                    onTap: () => Get.toNamed(AppRoutes.searchScreen),
+
+                    child: AbsorbPointer(
+                      child: Container(
+                        height: 46.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 12.w),
+                            SvgPicture.asset('assets/icons/search_icon.svg'),
+                            SizedBox(width: 8.w),
+                            Expanded(
+                              child: TextField(
+                                onChanged: controller.onSearchChanged,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: ConstColor.titleColor,
+                                  fontFamily: 'Roboto',
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: ConstString.searchByLocation,
+                                  hintStyle: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: ConstColor.bodyColor,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w400
+                                  ),
+                                  border: InputBorder.none,
+                                  isDense: true,
+                                ),
                               ),
-                              border: InputBorder.none,
-                              isDense: true,
                             ),
-                          ),
+                            InkWell(
+                              onTap: (){
+                                Get.toNamed(AppRoutes.filterScreen);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(6.w),
+                                padding: EdgeInsets.all(6.w),
+                                child: SvgPicture.asset('assets/icons/filtter_icon.svg'),
+                              ),
+                            ),
+                          ],
                         ),
-                        InkWell(
-                          onTap: (){
-                            Get.toNamed(AppRoutes.filterScreen);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(6.w),
-                            padding: EdgeInsets.all(6.w),
-                            child: SvgPicture.asset('assets/icons/filtter_icon.svg'),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                   SizedBox(height: 12.h),

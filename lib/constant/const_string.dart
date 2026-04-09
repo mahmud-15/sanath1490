@@ -69,4 +69,7 @@ class ConstString {
   static const clear = 'Clear';
   static const search = 'Search';
   static const minPrice = "Min Price";
+  static const useCurrentLocation = 'Use current location';
+  static const recentSearches = 'Recent searches';
+  static const noResultFound = 'No results found';
 }

@@ -22,6 +22,7 @@ class AppRoutes {
   ///////////////Home Part///////////////
   static const homeScreen = '/homeScreen';
   static const filterScreen = '/filterScreen';
+  static const searchScreen = '/searchScreen';
 
 
 }
