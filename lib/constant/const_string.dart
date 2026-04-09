@@ -66,4 +66,7 @@ class ConstString {
   static const tenure = 'Tenure';
   static const propertyFeatures = 'Property features';
   static const radius = 'Radius';
+  static const clear = 'Clear';
+  static const search = 'Search';
+  static const minPrice = "Min Price";
 }

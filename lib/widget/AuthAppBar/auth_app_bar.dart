@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sanath1490_flutter_app/constant/const_color.dart';
 import 'package:sanath1490_flutter_app/widget/text/custom_text.dart';
+
 class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final bool showBack;
