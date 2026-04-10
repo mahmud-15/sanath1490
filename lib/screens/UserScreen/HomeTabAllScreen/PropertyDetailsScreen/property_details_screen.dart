@@ -20,7 +20,7 @@ class PropertyDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
 
-      appBar: GlobalAppBar(title: AppRoutes.propertyDetails),
+      appBar: GlobalAppBar(title: ConstString.propertyDetails),
 
       // ─── Body ────────────────────────────────────
       body: SingleChildScrollView(
@@ -72,14 +72,14 @@ class PropertyDetailsScreen extends StatelessWidget {
 
             // ─── Map Section ──────────────────────
             _MapCard(),
-
-            SizedBox(height: 100.h),
+            SizedBox(height: 50.h),
+            _BottomActionBar(),
           ],
         ),
       ),
 
       // ─── Bottom Call / Email Buttons ─────────────
-      bottomNavigationBar: _BottomActionBar(),
+      // bottomNavigationBar: _BottomActionBar(),
     );
   }
 }
@@ -426,6 +426,7 @@ class _FloorPlanCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: ConstColor.outLineColor, width: 1),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,7 +436,7 @@ class _FloorPlanCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomText(
-                  title: 'Floor Plan',
+                  title: ConstString.floorPlan,
                   textColor: ConstColor.titleColor,
                   textSize: 14.sp,
                   fontWeight: FontWeight.w700,
@@ -457,7 +458,6 @@ class _FloorPlanCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(8.r),
-                // border: Border.all(color: ConstColor.outLineColor),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),
@@ -487,23 +487,24 @@ class _DescriptionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: ConstColor.outLineColor, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            title: 'Description',
+            title: ConstString.description,
             textColor: ConstColor.titleColor,
-            textSize: 15.sp,
+            textSize: 14.sp,
             fontWeight: FontWeight.w700,
             maxLine: 1,
           ),
           SizedBox(height: 10.h),
           CustomText(
             title:
-                'A well-presented and spacious three-bedroom detached home, ideally located on the popular Salcombe Road in Ashford. Offering a practical layout and comfortable living space, this property is perfect for...',
-            textColor: ConstColor.bodyColor,
-            textSize: 13.sp,
+                'A well-presented and spacious three-bedroom detached home, ideally located on the popular Colombe Road in Ashford. Offering a practical layout and comfortable living space, this property is perfect for...',
+            textColor: ConstColor.titleColor,
+            textSize: 14.sp,
             fontWeight: FontWeight.w400,
             maxLine: 4,
           ),
@@ -515,10 +516,10 @@ class _DescriptionCard extends StatelessWidget {
               // TODO: expand full description
             },
             child: CustomText(
-              title: 'View full description',
-              textColor: ConstColor.primaryColor,
-              textSize: 13.sp,
-              fontWeight: FontWeight.w600,
+              title: ConstString.viewFullDescription,
+              textColor: ConstColor.secondaryColor,
+              textSize: 14.sp,
+              fontWeight: FontWeight.w500,
               maxLine: 1,
             ),
           ),
@@ -557,14 +558,15 @@ class _PropertyFeaturesCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: ConstColor.outLineColor, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            title: 'Property Features',
+            title: ConstString.propertyFeatures,
             textColor: ConstColor.titleColor,
-            textSize: 15.sp,
+            textSize: 14.sp,
             fontWeight: FontWeight.w700,
             maxLine: 1,
           ),
@@ -611,10 +613,10 @@ class _FeatureBullet extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 5.h),
             child: Container(
-              width: 5.w,
-              height: 5.w,
+              width: 6.w,
+              height: 6.w,
               decoration: const BoxDecoration(
-                color: ConstColor.titleColor,
+                color: ConstColor.primaryColor,
                 shape: BoxShape.circle,
               ),
             ),
@@ -624,7 +626,7 @@ class _FeatureBullet extends StatelessWidget {
             child: CustomText(
               title: text,
               textColor: ConstColor.titleColor,
-              textSize: 12.sp,
+              textSize: 14.sp,
               fontWeight: FontWeight.w400,
               maxLine: 2,
             ),
@@ -649,23 +651,24 @@ class _BrochuresCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: ConstColor.outLineColor, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            title: 'Brochures',
+            title: ConstString.brochures,
             textColor: ConstColor.titleColor,
-            textSize: 15.sp,
-            fontWeight: FontWeight.w700,
+            textSize: 14.sp,
+            fontWeight: FontWeight.w600,
             maxLine: 1,
           ),
           SizedBox(height: 8.h),
           CustomText(
             title:
-                'Explore the brochure for more information about this property.',
+                ConstString.exploreTheBrochure,
             textColor: ConstColor.bodyColor,
-            textSize: 13.sp,
+            textSize: 14.sp,
             fontWeight: FontWeight.w400,
             maxLine: 3,
           ),
@@ -677,16 +680,21 @@ class _BrochuresCard extends StatelessWidget {
               // TODO: open brochure PDF
             },
             isOutLined: true,
-            outLineColour: ConstColor.primaryColor,
-            height: 40,
-            width: 140,
+            borderColor: ConstColor.secondaryColor,
+            borderWidth: 1.5,
+            outLineColour: ConstColor.secondaryColor,
+            color: Colors.transparent,
+            buttonBorderRadius: 4,
+            elevation: 0,
+            height: 35.h,
+            width: 124.w,
             top: 0,
             left: 0,
             right: 0,
             child: CustomText(
-              title: 'View brochure',
-              textColor: ConstColor.primaryColor,
-              textSize: 13.sp,
+              title: ConstString.viewBrochure,
+              textColor: ConstColor.secondaryColor,
+              textSize: 14.sp,
               fontWeight: FontWeight.w500,
               maxLine: 1,
             ),
@@ -697,9 +705,6 @@ class _BrochuresCard extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Council tax, EPC rating, Listed date card
-// ─────────────────────────────────────────────────────
 class _CouncilTaxCard extends StatelessWidget {
   const _CouncilTaxCard();
 
@@ -711,7 +716,7 @@ class _CouncilTaxCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: ConstColor.outLineColor),
+        border: Border.all(color: ConstColor.outLineColor, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -727,8 +732,6 @@ class _CouncilTaxCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 14.h),
-          Divider(height: 1.h, color: ConstColor.outLineColor),
           SizedBox(height: 14.h),
 
           // ─── Listed date ──────────────────────────
@@ -755,7 +758,7 @@ class _TaxItem extends StatelessWidget {
           title: label,
           textColor: ConstColor.bodyColor,
           textSize: 10.sp,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w500,
           maxLine: 1,
         ),
         SizedBox(height: 4.h),
@@ -763,7 +766,7 @@ class _TaxItem extends StatelessWidget {
           title: value,
           textColor: ConstColor.titleColor,
           textSize: 14.sp,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.w600,
           maxLine: 1,
         ),
       ],
@@ -771,9 +774,7 @@ class _TaxItem extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Agent info card
-// ─────────────────────────────────────────────────────
+
 class _AgentCard extends StatelessWidget {
   const _AgentCard();
 
@@ -785,7 +786,7 @@ class _AgentCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: ConstColor.outLineColor),
+        border: Border.all(color: ConstColor.outLineColor, width: 1),
       ),
       child: Row(
         children: [
@@ -796,7 +797,7 @@ class _AgentCard extends StatelessWidget {
                 CustomText(
                   title: 'Sarah Mitchell',
                   textColor: ConstColor.titleColor,
-                  textSize: 15.sp,
+                  textSize: 14.sp,
                   fontWeight: FontWeight.w700,
                   maxLine: 1,
                 ),
@@ -815,17 +816,17 @@ class _AgentCard extends StatelessWidget {
 
           // ─── Agent logo placeholder ───────────────
           Container(
-            width: 56.w,
-            height: 40.h,
+            width: 48.w,
+            height: 48.h,
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: ConstColor.red,
               borderRadius: BorderRadius.circular(6.r),
             ),
             child: Center(
               child: CustomText(
                 title: 'LOGO',
                 textColor: Colors.white,
-                textSize: 11.sp,
+                textSize: 10.sp,
                 fontWeight: FontWeight.w700,
                 maxLine: 1,
               ),
@@ -837,9 +838,7 @@ class _AgentCard extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Approximate map location card
-// ─────────────────────────────────────────────────────
+
 class _MapCard extends StatelessWidget {
   const _MapCard();
 
@@ -851,7 +850,7 @@ class _MapCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: ConstColor.outLineColor),
+        border: Border.all(color: ConstColor.outLineColor, width: 1),
       ),
       child: Stack(
         children: [
@@ -863,10 +862,11 @@ class _MapCard extends StatelessWidget {
               height: double.infinity,
               color: Colors.grey.shade300,
               child: Center(
-                child: Icon(
-                  Icons.map_outlined,
-                  size: 48.sp,
-                  color: Colors.grey.shade500,
+                child: AppImage(
+                  path: "assets/images/street_map.png",
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -879,14 +879,21 @@ class _MapCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha(220),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(4.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(30),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                ]
               ),
               child: CustomText(
-                title: 'Approximate location',
+                title: ConstString.approximateLocation,
                 textColor: ConstColor.titleColor,
-                textSize: 11.sp,
-                fontWeight: FontWeight.w500,
+                textSize: 12.sp,
+                fontWeight: FontWeight.w400,
                 maxLine: 1,
               ),
             ),
@@ -915,16 +922,17 @@ class _MapCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.remove_red_eye_outlined,
-                      size: 14.sp,
-                      color: ConstColor.titleColor,
+                    SvgPicture.asset("assets/icons/password_icon.svg",
+                    width: 17.w,
+                    height: 16.h,
+                      colorFilter: ColorFilter.mode(ConstColor.titleColor, BlendMode.srcIn),
+                    
                     ),
                     SizedBox(width: 4.w),
                     CustomText(
-                      title: 'Street view',
+                      title: ConstString.streetView,
                       textColor: ConstColor.titleColor,
-                      textSize: 11.sp,
+                      textSize: 12.sp,
                       fontWeight: FontWeight.w500,
                       maxLine: 1,
                     ),
@@ -948,7 +956,7 @@ class _BottomActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 24.h),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 40.h),
       decoration: BoxDecoration(
         color: ConstColor.primaryColor,
         borderRadius: BorderRadius.only(
@@ -964,23 +972,24 @@ class _BottomActionBar extends StatelessWidget {
               onPressed: () {
                 // TODO: launch phone call
               },
-              color: ConstColor.primaryColor,
-              height: 50,
+              color: ConstColor.secondaryColor,
+              elevation: 0,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,
-              borderColor: Colors.white,
+              // borderColor: Colors.white,
               borderWidth: 1.5,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.phone_outlined, color: Colors.white, size: 18.sp),
+                  SvgPicture.asset("assets/icons/phone_icon.svg"),
                   SizedBox(width: 8.w),
                   CustomText(
-                    title: 'Call',
+                    title: ConstString.call,
                     textColor: Colors.white,
-                    textSize: 15.sp,
-                    fontWeight: FontWeight.w600,
+                    textSize: 18.sp,
+                    fontWeight: FontWeight.w700,
                     maxLine: 1,
                   ),
                 ],
@@ -996,17 +1005,17 @@ class _BottomActionBar extends StatelessWidget {
                 // TODO: launch email
               },
               color: Colors.white,
-              height: 50,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.mail_outline,
-                    color: ConstColor.primaryColor,
-                    size: 18.sp,
+                  SvgPicture.asset("assets/icons/email.svg",
+                  width: 20.w,
+                  height: 20.h,
+                    colorFilter: ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                   ),
                   SizedBox(width: 8.w),
                   CustomText(

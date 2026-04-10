@@ -79,4 +79,13 @@ class ConstString {
   static const propertyDetails = 'Property Details';
   static const gallery = 'Gallery';
   static const tourDegree = '360° Tour';
+  static const floorPlan = 'Floor Plan';
+  static const description = 'Description';
+  static const viewFullDescription = 'View full description';
+  static const brochures = 'Brochures';
+  static const exploreTheBrochure = 'Explore the brochure for more information about this property.';
+  static const viewBrochure = 'View brochure';
+  static const approximateLocation = 'Approximate location';
+  static const streetView = 'Street view';
+  static const call = "Call";
 }
