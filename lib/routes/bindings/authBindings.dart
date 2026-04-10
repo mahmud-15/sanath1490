@@ -11,6 +11,7 @@ import '../../screens/UserScreen/HomeTabAllScreen/GalleryDetailsScreen/Controlle
 import '../../screens/UserScreen/HomeTabAllScreen/HomeScreen/Controller/home_controller.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyDetailsScreen/Controller/property_details_controller.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyListScreen/Controller/property_list_controller.dart';
+import '../../screens/UserScreen/SavedPropertiesScreen/Controller/saved_controller.dart';
 
 class AuthBindings extends Bindings {
   @override
@@ -33,7 +34,7 @@ class AuthBindings extends Bindings {
     Get.lazyPut(() => PropertyListController());
     Get.lazyPut(() => GalleryController());
     Get.lazyPut(() => ContactAgentController());
-    Get.lazyPut(() => PropertyDetailsController());
+    Get.lazyPut(() => SavedController());
 
 
   }

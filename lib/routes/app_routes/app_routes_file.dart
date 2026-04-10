@@ -17,6 +17,7 @@ import '../../screens/UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyDetailsScreen/property_details_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyListScreen/property_list_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/SearchScreen/search_screen.dart';
+import '../../screens/UserScreen/SavedPropertiesScreen/saved_properties_screen.dart';
 import '../bindings/authBindings.dart';
 import 'app_routes.dart';
 
@@ -50,5 +51,9 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.galleryDetailsScreen,     page: () => GalleryDetailsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.degreeTourScreen,     page: () => DegreeTourScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.contactAgentScreen,     page: () => ContactAgentScreen(),binding: AuthBindings()),
+
+
+  ///////////////Home Part////////////////
+  GetPage(name: AppRoutes.savedPropertiesScreen,     page: () => SavedPropertiesScreen(),binding: AuthBindings()),
 
 ];

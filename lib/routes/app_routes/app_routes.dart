@@ -30,4 +30,8 @@ class AppRoutes {
   static const contactAgentScreen = '/contactAgentScreen';
 
 
+  ///////////////Home Part///////////////
+  static const savedPropertiesScreen = '/savedPropertiesScreen';
+
+
 }

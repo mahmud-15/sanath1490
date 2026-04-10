@@ -6,9 +6,9 @@ import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/widget/AuthAppBar/global_app_bar.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AppImage/app_image.dart';
-import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/text/custom_text.dart';
 import 'Controller/gallery_controller.dart';
+import 'Widget/photo_viewer_screen.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
   const GalleryDetailsScreen({super.key});
@@ -40,9 +40,6 @@ class GalleryDetailsScreen extends StatelessWidget {
                 }
               }),
             ),
-
-            // ─── Bottom Buttons ───────────────────
-            // _BottomButtons(controller: controller),
           ],
         ),
       ),
@@ -129,12 +126,18 @@ class _PhotosTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: controller.photos.length,
-      separatorBuilder: (_, _) => SizedBox(height: 8.h),
-      itemBuilder: (context, index) => AppImage(
-        path: controller.photos[index],
-        width: double.infinity,
-        height: 200.h,
-        fit: BoxFit.cover,
+      separatorBuilder: (_, __) => SizedBox(height: 8.h),
+      itemBuilder: (context, index) => GestureDetector(
+        onTap: () {
+          controller.openPhotoViewer(index);
+          Get.to(() => const PhotoViewerScreen());
+        },
+        child: AppImage(
+          path: controller.photos[index],
+          width: double.infinity,
+          height: 200.h,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
@@ -216,7 +219,10 @@ class _VideoCard extends StatelessWidget {
                   bottom: 8.h,
                   right: 8.w,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 6.w,
+                      vertical: 2.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withAlpha(160),
                       borderRadius: BorderRadius.circular(4.r),
@@ -240,14 +246,17 @@ class _VideoCard extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                      width: 36.w,
-                      height: 36.h,
-                      decoration: BoxDecoration(
-                        color: ConstColor.primaryColor.withAlpha(30),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
+                    width: 36.w,
+                    height: 36.h,
+                    decoration: BoxDecoration(
+                      color: ConstColor.primaryColor.withAlpha(30),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
 
-                      child: Center(child: SvgPicture.asset("assets/icons/play_icon.svg",))),
+                    child: Center(
+                      child: SvgPicture.asset("assets/icons/play_icon.svg"),
+                    ),
+                  ),
                   SizedBox(width: 8.w),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,19 +299,27 @@ class _FloorPlanTab extends StatelessWidget {
       padding: EdgeInsets.all(16.w),
       child: Column(
         children: [
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: ConstColor.outLineColor),
-              borderRadius: BorderRadius.circular(8.r),
+          GestureDetector(
+            onTap: () => Get.to(
+              () => _FloorPlanFullScreen(
+                imagePath: controller.floorPlanImage,
+                label: controller.floorPlanLabel,
+              ),
             ),
-            child: AppImage(
-              path: controller.floorPlanImage,
+            child: Container(
               width: double.infinity,
-              height: 320.h,
-              fit: BoxFit.contain,
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: ConstColor.outLineColor),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: AppImage(
+                path: controller.floorPlanImage,
+                width: double.infinity,
+                height: 320.h,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           SizedBox(height: 12.h),
@@ -321,73 +338,68 @@ class _FloorPlanTab extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────
-class _BottomButtons extends StatelessWidget {
-  final GalleryController controller;
+class _FloorPlanFullScreen extends StatelessWidget {
+  final String imagePath;
+  final String label;
 
-  const _BottomButtons({required this.controller});
+  const _FloorPlanFullScreen({required this.imagePath, required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(15),
-            blurRadius: 8.r,
-            offset: Offset(0, -2.h),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: CustomElevatedButton(
-              onPressed: controller.onCall,
-              color: ConstColor.secondaryColor,
-              height: 50,
-              top: 0,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // ─── Image ───────────────────────────
+            Center(
+              child: InteractiveViewer(
+                child: AppImage(
+                  path: imagePath,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+
+            // ─── Back Button ─────────────────────
+            Positioned(
+              top: 16.h,
+              left: 16.w,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Container(
+                  width: 36.w,
+                  height: 36.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(220),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.black,
+                    size: 16.sp,
+                  ),
+                ),
+              ),
+            ),
+
+            // ─── Label ───────────────────────────
+            Positioned(
+              bottom: 24.h,
               left: 0,
               right: 0,
-              icon: Icon(
-                Icons.phone_outlined,
-                color: Colors.white,
-                size: 18.sp,
-              ),
               child: CustomText(
-                title: 'Call',
+                title: label,
                 textColor: Colors.white,
-                textSize: 15.sp,
-                fontWeight: FontWeight.w600,
+                textSize: 13.sp,
+                fontWeight: FontWeight.w400,
+                textAlign: TextAlign.center,
+                maxLine: 1,
               ),
             ),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: CustomElevatedButton(
-              onPressed: controller.onEmail,
-              isOutLined: true,
-              outLineColour: ConstColor.primaryColor,
-              borderColor: ConstColor.primaryColor,
-              height: 50,
-              top: 0,
-              left: 0,
-              right: 0,
-              icon: Icon(
-                Icons.email_outlined,
-                color: ConstColor.primaryColor,
-                size: 18.sp,
-              ),
-              child: CustomText(
-                title: 'Email',
-                textColor: ConstColor.primaryColor,
-                textSize: 15.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
