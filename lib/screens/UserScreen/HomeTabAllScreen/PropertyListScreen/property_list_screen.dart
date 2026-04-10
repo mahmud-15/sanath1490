@@ -107,7 +107,14 @@ class PropertyListScreen extends StatelessWidget {
               separatorBuilder: (_, _) => SizedBox(height: 16.h),
               itemBuilder: (context, index) {
                 final property = homeController.currentProperties[index];
-                return PropertyCard(property: property);
+                return PropertyCard(
+                  onTap: (){
+                    Get.toNamed(AppRoutes.propertyDetails);
+                  },
+
+                  property: property,
+
+                );
               },
             )),
           ),

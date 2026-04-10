@@ -2,26 +2,28 @@ import 'package:get/get.dart';
 
 class GalleryController extends GetxController {
   final selectedTab = 0.obs;
+  final currentViewerIndex = 0.obs;
 
+  void openPhotoViewer(int index) => currentViewerIndex.value = index;
   void onTabChanged(int index) => selectedTab.value = index;
 
   // ─── Photos ──────────────────────────────
   final photos = [
-    'assets/images/property_photo1.png',
-    'assets/images/property_photo2.png',
-    'assets/images/property_photo3.png',
+    'assets/images/property_img.png',
+    'assets/images/property_img2.png',
+    'assets/images/property_img3.png',
   ];
 
   // ─── Videos ──────────────────────────────
   final videos = [
     VideoModel(
-      thumbnail: 'assets/images/property_photo2.png',
+      thumbnail: 'assets/images/property_img2.png',
       title: 'Property walkthrough',
       duration: '3:24',
       quality: 'HD',
     ),
     VideoModel(
-      thumbnail: 'assets/images/property_photo3.png',
+      thumbnail: 'assets/images/property_img.png',
       title: 'Garden tour',
       duration: '1:15',
       quality: 'HD',
@@ -29,8 +31,8 @@ class GalleryController extends GetxController {
   ];
 
   // ─── Floorplan ───────────────────────────
-  final floorplanImage = 'assets/images/floorplan.png';
-  final floorplanLabel = 'Ground Floor';
+  final floorPlanImage = 'assets/images/floor_plan_img.png';
+  final floorPlanLabel = 'Ground Floor';
 
   // ─── Actions ─────────────────────────────
   void onCall() {}

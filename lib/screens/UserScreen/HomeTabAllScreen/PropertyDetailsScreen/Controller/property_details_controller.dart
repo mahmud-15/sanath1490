@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class PropertyDetailsController extends GetxController {
+
+  Future<void> makePhoneCall() async {
+    const String phoneNumber = "(98) 9016714574";
+
+    final Uri telUri = Uri(scheme: 'tel', path: phoneNumber);
+
+    try {
+      final bool launched = await launchUrl(
+          telUri,
+          mode: LaunchMode.externalApplication
+      );
+
+      if (!launched) {
+        AppSnackBar.error("Could not open dialer. Please try again.");
+      }
+    } catch (e) {
+      AppSnackBar.error("Failed to open phone dialer.");
+    }
+  }
+}

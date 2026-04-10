@@ -10,6 +10,7 @@ import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../HomeScreen/Controller/home_controller.dart';
+import 'Controller/property_details_controller.dart';
 
 class PropertyDetailsScreen extends StatelessWidget {
   const PropertyDetailsScreen({super.key});
@@ -152,7 +153,7 @@ class _GalleryTourTab extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                // TODO: open gallery
+                Get.toNamed(AppRoutes.galleryDetailsScreen);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -184,7 +185,7 @@ class _GalleryTourTab extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                // TODO: open 360 tour
+                Get.toNamed(AppRoutes.degreeTourScreen);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -970,7 +971,7 @@ class _BottomActionBar extends StatelessWidget {
           Expanded(
             child: CustomElevatedButton(
               onPressed: () {
-                // TODO: launch phone call
+                Get.find<PropertyDetailsController>().makePhoneCall();   // ← এই লাইনটা পরিবর্তন
               },
               color: ConstColor.secondaryColor,
               elevation: 0,
@@ -978,8 +979,6 @@ class _BottomActionBar extends StatelessWidget {
               top: 0,
               left: 0,
               right: 0,
-              // borderColor: Colors.white,
-              borderWidth: 1.5,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -1002,7 +1001,7 @@ class _BottomActionBar extends StatelessWidget {
           Expanded(
             child: CustomElevatedButton(
               onPressed: () {
-                // TODO: launch email
+                Get.toNamed(AppRoutes.contactAgentScreen);
               },
               color: Colors.white,
               height: 48,

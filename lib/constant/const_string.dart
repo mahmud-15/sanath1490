@@ -88,4 +88,7 @@ class ConstString {
   static const approximateLocation = 'Approximate location';
   static const streetView = 'Street view';
   static const call = "Call";
+  static const yourName = 'Your name';
+  static const yourEmail = 'Your email';
+  static const phoneNumber = 'Phone number';
 }
