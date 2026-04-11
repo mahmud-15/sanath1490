@@ -119,4 +119,12 @@ class ConstString {
   static const areYouSureWant = 'Are you sure you want to logout?';
   static const youWillNeedToLog = 'You will need to log in again to access your account. Any unsaved changes may be lost.';
   static const cancel = 'Cancel';
+  static const permanentlyDelete = 'Permanently Delete Account?';
+  static const warningThisAction = 'Warning: This action is irreversible';
+  static const onceYouDeleteYourAccount = "Once you delete your account, there's no going back. This will immediately and permanently erase:";
+  static const yourProfileAndAccount = 'Your profile and account information';
+  static const allSaved = 'All saved content and enquiries';
+  static const weWontBeAbleToRestoreYour = "We won't be able to restore your account or retrieve your data after deletion.";
+  static const enterYourPassword = 'Enter your password to confirm deletion';
+  static const delete = 'Delete';
 }

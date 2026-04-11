@@ -7,6 +7,7 @@ import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
+import '../LogoutBottomSheet/logout_bottom_sheet.dart';
 import 'Controller/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -111,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
                   iconPath: 'assets/icons/log_out_icon.svg',
                   title: ConstString.logOut,
                   subtitle: '',
-                  onTap: () => controller.onLogOut(),
+                  onTap: () => controller.onMenuTap(ProfileMenu.logoutAccount),
                   titleColor: ConstColor.red,
                   iconBgColor: ConstColor.red.withAlpha(10),
                   iconColor: ConstColor.red,
