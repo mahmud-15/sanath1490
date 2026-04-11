@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import '../../HomeTabAllScreen/HomeScreen/Controller/home_controller.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
+import '../../../HomeTabAllScreen/HomeScreen/Controller/home_controller.dart';
 
 class SavedController extends GetxController {
   // ─── Tab index: 0 = Properties, 1 = Searches ─────
@@ -10,7 +11,7 @@ class SavedController extends GetxController {
   // ─── Saved Properties ─────────────────────────────
   final savedProperties = <PropertyModel>[
     PropertyModel(
-      images: ['assets/images/property1.png', 'assets/images/property1b.png', 'assets/images/property1c.png'],
+      images: ['assets/images/property_img3.png', 'assets/images/property_img2.png', 'assets/images/property_img.png'],
       price: '£875,000',
       title: '4 bed House',
       address: '42 Morning Lane, London',
@@ -18,7 +19,7 @@ class SavedController extends GetxController {
       isFeatured: true,
     ),
     PropertyModel(
-      images: ['assets/images/property2.png', 'assets/images/property2b.png'],
+      images: ['assets/images/property_img2.png', 'assets/images/property_img.png', 'assets/images/property_img2.png'],
       price: '£1,200,000',
       title: '5 bed Villa',
       address: '10 Park Avenue, Manchester',
@@ -26,7 +27,7 @@ class SavedController extends GetxController {
       isFeatured: false,
     ),
     PropertyModel(
-      images: ['assets/images/property3.png', 'assets/images/property3b.png'],
+      images: ['assets/images/property_img3.png', 'assets/images/property_img2.png', 'assets/images/property_img.png'],
       price: '£650,000',
       title: '3 bed Apartment',
       address: '8 River Street, Oxford',
@@ -80,7 +81,7 @@ class SavedController extends GetxController {
 
   // ─── Navigate to results for a saved search ───────
   void viewResults(SavedSearchModel search) {
-    // TODO: Get.toNamed(AppRoutes.propertyList, arguments: search);
+    Get.toNamed(AppRoutes.propertyListScreen);
   }
 }
 

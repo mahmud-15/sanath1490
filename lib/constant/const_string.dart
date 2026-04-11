@@ -91,4 +91,5 @@ class ConstString {
   static const yourName = 'Your name';
   static const yourEmail = 'Your email';
   static const phoneNumber = 'Phone number';
+  static const viewResults = 'View results';
 }

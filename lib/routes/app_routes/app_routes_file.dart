@@ -9,6 +9,7 @@ import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/reset_verify_otp_screen.dart';
+import '../../screens/UserScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/ContactAgentScreen/contact_agent_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/DegreeTourScreen/degree_tour_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/FilterScreen/filter_screen.dart';
@@ -17,7 +18,7 @@ import '../../screens/UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyDetailsScreen/property_details_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyListScreen/property_list_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/SearchScreen/search_screen.dart';
-import '../../screens/UserScreen/SavedPropertiesScreen/saved_properties_screen.dart';
+import '../../screens/UserScreen/SavedTabScreen/SavedPropertiesScreen/saved_properties_screen.dart';
 import '../bindings/authBindings.dart';
 import 'app_routes.dart';
 
@@ -37,12 +38,14 @@ List<GetPage> appRouteFile = <GetPage>[
 
 
 
+
+
   ///////////////NavBar////////////////
   GetPage(name: AppRoutes.navBar,     page: () => NavBar(),binding: AuthBindings()),
 
 
 
-  ///////////////Home Part////////////////
+  ///////////////Home Screen Part////////////////
   GetPage(name: AppRoutes.homeScreen,     page: () => HomeScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.filterScreen,     page: () => FilterScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.searchScreen,     page: () => SearchScreen(),binding: AuthBindings()),
@@ -53,7 +56,11 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.contactAgentScreen,     page: () => ContactAgentScreen(),binding: AuthBindings()),
 
 
-  ///////////////Home Part////////////////
+  ///////////////Saved Screen Part////////////////
   GetPage(name: AppRoutes.savedPropertiesScreen,     page: () => SavedPropertiesScreen(),binding: AuthBindings()),
+
+
+  ///////////////Enquiries Screen Part////////////////
+  GetPage(name: AppRoutes.enquiriesScreen,     page: () => EnquiriesScreen(),binding: AuthBindings()),
 
 ];

@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import '../../../../constant/const_icons.dart';
 import '../../../../utils/app_role.dart';
 import '../../../../utils/log_print.dart';
+import '../../../UserScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../../UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
+import '../../../UserScreen/SavedTabScreen/SavedPropertiesScreen/saved_properties_screen.dart';
 class NavbarController extends GetxController {
   List<String> icons = [];
   List<Widget> pages = [];
@@ -35,11 +37,9 @@ class NavbarController extends GetxController {
     // --- Pages Initialization with Placeholders ---
     pages = selectedUserRole == AppUserType.user
         ? [
-      HomeScreen(), // Ready
-
-      // Temporary Placeholders for User (Total 4 tabs as per icons)
-      const Scaffold(body: Center(child: Text("Saved Page Pending"))),
-      const Scaffold(body: Center(child: Text("Enquires Page Pending"))),
+      HomeScreen(),
+      SavedPropertiesScreen(),
+      EnquiriesScreen(),
       const Scaffold(body: Center(child: Text("Profile Page Pending"))),
     ]
         : selectedUserRole == AppUserType.host

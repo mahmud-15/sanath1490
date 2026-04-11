@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                       child: PropertyCard(
                         onTap: () => Get.toNamed(
                           AppRoutes.propertyDetails,
-                          arguments: controller.currentProperties[index], // ─── This missing line caused the error!
+                          arguments: controller.currentProperties[index],
                         ),
                         property: controller.currentProperties[index],
                       ),

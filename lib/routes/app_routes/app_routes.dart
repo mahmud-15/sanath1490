@@ -19,7 +19,7 @@ class AppRoutes {
 
 
 
-  ///////////////Home Part///////////////
+  ///////////////Home Screen Part///////////////
   static const homeScreen = '/homeScreen';
   static const filterScreen = '/filterScreen';
   static const searchScreen = '/searchScreen';
@@ -30,8 +30,13 @@ class AppRoutes {
   static const contactAgentScreen = '/contactAgentScreen';
 
 
-  ///////////////Home Part///////////////
+  ///////////////Saved Screen Part///////////////
   static const savedPropertiesScreen = '/savedPropertiesScreen';
+
+
+
+  ///////////////Enquiries Screen Part///////////////
+  static const enquiriesScreen = '/enquiriesScreen';
 
 
 }
