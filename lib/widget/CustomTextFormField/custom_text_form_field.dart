@@ -6,6 +6,7 @@ import '../text/custom_text.dart';
 class CustomTextFormField extends StatelessWidget {
   final bool numeric;
   final String fromTitle;
+  final Widget? titleIcon;
   final Widget? hintText;
   final int maxLine;
   final int? minLines;
@@ -32,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     this.fromTitle = "",
+    this.titleIcon,
     this.numeric = false,
     this.hintText,
     this.maxLine = 1,
@@ -65,21 +67,34 @@ class CustomTextFormField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          if (fromTitle.isNotEmpty)
-            CustomText(
-              top: 0,
-              bottom: 2.h,
-              title: fromTitle,
-              textSize: 16.sp,
-              fontWeight: FontWeight.w600,
+          if (fromTitle.isNotEmpty || titleIcon != null)
+            Padding(
+              padding: EdgeInsets.only(bottom: 6.h),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (titleIcon != null) ...[
+                    titleIcon!,
+                    SizedBox(width: 8.w),
+                  ],
+                  if (fromTitle.isNotEmpty)
+                    CustomText(
+                      top: 0,
+                      bottom: 0,
+                      title: fromTitle,
+                      textSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                ],
+              ),
             ),
 
           TextFormField(
             controller: textController,
             focusNode: focusNode,
             style: TextStyle(
-              color: ConstColor.titleColor   ,
-              fontSize: 12.sp,
+              color: ConstColor.titleColor,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               fontFamily: 'Poppins',
               decorationThickness: 0,
@@ -121,12 +136,12 @@ class CustomTextFormField extends StatelessWidget {
               label: hintText,
               hintStyle: TextStyle(
                 color: ConstColor.outLineColor,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w300,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
                 fontFamily: 'Poppins',
               ),
               contentPadding: EdgeInsets.symmetric(
-                vertical: 12.h,
+                vertical: 14.h,
                 horizontal: 16.w,
               ),
 
@@ -140,19 +155,19 @@ class CustomTextFormField extends StatelessWidget {
                 borderRadius: BorderRadius.circular((borderRadius ?? 12).r),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.black),
+                borderSide: const BorderSide(color: ConstColor.titleColor),
                 borderRadius: BorderRadius.circular((borderRadius ?? 12).r),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.red),
+                borderSide: const BorderSide(color: ConstColor.red),
                 borderRadius: BorderRadius.circular((borderRadius ?? 12).r),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.red),
+                borderSide: const BorderSide(color: ConstColor.red),
                 borderRadius: BorderRadius.circular((borderRadius ?? 12).r),
               ),
               errorStyle: TextStyle(
-                color: Colors.red,
+                color: ConstColor.red,
                 fontSize: 11.sp,
               ),
             ),

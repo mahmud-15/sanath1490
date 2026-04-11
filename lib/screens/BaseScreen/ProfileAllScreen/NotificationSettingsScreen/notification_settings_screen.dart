@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
@@ -17,7 +18,7 @@ class NotificationSettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
       appBar: GlobalAppBar(
-        title: 'Notifications',
+        title: ConstString.notifications,
         action: SvgPicture.asset(
           'assets/icons/settings_icon.svg',
           width: 20.w,
@@ -35,24 +36,22 @@ class NotificationSettingsScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // ─── Email Alerts ──────────────────
-              Obx(() => _NotificationToggleItem(
+              _NotificationToggleItem(
                 iconPath: 'assets/icons/email_icon.svg',
                 title: 'Email Alerts',
                 subtitle: 'Receive alerts via email',
-                value: controller.emailAlerts.value,
-                onChanged: (val) => controller.emailAlerts.value = val,
+                valueObs: controller.emailAlerts,
                 showDivider: true,
-              )),
+              ),
 
               // ─── Push Notifications ────────────
-              Obx(() => _NotificationToggleItem(
+              _NotificationToggleItem(
                 iconPath: 'assets/icons/bell_icon.svg',
                 title: 'Push Notifications',
                 subtitle: 'Get instant updates on your device',
-                value: controller.pushNotifications.value,
-                onChanged: (val) => controller.pushNotifications.value = val,
+                valueObs: controller.pushNotifications,
                 showDivider: true,
-              )),
+              ),
 
               // ─── Alert Types label ─────────────
               Padding(
@@ -70,31 +69,28 @@ class NotificationSettingsScreen extends StatelessWidget {
               ),
 
               // ─── Listing approved ──────────────
-              Obx(() => _NotificationToggleItem(
+              _NotificationToggleItem(
                 title: 'Listing approved',
                 subtitle: 'When your listing goes live',
-                value: controller.listingApproved.value,
-                onChanged: (val) => controller.listingApproved.value = val,
+                valueObs: controller.listingApproved,
                 showDivider: true,
-              )),
+              ),
 
               // ─── Listing expiring ──────────────
-              Obx(() => _NotificationToggleItem(
+              _NotificationToggleItem(
                 title: 'Listing expiring',
                 subtitle: '7 days before listing expires',
-                value: controller.listingExpiring.value,
-                onChanged: (val) => controller.listingExpiring.value = val,
+                valueObs: controller.listingExpiring,
                 showDivider: true,
-              )),
+              ),
 
               // ─── Payment successful ────────────
-              Obx(() => _NotificationToggleItem(
+              _NotificationToggleItem(
                 title: 'Payment successful',
                 subtitle: 'Invoice & receipt confirmation',
-                value: controller.paymentSuccess.value,
-                onChanged: (val) => controller.paymentSuccess.value = val,
+                valueObs: controller.paymentSuccess,
                 showDivider: false,
-              )),
+              ),
             ],
           ),
         ),
@@ -110,22 +106,20 @@ class _NotificationToggleItem extends StatelessWidget {
   final String? iconPath;
   final String title;
   final String subtitle;
-  final bool value;
-  final ValueChanged<bool> onChanged;
+  final RxBool valueObs;
   final bool showDivider;
 
   const _NotificationToggleItem({
     this.iconPath,
     required this.title,
     required this.subtitle,
-    required this.value,
-    required this.onChanged,
+    required this.valueObs,
     required this.showDivider,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Obx(() => Column(
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -167,9 +161,9 @@ class _NotificationToggleItem extends StatelessWidget {
 
               // ─── Toggle switch ─────────────────
               Switch(
-                value: value,
-                onChanged: onChanged,
-                activeColor: Colors.white,
+                value: valueObs.value,
+                onChanged: (val) => valueObs.value = val,
+                activeThumbColor: Colors.white,
                 activeTrackColor: ConstColor.primaryColor,
                 inactiveThumbColor: Colors.white,
                 inactiveTrackColor: ConstColor.outLineColor,
@@ -180,6 +174,6 @@ class _NotificationToggleItem extends StatelessWidget {
         if (showDivider)
           Divider(height: 1.h, indent: 16.w, endIndent: 16.w, color: ConstColor.outLineColor),
       ],
-    );
+    ));
   }
 }

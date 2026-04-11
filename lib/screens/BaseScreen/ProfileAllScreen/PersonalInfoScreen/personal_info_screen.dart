@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
@@ -19,17 +20,13 @@ class PersonalInfoScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
-      appBar: GlobalAppBar(title: 'Personal Info'),
+      appBar: const GlobalAppBar(title: 'Personal Info'),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         child: Column(
           children: [
-            // ─── Avatar ───────────────────────────
             _AvatarPicker(controller: controller),
-
             SizedBox(height: 24.h),
-
-            // ─── Form Card ────────────────────────
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
@@ -40,67 +37,82 @@ class PersonalInfoScreen extends StatelessWidget {
                 key: controller.formKey,
                 child: Column(
                   children: [
-                    // Full Name
                     CustomTextFormField(
-                      fromTitle: 'Full Name',
+                      fromTitle: ConstString.fullName,
                       textController: controller.nameController,
-                      hintText: const Text('Sarah Johnson'),
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(10.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/profile_icon.svg',
-                          width: 18.w,
-                          colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
-                        ),
+                      titleIcon: SvgPicture.asset(
+                        'assets/icons/profile_icon.svg',
+                        width: 19.w,
+                        colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                       ),
                     ),
 
-                    // Email Address
+                    SizedBox(height: 8.h),
+
+                    // ─── Email Address ───────────
                     CustomTextFormField(
-                      fromTitle: 'Email Address',
+                      fromTitle: ConstString.emailAddress,
                       textController: controller.emailController,
-                      hintText: const Text('sarah.j@email.com'),
                       keyboardType: TextInputType.emailAddress,
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(10.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/email_icon.svg',
-                          width: 18.w,
-                          colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
-                        ),
+                      titleIcon: SvgPicture.asset(
+                        'assets/icons/email.svg',
+                        width: 18.w,
+                        colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                       ),
                     ),
 
-                    // Phone Number
+                    SizedBox(height: 8.h),
+
+                    // ─── Phone Number ───────────
                     CustomTextFormField(
-                      fromTitle: 'Phone Number',
+                      fromTitle: ConstString.phoneNumber,
                       textController: controller.phoneController,
-                      hintText: const Text('+1 (555) 123-4567'),
                       keyboardType: TextInputType.phone,
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(10.w),
-                        child: SvgPicture.asset(
-                          'assets/icons/phone_icon.svg',
-                          width: 18.w,
-                          colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+                      titleIcon: SvgPicture.asset(
+                        'assets/icons/phone.svg',
+                        width: 18.w,
+                        colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
+                      ),
+                    ),
+
+                    SizedBox(height: 14.h),
+                    Divider(color: ConstColor.outLineColor.withAlpha(150)),
+                    SizedBox(height: 16.h),
+
+                    // ─── Address Section ───────────
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/location_icon.svg', // Use correct pin icon name
+                          width: 19.w,
+                          colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                         ),
-                      ),
+                        SizedBox(width: 8.w),
+                        CustomText(
+                          title: ConstString.address,
+                          textColor: ConstColor.titleColor,
+                          textSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          maxLine: 1,
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 12.h),
 
-                    // Address label
+                    // Country dropdown title
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: Alignment.bottomLeft,
                       child: CustomText(
-                        title: 'Address',
-                        textColor: ConstColor.titleColor,
-                        textSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        maxLine: 1,
+                        title: ConstString.country,
+                        textColor: ConstColor.bodyColor,
+                        textSize: 12.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(height: 6.h),
+                    SizedBox(height: 4.h),
 
-                    // Country dropdown
+                    // Country dropdown box
                     Obx(() => GestureDetector(
                       onTap: controller.pickCountry,
                       child: Container(
@@ -119,29 +131,29 @@ class PersonalInfoScreen extends StatelessWidget {
                                 textColor: controller.selectedCountry.value.isEmpty
                                     ? ConstColor.outLineColor
                                     : ConstColor.titleColor,
-                                textSize: 12.sp,
+                                textSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 maxLine: 1,
                               ),
                             ),
                             SvgPicture.asset(
-                              'assets/icons/chevron_down_icon.svg',
-                              width: 16.w,
-                              colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+                              'assets/icons/arrow_drop_icon.svg',
+                              width: 20.w,
+                              colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
                             ),
                           ],
                         ),
                       ),
                     )),
 
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 12.h),
 
                     // Postal code
                     CustomTextFormField(
                       fromTitle: 'Postal Code',
                       textController: controller.postalController,
                       hintText: const Text('Enter your postal code'),
-                      validator: (_) => null, // optional field
+                      validator: (_) => null,
                     ),
                   ],
                 ),
@@ -154,7 +166,7 @@ class PersonalInfoScreen extends StatelessWidget {
             CustomElevatedButton(
               onPressed: controller.saveChanges,
               color: ConstColor.primaryColor,
-              height: 52,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,
@@ -175,9 +187,6 @@ class PersonalInfoScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Avatar picker with camera icon overlay
-// ─────────────────────────────────────────────────────
 class _AvatarPicker extends StatelessWidget {
   final PersonalInfoController controller;
 
@@ -196,8 +205,8 @@ class _AvatarPicker extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50.r),
                 child: AppImage(
                   path: controller.avatarPath.value,
-                  width: 90.w,
-                  height: 90.w,
+                  width: 100.w,
+                  height: 100.w,
                   fit: BoxFit.cover,
                 ),
               )),
@@ -207,8 +216,8 @@ class _AvatarPicker extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  width: 28.w,
-                  height: 28.w,
+                  width: 32.w,
+                  height: 32.w,
                   decoration: BoxDecoration(
                     color: ConstColor.secondaryColor,
                     shape: BoxShape.circle,
@@ -228,9 +237,9 @@ class _AvatarPicker extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         CustomText(
-          title: 'Tap to change profile photo',
+          title: ConstString.tapToChangeProfile,
           textColor: ConstColor.bodyColor,
-          textSize: 12.sp,
+          textSize: 14.sp,
           fontWeight: FontWeight.w400,
           maxLine: 1,
         ),

@@ -90,10 +90,14 @@ class ConstString {
   static const call = "Call";
   static const yourName = 'Your name';
   static const yourEmail = 'Your email';
-  static const phoneNumber = 'Phone number';
+  static const phoneNumber = 'Phone Number';
   static const viewResults = 'View results';
   static const enquiries = 'Enquiries';
   static const profile = 'Profile';
   static const deleteAccount = 'Delete Account';
   static const logOut = 'Log Out';
+  static const notifications = 'Notifications';
+  static const tapToChangeProfile = 'Tap to change profile photo';
+  static const address = 'Address';
+  static const country = 'Country';
 }

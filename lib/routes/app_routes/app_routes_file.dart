@@ -9,7 +9,13 @@ import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/reset_verify_otp_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/AboutUsScreen/about_us_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/ChangePasswordScreen/change_password_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/FaqScreen/faq_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/NotificationSettingsScreen/notification_settings_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/PersonalInfoScreen/personal_info_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/ProfileScreen/profile_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/TermsScreen/terms_screen.dart';
 import '../../screens/UserScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/ContactAgentScreen/contact_agent_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/DegreeTourScreen/degree_tour_screen.dart';
@@ -66,5 +72,11 @@ List<GetPage> appRouteFile = <GetPage>[
 
   ///////////////Profile Screen Part////////////////
   GetPage(name: AppRoutes.profileScreen,     page: () => ProfileScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.personalInfoScreen,     page: () => PersonalInfoScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.changePasswordScreen,     page: () => ChangePasswordScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.notificationSettingsScreen,     page: () => NotificationSettingsScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.aboutUsScreen,     page: () => AboutUsScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.termsScreen,     page: () => TermsScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.faqScreen,     page: () => FaqScreen(),binding: AuthBindings()),
 
 ];

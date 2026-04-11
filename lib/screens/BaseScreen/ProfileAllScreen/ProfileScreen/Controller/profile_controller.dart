@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
 // ─── All profile menu options ──────────────────────
 enum ProfileMenu {
@@ -23,25 +24,25 @@ class ProfileController extends GetxController {
   void onMenuTap(ProfileMenu menu) {
     switch (menu) {
       case ProfileMenu.personalInfo:
-      // TODO: Get.toNamed(AppRoutes.personalInfo);
+        Get.toNamed(AppRoutes.personalInfoScreen);
         break;
       case ProfileMenu.changePassword:
-      // TODO: Get.toNamed(AppRoutes.changePassword);
+        Get.toNamed(AppRoutes.changePasswordScreen);
         break;
       case ProfileMenu.notifications:
-      // TODO: Get.toNamed(AppRoutes.notificationSettings);
+        Get.toNamed(AppRoutes.notificationSettingsScreen);
         break;
       case ProfileMenu.aboutUs:
-      // TODO: Get.toNamed(AppRoutes.aboutUs);
+        Get.toNamed(AppRoutes.aboutUsScreen);
         break;
       case ProfileMenu.terms:
-      // TODO: Get.toNamed(AppRoutes.terms);
+        Get.toNamed(AppRoutes.termsScreen);
         break;
       case ProfileMenu.privacy:
-      // TODO: Get.toNamed(AppRoutes.privacy);
+        // TODO: Get.toNamed(AppRoutes.privacy);
         break;
       case ProfileMenu.faq:
-      // TODO: Get.toNamed(AppRoutes.faq);
+        Get.toNamed(AppRoutes.faqScreen);
         break;
       case ProfileMenu.deleteAccount:
         _showDeleteDialog();
@@ -53,7 +54,8 @@ class ProfileController extends GetxController {
   void _showDeleteDialog() {
     Get.defaultDialog(
       title: 'Delete Account',
-      middleText: 'Are you sure you want to delete your account? This action cannot be undone.',
+      middleText:
+          'Are you sure you want to delete your account? This action cannot be undone.',
       textConfirm: 'Delete',
       textCancel: 'Cancel',
       confirmTextColor: Colors.white,

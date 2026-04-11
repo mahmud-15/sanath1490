@@ -40,6 +40,12 @@ class AppRoutes {
 
   ///////////////Profile Screen Part///////////////
   static const profileScreen = '/profileScreen';
+  static const personalInfoScreen = '/personalInfoScreen';
+  static const changePasswordScreen = '/changePasswordScreen';
+  static const notificationSettingsScreen = '/notificationSettingsScreen';
+  static const aboutUsScreen = '/aboutUsScreen';
+  static const termsScreen = '/termsScreen';
+  static const faqScreen = '/faqScreen';
 
 
 }

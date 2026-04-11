@@ -5,6 +5,10 @@ import '../../screens/BaseScreen/AuthScreen/AccountVerifyOtpScreen/Controller/ac
 import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/Widget/choose_role_controller.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/Controller/reset_verify_otp_controller.dart';
 import '../../screens/BaseScreen/NavBar/controller/navbar_controller.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/ChangePasswordScreen/Controller/change_password_controller.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/FaqScreen/Controller/faq_controller.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/NotificationSettingsScreen/Controller/notification_settings_controller.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/PersonalInfoScreen/Controller/personal_info_controller.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/ProfileScreen/profile_screen.dart';
 import '../../screens/UserScreen/EnquiriesScreen/Controller/enquiries_controller.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/ContactAgentScreen/Controller/contact_agent_controller.dart';
@@ -46,6 +50,10 @@ class AuthBindings extends Bindings {
 
     //=========Profile Screen Controller Part=========//
     Get.lazyPut(() => ProfileScreen());
+    Get.lazyPut(() => PersonalInfoController());
+    Get.lazyPut(() => ChangePasswordController());
+    Get.lazyPut(() => NotificationSettingsController());
+    Get.lazyPut(() => FaqController());
 
 
   }
