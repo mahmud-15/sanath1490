@@ -102,4 +102,6 @@ class ConstString {
   static const country = 'Country';
   static const changePassword = 'Change Password';
   static const saveChanges = 'Save Changes';
+  static const enterCurrentPassword = 'Enter current password';
+  static const currentPassword = 'Current Password';
 }

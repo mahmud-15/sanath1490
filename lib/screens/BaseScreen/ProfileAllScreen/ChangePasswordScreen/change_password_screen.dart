@@ -37,9 +37,9 @@ class ChangePasswordScreen extends StatelessWidget {
                     // Current Password
                     Obx(
                       () => CustomTextFormField(
-                        fromTitle: 'Current Password',
+                        fromTitle: ConstString.currentPassword,
                         textController: controller.currentPassController,
-                        hintText: const Text('Enter current password'),
+                        hintText: const Text(ConstString.enterCurrentPassword),
                         obscureText: controller.hideCurrentPass.value,
                         suffixIcon: GestureDetector(
                           onTap: controller.toggleCurrentPass,
@@ -57,7 +57,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     // New Password
                     Obx(
                       () => CustomTextFormField(
-                        fromTitle: 'New Password',
+                        fromTitle: AutofillHints.newPassword,
                         textController: controller.newPassController,
                         hintText: const Text('Enter new password'),
                         obscureText: controller.hideNewPass.value,
@@ -76,7 +76,7 @@ class ChangePasswordScreen extends StatelessWidget {
                             return 'This field is required';
                           }
                           if (value.length < 8) {
-                            return 'Minimum 8 characters';
+                            return ConstString.min8Character;
                           }
                           return null;
                         },
@@ -101,9 +101,9 @@ class ChangePasswordScreen extends StatelessWidget {
                     // Confirm New Password
                     Obx(
                       () => CustomTextFormField(
-                        fromTitle: 'Confirm New Password',
+                        fromTitle: ConstString.confirmNewPassword,
                         textController: controller.confirmPassController,
-                        hintText: const Text('Confirm new password'),
+                        hintText: const Text(ConstString.confirmNewPassword),
                         obscureText: controller.hideConfirmPass.value,
                         suffixIcon: GestureDetector(
                           onTap: controller.toggleConfirmPass,
