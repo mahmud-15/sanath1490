@@ -6,6 +6,7 @@ import '../../../../utils/log_print.dart';
 import '../../../UserScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../../UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
 import '../../../UserScreen/SavedTabScreen/SavedPropertiesScreen/saved_properties_screen.dart';
+import '../../ProfileAllScreen/ProfileScreen/profile_screen.dart';
 class NavbarController extends GetxController {
   List<String> icons = [];
   List<Widget> pages = [];
@@ -40,7 +41,7 @@ class NavbarController extends GetxController {
       HomeScreen(),
       SavedPropertiesScreen(),
       EnquiriesScreen(),
-      const Scaffold(body: Center(child: Text("Profile Page Pending"))),
+      ProfileScreen()
     ]
         : selectedUserRole == AppUserType.host
         ? [

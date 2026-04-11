@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
 class EnquiriesController extends GetxController {
   // ─── Enquiry list ─────────────────────────────────
   final enquiries = <EnquiryModel>[
     EnquiryModel(
-      imagePath: 'assets/images/property1.png',
+      imagePath: 'assets/images/property_img.png',
       price: '£875,000',
       title: 'Stunning Victorian Terrace',
       address: '42 Morning Lane, London',
@@ -13,7 +14,7 @@ class EnquiriesController extends GetxController {
       sizeSqFt: 2400,
     ),
     EnquiryModel(
-      imagePath: 'assets/images/property2.png',
+      imagePath: 'assets/images/property_img2.png',
       price: '£875,000',
       title: 'Stunning Victorian Terrace',
       address: '42 Morning Lane, London',
@@ -22,7 +23,7 @@ class EnquiriesController extends GetxController {
       sizeSqFt: 2400,
     ),
     EnquiryModel(
-      imagePath: 'assets/images/property3.png',
+      imagePath: 'assets/images/property_img3.png',
       price: '£875,000',
       title: 'Stunning Victorian Terrace',
       address: '42 Morning Lane, London',
@@ -31,7 +32,7 @@ class EnquiriesController extends GetxController {
       sizeSqFt: 2400,
     ),
     EnquiryModel(
-      imagePath: 'assets/images/property1.png',
+      imagePath: 'assets/images/property_img2.png',
       price: '£875,000',
       title: 'Stunning Victorian Terrace',
       address: '42 Morning Lane, London',
@@ -40,7 +41,16 @@ class EnquiriesController extends GetxController {
       sizeSqFt: 2400,
     ),
     EnquiryModel(
-      imagePath: 'assets/images/property2.png',
+      imagePath: 'assets/images/property_img.png',
+      price: '£875,000',
+      title: 'Stunning Victorian Terrace',
+      address: '42 Morning Lane, London',
+      bedrooms: 4,
+      bathrooms: 3,
+      sizeSqFt: 2400,
+    ),
+    EnquiryModel(
+      imagePath: 'assets/images/property_img.png',
       price: '£875,000',
       title: 'Stunning Victorian Terrace',
       address: '42 Morning Lane, London',
@@ -52,7 +62,7 @@ class EnquiriesController extends GetxController {
 
   // ─── Tap on a card → navigate to details ─────────
   void onCardTap(EnquiryModel item) {
-    // TODO: Get.toNamed(AppRoutes.propertyDetails, arguments: item);
+    Get.toNamed(AppRoutes.propertyDetails,);
   }
 }
 

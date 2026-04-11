@@ -92,4 +92,8 @@ class ConstString {
   static const yourEmail = 'Your email';
   static const phoneNumber = 'Phone number';
   static const viewResults = 'View results';
+  static const enquiries = 'Enquiries';
+  static const profile = 'Profile';
+  static const deleteAccount = 'Delete Account';
+  static const logOut = 'Log Out';
 }

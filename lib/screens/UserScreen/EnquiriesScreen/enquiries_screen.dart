@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
@@ -16,7 +18,7 @@ class EnquiriesScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
-      appBar: GlobalAppBar(title: 'Enquiries', showBack: false),
+      appBar: GlobalAppBar(title: ConstString.enquiries, showBack: false),
       body: Obx(() {
         if (controller.enquiries.isEmpty) {
           return Center(
@@ -33,7 +35,7 @@ class EnquiriesScreen extends StatelessWidget {
         return ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           itemCount: controller.enquiries.length,
-          separatorBuilder: (_, __) => SizedBox(height: 10.h),
+          separatorBuilder: (_, _) => SizedBox(height: 10.h),
           itemBuilder: (context, index) {
             final item = controller.enquiries[index];
             return _EnquiryCard(
@@ -103,8 +105,8 @@ class _EnquiryCard extends StatelessWidget {
                         Expanded(
                           child: CustomText(
                             title: item.price,
-                            textColor: ConstColor.titleColor,
-                            textSize: 15.sp,
+                            textColor: ConstColor.primaryColor,
+                            textSize: 18.sp,
                             fontWeight: FontWeight.w700,
                             maxLine: 1,
                           ),
@@ -116,7 +118,6 @@ class _EnquiryCard extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: ConstColor.secondaryColor,
-                            borderRadius: BorderRadius.circular(4.r),
                           ),
                           child: CustomText(
                             title: 'Enquired',
@@ -135,8 +136,8 @@ class _EnquiryCard extends StatelessWidget {
                     CustomText(
                       title: item.title,
                       textColor: ConstColor.titleColor,
-                      textSize: 13.sp,
-                      fontWeight: FontWeight.w600,
+                      textSize: 14.sp,
+                      fontWeight: FontWeight.w700,
                       maxLine: 1,
                     ),
 
@@ -146,7 +147,7 @@ class _EnquiryCard extends StatelessWidget {
                     CustomText(
                       title: item.address,
                       textColor: ConstColor.bodyColor,
-                      textSize: 11.sp,
+                      textSize: 12.sp,
                       fontWeight: FontWeight.w400,
                       maxLine: 1,
                     ),
@@ -157,7 +158,15 @@ class _EnquiryCard extends StatelessWidget {
                     Row(
                       children: [
                         // Bedrooms
-                        Icon(Icons.bed_outlined, size: 13.sp, color: ConstColor.bodyColor),
+                        SvgPicture.asset(
+                          "assets/icons/bed_room_icon.svg",
+                          width: 20,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(
+                            ConstColor.bodyColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                         SizedBox(width: 3.w),
                         CustomText(
                           title: '${item.bedrooms}',
@@ -169,7 +178,13 @@ class _EnquiryCard extends StatelessWidget {
                         SizedBox(width: 10.w),
 
                         // Bathrooms
-                        Icon(Icons.bathtub_outlined, size: 13.sp, color: ConstColor.bodyColor),
+                        SvgPicture.asset(
+                          "assets/icons/bathrooms_icon.svg",
+                          colorFilter: ColorFilter.mode(
+                            ConstColor.bodyColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                         SizedBox(width: 3.w),
                         CustomText(
                           title: '${item.bathrooms}',
@@ -181,7 +196,11 @@ class _EnquiryCard extends StatelessWidget {
                         SizedBox(width: 10.w),
 
                         // Size
-                        Icon(Icons.straighten_outlined, size: 13.sp, color: ConstColor.bodyColor),
+                        Icon(
+                          Icons.crop_square,
+                          size: 13.sp,
+                          color: ConstColor.bodyColor,
+                        ),
                         SizedBox(width: 3.w),
                         CustomText(
                           title: '${item.sizeSqFt}',

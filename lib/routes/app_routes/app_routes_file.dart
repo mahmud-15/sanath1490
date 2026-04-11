@@ -9,6 +9,7 @@ import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/reset_verify_otp_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/ProfileScreen/profile_screen.dart';
 import '../../screens/UserScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/ContactAgentScreen/contact_agent_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/DegreeTourScreen/degree_tour_screen.dart';
@@ -62,5 +63,8 @@ List<GetPage> appRouteFile = <GetPage>[
 
   ///////////////Enquiries Screen Part////////////////
   GetPage(name: AppRoutes.enquiriesScreen,     page: () => EnquiriesScreen(),binding: AuthBindings()),
+
+  ///////////////Profile Screen Part////////////////
+  GetPage(name: AppRoutes.profileScreen,     page: () => ProfileScreen(),binding: AuthBindings()),
 
 ];
