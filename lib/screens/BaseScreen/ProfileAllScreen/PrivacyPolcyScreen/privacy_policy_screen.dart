@@ -5,35 +5,35 @@ import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
 
-class TermsScreen extends StatelessWidget {
-  const TermsScreen({super.key});
+class PrivacyPolicyScreen extends StatelessWidget {
+  const PrivacyPolicyScreen({super.key});
 
   // ─── Terms sections data ──────────────────────────
   static const _sections = [
     _TermsSection(
-      title: '1. Acceptance of Terms',
+      title: '1. Information We Collect',
       body:
-      'By accessing and using Gift Moment, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.',
+      'We collect information you provide directly to us, including your name, email address, phone number, and payment information. We also collect information about your usage of the app, such as cards sent and received.',
     ),
     _TermsSection(
-      title: '2. Use License',
+      title: '2. How We Use Your Information',
       body:
-      'Permission is granted to temporarily download one copy of Gift Moment for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.',
+      'We use the information we collect to provide, maintain, and improve our services, process transactions, send you technical notices and support messages, and communicate with you about products, services, and events.',
     ),
     _TermsSection(
-      title: '3. Subscription & Payments',
+      title: '3. Data Security',
       body:
-      'VIP subscriptions are billed monthly at €4.99. Premium cards and VIP videos are one-time purchases. All payments are processed securely. Subscriptions auto-renew unless cancelled 24 hours before the renewal date.',
+      'We implement appropriate security measures to protect your personal information. All payment data is encrypted using SSL technology. However, no method of transmission over the internet is 100% secure.',
     ),
     _TermsSection(
-      title: '4. User Accounts',
+      title: '4. Information Sharing',
       body:
-      'You are responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account or password.',
+      'We do not sell, trade, or rent your personal information to third parties. We may share information with service providers who assist us in operating our app, conducting business, or serving users.',
     ),
     _TermsSection(
-      title: '5. Content Guidelines',
+      title: '5.Your Rights',
       body:
-      'Users must not send cards containing offensive, abusive, or illegal content. Gift Moment reserves the right to remove any content that violates these terms and suspend or terminate accounts.',
+      'You have the right to access, update, or delete your personal information at any time. You can also opt-out of marketing communications and request a copy of your data.',
     ),
     _TermsSection(
       title: '6. Intellectual Property',
@@ -41,7 +41,7 @@ class TermsScreen extends StatelessWidget {
       'All cards, designs, animations, music, and other content provided by Gift Moment are protected by copyright and intellectual property laws. Users may not reproduce, distribute, or create derivative works.',
     ),
     _TermsSection(
-      title: '7. Refund Policy',
+      title: '7. Data We Collect',
       body:
       'Refunds for digital card purchases are available within 24 hours of purchase if the card has not been sent. VIP subscriptions can be cancelled anytime, but refunds are not provided for partial months.',
     ),
@@ -61,7 +61,7 @@ class TermsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
-      appBar: GlobalAppBar(title: ConstString.termsAndCondition),
+      appBar: GlobalAppBar(title: ConstString.privacyPolicy),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         child: Container(
@@ -78,7 +78,7 @@ class TermsScreen extends StatelessWidget {
               CustomText(
                 title: 'Last updated: December 30, 2025',
                 textColor: ConstColor.bodyColor,
-                textSize: 11.sp,
+                textSize: 13.sp,
                 fontWeight: FontWeight.w400,
                 maxLine: 1,
               ),
@@ -94,9 +94,7 @@ class TermsScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Data class for each terms section
-// ─────────────────────────────────────────────────────
+
 class _TermsSection {
   final String title;
   final String body;
@@ -104,9 +102,6 @@ class _TermsSection {
   const _TermsSection({required this.title, required this.body});
 }
 
-// ─────────────────────────────────────────────────────
-// UI widget for each terms section
-// ─────────────────────────────────────────────────────
 class _TermsSectionWidget extends StatelessWidget {
   final _TermsSection section;
 

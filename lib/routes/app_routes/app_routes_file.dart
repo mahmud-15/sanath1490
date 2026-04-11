@@ -14,6 +14,7 @@ import '../../screens/BaseScreen/ProfileAllScreen/ChangePasswordScreen/change_pa
 import '../../screens/BaseScreen/ProfileAllScreen/FaqScreen/faq_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/NotificationSettingsScreen/notification_settings_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/PersonalInfoScreen/personal_info_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/PrivacyPolcyScreen/privacy_policy_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/ProfileScreen/profile_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/TermsScreen/terms_screen.dart';
 import '../../screens/UserScreen/EnquiriesScreen/enquiries_screen.dart';
@@ -77,6 +78,7 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.notificationSettingsScreen,     page: () => NotificationSettingsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.aboutUsScreen,     page: () => AboutUsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.termsScreen,     page: () => TermsScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.privacyPolicyScreen,     page: () => PrivacyPolicyScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.faqScreen,     page: () => FaqScreen(),binding: AuthBindings()),
 
 ];

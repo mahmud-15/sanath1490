@@ -39,7 +39,7 @@ class ProfileController extends GetxController {
         Get.toNamed(AppRoutes.termsScreen);
         break;
       case ProfileMenu.privacy:
-        // TODO: Get.toNamed(AppRoutes.privacy);
+        Get.toNamed(AppRoutes.privacyPolicyScreen);
         break;
       case ProfileMenu.faq:
         Get.toNamed(AppRoutes.faqScreen);

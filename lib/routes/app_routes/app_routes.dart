@@ -45,6 +45,7 @@ class AppRoutes {
   static const notificationSettingsScreen = '/notificationSettingsScreen';
   static const aboutUsScreen = '/aboutUsScreen';
   static const termsScreen = '/termsScreen';
+  static const privacyPolicyScreen = '/privacyPolicyScreen';
   static const faqScreen = '/faqScreen';
 
 
