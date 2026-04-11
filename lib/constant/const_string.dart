@@ -100,4 +100,6 @@ class ConstString {
   static const tapToChangeProfile = 'Tap to change profile photo';
   static const address = 'Address';
   static const country = 'Country';
+  static const changePassword = 'Change Password';
+  static const saveChanges = 'Save Changes';
 }
