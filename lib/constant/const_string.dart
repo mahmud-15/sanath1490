@@ -115,4 +115,8 @@ class ConstString {
   static const paymentSuccessful = 'Payment successful';
   static const sevenDaysListing = '7 days before listing expires';
   static const invoiceAndReceipt = 'Invoice & receipt confirmation';
+  static const faq = 'Faq';
+  static const areYouSureWant = 'Are you sure you want to logout?';
+  static const youWillNeedToLog = 'You will need to log in again to access your account. Any unsaved changes may be lost.';
+  static const cancel = 'Cancel';
 }

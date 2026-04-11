@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
@@ -15,7 +16,7 @@ class FaqScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
-      appBar: GlobalAppBar(title: 'Faq'),
+      appBar: GlobalAppBar(title: ConstString.faq),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         child: Container(
@@ -23,7 +24,7 @@ class FaqScreen extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(14.r),
           ),
-          child: Obx(() => ListView.separated(
+          child: ListView.separated(           // ← Obx সরিয়ে দিলাম এখান থেকে
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: controller.faqs.length,
@@ -33,18 +34,17 @@ class FaqScreen extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               final faq = controller.faqs[index];
-              final isExpanded = controller.expandedIndex.value == index;
 
-              return _FaqItem(
+              return Obx(() => _FaqItem(       // ← Obx এখানে দিলাম (প্রত্যেক item এ)
                 question: faq.question,
                 answer: faq.answer,
-                isExpanded: isExpanded,
+                isExpanded: controller.expandedIndex.value == index,
                 onTap: () => controller.toggleFaq(index),
                 isFirst: index == 0,
                 isLast: index == controller.faqs.length - 1,
-              );
+              ));
             },
-          )),
+          ),
         ),
       ),
     );
@@ -94,7 +94,7 @@ class _FaqItem extends StatelessWidget {
                     child: CustomText(
                       title: question,
                       textColor: ConstColor.titleColor,
-                      textSize: 13.sp,
+                      textSize: 14.sp,
                       fontWeight: FontWeight.w600,
                       maxLine: 3,
                     ),

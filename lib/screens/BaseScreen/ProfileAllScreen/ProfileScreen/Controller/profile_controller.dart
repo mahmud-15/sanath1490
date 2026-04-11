@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
+import '../../LogoutBottomSheet/logout_bottom_sheet.dart';
+
 // ─── All profile menu options ──────────────────────
 enum ProfileMenu {
   personalInfo,
@@ -45,7 +47,7 @@ class ProfileController extends GetxController {
         Get.toNamed(AppRoutes.faqScreen);
         break;
       case ProfileMenu.deleteAccount:
-        _showDeleteDialog();
+        LogoutBottomSheet.show();
         break;
     }
   }
