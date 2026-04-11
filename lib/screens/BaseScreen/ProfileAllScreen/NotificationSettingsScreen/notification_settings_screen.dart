@@ -37,18 +37,18 @@ class NotificationSettingsScreen extends StatelessWidget {
             children: [
               // ─── Email Alerts ──────────────────
               _NotificationToggleItem(
-                iconPath: 'assets/icons/email_icon.svg',
-                title: 'Email Alerts',
-                subtitle: 'Receive alerts via email',
+                iconPath: 'assets/icons/email.svg',
+                title: ConstString.emailAlerts,
+                subtitle: ConstString.receiveAlertsViaEmail,
                 valueObs: controller.emailAlerts,
                 showDivider: true,
               ),
 
               // ─── Push Notifications ────────────
               _NotificationToggleItem(
-                iconPath: 'assets/icons/bell_icon.svg',
-                title: 'Push Notifications',
-                subtitle: 'Get instant updates on your device',
+                iconPath: "assets/icons/notification_icon.svg",
+                title: ConstString.pushNotification,
+                subtitle: ConstString.getInstantUpdates,
                 valueObs: controller.pushNotifications,
                 showDivider: true,
               ),
@@ -59,7 +59,7 @@ class NotificationSettingsScreen extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: CustomText(
-                    title: 'Alert Types',
+                    title: ConstString.alertTypes,
                     textColor: ConstColor.titleColor,
                     textSize: 14.sp,
                     fontWeight: FontWeight.w700,
@@ -70,26 +70,26 @@ class NotificationSettingsScreen extends StatelessWidget {
 
               // ─── Listing approved ──────────────
               _NotificationToggleItem(
-                title: 'Listing approved',
-                subtitle: 'When your listing goes live',
+                title: ConstString.listingApproved,
+                subtitle: ConstString.whenYourListing,
                 valueObs: controller.listingApproved,
                 showDivider: true,
               ),
 
               // ─── Listing expiring ──────────────
               _NotificationToggleItem(
-                title: 'Listing expiring',
-                subtitle: '7 days before listing expires',
+                title: ConstString.listingExpiring,
+                subtitle: ConstString.sevenDaysListing,
                 valueObs: controller.listingExpiring,
                 showDivider: true,
               ),
 
               // ─── Payment successful ────────────
               _NotificationToggleItem(
-                title: 'Payment successful',
-                subtitle: 'Invoice & receipt confirmation',
+                title: ConstString.paymentSuccessful,
+                subtitle: ConstString.invoiceAndReceipt,
                 valueObs: controller.paymentSuccess,
-                showDivider: false,
+                showDivider: true,
               ),
             ],
           ),
@@ -143,15 +143,15 @@ class _NotificationToggleItem extends StatelessWidget {
                     CustomText(
                       title: title,
                       textColor: ConstColor.titleColor,
-                      textSize: 13.sp,
-                      fontWeight: FontWeight.w600,
+                      textSize: 15.sp,
+                      fontWeight: FontWeight.w700,
                       maxLine: 1,
                     ),
                     SizedBox(height: 2.h),
                     CustomText(
                       title: subtitle,
                       textColor: ConstColor.bodyColor,
-                      textSize: 11.sp,
+                      textSize: 13.sp,
                       fontWeight: FontWeight.w400,
                       maxLine: 1,
                     ),

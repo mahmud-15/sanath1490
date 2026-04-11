@@ -104,4 +104,15 @@ class ConstString {
   static const saveChanges = 'Save Changes';
   static const enterCurrentPassword = 'Enter current password';
   static const currentPassword = 'Current Password';
+  static const emailAlerts = 'Email Alerts';
+  static const receiveAlertsViaEmail = 'Receive alerts via email';
+  static const pushNotification = 'Push Notifications';
+  static const getInstantUpdates = 'Get instant updates on your device';
+  static const alertTypes = 'Alert Types';
+  static const listingApproved = 'Listing approved';
+  static const whenYourListing = 'When your listing goes live';
+  static const listingExpiring = 'Listing expiring';
+  static const paymentSuccessful = 'Payment successful';
+  static const sevenDaysListing = '7 days before listing expires';
+  static const invoiceAndReceipt = 'Invoice & receipt confirmation';
 }
