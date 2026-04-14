@@ -44,7 +44,7 @@ class AccountOtpVerifyController extends GetxController {
 
   void verifyOtp() {
     if (currentPin.length < 6) return;
-    // Get.toNamed(AppRoutes.resetPasswordScreen);
+    Get.toNamed(AppRoutes.resetPasswordScreen);
   }
 
   void resendOtp() {

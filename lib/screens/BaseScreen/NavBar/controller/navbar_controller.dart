@@ -45,6 +45,8 @@ class NavbarController extends GetxController {
     ]
         : selectedUserRole == AppUserType.host
         ? [
+
+
       // Temporary Placeholders for Host (Total 4 tabs)
       const Scaffold(body: Center(child: Text("Host Dashboard Pending"))),
       const Scaffold(body: Center(child: Text("Host Listings Pending"))),

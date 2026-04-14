@@ -4,6 +4,8 @@ import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/SignInScree
 import 'package:sanath1490_flutter_app/screens/BaseScreen/NavBar/nav_bar.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/OnboardScreen/onboarding_screen.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/SplashScreen/splash_screen.dart';
+import '../../screens/AgentScreen/overviewScreen/hostHomeScreen/SubscriptionScreen/subscriptionScreen.dart';
+import '../../screens/AgentScreen/overviewScreen/hostHomeScreen/overviewHomeScreen/overviewHomeScreen.dart';
 import '../../screens/BaseScreen/AuthScreen/AccountVerifyOtpScreen/account_verify_otp_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
@@ -80,5 +82,17 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.termsScreen,     page: () => TermsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.privacyPolicyScreen,     page: () => PrivacyPolicyScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.faqScreen,     page: () => FaqScreen(),binding: AuthBindings()),
+
+
+
+
+
+
+
+
+
+
+  GetPage(name: AppRoutes.overviewhomescreen,     page: () => Overviewhomescreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.subscriptionScreen,     page: () => SubscriptionScreen(),binding: AuthBindings()),
 
 ];

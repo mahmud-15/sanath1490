@@ -6,4 +6,9 @@ class ConstIcons {
   static const String overviewTabIcon = 'assets/icons/overview_icon.svg';
   static const String listingTabIcon = 'assets/icons/listing_icon.svg';
   static const String dashBoardTabIcon = 'assets/icons/dashboard_icon.svg';
+
+
+
+
+  static const String messageIcon = 'assets/icons/message_icon.svg';
 }

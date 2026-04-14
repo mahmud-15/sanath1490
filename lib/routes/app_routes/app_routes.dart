@@ -49,4 +49,23 @@ class AppRoutes {
   static const faqScreen = '/faqScreen';
 
 
+
+
+
+
+
+
+
+
+
+  static const overviewhomescreen = '/overviewhomescreen';
+  static const subscriptionScreen = '/subscriptionScreen';
+
+
+
+
+
+
+
+
 }

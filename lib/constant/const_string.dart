@@ -127,4 +127,22 @@ class ConstString {
   static const weWontBeAbleToRestoreYour = "We won't be able to restore your account or retrieve your data after deletion.";
   static const enterYourPassword = 'Enter your password to confirm deletion';
   static const delete = 'Delete';
+
+
+
+
+
+ // -=-==-=-=-==-=--=- Injamam =-=-=-==-=--=-=-\
+ static const performanceOverview = 'Performance Over View';
+ static const totalViews = 'Total Views';
+ static const newEnquiries = 'New Enquiries';
+ static const quickActions = 'Quick Actions';
+ static const addListing = 'Add Listing';
+ static const recentEnquiries = 'Recent Enquiries';
+ static const manageYourPropertyListings = 'Manage Your Property Listings';
+ static const currentPlan = 'Current Plan';
+ static const upgradeNow = 'Upgrade Now';
+ static const subscription = 'subscription ';
+
+
 }
