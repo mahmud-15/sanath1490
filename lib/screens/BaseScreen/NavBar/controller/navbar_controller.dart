@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../constant/const_icons.dart';
 import '../../../../utils/app_role.dart';
 import '../../../../utils/log_print.dart';
+import '../../../AgentScreen/MyListingTabScreen/MyListingScreen/my_listing_screen.dart';
 import '../../../AgentScreen/OverViewTabScreen/OverViewHomeScreen/overviewHomeScreen.dart';
 import '../../../UserScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../../UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
@@ -48,7 +49,7 @@ class NavbarController extends GetxController {
         : selectedUserRole == AppUserType.agent
         ? [
             const Overviewhomescreen(),
-            const Scaffold(body: Center(child: Text("Listing Pending"))),
+            const MyListingScreen(),
             const Scaffold(body: Center(child: Text("Leads Pending"))),
             const ProfileScreen(),
           ]

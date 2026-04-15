@@ -211,4 +211,10 @@ class ConstString {
       'Your property listing has been submitted and is pending admin approval.';
   static const viewMyListing = 'View My listing';
   static const backToHome = 'Back to Home';
+  static const myListing        = 'My Listing';
+  static const addNew           = '+ Add New';
+  static const searchListings   = 'Search listings...';
+  static const sell             = 'Sell';
+  static const rent             = 'Rent';
+  static const active           = 'ACTIVE';
 }

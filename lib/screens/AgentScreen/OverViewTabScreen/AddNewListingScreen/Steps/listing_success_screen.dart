@@ -17,14 +17,14 @@ class ListingSuccessScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF2F4F7),
       appBar: GlobalAppBar(title: ConstString.propertyPublished),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        padding: EdgeInsets.only(right: 40.w,left: 40.w,top: 150.h),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // ─── Clock icon ───────────────────────
             Container(
-              width: 90.w,
-              height: 90.w,
+              width: 80.w,
+              height: 80.w,
               decoration: BoxDecoration(
                 color: Colors.amber.withAlpha(40),
                 shape: BoxShape.circle,
@@ -33,7 +33,7 @@ class ListingSuccessScreen extends StatelessWidget {
                 child: Icon(
                   Icons.access_time_outlined,
                   size: 44.sp,
-                  color: Colors.amber,
+                  color: Color(0xFFF59E0B),
                 ),
               ),
             ),
@@ -56,7 +56,7 @@ class ListingSuccessScreen extends StatelessWidget {
             CustomText(
               title: ConstString.propertySubmittedSub,
               textColor: ConstColor.bodyColor,
-              textSize: 13.sp,
+              textSize: 14.sp,
               fontWeight: FontWeight.w400,
               textAlign: TextAlign.center,
               maxLine: 3,
@@ -64,13 +64,12 @@ class ListingSuccessScreen extends StatelessWidget {
 
             const Spacer(),
 
-            // ─── View My Listing button ───────────
             CustomElevatedButton(
               onPressed: () {
                 // TODO: Get.toNamed(AppRoutes.myListings);
               },
               color: ConstColor.primaryColor,
-              height: 52,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,
@@ -78,14 +77,13 @@ class ListingSuccessScreen extends StatelessWidget {
                 title: ConstString.viewMyListing,
                 textColor: Colors.white,
                 textSize: 15.sp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 maxLine: 1,
               ),
             ),
 
             SizedBox(height: 12.h),
 
-            // ─── Back to Home ─────────────────────
             GestureDetector(
               onTap: () => Get.offAllNamed(AppRoutes.overViewHomescreen),
               child: CustomText(
