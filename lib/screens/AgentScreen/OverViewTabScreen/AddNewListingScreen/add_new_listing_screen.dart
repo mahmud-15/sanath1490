@@ -118,6 +118,7 @@ class _StepHeader extends StatelessWidget {
 }
 
 ////////Bottom action bar
+////////Bottom action bar
 class _BottomBar extends StatelessWidget {
   final AddListingController controller;
 
@@ -139,17 +140,29 @@ class _BottomBar extends StatelessWidget {
               child: CustomElevatedButton(
                 onPressed: controller.saveDraft,
                 isOutLined: true,
+                elevation: 0,
                 outLineColour: ConstColor.primaryColor,
                 height: 48,
                 top: 0,
                 left: 0,
                 right: 0,
-                child: CustomText(
-                  title: ConstString.saveDraft,
-                  textColor: ConstColor.primaryColor,
-                  textSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  maxLine: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.save_outlined,
+                      color: ConstColor.primaryColor,
+                      size: 18.sp,
+                    ),
+                    SizedBox(width: 4.w),
+                    CustomText(
+                      title: ConstString.saveDraft,
+                      textColor: ConstColor.primaryColor,
+                      textSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      maxLine: 1,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -159,16 +172,27 @@ class _BottomBar extends StatelessWidget {
               child: CustomElevatedButton(
                 onPressed: controller.publishProperty,
                 color: ConstColor.primaryColor,
-                height: 52,
+                height: 48,
                 top: 0,
                 left: 0,
                 right: 0,
-                child: CustomText(
-                  title: ConstString.publishProperty,
-                  textColor: Colors.white,
-                  textSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  maxLine: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.check_circle_outline,
+                      color: Colors.white,
+                      size: 16.sp,
+                    ),
+                    SizedBox(width: 4.w),
+                    CustomText(
+                      title: ConstString.publishProperty,
+                      textColor: Colors.white,
+                      textSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      maxLine: 1,
+                    ),
+                  ],
                 ),
               ),
             ),
