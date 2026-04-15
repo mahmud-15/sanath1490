@@ -23,14 +23,14 @@ class Step4FeatureDescription extends StatelessWidget {
             CustomText(
               title: ConstString.features,
               textColor: ConstColor.titleColor,
-              textSize: 13.sp,
+              textSize: 14.sp,
               fontWeight: FontWeight.w600,
               maxLine: 1,
             ),
             CustomText(
               title: ' *',
               textColor: Colors.red,
-              textSize: 13.sp,
+              textSize: 14.sp,
               fontWeight: FontWeight.w600,
               maxLine: 1,
             ),
@@ -69,6 +69,7 @@ class Step4FeatureDescription extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4.r),
                         border: Border.all(
                           color: isSelected ? ConstColor.primaryColor : ConstColor.outLineColor,
+                          width: 1.5
                         ),
                       ),
                       child: isSelected
@@ -79,8 +80,8 @@ class Step4FeatureDescription extends StatelessWidget {
                     Expanded(
                       child: CustomText(
                         title: feature,
-                        textColor: ConstColor.titleColor,
-                        textSize: 11.sp,
+                        textColor: ConstColor.bodyColor,
+                        textSize: 13.sp,
                         fontWeight: FontWeight.w400,
                         maxLine: 1,
                       ),
