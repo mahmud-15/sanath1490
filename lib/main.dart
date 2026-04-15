@@ -31,7 +31,7 @@ class MainApp extends StatelessWidget {
           ),
           defaultTransition: Transition.noTransition,
           getPages: appRouteFile,
-          initialRoute: AppRoutes.overviewhomescreen
+          initialRoute: AppRoutes.overViewHomescreen
         );
       },
     );

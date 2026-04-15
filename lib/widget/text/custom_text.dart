@@ -16,6 +16,7 @@ class CustomText extends StatelessWidget {
   final double? letterSpacing;
   final FontStyle? fontStyle;
   final TextDecoration? decoration;
+  final TextOverflow? overflow;
 
   const CustomText({
     super.key,
@@ -34,6 +35,7 @@ class CustomText extends StatelessWidget {
     this.letterSpacing,
     this.fontStyle = FontStyle.normal,
     this.decoration,
+    this.overflow,
   });
 
   @override
@@ -44,7 +46,7 @@ class CustomText extends StatelessWidget {
         title,
         textAlign: textAlign,
         maxLines: maxLine,
-        overflow: TextOverflow.ellipsis,
+        overflow: overflow ?? TextOverflow.ellipsis,
         style: TextStyle(
           height: textHeight,
           fontFamily: 'Roboto',

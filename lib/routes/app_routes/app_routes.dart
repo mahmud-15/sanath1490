@@ -47,19 +47,15 @@ class AppRoutes {
   static const termsScreen = '/termsScreen';
   static const privacyPolicyScreen = '/privacyPolicyScreen';
   static const faqScreen = '/faqScreen';
+  static const accountDeletedScreen = '/accountDeletedScreen';
 
 
 
-
-
-
-
-
-
-
-
-  static const overviewhomescreen = '/overviewhomescreen';
+  ///////////////Agent OverView Screen Part////////////////
+  static const overViewHomescreen = '/overViewHomescreen';
   static const subscriptionScreen = '/subscriptionScreen';
+  static const billingHistoryScreen = '/billingHistoryScreen';
+  static const addNewListingScreen = '/addNewListingScreen';
 
 
 

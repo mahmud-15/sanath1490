@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../constant/const_color.dart';
+import '../../../../utils/app_role.dart'; // ─── This import is needed to check role
 
 class NavBarBottom extends StatelessWidget {
   final Function(int) onTap;
@@ -18,11 +19,12 @@ class NavBarBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isUser = icons.length == 3;
+    // ─── LOGIC FIXED: Check actual role instead of icon length ───
+    final bool isUser = selectedUserRole == AppUserType.user;
 
     final List<String> labels = isUser
-        ? ['Overview', 'Listing', 'Leads', 'Profile']
-        : ['Home', 'Saved', 'Enquires', 'Profile'];
+        ? ['Home', 'Saved', 'Enquires', 'Profile'] // User Labels
+        : ['Overview', 'Listing', 'Leads', 'Profile']; // Agent Labels
 
     return Container(
       height: 64.h + MediaQuery.of(context).padding.bottom,

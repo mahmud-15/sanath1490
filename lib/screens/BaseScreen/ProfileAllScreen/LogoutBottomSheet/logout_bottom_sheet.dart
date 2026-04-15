@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/text/custom_text.dart';
@@ -106,8 +107,7 @@ class LogoutBottomSheet extends StatelessWidget {
                 // ─── Yes Logout Button ─────────────
                 CustomElevatedButton(
                   onPressed: () {
-                    Get.back();
-                    // TODO: logout logic
+                    Get.toNamed(AppRoutes.signInScreen);
                   },
                   color: ConstColor.red,
                   height: 48,

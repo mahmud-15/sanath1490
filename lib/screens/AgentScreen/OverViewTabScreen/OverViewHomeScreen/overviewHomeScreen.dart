@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sanath1490_flutter_app/screens/AgentScreen/overviewScreen/hostHomeScreen/overviewHomeScreen/widgets/enquiryListItem.dart';
-import 'package:sanath1490_flutter_app/screens/AgentScreen/overviewScreen/hostHomeScreen/overviewHomeScreen/widgets/performanceCard.dart';
-import 'package:sanath1490_flutter_app/screens/AgentScreen/overviewScreen/hostHomeScreen/overviewHomeScreen/widgets/premiumPlanBanner.dart';
+import 'package:sanath1490_flutter_app/screens/AgentScreen/OverViewTabScreen/OverViewHomeScreen/widgets/enquiryListItem.dart';
+import 'package:sanath1490_flutter_app/screens/AgentScreen/OverViewTabScreen/OverViewHomeScreen/widgets/performanceCard.dart';
+import 'package:sanath1490_flutter_app/screens/AgentScreen/OverViewTabScreen/OverViewHomeScreen/widgets/premiumPlanBanner.dart';
 import '../../../../../Widget/text/custom_text.dart';
 import '../../../../../constant/const_color.dart';
 import '../../../../../constant/const_icons.dart';
@@ -72,16 +72,16 @@ class Overviewhomescreen extends StatelessWidget {
                     iconPath: ConstIcons.homeTabIcon,
                     label: ConstString.totalViews,
                     value: controller.performance.value.totalViews,
-                    iconColor: ConstColor.primaryColor,           // icon এর color
-                    iconBgColor: ConstColor.primaryColor.withAlpha(20), // bg color
+                    iconColor: ConstColor.primaryColor,
+                    iconBgColor: ConstColor.primaryColor.withAlpha(20),
                   ),
                   SizedBox(width: 12.w),
                   PerformanceCard(
                     iconPath: ConstIcons.messageIcon,
                     label: ConstString.newEnquiries,
                     value: controller.performance.value.newEnquiries,
-                    iconColor: ConstColor.secondaryColor,                      // আলাদা color
-                    iconBgColor: ConstColor.teel200,      // আলাদা bg
+                    iconColor: ConstColor.secondaryColor,
+                    iconBgColor: ConstColor.teel200,
                   ),
                 ],
               ),
@@ -278,40 +278,40 @@ class _Overviewhomecontroller extends StatelessWidget {
 
           // ─── Notification Bell ──────────────
           // ─── Notification Bell ──────────────
-          GestureDetector(
-            onTap: controller.onNotificationTap,
-            child: Obx(() => Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Icon(
-                  Icons.notifications_outlined,
-                  size: 26.sp,
-                  color: ConstColor.titleColor,
-                ),
-                if (controller.notificationCount.value > 0)
-                  Positioned(
-                    top: -6,
-                    right: -5,
-                    child: Container(
-                      width: 16.w,
-                      height: 16.w,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: CustomText(
-                        title: '${controller.notificationCount.value}',
-                        textColor: Colors.white,
-                        textSize: 9.sp,
-                        fontWeight: FontWeight.w700,
-                        maxLine: 1,
-                      ),
-                    ),
-                  ),
-              ],
-            )),
-          ),
+          // GestureDetector(
+          //   onTap: controller.onNotificationTap,
+          //   child: Obx(() => Stack(
+          //     clipBehavior: Clip.none,
+          //     children: [
+          //       Icon(
+          //         Icons.notifications_outlined,
+          //         size: 26.sp,
+          //         color: ConstColor.titleColor,
+          //       ),
+          //       if (controller.notificationCount.value > 0)
+          //         Positioned(
+          //           top: -6,
+          //           right: -5,
+          //           child: Container(
+          //             width: 16.w,
+          //             height: 16.w,
+          //             decoration: const BoxDecoration(
+          //               color: Colors.red,
+          //               shape: BoxShape.circle,
+          //             ),
+          //             alignment: Alignment.center,
+          //             child: CustomText(
+          //               title: '${controller.notificationCount.value}',
+          //               textColor: Colors.white,
+          //               textSize: 9.sp,
+          //               fontWeight: FontWeight.w700,
+          //               maxLine: 1,
+          //             ),
+          //           ),
+          //         ),
+          //     ],
+          //   )),
+          // ),
         ],
       ),
     );

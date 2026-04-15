@@ -7,8 +7,9 @@ import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
-import '../LogoutBottomSheet/logout_bottom_sheet.dart';
 import 'Controller/profile_controller.dart';
+import '../../../../utils/app_role.dart';
+import '../../../BaseScreen/NavBar/controller/navbar_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -119,6 +120,36 @@ class ProfileScreen extends StatelessWidget {
                   showSubtitle: false,
                 ),
               ],
+            ),
+
+            SizedBox(height: 24.h),
+
+            // ─── DEMO ROLE SWITCHER (TESTING ONLY) ───────────────────
+            GestureDetector(
+              onTap: () {
+                if (selectedUserRole == AppUserType.user) {
+                  selectedUserRole = AppUserType.agent;
+                  Get.snackbar('Role Switched', 'You are now an Agent.');
+                } else {
+                  selectedUserRole = AppUserType.user;
+                  Get.snackbar('Role Switched', 'You are now a User.');
+                }
+
+                Get.find<NavbarController>().onAppInitial();
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: CustomText(
+                  title: 'SWITCH ROLE (TESTING)',
+                  textColor: Colors.black,
+                  textSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
 
             SizedBox(height: 24.h),
@@ -237,12 +268,8 @@ class _MenuGroup extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Single menu item row
-// ─────────────────────────────────────────────────────
-// ─────────────────────────────────────────────────────
-// Single menu item row
-// ─────────────────────────────────────────────────────
+
 class _MenuItem extends StatelessWidget {
   final String iconPath;
   final String title;
@@ -278,9 +305,9 @@ class _MenuItem extends StatelessWidget {
               width: 44.w,
               height: 44.w,
               decoration: BoxDecoration(
-                color: iconBgColor ?? ConstColor.primaryColor.withAlpha(20),
-                // shape: BoxShape.circle,
-                borderRadius: BorderRadius.circular(14)
+                  color: iconBgColor ?? ConstColor.primaryColor.withAlpha(20),
+                  // shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(14)
               ),
               child: Center(
                 child: SvgPicture.asset(

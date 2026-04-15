@@ -1,13 +1,14 @@
 class ConstString {
-
-
   /////////// Auth Part All String/////////
   static const findYourPerfectHome = 'Find Your Perfect Home';
-  static const browseThousandsOfProperties = 'Browse thousands of properties to buy or rent. Discover homes that match your lifestyle and budget in just a few taps.';
+  static const browseThousandsOfProperties =
+      'Browse thousands of properties to buy or rent. Discover homes that match your lifestyle and budget in just a few taps.';
   static const exploreBeforeYouVisit = 'Explore Before You Visit';
-  static const viewPhotosVideos = 'View photos, videos, and key details in one place. Understand the property before you book a visit.';
+  static const viewPhotosVideos =
+      'View photos, videos, and key details in one place. Understand the property before you book a visit.';
   static const contactAgentsEasily = 'Contact Agents Easily';
-  static const callOrEmailAgentsDirectly = 'Call or email agents directly from the listing. Get quick answers and arrange a viewing fast.';
+  static const callOrEmailAgentsDirectly =
+      'Call or email agents directly from the listing. Get quick answers and arrange a viewing fast.';
   static const skip = 'Skip';
   static const welcomeBack = 'Welcome Back';
   static const signInToContinue = 'Sign in to continue your property search';
@@ -24,10 +25,13 @@ class ConstString {
   static const sendOtp = 'Send OTP';
   static const verifyOtp = 'Verify OTP';
   static const verify = 'Verify';
-  static const enterThe4Digit = "Enter the 4-digit code we’ve sent to your email \nyourname@example.com";
-  static const noWorriesEnterYourEmail = "No worries! Enter your email and we'll send you\nan OTP code to reset your password.";
+  static const enterThe4Digit =
+      "Enter the 4-digit code we’ve sent to your email \nyourname@example.com";
+  static const noWorriesEnterYourEmail =
+      "No worries! Enter your email and we'll send you\nan OTP code to reset your password.";
   static const resetPassword = "Reset Password";
-  static const createANewStrongPassword = "Create a new strong password  to keep your account safe";
+  static const createANewStrongPassword =
+      "Create a new strong password  to keep your account safe";
   static const newPassword = "New Password";
   static const confirmNewPassword = "Confirm New Password";
   static const createAStrongPassword = "Create a strong password";
@@ -83,7 +87,8 @@ class ConstString {
   static const description = 'Description';
   static const viewFullDescription = 'View full description';
   static const brochures = 'Brochures';
-  static const exploreTheBrochure = 'Explore the brochure for more information about this property.';
+  static const exploreTheBrochure =
+      'Explore the brochure for more information about this property.';
   static const viewBrochure = 'View brochure';
   static const approximateLocation = 'Approximate location';
   static const streetView = 'Street view';
@@ -117,32 +122,93 @@ class ConstString {
   static const invoiceAndReceipt = 'Invoice & receipt confirmation';
   static const faq = 'Faq';
   static const areYouSureWant = 'Are you sure you want to logout?';
-  static const youWillNeedToLog = 'You will need to log in again to access your account. Any unsaved changes may be lost.';
+  static const youWillNeedToLog =
+      'You will need to log in again to access your account. Any unsaved changes may be lost.';
   static const cancel = 'Cancel';
   static const permanentlyDelete = 'Permanently Delete Account?';
   static const warningThisAction = 'Warning: This action is irreversible';
-  static const onceYouDeleteYourAccount = "Once you delete your account, there's no going back. This will immediately and permanently erase:";
+  static const onceYouDeleteYourAccount =
+      "Once you delete your account, there's no going back. This will immediately and permanently erase:";
   static const yourProfileAndAccount = 'Your profile and account information';
   static const allSaved = 'All saved content and enquiries';
-  static const weWontBeAbleToRestoreYour = "We won't be able to restore your account or retrieve your data after deletion.";
+  static const weWontBeAbleToRestoreYour =
+      "We won't be able to restore your account or retrieve your data after deletion.";
   static const enterYourPassword = 'Enter your password to confirm deletion';
   static const delete = 'Delete';
-
-
-
-
-
- // -=-==-=-=-==-=--=- Injamam =-=-=-==-=--=-=-\
- static const performanceOverview = 'Performance Over View';
- static const totalViews = 'Total Views';
- static const newEnquiries = 'New Enquiries';
- static const quickActions = 'Quick Actions';
- static const addListing = 'Add Listing';
- static const recentEnquiries = 'Recent Enquiries';
- static const manageYourPropertyListings = 'Manage Your Property Listings';
- static const currentPlan = 'Current Plan';
- static const upgradeNow = 'Upgrade Now';
- static const subscription = 'subscription ';
-
-
+  static const accountDeleted = 'Account Deleted';
+  static const yourAccountHasBeen =
+      'Your account has been permanently deleted. All your data has been removed from our system.';
+  static const whatHappensNext = 'What happens next?';
+  static const allPersonalInformation = 'All personal information removed';
+  static const accessToYourAccount = 'Access to your account is now disabled';
+  static const youCanCreateANew = 'You can create a new account anytime';
+  static const performanceOverview = 'Performance Over View';
+  static const totalViews = 'Total Views';
+  static const newEnquiries = 'New Enquiries';
+  static const quickActions = 'Quick Actions';
+  static const addListing = 'Add Listing';
+  static const recentEnquiries = 'Recent Enquiries';
+  static const manageYourPropertyListings = 'Manage Your Property Listings';
+  static const currentPlan = 'Current Plan';
+  static const upgradeNow = 'Upgrade Now';
+  static const subscription = 'Subscription ';
+  static const billingHistory = 'Billing History';
+  static const invoice = 'Invoice';
+  static const addNewListing = 'Add New Listing';
+  static const stepPropertyBasics = 'Step 1 of 5 : Property Basics';
+  static const stepPhotosMedia = 'Step 2 of 5 : Photos & Media';
+  static const stepPropertyInfo = 'Step 3 of 5 : Property Information';
+  static const stepFeatureDesc = 'Step 4 of 5 : Feature & Description';
+  static const stepReviewPublish = 'Step 5 of 5 : Review & Publish';
+  static const propertyPublished = 'Property Published';
+  static const listingType = 'Listing Type';
+  static const forSale = 'For Sale';
+  static const toRent = 'To Rent';
+  static const setAskingPrice = 'Set asking price';
+  static const setMonthlyRent = 'Set monthly rent';
+  static const propertyTitle = 'Property Title';
+  static const propertyTitleHint = 'e.g. Stunning 4-bedroom with double garage';
+  static const propertyTitleHelper = 'Make it specific and descriptive';
+  static const askingPrice = 'Asking Price';
+  static const askingPriceHint = '450,000';
+  static const countryHint = 'e.g., England';
+  static const city = 'City';
+  static const cityHint = 'e.g., London';
+  static const postcode = 'Postcode';
+  static const postcodeHint = 'e.g., 123 Oxford Street';
+  static const fullStreetAddress = 'Full Street Address';
+  static const fullStreetAddressHint = 'e.g., 123 Oxford Street';
+  static const locationPreview = 'Location Preview';
+  static const continueText = 'Continue';
+  static const propertyPhotos = 'Property Photos';
+  static const propertyVideos = 'Property Videos';
+  static const brochure = 'Brochure';
+  static const tourUrl = '360° Tour';
+  static const uploadPhoto = 'Upload Photo';
+  static const uploadVideo = 'Upload Video';
+  static const uploadFloorPlan = 'Upload Floor Plan';
+  static const uploadBrochure = 'Upload Brochure';
+  static const photoSpec = 'JPG, PNG, WEBP · Max 5MB · Min 1200x800px';
+  static const videoSpec = 'MP4 or MOV Max 200 MB each';
+  static const brochureSpec = 'PDF or Doc • 1 file • Max 10 MB';
+  static const choosePhotos = 'Choose Photos';
+  static const chooseVideos = 'Choose Videos';
+  static const chooseFile = 'Choose File';
+  static const tourUrlHint = 'Paste a Matter port or Virtual tour URL';
+  static const roomSize = 'Room & Size';
+  static const beds = 'Beds';
+  static const baths = 'Baths';
+  static const sqFt = 'Sq Ft';
+  static const councilTaxBand = 'Council Tax Band';
+  static const epcEnergyRating = 'EPC Energy Rating (Required by law)';
+  static const features = 'Features';
+  static const descriptionHint = 'Describe the property in details';
+  static const listingChecklist = 'Listing Checklist';
+  static const saveDraft = 'Save Draft';
+  static const publishProperty = 'Publish Property';
+  static const propertySubmitted = 'Property Submitted Successfully!';
+  static const propertySubmittedSub =
+      'Your property listing has been submitted and is pending admin approval.';
+  static const viewMyListing = 'View My listing';
+  static const backToHome = 'Back to Home';
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../../../constant/const_color.dart';
 import '../../../../../../widget/text/custom_text.dart';
 import '../model/subscriptionModel.dart';
@@ -53,17 +55,18 @@ class CurrentPlanBanner extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
               decoration: BoxDecoration(
-                color: Colors.white.withAlpha(30),
+                // color: Colors.white.withAlpha(30),
                 borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: Colors.white.withAlpha(80), width: 1),
+                border: Border.all(color: Colors.white, width: 2),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.receipt_outlined, color: Colors.white, size: 14.sp),
+                  SvgPicture.asset("assets/icons/billing_history.svg"),
+                  // Icon(Icons.receipt_outlined, color: Colors.white, size: 14.sp),
                   SizedBox(width: 6.w),
                   CustomText(
-                    title: 'Billing History',
+                    title: ConstString.billingHistory,
                     textColor: Colors.white,
                     textSize: 13.sp,
                     fontWeight: FontWeight.w500,

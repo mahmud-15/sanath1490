@@ -4,23 +4,18 @@ import '../../../../../../utils/log_print.dart';
 import '../model/performanceModel.dart';
 
 class Overviewhomecontroller extends GetxController {
-  // ─── User ─────────────────────────────────────────
   final String userName = 'Sarah';
 
 
-  // ─── Performance ──────────────────────────────────
   final performance = const PerformanceModel(
     totalViews: '34',
     newEnquiries: '47',
   ).obs;
 
-  // ─── Notification Count ───────────────────────────
   final RxInt notificationCount = 3.obs;
 
-  // ─── Premium Plan ─────────────────────────────────
   final RxString premiumPlanText = 'Premium Plan — 34 Unlimited listings'.obs;
 
-  // ─── Recent Enquiries ─────────────────────────────
   final RxList<EnquiryModel> recentEnquiries = <EnquiryModel>[
     const EnquiryModel(
       name: 'Emily Watson',
@@ -48,10 +43,9 @@ class Overviewhomecontroller extends GetxController {
     ),
   ].obs;
 
-  // ─── Actions ──────────────────────────────────────
   void onAddListingTap() {
     try {
-      // Get.toNamed(AppRoutes.addListing);
+      Get.toNamed(AppRoutes.addNewListingScreen);
     } catch (e) {
       errorLog('onAddListingTap', e);
     }

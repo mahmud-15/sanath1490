@@ -4,8 +4,10 @@ import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/SignInScree
 import 'package:sanath1490_flutter_app/screens/BaseScreen/NavBar/nav_bar.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/OnboardScreen/onboarding_screen.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/SplashScreen/splash_screen.dart';
-import '../../screens/AgentScreen/overviewScreen/hostHomeScreen/SubscriptionScreen/subscriptionScreen.dart';
-import '../../screens/AgentScreen/overviewScreen/hostHomeScreen/overviewHomeScreen/overviewHomeScreen.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/AddNewListingScreen/add_new_listing_screen.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/BillingHistoryScreen/billing_history_screen.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/OverViewHomeScreen/overviewHomeScreen.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/SubscriptionScreen/subscriptionScreen.dart' hide Overviewhomescreen;
 import '../../screens/BaseScreen/AuthScreen/AccountVerifyOtpScreen/account_verify_otp_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
@@ -13,6 +15,7 @@ import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/reset_verify_otp_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/AboutUsScreen/about_us_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/ChangePasswordScreen/change_password_screen.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/DeleteAccountBottomSheet/Widget/account_deleted_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/FaqScreen/faq_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/NotificationSettingsScreen/notification_settings_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/PersonalInfoScreen/personal_info_screen.dart';
@@ -82,6 +85,7 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.termsScreen,     page: () => TermsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.privacyPolicyScreen,     page: () => PrivacyPolicyScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.faqScreen,     page: () => FaqScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.accountDeletedScreen,     page: () => AccountDeletedScreen(),binding: AuthBindings()),
 
 
 
@@ -91,8 +95,10 @@ List<GetPage> appRouteFile = <GetPage>[
 
 
 
-
-  GetPage(name: AppRoutes.overviewhomescreen,     page: () => Overviewhomescreen(),binding: AuthBindings()),
+  ///////////////Agent OverView Screen Part////////////////
+  GetPage(name: AppRoutes.overViewHomescreen,     page: () => Overviewhomescreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.subscriptionScreen,     page: () => SubscriptionScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.billingHistoryScreen,     page: () => BillingHistoryScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.addNewListingScreen,     page: () => AddNewListingScreen(),binding: AuthBindings()),
 
 ];

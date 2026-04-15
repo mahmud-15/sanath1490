@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import '../../../../constant/const_icons.dart';
 import '../../../../utils/app_role.dart';
 import '../../../../utils/log_print.dart';
+import '../../../AgentScreen/OverViewTabScreen/OverViewHomeScreen/overviewHomeScreen.dart';
 import '../../../UserScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../../UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
 import '../../../UserScreen/SavedTabScreen/SavedPropertiesScreen/saved_properties_screen.dart';
 import '../../ProfileAllScreen/ProfileScreen/profile_screen.dart';
+
 class NavbarController extends GetxController {
   List<String> icons = [];
   List<Widget> pages = [];
@@ -35,40 +37,42 @@ class NavbarController extends GetxController {
   }
 
   void onAppInitial() {
-    // --- Pages Initialization with Placeholders ---
+    // --- Pages Initialization ---
     pages = selectedUserRole == AppUserType.user
         ? [
-      HomeScreen(),
-      SavedPropertiesScreen(),
-      EnquiriesScreen(),
-      ProfileScreen()
-    ]
-        : selectedUserRole == AppUserType.host
+            const HomeScreen(),
+            const SavedPropertiesScreen(),
+            const EnquiriesScreen(),
+            const ProfileScreen(),
+          ]
+        : selectedUserRole == AppUserType.agent
         ? [
-
-
-      // Temporary Placeholders for Host (Total 4 tabs)
-      const Scaffold(body: Center(child: Text("Host Dashboard Pending"))),
-      const Scaffold(body: Center(child: Text("Host Listings Pending"))),
-      const Scaffold(body: Center(child: Text("Host Dashboard Pending"))),
-      const Scaffold(body: Center(child: Text("Host Profile Pending"))),
-    ]
+            const Overviewhomescreen(),
+            const Scaffold(body: Center(child: Text("Listing Pending"))),
+            const Scaffold(body: Center(child: Text("Leads Pending"))),
+            const ProfileScreen(),
+          ]
         : [];
 
-    // --- Icons Initialization (Untouched) ---
+    // --- Icons Initialization ---
     icons = selectedUserRole == AppUserType.user
         ? [
-      ConstIcons.homeTabIcon,
-      ConstIcons.savedTabIcon,
-      ConstIcons.enquiresTabIcon,
-      ConstIcons.profileTabIcon,
-    ]
-        : [
-      ConstIcons.overviewTabIcon,
-      ConstIcons.listingTabIcon,
-      ConstIcons.dashBoardTabIcon,
-      ConstIcons.profileTabIcon,
-    ];
+            ConstIcons.homeTabIcon,
+            ConstIcons.savedTabIcon,
+            ConstIcons.enquiresTabIcon,
+            ConstIcons.profileTabIcon,
+          ]
+        : selectedUserRole == AppUserType.agent
+        ? [
+            ConstIcons.overviewTabIcon,
+            ConstIcons.listingTabIcon,
+            ConstIcons.dashBoardTabIcon,
+            ConstIcons.profileTabIcon,
+          ]
+        : [];
+
+    // ─── FIXED: Force UI update whenever this is called ───
+    update();
   }
 
   @override

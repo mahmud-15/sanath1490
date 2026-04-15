@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../../../../utils/log_print.dart';
+import '../../../../../routes/app_routes/app_routes.dart';
 import '../model/subscriptionModel.dart';
 
 class SubscriptionController extends GetxController {
@@ -64,7 +65,7 @@ class SubscriptionController extends GetxController {
   // ─── Actions ──────────────────────────────────────
   void onBillingHistoryTap() {
     try {
-      // Get.toNamed(AppRoutes.billingHistory);
+      Get.toNamed(AppRoutes.billingHistoryScreen);
     } catch (e) {
       errorLog('onBillingHistoryTap', e);
     }

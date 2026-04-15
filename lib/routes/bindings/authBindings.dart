@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/CreateAccountScreen/Controller/create_account_controller.dart';
-import '../../screens/AgentScreen/overviewScreen/hostHomeScreen/SubscriptionScreen/controller/subscriptionController.dart';
-import '../../screens/AgentScreen/overviewScreen/hostHomeScreen/overviewHomeScreen/controller/overviewHomeController.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/AddNewListingScreen/Controller/add_listing_controller.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/BillingHistoryScreen/Controller/billing_history_controller.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/OverViewHomeScreen/controller/overviewHomeController.dart';
+import '../../screens/AgentScreen/OverViewTabScreen/SubscriptionScreen/controller/subscriptionController.dart';
 import '../../screens/BaseScreen/AuthScreen/AccountVerifyOtpScreen/Controller/account_otp_verify_controller.dart';
 import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/Widget/choose_role_controller.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/Controller/reset_verify_otp_controller.dart';
@@ -56,8 +58,13 @@ class AuthBindings extends Bindings {
     Get.lazyPut(() => ChangePasswordController());
     Get.lazyPut(() => NotificationSettingsController());
     Get.lazyPut(() => FaqController());
+
+
+    ///////////////Agent OverView Screen Controller Part////////////////
     Get.lazyPut(() => Overviewhomecontroller());
     Get.lazyPut(() => SubscriptionController());
+    Get.lazyPut(() => BillingHistoryController());
+    Get.lazyPut(() => AddListingController());
 
 
   }

@@ -1,3 +1,3 @@
-enum AppUserType { user, host }
+enum AppUserType { user, agent }
 
 AppUserType selectedUserRole = AppUserType.user;
