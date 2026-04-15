@@ -23,6 +23,7 @@ class Step5ReviewPublish extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: ConstColor.outLineColor,width: 1.5)
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,14 +38,14 @@ class Step5ReviewPublish extends StatelessWidget {
                       title: '📋 ',
                       textColor: ConstColor.titleColor,
                       textSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       maxLine: 1,
                     ),
                     CustomText(
                       title: ConstString.listingChecklist,
                       textColor: ConstColor.titleColor,
                       textSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w600,
                       maxLine: 1,
                     ),
                   ],
@@ -118,7 +119,7 @@ class _ChecklistItem extends StatelessWidget {
           CustomText(
             title: label,
             textColor: ConstColor.titleColor,
-            textSize: 13.sp,
+            textSize: 14.sp,
             fontWeight: FontWeight.w500,
             maxLine: 1,
           ),
