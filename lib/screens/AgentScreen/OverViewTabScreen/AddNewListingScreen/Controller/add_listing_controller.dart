@@ -50,10 +50,28 @@ class AddListingController extends GetxController {
   final councilBand  = 'D'.obs;
   final epcRating    = 'C'.obs;
 
-  final propertyTypes = ['Detached', 'Semi', 'Terraced', 'Bungalow', 'Flat', 'Park Home'];
-  final tenureTypes   = ['Freehold', 'Leasehold', 'Share of Freehold'];
+  final propertyTypesList = ['Detached', 'Semi', 'Terraced', 'Bungalow', 'Flat', 'Park Home'];
+
+  final propertyTypes = <PropertyTypeModel>[
+    PropertyTypeModel(title: 'Detached', icon: 'assets/icons/home_icon.svg'),
+    PropertyTypeModel(title: 'Semi', icon: 'assets/icons/semi_home_icon.svg'),
+    PropertyTypeModel(title: 'Terraced', icon: 'assets/icons/terraced_home_icon.svg'),
+    PropertyTypeModel(title: 'Bungalow', icon: 'assets/icons/bunglow_icon.svg'),
+    PropertyTypeModel(title: 'Flat', icon: 'assets/icons/flat_icon.svg'),
+    PropertyTypeModel(title: 'Park Home', icon: 'assets/icons/park_home.svg'),
+  ];
+  // ───────────────────────────────────────────────────────────────────────────────
+  final tenureTypesList = ['Freehold', 'Leasehold', 'Share of Freehold'];
+  final tenureTypes = <TenureTypeModel>[
+    TenureTypeModel(title: 'Freehold', icon: 'assets/icons/bunglow_icon.svg'),
+    TenureTypeModel(title: 'Leasehold', icon: 'assets/icons/document_icon.svg'),
+    TenureTypeModel(title: 'Share of Freehold', icon: 'assets/icons/shared_placehold_icon.svg'),
+  ];
+
+
   final councilBands  = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   final epcRatings    = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
 
   void setPropertyType(String type) => propertyType.value = type;
   void setTenure(String type)       => tenureType.value = type;
@@ -114,4 +132,18 @@ class AddListingController extends GetxController {
     descriptionController.dispose();
     super.onClose();
   }
+}
+
+class PropertyTypeModel {
+  final String title;
+  final String icon;
+
+  PropertyTypeModel({required this.title, required this.icon});
+}
+
+class TenureTypeModel {
+  final String title;
+  final String icon;
+
+  TenureTypeModel({required this.title, required this.icon});
 }

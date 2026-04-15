@@ -13,15 +13,14 @@ class Step3PropertyInfo extends StatelessWidget {
 
   const Step3PropertyInfo({super.key, required this.controller});
 
-  // EPC rating colors matching image
   static const _epcColors = {
-    'A': Color(0xFF2ECC71),
-    'B': Color(0xFF58D68D),
-    'C': Color(0xFF82E0AA),
-    'D': Color(0xFFF1C40F),
-    'E': Color(0xFFE67E22),
-    'F': Color(0xFFE74C3C),
-    'G': Color(0xFFC0392B),
+    'A': Color(0xFF02C680),
+    'B': Color(0xFF18B459),
+    'C': Color(0xFF7CCF00),
+    'D': Color(0xFFFDC700),
+    'E': Color(0xFFFF8904),
+    'F': Color(0xFFFF6900),
+    'G': Color(0xFFFB2C36),
   };
 
   static const _epcLabels = {
@@ -34,7 +33,6 @@ class Step3PropertyInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ─── Property Type ───────────────────────
         _SectionLabel(title: ConstString.propertyType, required: true),
         SizedBox(height: 8.h),
         Obx(() => GridView.count(
@@ -44,10 +42,11 @@ class Step3PropertyInfo extends StatelessWidget {
           crossAxisSpacing: 8.w,
           mainAxisSpacing: 8.h,
           childAspectRatio: 2.2,
-          children: controller.propertyTypes.map((type) {
-            final isSelected = controller.propertyType.value == type;
+          // ─── UPDATED: Using map with PropertyTypeModel ───
+          children: controller.propertyTypes.map((typeModel) {
+            final isSelected = controller.propertyType.value == typeModel.title;
             return GestureDetector(
-              onTap: () => controller.setPropertyType(type),
+              onTap: () => controller.setPropertyType(typeModel.title),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
@@ -61,7 +60,7 @@ class Step3PropertyInfo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SvgPicture.asset(
-                      'assets/icons/home_icon.svg',
+                      typeModel.icon,
                       width: 16.w,
                       colorFilter: ColorFilter.mode(
                         isSelected ? Colors.white : ConstColor.bodyColor,
@@ -70,9 +69,9 @@ class Step3PropertyInfo extends StatelessWidget {
                     ),
                     SizedBox(height: 3.h),
                     CustomText(
-                      title: type,
+                      title: typeModel.title,
                       textColor: isSelected ? Colors.white : ConstColor.titleColor,
-                      textSize: 10.sp,
+                      textSize: 12.sp,
                       fontWeight: FontWeight.w500,
                       maxLine: 1,
                       textAlign: TextAlign.center,
@@ -94,7 +93,7 @@ class Step3PropertyInfo extends StatelessWidget {
             Expanded(
               child: _RoomField(
                 label: ConstString.beds,
-                icon: 'assets/icons/bed_icon.svg',
+                icon: 'assets/icons/bed_room_icon.svg',
                 controller: controller.bedsController,
               ),
             ),
@@ -102,7 +101,7 @@ class Step3PropertyInfo extends StatelessWidget {
             Expanded(
               child: _RoomField(
                 label: ConstString.baths,
-                icon: 'assets/icons/bath_icon.svg',
+                icon: 'assets/icons/bathrooms_icon.svg',
                 controller: controller.bathsController,
               ),
             ),
@@ -110,7 +109,7 @@ class Step3PropertyInfo extends StatelessWidget {
             Expanded(
               child: _RoomField(
                 label: ConstString.sqFt,
-                icon: 'assets/icons/size_icon.svg',
+                icon: 'assets/icons/square_fit_icon.svg',
                 controller: controller.sqFtController,
               ),
             ),
@@ -123,15 +122,15 @@ class Step3PropertyInfo extends StatelessWidget {
         _SectionLabel(title: ConstString.tenure),
         SizedBox(height: 8.h),
         Obx(() => Row(
-          children: controller.tenureTypes.map((type) {
-            final isSelected = controller.tenureType.value == type;
+          children: controller.tenureTypes.map((typeModel) {
+            final isSelected = controller.tenureType.value == typeModel.title;
             return Expanded(
               child: GestureDetector(
-                onTap: () => controller.setTenure(type),
+                onTap: () => controller.setTenure(typeModel.title),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   margin: EdgeInsets.only(
-                    right: type != controller.tenureTypes.last ? 8.w : 0,
+                    right: typeModel.title != controller.tenureTypes.last.title ? 8.w : 0,
                   ),
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   decoration: BoxDecoration(
@@ -144,7 +143,7 @@ class Step3PropertyInfo extends StatelessWidget {
                   child: Column(
                     children: [
                       SvgPicture.asset(
-                        'assets/icons/home_icon.svg',
+                        typeModel.icon,
                         width: 16.w,
                         colorFilter: ColorFilter.mode(
                           isSelected ? Colors.white : ConstColor.bodyColor,
@@ -153,10 +152,10 @@ class Step3PropertyInfo extends StatelessWidget {
                       ),
                       SizedBox(height: 4.h),
                       CustomText(
-                        title: type,
+                        title: typeModel.title,
                         textColor: isSelected ? Colors.white : ConstColor.titleColor,
-                        textSize: 9.sp,
-                        fontWeight: FontWeight.w600,
+                        textSize: 12.sp,
+                        fontWeight: FontWeight.w400,
                         maxLine: 2,
                         textAlign: TextAlign.center,
                       ),
@@ -187,14 +186,13 @@ class Step3PropertyInfo extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   decoration: BoxDecoration(
                     color: isSelected ? ConstColor.primaryColor : Colors.white,
-                    borderRadius: BorderRadius.circular(6.r),
                     border: Border.all(
                       color: isSelected ? ConstColor.primaryColor : ConstColor.outLineColor,
                     ),
                   ),
                   child: CustomText(
                     title: band,
-                    textColor: isSelected ? Colors.white : ConstColor.titleColor,
+                    textColor: isSelected ? Colors.white : ConstColor.bodyColor,
                     textSize: 12.sp,
                     fontWeight: FontWeight.w700,
                     textAlign: TextAlign.center,
@@ -226,9 +224,8 @@ class Step3PropertyInfo extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 8.h),
                   decoration: BoxDecoration(
                     color: color,
-                    borderRadius: BorderRadius.circular(4.r),
                     border: isSelected
-                        ? Border.all(color: Colors.black, width: 2)
+                        ? Border.all(color: Color(0xFF33913f), width: 4)
                         : null,
                   ),
                   child: Column(
@@ -236,15 +233,15 @@ class Step3PropertyInfo extends StatelessWidget {
                       CustomText(
                         title: rating,
                         textColor: Colors.white,
-                        textSize: 11.sp,
-                        fontWeight: FontWeight.w700,
+                        textSize: 14.sp,
+                        fontWeight: FontWeight.w600,
                         textAlign: TextAlign.center,
                         maxLine: 1,
                       ),
                       CustomText(
                         title: _epcLabels[rating] ?? '',
                         textColor: Colors.white,
-                        textSize: 8.sp,
+                        textSize: 10.sp,
                         fontWeight: FontWeight.w400,
                         textAlign: TextAlign.center,
                         maxLine: 1,
@@ -285,7 +282,7 @@ class _RoomField extends StatelessWidget {
             SvgPicture.asset(
               icon,
               width: 14.w,
-              colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
             ),
             SizedBox(width: 4.w),
             CustomText(
@@ -300,7 +297,7 @@ class _RoomField extends StatelessWidget {
         SizedBox(height: 4.h),
         CustomTextFormField(
           textController: controller,
-          hintText: const Text('0'),
+          // hintText: const Text('0'),
           numeric: true,
           validator: (_) => null,
         ),
@@ -323,7 +320,7 @@ class _SectionLabel extends StatelessWidget {
         CustomText(
           title: title,
           textColor: ConstColor.titleColor,
-          textSize: 13.sp,
+          textSize: 14.sp,
           fontWeight: FontWeight.w600,
           maxLine: 1,
         ),
@@ -331,7 +328,7 @@ class _SectionLabel extends StatelessWidget {
           CustomText(
             title: ' *',
             textColor: Colors.red,
-            textSize: 13.sp,
+            textSize: 14.sp,
             fontWeight: FontWeight.w600,
             maxLine: 1,
           ),
