@@ -54,6 +54,7 @@ class AppRoutes {
   ///////////////Agent OverView Screen Part////////////////
   static const overViewHomescreen = '/overViewHomescreen';
   static const subscriptionScreen = '/subscriptionScreen';
+  static const myListingScreen = '/myListingScreen';
   static const billingHistoryScreen = '/billingHistoryScreen';
   static const addNewListingScreen = '/addNewListingScreen';
 

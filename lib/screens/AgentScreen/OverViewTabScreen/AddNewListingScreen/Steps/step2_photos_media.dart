@@ -1,9 +1,9 @@
-import 'dart:ui' as BorderType;
-
+import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import '../../../../../constant/const_color.dart';
 import '../../../../../constant/const_string.dart';
 import '../../../../../widget/text/custom_text.dart';
@@ -21,7 +21,6 @@ class Step2PhotosMedia extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ─── Property Photos ─────────────────────
         _UploadSection(
           label: ConstString.propertyPhotos,
           required: true,
@@ -30,6 +29,8 @@ class Step2PhotosMedia extends StatelessWidget {
           specText: ConstString.photoSpec,
           buttonLabel: ConstString.choosePhotos,
           onTap: controller.pickPhotos,
+          mediaList: controller.photos,
+          isVideo: false,
         ),
 
         SizedBox(height: 14.h),
@@ -43,6 +44,8 @@ class Step2PhotosMedia extends StatelessWidget {
           specText: ConstString.videoSpec,
           buttonLabel: ConstString.chooseVideos,
           onTap: controller.pickVideos,
+          mediaList: controller.videos,
+          isVideo: true,
         ),
 
         SizedBox(height: 14.h),
@@ -56,6 +59,8 @@ class Step2PhotosMedia extends StatelessWidget {
           specText: ConstString.photoSpec,
           buttonLabel: ConstString.choosePhotos,
           onTap: controller.pickFloorPlan,
+          mediaList: controller.floorPlans,
+          isVideo: false,
         ),
 
         SizedBox(height: 14.h),
@@ -69,6 +74,8 @@ class Step2PhotosMedia extends StatelessWidget {
           specText: ConstString.brochureSpec,
           buttonLabel: ConstString.chooseFile,
           onTap: controller.pickBrochure,
+          mediaList: RxList<String>(),
+          isVideo: false,
         ),
 
         SizedBox(height: 14.h),
@@ -91,6 +98,8 @@ class _UploadSection extends StatelessWidget {
   final String specText;
   final String buttonLabel;
   final VoidCallback onTap;
+  final RxList<String> mediaList; // ─── Received RxList for local Obx ───
+  final bool isVideo;
 
   const _UploadSection({
     required this.label,
@@ -100,6 +109,8 @@ class _UploadSection extends StatelessWidget {
     required this.specText,
     required this.buttonLabel,
     required this.onTap,
+    required this.mediaList,
+    required this.isVideo,
   });
 
   @override
@@ -129,63 +140,92 @@ class _UploadSection extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
 
-        DottedBorder(
-          options: RoundedRectDottedBorderOptions(
-            color: ConstColor.iconColor,
-            strokeWidth: 2,
-            dashPattern: const [10, 5],
-            radius: Radius.circular(10.r),
-            padding: EdgeInsets.zero,
-          ),
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 20.h),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.r),
+        // ─── Dotted Box Area ─────────────────────
+        GestureDetector(
+          onTap: onTap, // Allows tapping the image to change it
+          child: DottedBorder(
+            options: RoundedRectDottedBorderOptions(
+              color: ConstColor.iconColor,
+              strokeWidth: 2,
+              dashPattern: const [10, 5],
+              radius: Radius.circular(10.r),
+              padding: EdgeInsets.zero,
             ),
-            child: Column(
-              children: [
-                SvgPicture.asset(
-                  iconPath,
-                  width: 20.w,
-                  colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
-                ),
-                SizedBox(height: 6.h),
-                CustomText(
-                  title: uploadLabel,
-                  textColor: ConstColor.titleColor,
-                  textSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                  maxLine: 1,
-                ),
-                SizedBox(height: 4.h),
-                CustomText(
-                  title: specText,
-                  textColor: ConstColor.bodyColor,
-                  textSize: 10.sp,
-                  fontWeight: FontWeight.w400,
-                  maxLine: 2,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 12.h),
-                CustomElevatedButton(
-                  onPressed: onTap,
-                  color: ConstColor.primaryColor,
-                  height: 38,
-                  width: 140,
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: CustomText(
-                    title: buttonLabel,
-                    textColor: Colors.white,
-                    textSize: 12.sp,
-                    fontWeight: FontWeight.w700,
-                    maxLine: 1,
-                  ),
-                ),
-              ],
+            child: Container(
+              width: double.infinity,
+              height: 160.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Obx(() {
+                // ─── ERROR FIXED: Obx is now correctly tracking mediaList.isEmpty ───
+                final hasMedia = mediaList.isNotEmpty;
+
+                if (hasMedia) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: isVideo
+                        ? Container(
+                      color: Colors.black87,
+                      child: Center(
+                        child: Icon(Icons.play_circle_fill, color: Colors.white, size: 48.sp),
+                      ),
+                    )
+                        : Image.file(
+                      File(mediaList.first),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  );
+                } else {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        iconPath,
+                        width: 20.w,
+                        colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+                      ),
+                      SizedBox(height: 6.h),
+                      CustomText(
+                        title: uploadLabel,
+                        textColor: ConstColor.titleColor,
+                        textSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        maxLine: 1,
+                      ),
+                      SizedBox(height: 4.h),
+                      CustomText(
+                        title: specText,
+                        textColor: ConstColor.bodyColor,
+                        textSize: 10.sp,
+                        fontWeight: FontWeight.w400,
+                        maxLine: 2,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 12.h),
+                      CustomElevatedButton(
+                        onPressed: onTap,
+                        color: ConstColor.primaryColor,
+                        height: 38,
+                        width: 140,
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: CustomText(
+                          title: buttonLabel,
+                          textColor: Colors.white,
+                          textSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          maxLine: 1,
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              }),
             ),
           ),
         ),
@@ -222,7 +262,7 @@ class _TourUrlSection extends StatelessWidget {
             child: SvgPicture.asset(
               'assets/icons/url_icon.svg',
               width: 16.w,
-              colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
             ),
           ),
         ),

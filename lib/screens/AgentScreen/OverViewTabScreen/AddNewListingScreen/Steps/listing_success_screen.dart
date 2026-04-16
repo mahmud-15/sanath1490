@@ -66,7 +66,7 @@ class ListingSuccessScreen extends StatelessWidget {
 
             CustomElevatedButton(
               onPressed: () {
-                // TODO: Get.toNamed(AppRoutes.myListings);
+                Get.toNamed(AppRoutes.myListingScreen);
               },
               color: ConstColor.primaryColor,
               height: 48,

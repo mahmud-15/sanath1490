@@ -61,7 +61,7 @@ class ChooseRoleScreen extends StatelessWidget {
               Obx(() => _RoleCard(
                 title: 'Agent',
                 subtitle: 'List & manage properties',
-                iconPath: "assets/icons/agent_icon.svg",
+                iconPath: "assets/icons/agent_role_icon.svg",
                 iconColor: const Color(0xFFFE9A00),
                 isSelected: controller.selectedRole.value == 'agent',
                 onTap: () => controller.selectRole('agent'),

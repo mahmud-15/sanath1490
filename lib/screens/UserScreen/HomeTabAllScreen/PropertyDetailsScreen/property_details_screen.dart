@@ -73,23 +73,19 @@ class PropertyDetailsScreen extends StatelessWidget {
 
             // ─── Map Section ──────────────────────
             _MapCard(),
-            SizedBox(height: 50.h),
-            _BottomActionBar(),
+            SizedBox(height: 40.h),
+            // _BottomActionBar(),
           ],
         ),
       ),
 
       // ─── Bottom Call / Email Buttons ─────────────
-      // bottomNavigationBar: _BottomActionBar(),
+      bottomNavigationBar: _BottomActionBar(),
     );
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Hero image with photo count badge
-// ─────────────────────────────────────────────────────
 class _HeroImageSection extends StatelessWidget {
-  // final PropertyModel property;
 
   const _HeroImageSection({super.key});
 
@@ -957,7 +953,7 @@ class _BottomActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 40.h),
+      padding: EdgeInsets.fromLTRB(16.w, 17.h, 16.w, 40.h),
       decoration: BoxDecoration(
         color: ConstColor.primaryColor,
         borderRadius: BorderRadius.only(
@@ -975,7 +971,7 @@ class _BottomActionBar extends StatelessWidget {
               },
               color: ConstColor.secondaryColor,
               elevation: 0,
-              height: 48,
+              height: 45,
               top: 0,
               left: 0,
               right: 0,
@@ -1004,7 +1000,7 @@ class _BottomActionBar extends StatelessWidget {
                 Get.toNamed(AppRoutes.contactAgentScreen);
               },
               color: Colors.white,
-              height: 48,
+              height: 45,
               top: 0,
               left: 0,
               right: 0,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../../../../widget/MediaPickerBottomSheet/media_picker_bottom_sheet.dart';
 
 class AddListingController extends GetxController {
   final currentStep = 1.obs;
@@ -36,10 +38,50 @@ class AddListingController extends GetxController {
   final floorPlans = <String>[].obs;
   final tourUrlController = TextEditingController();
 
-  void pickPhotos()    { /* TODO: image_picker */ }
-  void pickVideos()    { /* TODO: file_picker  */ }
-  void pickFloorPlan() { /* TODO: image_picker */ }
-  void pickBrochure()  { /* TODO: file_picker  */ }
+  final ImagePicker _picker = ImagePicker();
+
+  void pickPhotos() {
+    MediaPickerBottomSheet.show(
+      onCamera: () async {
+        final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+        if (photo != null) photos.add(photo.path);
+      },
+      onGallery: () async {
+        final List<XFile> picked = await _picker.pickMultiImage();
+        if (picked.isNotEmpty) photos.addAll(picked.map((e) => e.path));
+      },
+    );
+  }
+
+  void pickVideos() {
+    MediaPickerBottomSheet.show(
+      onCamera: () async {
+        final XFile? video = await _picker.pickVideo(source: ImageSource.camera);
+        if (video != null) videos.add(video.path);
+      },
+      onGallery: () async {
+        final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+        if (video != null) videos.add(video.path);
+      },
+    );
+  }
+
+  void pickFloorPlan() {
+    MediaPickerBottomSheet.show(
+      onCamera: () async {
+        final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+        if (photo != null) floorPlans.add(photo.path);
+      },
+      onGallery: () async {
+        final List<XFile> picked = await _picker.pickMultiImage();
+        if (picked.isNotEmpty) floorPlans.addAll(picked.map((e) => e.path));
+      },
+    );
+  }
+
+  void pickBrochure() async {
+    Get.snackbar("Notice", "File picker logic required for Brochure");
+  }
 
   /////////////////STEP 3 — Property Information
   final propertyType = 'Detached'.obs;
@@ -108,12 +150,10 @@ class AddListingController extends GetxController {
   int get completedSteps => [step1Done, step2Done, step3Done, step4Done].where((e) => e).length;
 
   void saveDraft() {
-    // TODO: save locally or call draft API
     Get.back();
   }
 
   void publishProperty() {
-    // TODO: call publish API then navigate to success
     currentStep.value = 6;
   }
 
