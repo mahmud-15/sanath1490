@@ -115,9 +115,9 @@ class Overviewhomescreen extends StatelessWidget {
                   Expanded(
                     child: CustomElevatedButton(
                       onPressed: controller.onAddListingTap,
-                      buttonBorderRadius: 8,
+                      buttonBorderRadius: 4,
                       color: ConstColor.primaryColor,
-                      height: 48,
+                      height: 40,
                       top: 0,
                       left: 0,
                       right: 0,
@@ -143,9 +143,9 @@ class Overviewhomescreen extends StatelessWidget {
                   Expanded(
                     child: CustomElevatedButton(
                       onPressed: controller.onEnquiriesTap,
-                      buttonBorderRadius: 8,
+                      buttonBorderRadius: 4,
                       color: ConstColor.teel400,
-                      height: 48,
+                      height: 40,
                       top: 0,
                       left: 0,
                       right: 0,

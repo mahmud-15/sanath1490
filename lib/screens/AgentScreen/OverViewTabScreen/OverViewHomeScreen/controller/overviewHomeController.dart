@@ -53,7 +53,7 @@ class Overviewhomecontroller extends GetxController {
 
   void onEnquiriesTap() {
     try {
-      // Get.toNamed(AppRoutes.enquiries);
+      Get.toNamed(AppRoutes.agentEnquiriesScreen, arguments: true);
     } catch (e) {
       errorLog('onEnquiriesTap', e);
     }

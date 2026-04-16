@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../constant/const_icons.dart';
 import '../../../../utils/app_role.dart';
 import '../../../../utils/log_print.dart';
+import '../../../AgentScreen/EnquiriesTabScreen/EnquiriesScreen/enquiries_screen.dart';
 import '../../../AgentScreen/MyListingTabScreen/MyListingScreen/my_listing_screen.dart';
 import '../../../AgentScreen/OverViewTabScreen/OverViewHomeScreen/overviewHomeScreen.dart';
 import '../../../UserScreen/EnquiriesScreen/enquiries_screen.dart';
@@ -50,7 +51,7 @@ class NavbarController extends GetxController {
         ? [
             const Overviewhomescreen(),
             const MyListingScreen(),
-            const Scaffold(body: Center(child: Text("Leads Pending"))),
+            const AgentEnquiriesScreen(),
             const ProfileScreen(),
           ]
         : [];

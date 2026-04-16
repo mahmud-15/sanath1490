@@ -217,4 +217,5 @@ class ConstString {
   static const sell             = 'Sell';
   static const rent             = 'Rent';
   static const active           = 'ACTIVE';
+  static const phone           = "Phone";
 }

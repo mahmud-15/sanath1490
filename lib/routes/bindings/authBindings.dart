@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/CreateAccountScreen/Controller/create_account_controller.dart';
+import '../../screens/AgentScreen/EnquiriesTabScreen/EnquiriesScreen/Controller/enquiries_controller.dart';
 import '../../screens/AgentScreen/MyListingTabScreen/MyListingScreen/Controller/my_listing_controller.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/AddNewListingScreen/Controller/add_listing_controller.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/BillingHistoryScreen/Controller/billing_history_controller.dart';
@@ -64,9 +65,14 @@ class AuthBindings extends Bindings {
     ///////////////Agent OverView Screen Controller Part////////////////
     Get.lazyPut(() => Overviewhomecontroller());
     Get.lazyPut(() => SubscriptionController());
+
+    ///////////////Agent MyListing Screen Controller Part////////////////
     Get.lazyPut(() => MyListingController());
     Get.lazyPut(() => BillingHistoryController());
     Get.lazyPut(() => AddListingController());
+
+    ///////////////Agent Enquiries Screen Controller Part////////////////
+    Get.lazyPut(() => AgentEnquiriesController());
 
 
   }
