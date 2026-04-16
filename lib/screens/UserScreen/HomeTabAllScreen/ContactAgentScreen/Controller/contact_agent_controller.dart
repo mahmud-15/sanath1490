@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
 class ContactAgentController extends GetxController {
   // ─── Form ────────────────────────────────
@@ -30,7 +31,7 @@ class ContactAgentController extends GetxController {
   // ─── Send ────────────────────────────────
   void onSend() {
     if (formKey.currentState!.validate()) {
-      // TODO: send email logic
+      Get.toNamed(AppRoutes.homeScreen);
     }
   }
 

@@ -73,14 +73,14 @@ class PropertyDetailsScreen extends StatelessWidget {
 
             // Map Section
             _MapCard(),
-            SizedBox(height: 50.h),
-            _BottomActionBar(),
+            SizedBox(height: 40.h),
+            // _BottomActionBar(),
           ],
         ),
       ),
 
       // Bottom Call / Email Buttons
-      // bottomNavigationBar: _BottomActionBar(),
+      bottomNavigationBar: _BottomActionBar(),
     );
   }
 }
