@@ -125,32 +125,32 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: 24.h),
 
             // ─── DEMO ROLE SWITCHER (TESTING ONLY) ───────────────────
-            GestureDetector(
-              onTap: () {
-                if (selectedUserRole == AppUserType.user) {
-                  selectedUserRole = AppUserType.agent;
-                  Get.snackbar('Role Switched', 'You are now an Agent.');
-                } else {
-                  selectedUserRole = AppUserType.user;
-                  Get.snackbar('Role Switched', 'You are now a User.');
-                }
-
-                Get.find<NavbarController>().onAppInitial();
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: CustomText(
-                  title: 'SWITCH ROLE (TESTING)',
-                  textColor: Colors.black,
-                  textSize: 12.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     if (selectedUserRole == AppUserType.user) {
+            //       selectedUserRole = AppUserType.agent;
+            //       Get.snackbar('Role Switched', 'You are now an Agent.');
+            //     } else {
+            //       selectedUserRole = AppUserType.user;
+            //       Get.snackbar('Role Switched', 'You are now a User.');
+            //     }
+            //
+            //     Get.find<NavbarController>().onAppInitial();
+            //   },
+            //   child: Container(
+            //     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+            //     decoration: BoxDecoration(
+            //       color: Colors.amber,
+            //       borderRadius: BorderRadius.circular(8.r),
+            //     ),
+            //     child: CustomText(
+            //       title: 'SWITCH ROLE (TESTING)',
+            //       textColor: Colors.black,
+            //       textSize: 12.sp,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
 
             SizedBox(height: 24.h),
           ],

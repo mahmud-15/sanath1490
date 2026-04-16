@@ -56,7 +56,7 @@ class AppSnackBar {
       String parameterValue, {
         Color backgroundColor = Colors.grey,
         Color color = Colors.white,
-        int seconds = 10,
+        int seconds = 3,
       }) {
     Get.showSnackbar(
       GetSnackBar(

@@ -18,12 +18,12 @@ class PropertyDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PropertyModel property = Get.arguments;
+    final controller = Get.put(PropertyDetailsController());
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
 
       appBar: GlobalAppBar(title: ConstString.propertyDetails),
 
-      // ─── Body ────────────────────────────────────
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -31,61 +31,63 @@ class PropertyDetailsScreen extends StatelessWidget {
 
             SizedBox(height: 10.h),
 
-            // ─── Gallery / 360 Tour Tab ───────────
+            // Gallery / 360 Tour Tab
             _GalleryTourTab(),
 
             SizedBox(height: 10.h),
 
-            // ─── Price + Info Card ────────────────
-            _PropertyInfoCard(property: property),
+            // Price + Info Card
+            _PropertyInfoCard(property: property, controller: controller),
 
             SizedBox(height: 10.h),
 
-            // ─── Floor Plan ───────────────────────
+            // Floor Plan
             _FloorPlanCard(),
 
             SizedBox(height: 10.h),
 
-            // ─── Description ──────────────────────
-            _DescriptionCard(),
+            // Description
+            _DescriptionCard(controller: controller),
 
             SizedBox(height: 10.h),
 
-            // ─── Property Features ────────────────
+            // Property Features
             _PropertyFeaturesCard(),
 
             SizedBox(height: 10.h),
 
-            // ─── Brochures ────────────────────────
+            // Brochures
             _BrochuresCard(),
 
             SizedBox(height: 10.h),
 
-            // ─── Council Tax + EPC + Listed ───────
+            // Council Tax + EPC + Listed
             _CouncilTaxCard(),
 
             SizedBox(height: 10.h),
 
-            // ─── Agent Card ───────────────────────
+            // Agent Card
             _AgentCard(),
 
             SizedBox(height: 10.h),
 
-            // ─── Map Section ──────────────────────
+            // Map Section
             _MapCard(),
-            SizedBox(height: 40.h),
-            // _BottomActionBar(),
+            SizedBox(height: 50.h),
+            _BottomActionBar(),
           ],
         ),
       ),
 
-      // ─── Bottom Call / Email Buttons ─────────────
-      bottomNavigationBar: _BottomActionBar(),
+      // Bottom Call / Email Buttons
+      // bottomNavigationBar: _BottomActionBar(),
     );
   }
 }
 
+// Hero image with photo count badge
 class _HeroImageSection extends StatelessWidget {
+  // final PropertyModel property;
 
   const _HeroImageSection({super.key});
 
@@ -100,7 +102,6 @@ class _HeroImageSection extends StatelessWidget {
           fit: BoxFit.cover,
         ),
 
-        // ─── Photo count badge ───────────────────
         Positioned(
           top: 12.h,
           left: 12.w,
@@ -134,9 +135,8 @@ class _HeroImageSection extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Gallery and 360 Tour tab row
-// ─────────────────────────────────────────────────────
+
 class _GalleryTourTab extends StatelessWidget {
   const _GalleryTourTab();
 
@@ -215,13 +215,12 @@ class _GalleryTourTab extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Price, title, address and property specs card
-// ─────────────────────────────────────────────────────
 class _PropertyInfoCard extends StatelessWidget {
   final PropertyModel property;
+  final PropertyDetailsController controller;
 
-  const _PropertyInfoCard({required this.property});
+  const _PropertyInfoCard({required this.property, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +235,6 @@ class _PropertyInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ─── Price + Share + Favorite ────────────
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -255,17 +253,26 @@ class _PropertyInfoCard extends StatelessWidget {
                 width: 16.w,
               ),
               SizedBox(width: 14.w),
-              SvgPicture.asset(
-                "assets/icons/favourite_icon.svg",
-                height: 14.h,
-                width: 16.w,
-                colorFilter: ColorFilter.mode(ConstColor.red, BlendMode.srcIn),
+              Obx(
+                () => GestureDetector(
+                  onTap: () => controller.toggleFavourite(),
+                  child: SvgPicture.asset(
+                    controller.isFavourite.value
+                        ? "assets/icons/favourite_click_icon.svg"
+                        : "assets/icons/favourite_icon.svg",
+                    height: 18.h,
+                    width: 18.w,
+                    colorFilter: controller.isFavourite.value
+                        ? null
+                        : ColorFilter.mode(ConstColor.red, BlendMode.srcIn),
+                  ),
+                ),
               ),
             ],
           ),
           SizedBox(height: 6.h),
 
-          // ─── Title ───────────────────────────────
+          //Title
           CustomText(
             title: property.title,
             textColor: ConstColor.titleColor,
@@ -275,7 +282,7 @@ class _PropertyInfoCard extends StatelessWidget {
           ),
           SizedBox(height: 6.h),
 
-          // ─── Address ──────────────────────────────
+          //  Address
           Row(
             children: [
               SvgPicture.asset(
@@ -301,7 +308,6 @@ class _PropertyInfoCard extends StatelessWidget {
           ),
           SizedBox(height: 14.h),
 
-          // ─── Property Type + Bedrooms ─────────────
           Row(
             children: [
               Expanded(
@@ -322,7 +328,6 @@ class _PropertyInfoCard extends StatelessWidget {
           ),
           SizedBox(height: 14.h),
 
-          // ─── Bathrooms + Size ─────────────────────
           Row(
             children: [
               Expanded(
@@ -343,7 +348,6 @@ class _PropertyInfoCard extends StatelessWidget {
           ),
           SizedBox(height: 14.h),
 
-          // ─── Tenure ───────────────────────────────
           _SpecItem(
             label: 'TENURE',
             icon: "assets/icons/upload_icon.svg",
@@ -356,7 +360,7 @@ class _PropertyInfoCard extends StatelessWidget {
   }
 }
 
-// ─── Single spec row item ──────────────────────────
+//  Single spec row item
 class _SpecItem extends StatelessWidget {
   final String label;
   final String icon;
@@ -390,7 +394,10 @@ class _SpecItem extends StatelessWidget {
                 icon,
                 width: 15.sp,
                 height: 15.sp,
-                colorFilter: const ColorFilter.mode(ConstColor.titleColor, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(
+                  ConstColor.titleColor,
+                  BlendMode.srcIn,
+                ),
               ),
               SizedBox(width: 8.w),
             ],
@@ -414,9 +421,7 @@ class _FloorPlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // TODO: open full floor plan
-      },
+      onTap: () {},
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w),
         padding: EdgeInsets.all(16.w),
@@ -428,7 +433,7 @@ class _FloorPlanCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ─── Header ─────────────────────────────
+            // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -440,15 +445,14 @@ class _FloorPlanCard extends StatelessWidget {
                   maxLine: 1,
                 ),
 
-
-                SvgPicture.asset("assets/icons/arrow_indicator.svg",
-                  colorFilter: ColorFilter.mode(ConstColor.titleColor, BlendMode.srcIn),
-                )
+                // SvgPicture.asset("assets/icons/arrow_indicator.svg",
+                //   colorFilter: ColorFilter.mode(ConstColor.titleColor, BlendMode.srcIn),
+                // )
               ],
             ),
             SizedBox(height: 12.h),
 
-            // ─── Floor plan image placeholder ────────
+            // Floor plan image placeholder
             Container(
               width: double.infinity,
               height: 160.h,
@@ -474,7 +478,9 @@ class _FloorPlanCard extends StatelessWidget {
 }
 
 class _DescriptionCard extends StatelessWidget {
-  const _DescriptionCard();
+  final PropertyDetailsController controller;
+
+  const _DescriptionCard({required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -497,28 +503,35 @@ class _DescriptionCard extends StatelessWidget {
             maxLine: 1,
           ),
           SizedBox(height: 10.h),
-          CustomText(
-            title:
-                'A well-presented and spacious three-bedroom detached home, ideally located on the popular Colombe Road in Ashford. Offering a practical layout and comfortable living space, this property is perfect for...',
-            textColor: ConstColor.titleColor,
-            textSize: 14.sp,
-            fontWeight: FontWeight.w400,
-            maxLine: 4,
+
+          // Expandable Description
+          Obx(
+                () => CustomText(
+              title:
+              'A well-presented and spacious three-bedroom detached home, ideally located on the popular Colombe Road in Ashford. Offering a practical layout and comfortable living space, this property is perfect for families looking for a quiet neighbourhood with excellent transport links. The property features a large living room, modern kitchen, three good-sized bedrooms, and a well-maintained garden. Recently renovated with high-quality finishes throughout.',
+              textColor: ConstColor.titleColor,
+              textSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              maxLine: controller.isDescriptionExpanded.value ? 20 : 4,
+              textHeight: 1.6,
+            ),
           ),
+
           SizedBox(height: 10.h),
 
-          // ─── View full description ───────────────
           GestureDetector(
             onTap: () {
-              // TODO: expand full description
+              controller.isDescriptionExpanded.value = !controller.isDescriptionExpanded.value;
             },
-            child: CustomText(
-              title: ConstString.viewFullDescription,
+            child: Obx(() => CustomText(
+              title: controller.isDescriptionExpanded.value
+                  ? "View less"
+                  : ConstString.viewFullDescription,
               textColor: ConstColor.secondaryColor,
               textSize: 14.sp,
               fontWeight: FontWeight.w500,
               maxLine: 1,
-            ),
+            )),
           ),
         ],
       ),
@@ -526,9 +539,7 @@ class _DescriptionCard extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Property features card with 2-column bullet list
-// ─────────────────────────────────────────────────────
 class _PropertyFeaturesCard extends StatelessWidget {
   const _PropertyFeaturesCard();
 
@@ -572,14 +583,12 @@ class _PropertyFeaturesCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ─── Left column ──────────────────────
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: left.map((f) => _FeatureBullet(text: f)).toList(),
                 ),
               ),
-              // ─── Right column ─────────────────────
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -594,7 +603,7 @@ class _PropertyFeaturesCard extends StatelessWidget {
   }
 }
 
-// ─── Single bullet feature item ───────────────────
+//Single bullet feature item
 class _FeatureBullet extends StatelessWidget {
   final String text;
 
@@ -634,9 +643,7 @@ class _FeatureBullet extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Brochures card
-// ─────────────────────────────────────────────────────
 class _BrochuresCard extends StatelessWidget {
   const _BrochuresCard();
 
@@ -662,8 +669,7 @@ class _BrochuresCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           CustomText(
-            title:
-                ConstString.exploreTheBrochure,
+            title: ConstString.exploreTheBrochure,
             textColor: ConstColor.bodyColor,
             textSize: 14.sp,
             fontWeight: FontWeight.w400,
@@ -671,11 +677,8 @@ class _BrochuresCard extends StatelessWidget {
           ),
           SizedBox(height: 14.h),
 
-          // ─── View brochure outlined button ────────
           CustomElevatedButton(
-            onPressed: () {
-              // TODO: open brochure PDF
-            },
+            onPressed: () {},
             isOutLined: true,
             borderColor: ConstColor.secondaryColor,
             borderWidth: 1.5,
@@ -718,7 +721,6 @@ class _CouncilTaxCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ─── Council Tax + EPC Rating ─────────────
           Row(
             children: [
               Expanded(
@@ -739,7 +741,7 @@ class _CouncilTaxCard extends StatelessWidget {
   }
 }
 
-// ─── Single tax/label item ─────────────────────────
+//Single tax/label item
 class _TaxItem extends StatelessWidget {
   final String label;
   final String value;
@@ -770,7 +772,6 @@ class _TaxItem extends StatelessWidget {
     );
   }
 }
-
 
 class _AgentCard extends StatelessWidget {
   const _AgentCard();
@@ -811,7 +812,6 @@ class _AgentCard extends StatelessWidget {
           ),
           SizedBox(width: 12.w),
 
-          // ─── Agent logo placeholder ───────────────
           Container(
             width: 48.w,
             height: 48.h,
@@ -834,7 +834,6 @@ class _AgentCard extends StatelessWidget {
     );
   }
 }
-
 
 class _MapCard extends StatelessWidget {
   const _MapCard();
@@ -869,7 +868,6 @@ class _MapCard extends StatelessWidget {
             ),
           ),
 
-          // ─── Approximate location label ───────────
           Positioned(
             top: 10.h,
             left: 10.w,
@@ -878,13 +876,13 @@ class _MapCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(4.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withAlpha(30),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                ]
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(30),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: CustomText(
                 title: ConstString.approximateLocation,
@@ -896,14 +894,11 @@ class _MapCard extends StatelessWidget {
             ),
           ),
 
-          // ─── Street view button ───────────────────
           Positioned(
             bottom: 10.h,
             right: 10.w,
             child: GestureDetector(
-              onTap: () {
-                // TODO: open street view
-              },
+              onTap: () {},
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
                 decoration: BoxDecoration(
@@ -919,11 +914,14 @@ class _MapCard extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SvgPicture.asset("assets/icons/password_icon.svg",
-                    width: 17.w,
-                    height: 16.h,
-                      colorFilter: ColorFilter.mode(ConstColor.titleColor, BlendMode.srcIn),
-                    
+                    SvgPicture.asset(
+                      "assets/icons/password_icon.svg",
+                      width: 17.w,
+                      height: 16.h,
+                      colorFilter: ColorFilter.mode(
+                        ConstColor.titleColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                     SizedBox(width: 4.w),
                     CustomText(
@@ -944,16 +942,15 @@ class _MapCard extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Bottom Call and Email action bar
-// ─────────────────────────────────────────────────────
+
 class _BottomActionBar extends StatelessWidget {
   const _BottomActionBar();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 17.h, 16.w, 40.h),
+      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 40.h),
       decoration: BoxDecoration(
         color: ConstColor.primaryColor,
         borderRadius: BorderRadius.only(
@@ -967,11 +964,11 @@ class _BottomActionBar extends StatelessWidget {
           Expanded(
             child: CustomElevatedButton(
               onPressed: () {
-                Get.find<PropertyDetailsController>().makePhoneCall();   // ← এই লাইনটা পরিবর্তন
+                Get.find<PropertyDetailsController>().makePhoneCall();
               },
               color: ConstColor.secondaryColor,
               elevation: 0,
-              height: 45,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,
@@ -993,24 +990,27 @@ class _BottomActionBar extends StatelessWidget {
           ),
           SizedBox(width: 12.w),
 
-          // ─── Email Button ─────────────────────────
           Expanded(
             child: CustomElevatedButton(
               onPressed: () {
                 Get.toNamed(AppRoutes.contactAgentScreen);
               },
               color: Colors.white,
-              height: 45,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset("assets/icons/email.svg",
-                  width: 20.w,
-                  height: 20.h,
-                    colorFilter: ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
+                  SvgPicture.asset(
+                    "assets/icons/email.svg",
+                    width: 20.w,
+                    height: 20.h,
+                    colorFilter: ColorFilter.mode(
+                      ConstColor.primaryColor,
+                      BlendMode.srcIn,
+                    ),
                   ),
                   SizedBox(width: 8.w),
                   CustomText(

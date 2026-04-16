@@ -17,11 +17,9 @@ class SearchScreen extends StatelessWidget {
     return Scaffold(
       appBar: _SearchAppBar(controller: controller),
       body: Obx(() {
-        // ─── Show suggestions when user is typing ───────
         if (controller.searchQuery.value.isNotEmpty) {
           return _SuggestionList(controller: controller);
         }
-        // ─── Show default state (recent searches) ───────
         return _DefaultSearchView(controller: controller);
       }),
     );

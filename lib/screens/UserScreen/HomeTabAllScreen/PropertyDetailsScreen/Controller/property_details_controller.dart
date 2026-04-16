@@ -1,9 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PropertyDetailsController extends GetxController {
+
+  final RxBool isFavourite = false.obs;
+
+  void toggleFavourite() {
+    isFavourite.value = !isFavourite.value;
+  }
+
+  final RxBool isDescriptionExpanded = false.obs;
 
   Future<void> makePhoneCall() async {
     const String phoneNumber = "(98) 9016714574";
@@ -12,8 +19,8 @@ class PropertyDetailsController extends GetxController {
 
     try {
       final bool launched = await launchUrl(
-          telUri,
-          mode: LaunchMode.externalApplication
+        telUri,
+        mode: LaunchMode.externalApplication,
       );
 
       if (!launched) {

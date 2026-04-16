@@ -52,7 +52,7 @@ class ChooseRoleScreen extends StatelessWidget {
                 title: ConstString.propertySeeker,
                 subtitle: ConstString.lookingToBuy,
                 iconPath: 'assets/icons/profile_icon.svg',
-                iconColor: ConstColor.primaryColor,
+                iconColor: Color(0xFF3164E6),
                 isSelected: controller.selectedRole.value == 'seeker',
                 onTap: () => controller.selectRole('seeker'),
               )),

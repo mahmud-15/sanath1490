@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
 import 'package:sanath1490_flutter_app/constant/const_color.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
@@ -10,6 +11,7 @@ import 'package:sanath1490_flutter_app/widget/Divider/divider.dart';
 import '../../../../Widget/text/custom_text.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
+import '../../../../widget/DemoRoleBottomSheet/demo_role_bottom_sheet.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -83,12 +85,19 @@ class SignInScreenState extends State<SignInScreen> {
                       'assets/icons/email.svg',
                       width: 19.w,
                       height: 19.h,
-                      colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(
+                        ConstColor.bodyColor,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
-                  prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
+                  prefixIconConstraints: BoxConstraints(
+                    minWidth: 44.w,
+                    minHeight: 44.h,
+                  ),
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) return 'Email is required';
+                    if (value == null || value.trim().isEmpty)
+                      return 'Email is required';
                     if (!value.contains('@')) return 'Enter a valid email';
                     return null;
                   },
@@ -111,23 +120,38 @@ class SignInScreenState extends State<SignInScreen> {
                       'assets/icons/lock_icon.svg',
                       width: 19.w,
                       height: 19.h,
-                      colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
-                    ),
-                  ),
-                  prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
-                  suffixIcon: GestureDetector(
-                    onTap: () => setState(() => _obscurePassword = !_obscurePassword),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
-                      child: SvgPicture.asset(
-                        _obscurePassword ? 'assets/icons/eye_off_icon.svg' : 'assets/icons/password_icon.svg',
-                        width: 19.w,
-                        height: 19.h,
-                        colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                      colorFilter: const ColorFilter.mode(
+                        Colors.grey,
+                        BlendMode.srcIn,
                       ),
                     ),
                   ),
-                  suffixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
+                  prefixIconConstraints: BoxConstraints(
+                    minWidth: 44.w,
+                    minHeight: 44.h,
+                  ),
+                  suffixIcon: GestureDetector(
+                    onTap: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      child: SvgPicture.asset(
+                        _obscurePassword
+                            ? 'assets/icons/eye_off_icon.svg'
+                            : 'assets/icons/password_icon.svg',
+                        width: 19.w,
+                        height: 19.h,
+                        colorFilter: const ColorFilter.mode(
+                          Colors.grey,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                  ),
+                  suffixIconConstraints: BoxConstraints(
+                    minWidth: 44.w,
+                    minHeight: 44.h,
+                  ),
                 ),
 
                 // Forgot Password
@@ -152,9 +176,14 @@ class SignInScreenState extends State<SignInScreen> {
                 // Sign In Button
                 CustomElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Get.toNamed(AppRoutes.navBar);
-                    }
+                    // if (_formKey.currentState!.validate()) {
+                    //   Get.toNamed(AppRoutes.navBar);
+                    // }
+                    Get.bottomSheet(
+                      const DemoRoleBottomSheet(),
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                    );
                   },
                   color: const Color(0xFF1A3C6E),
                   height: 48,
@@ -176,7 +205,13 @@ class SignInScreenState extends State<SignInScreen> {
 
                 // Continue with Google
                 CustomElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    AppSnackBar.message(
+                      "Google Sign-In feature is currently under development.\nPlease try again later.",
+                      backgroundColor: Color(0xFFECFDF3),
+                      color: Color(0xFF008A2E)
+                    );
+                  },
                   color: Colors.white,
                   height: 48,
                   left: 0,
@@ -208,7 +243,7 @@ class SignInScreenState extends State<SignInScreen> {
                       textSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
-                    SizedBox(width: 5.w,),
+                    SizedBox(width: 5.w),
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(AppRoutes.chooseRoleScreen);

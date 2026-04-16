@@ -39,13 +39,19 @@ class PropertyListScreen extends StatelessWidget {
               ),
             ),
             SizedBox(width: 15.w),
-            GestureDetector(
-              onTap: () {},
-              child: SvgPicture.asset("assets/icons/favourite_icon.svg",
-                colorFilter: ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
-
+            Obx(() => GestureDetector(
+              onTap: () => controller.toggleFavourite(),
+              child: SvgPicture.asset(
+                controller.isFavourite.value
+                    ? "assets/icons/favourite_click_icon.svg"
+                    : "assets/icons/favourite_icon.svg",
+                width: 22.w,
+                height: 22.w,
+                colorFilter: controller.isFavourite.value
+                    ? null
+                    : ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
               ),
-            ),
+            )),
           ],
         ),
       ),
@@ -108,12 +114,13 @@ class PropertyListScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final property = homeController.currentProperties[index];
                 return PropertyCard(
-                  onTap: (){
-                    Get.toNamed(AppRoutes.propertyDetails);
+                  onTap: () {
+                    Get.toNamed(
+                      AppRoutes.propertyDetails,
+                      arguments: property,
+                    );
                   },
-
                   property: property,
-
                 );
               },
             )),
@@ -134,44 +141,46 @@ class _ListMapToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56.h,
+      height: 55.h,
       decoration: BoxDecoration(
         color: ConstColor.primaryColor,
         border: Border(
           top: BorderSide(color: ConstColor.outLineColor, width: 1.h),
         ),
       ),
-      child: Obx(() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // ─── List Tab ───────────────────────────
-          _ToggleItem(
-            icon: Icons.list,
-            label: ConstString.list,
-            isSelected: controller.isListView.value,
-            onTap: () => controller.isListView.value = true,
-          ),
+      child: Obx(() => Padding(
+        padding: EdgeInsets.only(bottom: 23.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ─── List Tab ───────────────────────────
+            _ToggleItem(
+              icon: Icons.list,
+              label: ConstString.list,
+              isSelected: controller.isListView.value,
+              onTap: () => controller.isListView.value = true,
+            ),
 
-          // ─── Divider ────────────────────────────
-          Container(
-            height: 20.h,
-            width: 1.w,
-            color: ConstColor.outLineColor,
-            margin: EdgeInsets.symmetric(horizontal: 16.w),
-          ),
+            // ─── Divider ────────────────────────────
+            Container(
+              height: 20.h,
+              width: 1.w,
+              color: ConstColor.outLineColor,
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+            ),
 
-          // ─── Map Tab ────────────────────────────
-          _ToggleItem(
-            icon: Icons.map_outlined,
-            label: ConstString.map,
-            isSelected: !controller.isListView.value,
-            // PropertyListScreen-এ Map button-এ
-            onTap: () {
-              controller.isListView.value = false;
-              Get.to(() => const SearchResultMapScreen());
-            },
-          ),
-        ],
+            // ─── Map Tab ────────────────────────────
+            _ToggleItem(
+              icon: Icons.map_outlined,
+              label: ConstString.map,
+              isSelected: !controller.isListView.value,
+              onTap: () {
+                controller.isListView.value = false;
+                Get.to(() => const SearchResultMapScreen());
+              },
+            ),
+          ],
+        ),
       )),
     );
   }

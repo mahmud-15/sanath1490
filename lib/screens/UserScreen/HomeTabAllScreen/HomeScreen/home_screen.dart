@@ -212,6 +212,7 @@ class _HomeHeader extends StatelessWidget {
                     onTap: () => Get.toNamed(AppRoutes.searchScreen),
 
                     child: AbsorbPointer(
+                      absorbing: false,
                       child: Container(
                         height: 46.h,
                         decoration: BoxDecoration(
@@ -237,15 +238,16 @@ class _HomeHeader extends StatelessWidget {
                                     fontSize: 12.sp,
                                     color: ConstColor.bodyColor,
                                     fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w400
+                                    fontWeight: FontWeight.w400,
                                   ),
                                   border: InputBorder.none,
                                   isDense: true,
                                 ),
+                                onTap: () => Get.toNamed(AppRoutes.searchScreen),
                               ),
                             ),
                             InkWell(
-                              onTap: (){
+                              onTap: () {
                                 Get.toNamed(AppRoutes.filterScreen);
                               },
                               child: Container(
@@ -297,11 +299,13 @@ class _LocationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed(AppRoutes.propertyListScreen);
+      },
       child: SizedBox(
         width: 80.w,
         child: Column(
-          mainAxisSize: MainAxisSize.min, // ─── Prevents vertical overflow forcing
+          mainAxisSize: MainAxisSize.min,
           children: [
             ClipRRect(
               // borderRadius: BorderRadius.circular(10.r),

@@ -89,31 +89,34 @@ class _ListMapToggle extends StatelessWidget {
         ),
       ),
       child: Obx(
-        () => Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _ToggleItem(
-              icon: Icons.list,
-              label: 'List',
-              isSelected: controller.isListView.value,
-              onTap: () {
-                controller.isListView.value = true;
-                Get.back();
-              },
-            ),
-            Container(
-              height: 20.h,
-              width: 1.w,
-              color: ConstColor.outLineColor,
-              margin: EdgeInsets.symmetric(horizontal: 16.w),
-            ),
-            _ToggleItem(
-              icon: Icons.map_outlined,
-              label: 'Map',
-              isSelected: !controller.isListView.value,
-              onTap: () => controller.isListView.value = false,
-            ),
-          ],
+        () => Padding(
+          padding: EdgeInsets.only(bottom: 23.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _ToggleItem(
+                icon: Icons.list,
+                label: 'List',
+                isSelected: controller.isListView.value,
+                onTap: () {
+                  controller.isListView.value = true;
+                  Get.back();
+                },
+              ),
+              Container(
+                height: 20.h,
+                width: 1.w,
+                color: ConstColor.outLineColor,
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+              ),
+              _ToggleItem(
+                icon: Icons.map_outlined,
+                label: 'Map',
+                isSelected: !controller.isListView.value,
+                onTap: () => controller.isListView.value = false,
+              ),
+            ],
+          ),
         ),
       ),
     );

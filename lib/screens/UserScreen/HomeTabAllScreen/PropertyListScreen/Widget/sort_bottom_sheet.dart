@@ -52,6 +52,10 @@ class SortBottomSheetWidget extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(
+                    color: ConstColor.outLineColor,
+                    width: 1
+                )
             ),
             child: ListView.separated(
               padding: EdgeInsets.zero,
