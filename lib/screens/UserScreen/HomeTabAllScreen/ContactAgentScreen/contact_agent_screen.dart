@@ -36,14 +36,16 @@ class ContactAgentScreen extends StatelessWidget {
 
                       // ─── Form Fields ─────────────────
                       CustomTextFormField(
-                        hintText: const CustomText(title: ConstString.yourName, textColor: Colors.grey, textSize: 13),
+                        hintText: const CustomText(title: ConstString.yourName, textColor: ConstColor.bodyColor, textSize: 13),
                         textController: controller.nameController,
+                        backgroundColor: ConstColor.white,
                         textInputAction: TextInputAction.next,
                         validator: (v) => v == null || v.trim().isEmpty ? 'Name is required' : null,
                       ),
                       CustomTextFormField(
-                        hintText: const CustomText(title: ConstString.yourEmail, textColor: Colors.grey, textSize: 13),
+                        hintText: const CustomText(title: ConstString.yourEmail, textColor: ConstColor.bodyColor, textSize: 13),
                         textController: controller.emailController,
+                        backgroundColor: ConstColor.white,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         validator: (v) {
@@ -53,15 +55,17 @@ class ContactAgentScreen extends StatelessWidget {
                         },
                       ),
                       CustomTextFormField(
-                        hintText: const CustomText(title: ConstString.phoneNumber, textColor: Colors.grey, textSize: 13),
+                        hintText: const CustomText(title: ConstString.phoneNumber, textColor: ConstColor.bodyColor, textSize: 13),
                         textController: controller.phoneController,
+                        backgroundColor: ConstColor.white,
                         keyboardType: TextInputType.phone,
                         textInputAction: TextInputAction.next,
                         validator: (v) => v == null || v.trim().isEmpty ? 'Phone is required' : null,
                       ),
                       CustomTextFormField(
-                        hintText: const CustomText(title: AutofillHints.postalCode, textColor: Colors.grey, textSize: 13),
+                        hintText: const CustomText(title: AutofillHints.postalCode, textColor: ConstColor.bodyColor, textSize: 13),
                         textController: controller.postalCodeController,
+                        backgroundColor: ConstColor.white,
                         textInputAction: TextInputAction.next,
                         validator: (v) => v == null || v.trim().isEmpty ? 'Postal code is required' : null,
                       ),
@@ -166,7 +170,7 @@ class _CountryDropdown extends StatelessWidget {
           isExpanded: true,
           hint: CustomText(
             title: 'Country',
-            textColor: Colors.grey,
+            textColor: ConstColor.bodyColor,
             textSize: 13.sp,
             maxLine: 1,
           ),

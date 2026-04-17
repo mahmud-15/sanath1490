@@ -45,7 +45,7 @@ class AgentEnquiriesScreen extends StatelessWidget {
                   final enquiry = currentList[index];
                   return _AgentEnquiryCard(
                     enquiry: enquiry,
-                    onTap: () => Get.to(() => EnquiryDetailScreen(enquiry: enquiry)),
+                    onTap: () => Get.to(() => EnquiryDetailScreen()),
                   );
                 },
               );

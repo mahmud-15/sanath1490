@@ -11,9 +11,6 @@ class ConstColor {
   static const outLineColor = Color(0xFFE5E7EB);
   static const red = Color(0xFFFB0006);
   static const backgroundColor = Color(0xFFF9FAFB);
-
-
-
   static const white = Color(0xFFFFFFFF);
   static const teel400 = Color(0xFF1EA7A1);
   static const teel200 = Color(0xFFE2F2F3);

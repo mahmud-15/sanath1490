@@ -63,6 +63,7 @@ class AppRoutes {
 
   ///////////////Agent Enquiries Screen Part////////////////
   static const agentEnquiriesScreen = '/agentEnquiriesScreen';
+  static const enquiryDetailScreen = '/enquiryDetailScreen';
 
 
 

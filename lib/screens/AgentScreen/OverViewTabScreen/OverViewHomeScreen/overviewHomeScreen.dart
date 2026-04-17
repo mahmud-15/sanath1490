@@ -23,13 +23,12 @@ class Overviewhomescreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ConstColor.backgroundColor,
+
+      // ─── UPDATED: Custom App Bar used directly in Scaffold ───
+      appBar: _Overviewhomecontroller(controller: controller),
+
       body: CustomScrollView(
         slivers: [
-          // ─── App Bar ──────────────────────────
-          SliverToBoxAdapter(
-            child: _Overviewhomecontroller(controller: controller),
-          ),
-
           SliverToBoxAdapter(child: SizedBox(height: 6.h)),
 
           // ─── Premium Plan Banner ──────────────
@@ -179,7 +178,6 @@ class Overviewhomescreen extends StatelessWidget {
 
           SliverToBoxAdapter(child: SizedBox(height: 20.h)),
 
-          // ─── Recent Enquiries ─────────────────
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -228,9 +226,9 @@ class Overviewhomescreen extends StatelessWidget {
     );
   }
 }
-//
+
 // ─────────────────────────────────────────
-class _Overviewhomecontroller extends StatelessWidget {
+class _Overviewhomecontroller extends StatelessWidget implements PreferredSizeWidget {
   final Overviewhomecontroller controller;
 
   const _Overviewhomecontroller({required this.controller});
@@ -247,15 +245,16 @@ class _Overviewhomecontroller extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // ─── Logo ──────────────────────────
           AppImage(
             path: 'assets/images/app_logo.png',
-            width: 60.w,
-            height: 60.h,
+            width: 68.w,
+            height: 68.w,
           ),
-          // ─── Greeting + Title ───────────────
+
+
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
@@ -276,44 +275,11 @@ class _Overviewhomecontroller extends StatelessWidget {
             ),
           ),
 
-          // ─── Notification Bell ──────────────
-          // ─── Notification Bell ──────────────
-          // GestureDetector(
-          //   onTap: controller.onNotificationTap,
-          //   child: Obx(() => Stack(
-          //     clipBehavior: Clip.none,
-          //     children: [
-          //       Icon(
-          //         Icons.notifications_outlined,
-          //         size: 26.sp,
-          //         color: ConstColor.titleColor,
-          //       ),
-          //       if (controller.notificationCount.value > 0)
-          //         Positioned(
-          //           top: -6,
-          //           right: -5,
-          //           child: Container(
-          //             width: 16.w,
-          //             height: 16.w,
-          //             decoration: const BoxDecoration(
-          //               color: Colors.red,
-          //               shape: BoxShape.circle,
-          //             ),
-          //             alignment: Alignment.center,
-          //             child: CustomText(
-          //               title: '${controller.notificationCount.value}',
-          //               textColor: Colors.white,
-          //               textSize: 9.sp,
-          //               fontWeight: FontWeight.w700,
-          //               maxLine: 1,
-          //             ),
-          //           ),
-          //         ),
-          //     ],
-          //   )),
-          // ),
         ],
       ),
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(70.h);
 }

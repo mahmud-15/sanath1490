@@ -202,7 +202,7 @@ class _ToggleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected ? ConstColor.secondaryColor : ConstColor.bodyColor;
+    final color = isSelected ? ConstColor.secondaryColor : ConstColor.white;
 
     return GestureDetector(
       onTap: onTap,

@@ -9,12 +9,15 @@ import '../../../../../widget/text/custom_text.dart';
 import '../EnquiriesScreen/Controller/enquiries_controller.dart';
 
 class EnquiryDetailScreen extends StatelessWidget {
-  final AgentEnquiryModel enquiry;
+  // final AgentEnquiryModel enquiry;
 
-  const EnquiryDetailScreen({super.key, required this.enquiry});
+  const EnquiryDetailScreen({super.key,});
 
   @override
   Widget build(BuildContext context) {
+    final AgentEnquiryModel enquiry = (Get.arguments as AgentEnquiryModel?)
+        ?? Get.find<AgentEnquiriesController>().allEnquiries.first;
+
     return Scaffold(
       backgroundColor: ConstColor.backgroundColor,
       body: Column(

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../constant/const_color.dart';
@@ -7,6 +7,9 @@ import '../../../../../widget/text/custom_text.dart';
 import '../../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../../routes/app_routes/app_routes.dart';
+import '../../../../BaseScreen/NavBar/controller/navbar_controller.dart';
+import '../../../MyListingTabScreen/MyListingScreen/my_listing_screen.dart';
+import '../../OverViewHomeScreen/overviewHomeScreen.dart';
 
 class ListingSuccessScreen extends StatelessWidget {
   const ListingSuccessScreen({super.key});
@@ -66,7 +69,7 @@ class ListingSuccessScreen extends StatelessWidget {
 
             CustomElevatedButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.myListingScreen);
+                Get.offAllNamed(AppRoutes.navBar, arguments: 1);
               },
               color: ConstColor.primaryColor,
               height: 48,
@@ -85,7 +88,9 @@ class ListingSuccessScreen extends StatelessWidget {
             SizedBox(height: 12.h),
 
             GestureDetector(
-              onTap: () => Get.offAllNamed(AppRoutes.overViewHomescreen),
+              onTap: () {
+                Get.offAllNamed(AppRoutes.navBar, arguments: 0);
+              },
               child: CustomText(
                 title: ConstString.backToHome,
                 textColor: ConstColor.secondaryColor,

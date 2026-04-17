@@ -38,6 +38,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     Obx(
                       () => CustomTextFormField(
                         fromTitle: ConstString.currentPassword,
+                        backgroundColor: ConstColor.backgroundColor,
                         textController: controller.currentPassController,
                         hintText: const Text(ConstString.enterCurrentPassword),
                         obscureText: controller.hideCurrentPass.value,
@@ -58,6 +59,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     Obx(
                       () => CustomTextFormField(
                         fromTitle: AutofillHints.newPassword,
+                        backgroundColor: ConstColor.backgroundColor,
                         textController: controller.newPassController,
                         hintText: const Text('Enter new password'),
                         obscureText: controller.hideNewPass.value,
@@ -102,6 +104,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     Obx(
                       () => CustomTextFormField(
                         fromTitle: ConstString.confirmNewPassword,
+                        backgroundColor: ConstColor.backgroundColor,
                         textController: controller.confirmPassController,
                         hintText: const Text(ConstString.confirmNewPassword),
                         obscureText: controller.hideConfirmPass.value,
@@ -132,7 +135,12 @@ class ChangePasswordScreen extends StatelessWidget {
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 20.h, top: 10.h),
+          padding: EdgeInsets.only(
+            left: 16.w,
+            right: 16.w,
+            bottom: 20.h,
+            top: 10.h,
+          ),
           child: CustomElevatedButton(
             onPressed: controller.saveChanges,
             color: ConstColor.primaryColor,

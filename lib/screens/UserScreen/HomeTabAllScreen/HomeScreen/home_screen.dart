@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
@@ -17,14 +18,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<HomeController>();
+    final RxInt currentCardIndex = 0.obs;
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // ─── Header ──────────────────────────
           SliverToBoxAdapter(child: _HomeHeader(controller: controller)),
 
-          // ─── Properties Near You ─────────────
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
@@ -38,29 +38,64 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
 
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            sliver: Obx(() => SliverList(
-              delegate: SliverChildBuilderDelegate(
-                    (context, index) => Padding(
-                  padding: EdgeInsets.only(bottom: 16.h),
-                      child: PropertyCard(
-                        onTap: () => Get.toNamed(
-                          AppRoutes.propertyDetails,
-                          arguments: controller.currentProperties[index],
+          SliverToBoxAdapter(
+            child: Obx(() {
+              final properties = controller.currentProperties;
+              if (properties.isEmpty) return const SizedBox.shrink();
+
+              return Column(
+                children: [
+                  CarouselSlider.builder(
+                    itemCount: properties.length,
+                    itemBuilder: (context, index, realIndex) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: PropertyCard(
+                          onTap: () => Get.toNamed(
+                            AppRoutes.propertyDetails,
+                            arguments: properties[index],
+                          ),
+                          property: properties[index],
                         ),
-                        property: controller.currentProperties[index],
-                      ),
-                ),
-                childCount: controller.currentProperties.length,
-              ),
-            )),
+                      );
+                    },
+                    options: CarouselOptions(
+                      height: 400.h,
+                      viewportFraction: 1.0,
+                      enableInfiniteScroll: false,
+                      onPageChanged: (index, reason) {
+                        currentCardIndex.value = index;
+                      },
+                    ),
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(properties.length, (index) {
+                      return Obx(() {
+                        final bool isActive = index == currentCardIndex.value;
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          margin: EdgeInsets.symmetric(horizontal: 3.w),
+                          width: isActive ? 16.w : 6.w,
+                          height: 6.h,
+                          decoration: BoxDecoration(
+                            color: isActive ? ConstColor.primaryColor : ConstColor.outLineColor,
+                            borderRadius: BorderRadius.circular(3.r),
+                          ),
+                        );
+                      });
+                    }),
+                  ),
+                ],
+              );
+            }),
           ),
 
           // ─── Popular Locations ───────────────
           SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 5.h, 16.w, 12.h),
+              padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
               child: CustomText(
                 title: ConstString.popularLocation,
                 textColor: ConstColor.titleColor,
@@ -129,7 +164,6 @@ class _HomeHeader extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // ─── Logo + Title ─────────────────
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -171,8 +205,6 @@ class _HomeHeader extends StatelessWidget {
               ),
               child: Column(
                 children: [
-
-                  // ─── Buy / Rent Tab ───────────
                   Obx(() => Row(
                     children: ['Buy', 'Rent'].asMap().entries.map((entry) {
                       final bool isSelected = controller.selectedTab.value == entry.key;
@@ -207,10 +239,8 @@ class _HomeHeader extends StatelessWidget {
                   )),
                   SizedBox(height: 14.h),
 
-                  // ─── Search Bar ───────────────
                   InkWell(
                     onTap: () => Get.toNamed(AppRoutes.searchScreen),
-
                     child: AbsorbPointer(
                       absorbing: false,
                       child: Container(
@@ -308,7 +338,6 @@ class _LocationCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ClipRRect(
-              // borderRadius: BorderRadius.circular(10.r),
               child: AppImage(
                 path: location.imagePath,
                 width: 80.w,

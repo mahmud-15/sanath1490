@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
+import '../../../../widget/MediaPickerBottomSheet/media_picker_bottom_sheet.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
@@ -39,6 +41,7 @@ class PersonalInfoScreen extends StatelessWidget {
                   children: [
                     CustomTextFormField(
                       fromTitle: ConstString.fullName,
+                      backgroundColor: ConstColor.backgroundColor,
                       textController: controller.nameController,
                       titleIcon: SvgPicture.asset(
                         'assets/icons/profile_icon.svg',
@@ -52,6 +55,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     // ─── Email Address ───────────
                     CustomTextFormField(
                       fromTitle: ConstString.emailAddress,
+                      backgroundColor: ConstColor.backgroundColor,
                       textController: controller.emailController,
                       keyboardType: TextInputType.emailAddress,
                       titleIcon: SvgPicture.asset(
@@ -66,6 +70,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     // ─── Phone Number ───────────
                     CustomTextFormField(
                       fromTitle: ConstString.phoneNumber,
+                      backgroundColor: ConstColor.backgroundColor,
                       textController: controller.phoneController,
                       keyboardType: TextInputType.phone,
                       titleIcon: SvgPicture.asset(
@@ -118,6 +123,7 @@ class PersonalInfoScreen extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                         decoration: BoxDecoration(
+                          color: ConstColor.backgroundColor,
                           border: Border.all(color: ConstColor.outLineColor),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
@@ -129,7 +135,7 @@ class PersonalInfoScreen extends StatelessWidget {
                                     ? 'Select your country'
                                     : controller.selectedCountry.value,
                                 textColor: controller.selectedCountry.value.isEmpty
-                                    ? ConstColor.outLineColor
+                                    ? ConstColor.bodyColor
                                     : ConstColor.titleColor,
                                 textSize: 14.sp,
                                 fontWeight: FontWeight.w400,
@@ -150,37 +156,57 @@ class PersonalInfoScreen extends StatelessWidget {
 
                     // Postal code
                     CustomTextFormField(
-                      fromTitle: 'Postal Code',
+                      fromTitle: ConstString.postalCode,
+                      backgroundColor: ConstColor.backgroundColor,
                       textController: controller.postalController,
                       hintText: const Text('Enter your postal code'),
                       validator: (_) => null,
+                      keyboardType: TextInputType.number,
                     ),
                   ],
                 ),
               ),
             ),
 
-            SizedBox(height: 24.h),
+            SizedBox(height: 44.h),
 
             // ─── Save Button ──────────────────────
-            CustomElevatedButton(
-              onPressed: controller.saveChanges,
-              color: ConstColor.primaryColor,
-              height: 48,
-              top: 0,
-              left: 0,
-              right: 0,
-              child: CustomText(
-                title: 'Save Changes',
-                textColor: Colors.white,
-                textSize: 15.sp,
-                fontWeight: FontWeight.w600,
-                maxLine: 1,
-              ),
-            ),
-
-            SizedBox(height: 24.h),
+            // CustomElevatedButton(
+            //   onPressed: controller.saveChanges,
+            //   color: ConstColor.primaryColor,
+            //   height: 48,
+            //   top: 0,
+            //   left: 0,
+            //   right: 0,
+            //   child: CustomText(
+            //     title: 'Save Changes',
+            //     textColor: Colors.white,
+            //     textSize: 15.sp,
+            //     fontWeight: FontWeight.w600,
+            //     maxLine: 1,
+            //   ),
+            // ),
+            //
+            // SizedBox(height: 24.h),
           ],
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 32),
+        child: CustomElevatedButton(
+          onPressed: controller.saveChanges,
+          color: ConstColor.primaryColor,
+          height: 48,
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomText(
+            title: 'Save Changes',
+            textColor: Colors.white,
+            textSize: 15.sp,
+            fontWeight: FontWeight.w600,
+            maxLine: 1,
+          ),
         ),
       ),
     );
@@ -197,21 +223,39 @@ class _AvatarPicker extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: controller.pickAvatar,
+          onTap: () {
+            MediaPickerBottomSheet.show(
+              onGallery: () => controller.pickImageFromGallery(),
+              onCamera: () => controller.pickImageFromCamera(),
+            );
+          },
           child: Stack(
             children: [
-              // ─── Avatar image ──────────────────
               Obx(() => ClipRRect(
                 borderRadius: BorderRadius.circular(50.r),
-                child: AppImage(
+                child: controller.avatarPath.value.startsWith('assets/')
+                    ? AppImage(
                   path: controller.avatarPath.value,
                   width: 100.w,
                   height: 100.w,
                   fit: BoxFit.cover,
+                )
+                    : Image.file(
+                  File(controller.avatarPath.value),
+                  width: 100.w,
+                  height: 100.w,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 100.w,
+                      height: 100.w,
+                      color: Colors.grey.shade300,
+                      child: Icon(Icons.person, size: 50.sp, color: Colors.grey),
+                    );
+                  },
                 ),
               )),
 
-              // ─── Camera icon overlay ───────────
               Positioned(
                 bottom: 0,
                 right: 0,

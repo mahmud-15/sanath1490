@@ -8,8 +8,8 @@ class PerformanceCard extends StatelessWidget {
   final String iconPath;
   final String label;
   final String value;
-  final Color iconColor;        // ← icon এর color
-  final Color iconBgColor;      // ← container এর background color
+  final Color iconColor;
+  final Color iconBgColor;
 
   const PerformanceCard({
     super.key,
@@ -35,7 +35,7 @@ class PerformanceCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(14.w),
               decoration: BoxDecoration(
-                color: iconBgColor,              // ← dynamic bg color
+                color: iconBgColor,
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: SvgPicture.asset(
@@ -43,7 +43,7 @@ class PerformanceCard extends StatelessWidget {
                 width: 20.w,
                 height: 20.h,
                 colorFilter: ColorFilter.mode(
-                  iconColor,                     // ← dynamic icon color
+                  iconColor,
                   BlendMode.srcIn,
                 ),
               ),

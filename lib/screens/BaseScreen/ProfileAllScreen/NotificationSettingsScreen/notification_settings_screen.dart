@@ -160,13 +160,16 @@ class _NotificationToggleItem extends StatelessWidget {
               ),
 
               // ─── Toggle switch ─────────────────
-              Switch(
-                value: valueObs.value,
-                onChanged: (val) => valueObs.value = val,
-                activeThumbColor: Colors.white,
-                activeTrackColor: ConstColor.primaryColor,
-                inactiveThumbColor: Colors.white,
-                inactiveTrackColor: ConstColor.outLineColor,
+              Transform.scale(
+                scale: 0.80,
+                child: Switch(
+                  value: valueObs.value,
+                  onChanged: (val) => valueObs.value = val,
+                  activeThumbColor: Colors.white,
+                  activeTrackColor: ConstColor.primaryColor,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: ConstColor.outLineColor,
+                ),
               ),
             ],
           ),

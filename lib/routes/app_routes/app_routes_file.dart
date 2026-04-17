@@ -5,6 +5,7 @@ import 'package:sanath1490_flutter_app/screens/BaseScreen/NavBar/nav_bar.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/OnboardScreen/onboarding_screen.dart';
 import 'package:sanath1490_flutter_app/screens/BaseScreen/SplashScreen/splash_screen.dart';
 import '../../screens/AgentScreen/EnquiriesTabScreen/EnquiriesScreen/enquiries_screen.dart';
+import '../../screens/AgentScreen/EnquiriesTabScreen/EnquiryDetailScreen/enquiry_detail_screen.dart';
 import '../../screens/AgentScreen/MyListingTabScreen/MyListingScreen/my_listing_screen.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/AddNewListingScreen/add_new_listing_screen.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/BillingHistoryScreen/billing_history_screen.dart';
@@ -104,5 +105,6 @@ List<GetPage> appRouteFile = <GetPage>[
 
   ///////////////Agent Enquiries Screen Part////////////////
   GetPage(name: AppRoutes.agentEnquiriesScreen,     page: () => AgentEnquiriesScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.enquiryDetailScreen,     page: () => EnquiryDetailScreen(),binding: AuthBindings()),
 
 ];

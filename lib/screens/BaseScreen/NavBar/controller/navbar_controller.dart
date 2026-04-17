@@ -80,6 +80,9 @@ class NavbarController extends GetxController {
   @override
   void onInit() {
     onAppInitial();
+    if (Get.arguments != null && Get.arguments is int) {
+      selectedIndex.value = Get.arguments as int;
+    }
     super.onInit();
   }
 }

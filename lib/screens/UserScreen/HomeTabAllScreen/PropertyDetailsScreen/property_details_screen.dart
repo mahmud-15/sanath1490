@@ -17,7 +17,7 @@ class PropertyDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PropertyModel property = Get.arguments;
+    final PropertyModel property = (Get.arguments as PropertyModel?) ?? Get.find<HomeController>().buyProperties.first;
     final controller = Get.put(PropertyDetailsController());
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),

@@ -148,6 +148,7 @@ class _SavedPropertiesTab extends StatelessWidget {
           final property = controller.savedProperties[index];
 
           return Stack(
+            ///////////////Error astece eikane
             children: [
               PropertyCard(property: property,
                 onTap: () => Get.toNamed(

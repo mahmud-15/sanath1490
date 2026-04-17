@@ -43,7 +43,8 @@ class PropertyCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                // ─── Image Slider & Counter
+                // ─── Inner Image Slider ────────────────
+                // When users swipe here, only the image changes!
                 Stack(
                   children: [
                     ClipRRect(
@@ -60,10 +61,10 @@ class PropertyCard extends StatelessWidget {
                         },
                         options: CarouselOptions(
                           height: 200.h,
-                          viewportFraction: 1.0, // Full width
+                          viewportFraction: 1.0, // Full width per image
                           enableInfiniteScroll: false,
                           onPageChanged: (index, reason) {
-                            property.currentIndex.value = index;
+                            property.currentIndex.value = index; // Updates image counter
                           },
                         ),
                       ),
@@ -195,24 +196,6 @@ class PropertyCard extends StatelessWidget {
             ),
           ),
         ),
-
-        SizedBox(height: 12.h),
-        Obx(() => Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(property.images.length, (index) {
-            final bool isActive = index == property.currentIndex.value;
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              margin: EdgeInsets.symmetric(horizontal: 3.w),
-              width: isActive ? 16.w : 6.w,
-              height: 6.h,
-              decoration: BoxDecoration(
-                color: isActive ? ConstColor.primaryColor : ConstColor.outLineColor,
-                borderRadius: BorderRadius.circular(3.r),
-              ),
-            );
-          }),
-        )),
       ],
     );
   }

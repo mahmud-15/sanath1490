@@ -77,7 +77,7 @@ class Overviewhomecontroller extends GetxController {
 
   void onEnquiryItemTap(EnquiryModel enquiry) {
     try {
-      // Get.toNamed(AppRoutes.enquiryDetail, arguments: enquiry);
+      Get.toNamed(AppRoutes.enquiryDetailScreen,);
     } catch (e) {
       errorLog('onEnquiryItemTap', e);
     }

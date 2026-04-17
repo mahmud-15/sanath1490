@@ -48,7 +48,7 @@ class SubscriptionPlanCard extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
                   decoration: BoxDecoration(
                     color: ConstColor.primaryColor,
-                    borderRadius: BorderRadius.circular(20.r),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                   child: CustomText(
                     title: 'Most Popular',

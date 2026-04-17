@@ -23,7 +23,15 @@ class CurrentPlanBanner extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: ConstColor.primaryColor,
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            ConstColor.primaryColor,
+            ConstColor.primaryDeepColor,
+          ],
+          stops: const [0.2, 1.0],
+        ),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(

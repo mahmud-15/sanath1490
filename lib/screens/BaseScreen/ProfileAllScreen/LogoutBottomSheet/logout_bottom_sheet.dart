@@ -14,7 +14,7 @@ class LogoutBottomSheet extends StatelessWidget {
     Get.bottomSheet(
       const LogoutBottomSheet(),
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: ConstColor.white,
       enableDrag: true,
       isDismissible: true,
       enterBottomSheetDuration: const Duration(milliseconds: 300),
@@ -25,7 +25,7 @@ class LogoutBottomSheet extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 32.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: ConstColor.backgroundColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.r),
           topRight: Radius.circular(20.r),

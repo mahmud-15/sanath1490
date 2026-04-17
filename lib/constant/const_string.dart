@@ -218,4 +218,5 @@ class ConstString {
   static const rent             = 'Rent';
   static const active           = 'ACTIVE';
   static const phone           = "Phone";
+  static const postalCode           = "Postal Code";
 }
