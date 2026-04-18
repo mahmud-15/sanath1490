@@ -23,7 +23,11 @@ class AppSnackBar {
         messageText: ErrorSnackBarMessageWidget(errorMessage: parameterValue),
         borderRadius: 12.r,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 48.h),
+        margin: EdgeInsets.only(
+          top: 20.h,
+          left: 16.w,
+          right: 16.w,
+        ),
         snackPosition: SnackPosition.TOP,
       ),
     );
@@ -45,7 +49,11 @@ class AppSnackBar {
         messageText: _SuccessMessageWidget(message: parameterValue),
         borderRadius: 12.r,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 48.h),
+        margin: EdgeInsets.only(
+          top: 20.h,
+          left: 16.w,
+          right: 16.w,
+        ),
         snackPosition: SnackPosition.TOP,
       ),
     );
@@ -78,7 +86,11 @@ class AppSnackBar {
         ),
         borderRadius: 12.r,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 48.h),
+        margin: EdgeInsets.only(
+          top: 20.h,
+          left: 16.w,
+          right: 16.w,
+        ),
         snackPosition: SnackPosition.TOP,
       ),
     );

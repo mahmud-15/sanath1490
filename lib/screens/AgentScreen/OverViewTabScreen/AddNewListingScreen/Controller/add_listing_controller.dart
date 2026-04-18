@@ -1,6 +1,9 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
 import '../../../../../widget/MediaPickerBottomSheet/media_picker_bottom_sheet.dart';
 
 class AddListingController extends GetxController {
@@ -37,6 +40,7 @@ class AddListingController extends GetxController {
   final videos    = <String>[].obs;
   final floorPlans = <String>[].obs;
   final tourUrlController = TextEditingController();
+  final brochurePath = ''.obs;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -80,7 +84,15 @@ class AddListingController extends GetxController {
   }
 
   void pickBrochure() async {
-    Get.snackbar("Notice", "File picker logic required for Brochure");
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx'],
+      allowMultiple: false,
+    );
+
+    if (result != null && result.files.single.path != null) {
+      brochurePath.value = result.files.single.path!;
+    }
   }
 
   /////////////////STEP 3 — Property Information

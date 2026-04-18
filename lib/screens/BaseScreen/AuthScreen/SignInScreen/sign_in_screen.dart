@@ -76,7 +76,7 @@ class SignInScreenState extends State<SignInScreen> {
                   textInputAction: TextInputAction.next,
                   hintText: const CustomText(
                     title: ConstString.yourEmailExample,
-                    textColor: ConstColor.bodyColor,
+                    textColor: Colors.grey,
                     textSize: 14,
                   ),
                   prefixIcon: Padding(
@@ -86,7 +86,7 @@ class SignInScreenState extends State<SignInScreen> {
                       width: 19.w,
                       height: 19.h,
                       colorFilter: const ColorFilter.mode(
-                        ConstColor.bodyColor,
+                        Colors.grey,
                         BlendMode.srcIn,
                       ),
                     ),
@@ -96,8 +96,9 @@ class SignInScreenState extends State<SignInScreen> {
                     minHeight: 44.h,
                   ),
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty)
+                    if (value == null || value.trim().isEmpty) {
                       return 'Email is required';
+                    }
                     if (!value.contains('@')) return 'Enter a valid email';
                     return null;
                   },

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,7 +28,7 @@ class PropertyDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _HeroImageSection(),
+            _HeroImageSection(controller: controller),
 
             SizedBox(height: 10.h),
 
@@ -87,21 +88,34 @@ class PropertyDetailsScreen extends StatelessWidget {
 
 // Hero image with photo count badge
 class _HeroImageSection extends StatelessWidget {
-  // final PropertyModel property;
+  final PropertyDetailsController controller;
 
-  const _HeroImageSection({super.key});
+  const _HeroImageSection({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        AppImage(
-          path: "assets/images/property_img3.png",
-          width: double.infinity,
-          height: 220.h,
-          fit: BoxFit.cover,
+        // ─── Carousel Slider ──────────────────────
+        CarouselSlider.builder(
+          itemCount: controller.images.length,
+          itemBuilder: (context, index, realIndex) {
+            return AppImage(
+              path: controller.images[index],
+              width: double.infinity,
+              height: 220.h,
+              fit: BoxFit.cover,
+            );
+          },
+          options: CarouselOptions(
+            height: 220.h,
+            viewportFraction: 1.0,
+            enableInfiniteScroll: false,
+            onPageChanged: (index, _) => controller.onImageChanged(index),
+          ),
         ),
 
+        // ─── Camera icon + count badge ────────────
         Positioned(
           top: 12.h,
           left: 12.w,
@@ -113,19 +127,15 @@ class _HeroImageSection extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(
-                  Icons.camera_alt_outlined,
-                  size: 14.sp,
-                  color: Colors.white,
-                ),
+                Icon(Icons.camera_alt_outlined, size: 14.sp, color: Colors.white),
                 SizedBox(width: 4.w),
-                CustomText(
-                  title: '1/3',
+                Obx(() => CustomText(
+                  title: '${controller.currentImageIndex.value + 1}/${controller.images.length}',
                   textColor: Colors.white,
                   textSize: 12.sp,
                   fontWeight: FontWeight.w500,
                   maxLine: 1,
-                ),
+                )),
               ],
             ),
           ),
@@ -252,7 +262,7 @@ class _PropertyInfoCard extends StatelessWidget {
                 height: 16.h,
                 width: 16.w,
               ),
-              SizedBox(width: 14.w),
+              SizedBox(width: 18.w),
               Obx(
                 () => GestureDetector(
                   onTap: () => controller.toggleFavourite(),
@@ -686,7 +696,7 @@ class _BrochuresCard extends StatelessWidget {
             color: Colors.transparent,
             buttonBorderRadius: 4,
             elevation: 0,
-            height: 35.h,
+            height: 32.h,
             width: 124.w,
             top: 0,
             left: 0,
@@ -694,7 +704,7 @@ class _BrochuresCard extends StatelessWidget {
             child: CustomText(
               title: ConstString.viewBrochure,
               textColor: ConstColor.secondaryColor,
-              textSize: 14.sp,
+              textSize: 12.sp,
               fontWeight: FontWeight.w500,
               maxLine: 1,
             ),

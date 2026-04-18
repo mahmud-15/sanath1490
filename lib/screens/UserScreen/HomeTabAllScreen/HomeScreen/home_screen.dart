@@ -146,14 +146,15 @@ class _HomeHeader extends StatelessWidget {
         ),
       ),
       child: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
               Colors.transparent,
-              Colors.transparent,
+              Colors.black.withAlpha(50),
             ],
+            stops: const [0.0, 0.85],
           ),
         ),
         padding: EdgeInsets.only(

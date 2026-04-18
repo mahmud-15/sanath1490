@@ -238,4 +238,5 @@ class ConstString {
   static const fourDaysAgo            = '4 days ago';
   static const fiveDaysAgo            = '5 days ago';
   static const edit            = 'Edit';
+  static const next            = 'Next';
 }

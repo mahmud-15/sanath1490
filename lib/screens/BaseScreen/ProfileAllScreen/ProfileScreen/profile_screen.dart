@@ -46,12 +46,13 @@ class ProfileScreen extends StatelessWidget {
                   subtitle: 'Password & authentication',
                   onTap: () => controller.onMenuTap(ProfileMenu.changePassword),
                 ),
-                _MenuItem(
-                  iconPath: 'assets/icons/notification_icon.svg',
-                  title: 'Notification Settings',
-                  subtitle: 'Push, email, in-app',
-                  onTap: () => controller.onMenuTap(ProfileMenu.notifications),
-                ),
+                ///////////////Notification Screen///////////////////
+                // _MenuItem(
+                //   iconPath: 'assets/icons/notification_icon.svg',
+                //   title: 'Notification Settings',
+                //   subtitle: 'Push, email, in-app',
+                //   onTap: () => controller.onMenuTap(ProfileMenu.notifications),
+                // ),
               ],
             ),
 

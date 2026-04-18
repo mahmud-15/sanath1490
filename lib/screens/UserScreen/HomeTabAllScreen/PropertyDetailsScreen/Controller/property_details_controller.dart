@@ -10,6 +10,17 @@ class PropertyDetailsController extends GetxController {
     isFavourite.value = !isFavourite.value;
   }
 
+  // ─── Property images ──────────────────────────────
+  final images = <String>[
+    'assets/images/property_img3.png',
+    'assets/images/property_img2.png',
+    'assets/images/property_img.png',
+  ].obs;
+
+  final currentImageIndex = 0.obs;
+
+  void onImageChanged(int index) => currentImageIndex.value = index;
+
   final RxBool isDescriptionExpanded = false.obs;
 
   Future<void> makePhoneCall() async {

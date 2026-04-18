@@ -25,7 +25,7 @@ class ChooseRoleScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 48.h),
+              SizedBox(height: 98.h),
 
               CustomText(
                 title: ConstString.chooseRole,

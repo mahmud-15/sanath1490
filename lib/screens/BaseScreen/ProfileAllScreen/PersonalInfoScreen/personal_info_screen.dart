@@ -124,7 +124,7 @@ class PersonalInfoScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                         decoration: BoxDecoration(
                           color: ConstColor.backgroundColor,
-                          border: Border.all(color: ConstColor.outLineColor),
+                          border: Border.all(color: ConstColor.iconColor),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Row(

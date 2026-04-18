@@ -131,20 +131,25 @@ class _OtpPinPut extends StatelessWidget {
       ),
     );
 
-    return Pinput(
-      length: 6,
-      defaultPinTheme: defaultTheme,
-      focusedPinTheme: focusedTheme,
-      errorPinTheme: errorTheme,
-      pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-      showCursor: true,
-      cursor: Container(
-        width: 1.5.w,
-        height: 24.h,
-        color: ConstColor.primaryColor,
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
       ),
-      onCompleted: (pin) => controller.verifyOtp(),
-      onChanged: (pin) => controller.onPinChanged(pin),
+      child: Pinput(
+        length: 6,
+        defaultPinTheme: defaultTheme,
+        focusedPinTheme: focusedTheme,
+        errorPinTheme: errorTheme,
+        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+        showCursor: true,
+        cursor: Container(
+          width: 1.5.w,
+          height: 24.h,
+          color: ConstColor.primaryColor,
+        ),
+        onCompleted: (pin) => controller.verifyOtp(),
+        onChanged: (pin) => controller.onPinChanged(pin),
+      ),
     );
   }
 }

@@ -136,7 +136,7 @@ class _LocationField extends StatelessWidget {
       height: 46.h,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: ConstColor.outLineColor),
+        border: Border.all(color: ConstColor.iconColor),
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
@@ -440,7 +440,7 @@ class AddedToSiteFieldWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 12.w),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border.all(color: ConstColor.outLineColor),
+            border: Border.all(color: ConstColor.iconColor),
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: Row(

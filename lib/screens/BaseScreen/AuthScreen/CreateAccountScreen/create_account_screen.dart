@@ -294,7 +294,7 @@ class _TermsRow extends StatelessWidget {
                 color: controller.isTermsAccepted.value
                     ? ConstColor.primaryColor
                     : ConstColor.iconColor,
-                width: 2.5,
+                width: 1.5,
               ),
               borderRadius: BorderRadius.circular(4.r),
             ),
@@ -316,7 +316,9 @@ class _TermsRow extends StatelessWidget {
               ),
               SizedBox(width: 5.w,),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.termsScreen);
+                },
                 child: CustomText(
                   title: ConstString.termsAndCondition,
                   textColor: ConstColor.primaryColor,
@@ -335,7 +337,9 @@ class _TermsRow extends StatelessWidget {
               ),
               SizedBox(width: 5.w,),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.privacyPolicyScreen);
+                },
                 child: CustomText(
                   title: ConstString.privacyPolicy,
                   textColor: ConstColor.primaryColor,

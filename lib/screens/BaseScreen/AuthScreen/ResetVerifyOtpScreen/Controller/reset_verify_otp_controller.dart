@@ -1,18 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
 class ResetVerifyOtpController extends GetxController {
-
   ResetVerifyOtpController({String initialEmail = ''}) {
     email.value = initialEmail;
   }
 
-  final List<TextEditingController> controllers =
-  List.generate(4, (_) => TextEditingController());
-  final List<FocusNode> focusNodes =
-  List.generate(4, (_) => FocusNode());
+  final List<TextEditingController> controllers = List.generate(
+    4,
+    (_) => TextEditingController(),
+  );
+  final List<FocusNode> focusNodes = List.generate(4, (_) => FocusNode());
 
   final RxInt secondsRemaining = 59.obs;
   final RxString email = ''.obs;
@@ -44,6 +45,7 @@ class ResetVerifyOtpController extends GetxController {
 
   void verifyOtp() {
     if (currentPin.length < 6) return;
+    AppSnackBar.success("Success!\nOTP verified successfully,");
     Get.toNamed(AppRoutes.resetPasswordScreen);
   }
 
@@ -59,12 +61,15 @@ class ResetVerifyOtpController extends GetxController {
     }
   }
 
-
   @override
   void onClose() {
     _timer?.cancel();
-    for (final c in controllers) c.dispose();
-    for (final f in focusNodes) f.dispose();
+    for (final c in controllers) {
+      c.dispose();
+    }
+    for (final f in focusNodes) {
+      f.dispose();
+    }
     super.onClose();
   }
 }
