@@ -16,9 +16,9 @@ import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/choose_role_screen.
 import '../../screens/BaseScreen/AuthScreen/CreateAccountScreen/create_account_screen.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetPassword/reset_password.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/reset_verify_otp_screen.dart';
+import '../../screens/BaseScreen/NotificationScreen/notification_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/AboutUsScreen/about_us_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/ChangePasswordScreen/change_password_screen.dart';
-import '../../screens/BaseScreen/ProfileAllScreen/DeleteAccountBottomSheet/Widget/account_deleted_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/FaqScreen/faq_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/NotificationSettingsScreen/notification_settings_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/PersonalInfoScreen/personal_info_screen.dart';
@@ -88,7 +88,14 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.termsScreen,     page: () => TermsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.privacyPolicyScreen,     page: () => PrivacyPolicyScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.faqScreen,     page: () => FaqScreen(),binding: AuthBindings()),
-  GetPage(name: AppRoutes.accountDeletedScreen,     page: () => AccountDeletedScreen(),binding: AuthBindings()),
+
+
+
+///////////////Profile Screen Part///////////////
+  GetPage(name: AppRoutes.notificationScreen,     page: () => NotificationScreen(),binding: AuthBindings()),
+
+
+
 
 
 

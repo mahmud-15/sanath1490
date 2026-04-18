@@ -51,6 +51,11 @@ class MyListingController extends GetxController {
     );
     Get.toNamed(AppRoutes.propertyDetails, arguments: property);
   }
+
+  void removeListing(MyListingModel item) {
+    sellListings.remove(item);
+    rentListings.remove(item);
+  }
 }
 
 class MyListingModel {

@@ -47,7 +47,10 @@ class AppRoutes {
   static const termsScreen = '/termsScreen';
   static const privacyPolicyScreen = '/privacyPolicyScreen';
   static const faqScreen = '/faqScreen';
-  static const accountDeletedScreen = '/accountDeletedScreen';
+
+  ///////////////Profile Screen Part///////////////
+  static const notificationScreen = '/notificationScreen';
+
 
 
 

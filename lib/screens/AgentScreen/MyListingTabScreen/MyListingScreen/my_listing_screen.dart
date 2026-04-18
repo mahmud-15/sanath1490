@@ -9,6 +9,7 @@ import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import 'Controller/my_listing_controller.dart';
 import 'Widget/listing_card.dart';
+import 'Widget/listing_options_bottom_sheet.dart';
 
 class MyListingScreen extends StatelessWidget {
   const MyListingScreen({super.key});
@@ -77,10 +78,17 @@ class MyListingScreen extends StatelessWidget {
               return ListView.separated(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                 itemCount: listings.length,
-                separatorBuilder: (_, _) => SizedBox(height: 10.h),
+                separatorBuilder: (_, __) => SizedBox(height: 10.h),
                 itemBuilder: (context, index) => ListingCard(
                   item: listings[index],
                   onTap: () => controller.onCardTap(listings[index]),
+                  onLongPress: () => ListingOptionsBottomSheet.show(
+                    listings[index],
+                    onEdit: () {
+                      // TODO: navigate to edit screen
+                    },
+                    onDelete: () => controller.removeListing(listings[index]),
+                  ),
                 ),
               );
             }),
@@ -91,9 +99,7 @@ class MyListingScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Search bar
-// ─────────────────────────────────────────────────────
 class _SearchBar extends StatelessWidget {
   final MyListingController controller;
 
@@ -144,9 +150,8 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
 // Sell / Rent tab row
-// ─────────────────────────────────────────────────────
+
 class _TabRow extends StatelessWidget {
   final MyListingController controller;
 
@@ -212,7 +217,3 @@ class _TabItem extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────
-// Horizontal listing card
-// ─────────────────────────────────────────────────────

@@ -7,6 +7,7 @@ import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/text/custom_text.dart';
+import 'Widget/account_deleted_popup.dart';
 
 class DeleteAccountBottomSheet extends StatelessWidget {
   const DeleteAccountBottomSheet({super.key});
@@ -186,9 +187,11 @@ class DeleteAccountBottomSheet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: CustomElevatedButton(
+                child: // ─── Delete Button ────────────────────
+                CustomElevatedButton(
                   onPressed: () {
-                    Get.toNamed(AppRoutes.accountDeletedScreen);
+                    Get.back();
+                    _showDeletedPopup();
                   },
                   color: ConstColor.red,
                   height: 48,
@@ -268,4 +271,16 @@ class _BulletItem extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showDeletedPopup() {
+  Get.dialog(
+    const AccountDeletedPopup(),
+    barrierDismissible: false,
+  );
+
+  Future.delayed(const Duration(seconds: 3), () {
+    Get.back();
+    Get.offAllNamed(AppRoutes.signInScreen);
+  });
 }

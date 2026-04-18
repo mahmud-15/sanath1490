@@ -61,7 +61,7 @@ class NotificationSettingsScreen extends StatelessWidget {
                   child: CustomText(
                     title: ConstString.alertTypes,
                     textColor: ConstColor.titleColor,
-                    textSize: 14.sp,
+                    textSize: 18.sp,
                     fontWeight: FontWeight.w700,
                     maxLine: 1,
                   ),
@@ -99,9 +99,8 @@ class NotificationSettingsScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Single notification toggle row
-// ─────────────────────────────────────────────────────
+//////////////Single notification toggle row
+
 class _NotificationToggleItem extends StatelessWidget {
   final String? iconPath;
   final String title;
@@ -125,7 +124,6 @@ class _NotificationToggleItem extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           child: Row(
             children: [
-              // ─── SVG icon (optional) ───────────
               if (iconPath != null) ...[
                 SvgPicture.asset(
                   iconPath!,
@@ -135,7 +133,6 @@ class _NotificationToggleItem extends StatelessWidget {
                 SizedBox(width: 12.w),
               ],
 
-              // ─── Title + subtitle ──────────────
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +140,7 @@ class _NotificationToggleItem extends StatelessWidget {
                     CustomText(
                       title: title,
                       textColor: ConstColor.titleColor,
-                      textSize: 15.sp,
+                      textSize: 16.sp,
                       fontWeight: FontWeight.w700,
                       maxLine: 1,
                     ),
@@ -151,7 +148,7 @@ class _NotificationToggleItem extends StatelessWidget {
                     CustomText(
                       title: subtitle,
                       textColor: ConstColor.bodyColor,
-                      textSize: 13.sp,
+                      textSize: 14.sp,
                       fontWeight: FontWeight.w400,
                       maxLine: 1,
                     ),
@@ -159,7 +156,6 @@ class _NotificationToggleItem extends StatelessWidget {
                 ),
               ),
 
-              // ─── Toggle switch ─────────────────
               Transform.scale(
                 scale: 0.80,
                 child: Switch(

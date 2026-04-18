@@ -219,4 +219,23 @@ class ConstString {
   static const active           = 'ACTIVE';
   static const phone           = "Phone";
   static const postalCode           = "Postal Code";
+  static const allTab                 = 'All';
+  static const unreadTab              = 'Unread';
+  static const markAllAsRead          = 'Mark all as read';
+  static const newPropertyMatch       = 'New Property Match';
+  static const priceReduced           = 'Price Reduced';
+  static const fiveNewMatches         = '5 New Matches';
+  static const agentResponse          = 'Agent Response';
+  static const viewingReminder        = 'Viewing Reminder';
+  static const priceIncreased         = 'Price Increased';
+  static const newPropertyAlert       = 'New Property Alert';
+  static const featuredProperty       = 'Featured Property';
+  static const twoHoursAgo            = '2 hours ago';
+  static const fiveHoursAgo           = '5 hours ago';
+  static const oneDayAgo              = '1 day ago';
+  static const twoDaysAgo             = '2 days ago';
+  static const threeDaysAgo           = '3 days ago';
+  static const fourDaysAgo            = '4 days ago';
+  static const fiveDaysAgo            = '5 days ago';
+  static const edit            = 'Edit';
 }

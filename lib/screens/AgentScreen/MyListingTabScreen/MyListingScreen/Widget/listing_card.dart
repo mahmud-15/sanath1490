@@ -10,13 +10,20 @@ import '../Controller/my_listing_controller.dart';
 class ListingCard extends StatelessWidget {
   final MyListingModel item;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
 
-  const ListingCard({super.key, required this.item, required this.onTap});
+  const ListingCard({
+    super.key,
+    required this.item,
+    required this.onTap,
+    required this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -66,7 +73,10 @@ class ListingCard extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 9.w,
+                            vertical: 4.h,
+                          ),
                           decoration: BoxDecoration(
                             color: ConstColor.secondaryColor.withAlpha(30),
                             // borderRadius: BorderRadius.circular(4.r),
@@ -102,7 +112,10 @@ class ListingCard extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icons/location_icon.svg',
                           width: 12.w,
-                          colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(
+                            ConstColor.bodyColor,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         SizedBox(width: 4.w),
                         Expanded(
@@ -122,20 +135,56 @@ class ListingCard extends StatelessWidget {
                     // ─── Specs ────────────────────
                     Row(
                       children: [
-                        SvgPicture.asset('assets/icons/bed_room_icon.svg', width: 13.w,
-                            colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn)),
+                        SvgPicture.asset(
+                          'assets/icons/bed_room_icon.svg',
+                          width: 13.w,
+                          colorFilter: ColorFilter.mode(
+                            ConstColor.bodyColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                         SizedBox(width: 3.w),
-                        CustomText(title: '${item.beds}', textColor: ConstColor.bodyColor, textSize: 11.sp, fontWeight: FontWeight.w400, maxLine: 1),
+                        CustomText(
+                          title: '${item.beds}',
+                          textColor: ConstColor.bodyColor,
+                          textSize: 11.sp,
+                          fontWeight: FontWeight.w400,
+                          maxLine: 1,
+                        ),
                         SizedBox(width: 10.w),
-                        SvgPicture.asset('assets/icons/bathrooms_icon.svg', width: 13.w,
-                            colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn)),
+                        SvgPicture.asset(
+                          'assets/icons/bathrooms_icon.svg',
+                          width: 13.w,
+                          colorFilter: ColorFilter.mode(
+                            ConstColor.bodyColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                         SizedBox(width: 3.w),
-                        CustomText(title: '${item.baths}', textColor: ConstColor.bodyColor, textSize: 11.sp, fontWeight: FontWeight.w400, maxLine: 1),
+                        CustomText(
+                          title: '${item.baths}',
+                          textColor: ConstColor.bodyColor,
+                          textSize: 11.sp,
+                          fontWeight: FontWeight.w400,
+                          maxLine: 1,
+                        ),
                         SizedBox(width: 10.w),
-                        SvgPicture.asset('assets/icons/square_fit_icon.svg', width: 13.w,
-                            colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn)),
+                        SvgPicture.asset(
+                          'assets/icons/square_fit_icon.svg',
+                          width: 13.w,
+                          colorFilter: ColorFilter.mode(
+                            ConstColor.bodyColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                         SizedBox(width: 3.w),
-                        CustomText(title: '${item.sqFt}', textColor: ConstColor.bodyColor, textSize: 11.sp, fontWeight: FontWeight.w400, maxLine: 1),
+                        CustomText(
+                          title: '${item.sqFt}',
+                          textColor: ConstColor.bodyColor,
+                          textSize: 11.sp,
+                          fontWeight: FontWeight.w400,
+                          maxLine: 1,
+                        ),
                       ],
                     ),
                   ],
