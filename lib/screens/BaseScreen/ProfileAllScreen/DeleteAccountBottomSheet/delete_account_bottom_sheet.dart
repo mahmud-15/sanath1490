@@ -279,7 +279,7 @@ void _showDeletedPopup() {
     barrierDismissible: false,
   );
 
-  Future.delayed(const Duration(seconds: 3), () {
+  Future.delayed(const Duration(seconds: 2), () {
     Get.back();
     Get.offAllNamed(AppRoutes.signInScreen);
   });

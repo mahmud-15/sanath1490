@@ -86,7 +86,6 @@ class AddListingController extends GetxController {
     backgroundColor: ConstColor.secondaryColor,
       seconds: 2
     );
-    // Get.snackbar("Notice", "File picker logic required for Brochure");
   }
 
   /////////////////STEP 3 — Property Information
