@@ -27,10 +27,10 @@ dependencies:
   url_launcher: ^6.3.2
   dotted_border: ^3.1.0
   image_picker: ^1.2.1
-  video_player: ^2.11.1
-  flutter_pdfview: ^1.4.4
-  file_picker: ^8.1.2
-  permission_handler: ^11.3.1
+#  video_player: ^2.11.1
+#  flutter_pdfview: ^1.4.4
+#  file_picker: ^8.1.2
+#  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:
