@@ -1,54 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
+import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../Widget/text/custom_text.dart';
 import '../../../../constant/const_color.dart';
-import '../../../../routes/app_routes/app_routes.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
+import 'Controller/reset_password_controller.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
+class ResetPasswordScreen extends StatelessWidget {
   const ResetPasswordScreen({super.key});
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
-}
-
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _passwordController = TextEditingController();
-  final _newPasswordController = TextEditingController();
-  bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
-
-  @override
-  void dispose() {
-    _passwordController.dispose();
-    _newPasswordController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.find<ResetPasswordController>();
+    final formKey = GlobalKey<FormState>();
+
     return Scaffold(
       appBar: const GlobalAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 62.h),
 
-                // Key Icon
                 Container(
                   width: 64.w,
                   height: 64.h,
@@ -66,7 +48,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 SizedBox(height: 24.h),
 
-                // Title
                 CustomText(
                   title: ConstString.resetPassword,
                   textColor: ConstColor.primaryColor,
@@ -77,7 +58,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 SizedBox(height: 10.h),
 
-                // Subtitle
                 CustomText(
                   title: ConstString.createANewStrongPassword,
                   textColor: ConstColor.bodyColor,
@@ -88,95 +68,130 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 SizedBox(height: 22.h),
 
-                // New Password Field
-                CustomTextFormField(
-                  fromTitle: ConstString.newPassword,
-                  textController: _passwordController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  obscureText: _obscurePassword,
-                  hintText: const CustomText(
-                    title: ConstString.createAStrongPassword,
-                    textColor: Colors.grey,
-                    textSize: 13,
-                  ),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: SvgPicture.asset(
-                      'assets/icons/lock_icon.svg',
-                      width: 19.w,
-                      height: 19.h,
-                      colorFilter: const ColorFilter.mode(ConstColor.iconColor, BlendMode.srcIn),
+                Obx(
+                  () => CustomTextFormField(
+                    fromTitle: ConstString.newPassword,
+                    textController: controller.passwordController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    obscureText: controller.obscurePassword.value,
+                    hintText: const CustomText(
+                      title: ConstString.createAStrongPassword,
+                      textColor: Colors.grey,
+                      textSize: 13,
                     ),
-                  ),
-                  prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
-                  suffixIcon: GestureDetector(
-                    onTap: () => setState(() => _obscurePassword = !_obscurePassword),
-                    child: Padding(
+                    prefixIcon: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: SvgPicture.asset(
-                        _obscurePassword ? 'assets/icons/eye_off_icon.svg' : 'assets/icons/password_icon.svg',
+                        'assets/icons/lock_icon.svg',
                         width: 19.w,
                         height: 19.h,
-                        colorFilter: const ColorFilter.mode(ConstColor.iconColor, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(
+                          ConstColor.iconColor,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: 44.w,
+                      minHeight: 44.h,
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: controller.togglePassword,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        child: SvgPicture.asset(
+                          controller.obscurePassword.value
+                              ? 'assets/icons/eye_off_icon.svg'
+                              : 'assets/icons/password_icon.svg',
+                          width: 19.w,
+                          height: 19.h,
+                          colorFilter: const ColorFilter.mode(
+                            ConstColor.iconColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
+                    suffixIconConstraints: BoxConstraints(
+                      minWidth: 44.w,
+                      minHeight: 44.h,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Enter your new password';
+                      }
+                      if (value.length < 8) return ConstString.min8Character;
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) return 'Enter your new password';
-                    return null;
-                  },
                 ),
                 SizedBox(height: 10.h),
 
-                // Confirm Password Field
-                CustomTextFormField(
-                  fromTitle: ConstString.confirmNewPassword,
-                  textController: _newPasswordController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  obscureText: _obscureConfirmPassword,
-                  hintText: const CustomText(
-                    title: ConstString.reEnterYourPassword,
-                    textColor: Colors.grey,
-                    textSize: 13,
-                  ),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: SvgPicture.asset(
-                      'assets/icons/lock_icon.svg',
-                      width: 19.w,
-                      height: 19.h,
-                      colorFilter: const ColorFilter.mode(ConstColor.iconColor, BlendMode.srcIn),
+                Obx(
+                  () => CustomTextFormField(
+                    fromTitle: ConstString.confirmNewPassword,
+                    textController: controller.confirmPasswordController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    obscureText: controller.obscureConfirmPassword.value,
+                    hintText: const CustomText(
+                      title: ConstString.reEnterYourPassword,
+                      textColor: Colors.grey,
+                      textSize: 13,
                     ),
-                  ),
-                  prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
-                  suffixIcon: GestureDetector(
-                    onTap: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
-                    child: Padding(
+                    prefixIcon: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: SvgPicture.asset(
-                        _obscureConfirmPassword ? 'assets/icons/eye_off_icon.svg' : 'assets/icons/password_icon.svg',
+                        'assets/icons/lock_icon.svg',
                         width: 19.w,
                         height: 19.h,
-                        colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(
+                          ConstColor.iconColor,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
+                    prefixIconConstraints: BoxConstraints(
+                      minWidth: 44.w,
+                      minHeight: 44.h,
+                    ),
+                    suffixIcon: GestureDetector(
+                      onTap: controller.toggleConfirmPassword,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        child: SvgPicture.asset(
+                          controller.obscureConfirmPassword.value
+                              ? 'assets/icons/eye_off_icon.svg'
+                              : 'assets/icons/password_icon.svg',
+                          width: 19.w,
+                          height: 19.h,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.grey,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
+                    suffixIconConstraints: BoxConstraints(
+                      minWidth: 44.w,
+                      minHeight: 44.h,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty)
+                        return 'Enter your confirm password';
+                      if (value != controller.passwordController.text)
+                        return 'Passwords do not match';
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) return 'Enter your confirm password';
-                    if (value != _passwordController.text) return 'Passwords do not match';
-                    return null;
-                  },
                 ),
                 SizedBox(height: 17.h),
 
                 CustomElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      AppSnackBar.success('OTP verified successfully!');
-                      Get.toNamed(AppRoutes.signInScreen);
-                    }
+                    if (formKey.currentState!.validate())
+                      controller.resetPassword();
                   },
                   color: ConstColor.primaryColor,
                   height: 48,

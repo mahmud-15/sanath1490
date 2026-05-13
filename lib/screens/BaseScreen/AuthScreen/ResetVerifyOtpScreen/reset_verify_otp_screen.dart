@@ -27,44 +27,18 @@ class ResetVerifyOtpScreen extends StatelessWidget {
             children: [
               SizedBox(height: 123.h),
 
-              // ─── Icon ────────────────────────────
               Container(
                 width: 64.w,
                 height: 64.h,
-                decoration: BoxDecoration(
-                  color: ConstColor.primaryColor,
-                  borderRadius: BorderRadius.circular(18.r),
-                ),
-                child: Center(
-                  child: AppImage(
-                    path: 'assets/images/security.png',
-                    width: 56.w,
-                    height: 56.h,
-                  ),
-                ),
+                decoration: BoxDecoration(color: ConstColor.primaryColor, borderRadius: BorderRadius.circular(18.r)),
+                child: Center(child: AppImage(path: 'assets/images/security.png', width: 56.w, height: 56.h)),
               ),
               SizedBox(height: 24.h),
 
-              // ─── Title ───────────────────────────
-              CustomText(
-                title: ConstString.verifyOtp,
-                textColor: ConstColor.primaryColor,
-                textSize: 30.sp,
-                fontWeight: FontWeight.w700,
-                textAlign: TextAlign.center,
-                maxLine: 1,
-              ),
+              CustomText(title: ConstString.verifyOtp, textColor: ConstColor.primaryColor, textSize: 30.sp, fontWeight: FontWeight.w700, textAlign: TextAlign.center, maxLine: 1),
               SizedBox(height: 12.h),
 
-              // ─── Subtitle ────────────────────────
-              CustomText(
-                title: ConstString.enterThe4Digit,
-                textColor: ConstColor.bodyColor,
-                textSize: 15.sp,
-                fontWeight: FontWeight.w400,
-                textAlign: TextAlign.center,
-                maxLine: 2,
-              ),
+              CustomText(title: ConstString.enterThe4Digit, textColor: ConstColor.bodyColor, textSize: 15.sp, fontWeight: FontWeight.w400, textAlign: TextAlign.center, maxLine: 2),
               SizedBox(height: 32.h),
 
               _OtpPinPut(controller: controller),
@@ -73,20 +47,15 @@ class ResetVerifyOtpScreen extends StatelessWidget {
               _ResendOtpRow(controller: controller),
               SizedBox(height: 32.h),
 
-              // CustomElevatedButton(
-              //   onPressed: controller.verifyOtp,
-              //   color: ConstColor.primaryColor,
-              //   height: 48,
-              //   left: 0,
-              //   right: 0,
-              //   top: 0,
-              //   child: CustomText(
-              //     title: ConstString.verify,
-              //     textColor: Colors.white,
-              //     textSize: 16.sp,
-              //     fontWeight: FontWeight.w600,
-              //   ),
-              // ),
+              CustomElevatedButton(
+                onPressed: controller.verifyOtp,
+                color: ConstColor.primaryColor,
+                height: 48,
+                left: 0,
+                right: 0,
+                top: 0,
+                child: CustomText(title: ConstString.verify, textColor: Colors.white, textSize: 16.sp, fontWeight: FontWeight.w600),
+              ),
             ],
           ),
         ),
@@ -97,7 +66,6 @@ class ResetVerifyOtpScreen extends StatelessWidget {
 
 class _OtpPinPut extends StatelessWidget {
   final ResetVerifyOtpController controller;
-
   const _OtpPinPut({required this.controller});
 
   @override
@@ -105,36 +73,14 @@ class _OtpPinPut extends StatelessWidget {
     final defaultTheme = PinTheme(
       width: 47.w,
       height: 55.h,
-      textStyle: TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.w600,
-        color: ConstColor.titleColor,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: ConstColor.outLineColor),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
+      textStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600, color: ConstColor.titleColor),
+      decoration: BoxDecoration(color: Colors.white, border: Border.all(color: ConstColor.outLineColor), borderRadius: BorderRadius.circular(12.r)),
     );
-
-    final focusedTheme = defaultTheme.copyWith(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 1.5),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-    );
-
-    final errorTheme = defaultTheme.copyWith(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.red),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-    );
+    final focusedTheme = defaultTheme.copyWith(decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 1.5), borderRadius: BorderRadius.circular(12.r)));
+    final errorTheme   = defaultTheme.copyWith(decoration: BoxDecoration(border: Border.all(color: Colors.red), borderRadius: BorderRadius.circular(12.r)));
 
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 20.h),
       child: Pinput(
         length: 6,
         defaultPinTheme: defaultTheme,
@@ -142,11 +88,7 @@ class _OtpPinPut extends StatelessWidget {
         errorPinTheme: errorTheme,
         pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
         showCursor: true,
-        cursor: Container(
-          width: 1.5.w,
-          height: 24.h,
-          color: ConstColor.primaryColor,
-        ),
+        cursor: Container(width: 1.5.w, height: 24.h, color: ConstColor.primaryColor),
         onCompleted: (pin) => controller.verifyOtp(),
         onChanged: (pin) => controller.onPinChanged(pin),
       ),
@@ -156,7 +98,6 @@ class _OtpPinPut extends StatelessWidget {
 
 class _ResendOtpRow extends StatelessWidget {
   final ResetVerifyOtpController controller;
-
   const _ResendOtpRow({required this.controller});
 
   @override
@@ -168,18 +109,8 @@ class _ResendOtpRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomText(
-              title: isDone ? 'Resend OTP ' : 'Resend OTP in ',
-              textColor: ConstColor.bodyColor,
-              textSize: 13.sp,
-              fontWeight: FontWeight.w400,
-            ),
-            CustomText(
-              title: isDone ? 'Now' : '${controller.secondsRemaining.value}s',
-              textColor: ConstColor.secondaryColor,
-              textSize: 13.sp,
-              fontWeight: FontWeight.w600,
-            ),
+            CustomText(title: isDone ? 'Resend OTP ' : 'Resend OTP in ', textColor: ConstColor.bodyColor, textSize: 13.sp, fontWeight: FontWeight.w400),
+            CustomText(title: isDone ? 'Now' : '${controller.secondsRemaining.value}s', textColor: ConstColor.secondaryColor, textSize: 13.sp, fontWeight: FontWeight.w600),
           ],
         ),
       );

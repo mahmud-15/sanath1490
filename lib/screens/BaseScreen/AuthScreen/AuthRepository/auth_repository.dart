@@ -3,6 +3,8 @@ import '../../../../../constant/app_api_url.dart';
 import '../AccountVerifyOtpScreen/Model/otp_verify_model.dart';
 import '../CreateAccountScreen/Model/register_model.dart';
 import '../ForgotPasswordScreen/Model/forgot_password_model.dart';
+import '../ResetPassword/Model/reset_password_model.dart';
+import '../ResetVerifyOtpScreen/Model/reset_verify_otp_model.dart';
 import '../SignInScreen/Model/sign_in_model.dart';
 
 class AuthRepository {
@@ -25,7 +27,7 @@ class AuthRepository {
     return RegisterResponseModel.fromJson(response);
   }
 
-  // ==================== Verify OTP ====================
+  // ==================== Register Verify OTP ====================
   Future<OtpVerifyResponseModel?> verifyOtp(OtpVerifyRequestModel request) async {
     final response = await _apiServices.postServices(
       url: _apiUrl.registerVerifyOtp,
@@ -49,8 +51,6 @@ class AuthRepository {
     return SignInResponseModel.fromJson(response);
   }
 
-
-
   // ==================== Forgot Password ====================
   Future<ForgotPasswordResponseModel?> forgotPassword(ForgotPasswordRequestModel request) async {
     final response = await _apiServices.postServices(
@@ -61,5 +61,29 @@ class AuthRepository {
     );
     if (response == null) return null;
     return ForgotPasswordResponseModel.fromJson(response);
+  }
+
+  // ==================== Forgot Verify OTP ====================
+  Future<ResetVerifyOtpResponseModel?> forgotVerifyOtp(ResetVerifyOtpRequestModel request) async {
+    final response = await _apiServices.postServices(
+      url: _apiUrl.forgotVerifyOtp,
+      body: request.toJson(),
+      statusCodeStart: 200,
+      statusCodeEnd: 299,
+    );
+    if (response == null) return null;
+    return ResetVerifyOtpResponseModel.fromJson(response);
+  }
+
+  // ==================== Reset Password ====================
+  Future<ResetPasswordResponseModel?> resetPassword(ResetPasswordRequestModel request) async {
+    final response = await _apiServices.postServices(
+      url: _apiUrl.resetPassword,
+      body: request.toJson(),
+      statusCodeStart: 200,
+      statusCodeEnd: 299,
+    );
+    if (response == null) return null;
+    return ResetPasswordResponseModel.fromJson(response);
   }
 }

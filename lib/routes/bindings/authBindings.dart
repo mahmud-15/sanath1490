@@ -10,6 +10,7 @@ import '../../screens/AgentScreen/OverViewTabScreen/SubscriptionScreen/controlle
 import '../../screens/BaseScreen/AuthScreen/AccountVerifyOtpScreen/Controller/account_otp_verify_controller.dart';
 import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/Widget/choose_role_controller.dart';
 import '../../screens/BaseScreen/AuthScreen/ForgotPasswordScreen/Controller/forgot_password_controller.dart';
+import '../../screens/BaseScreen/AuthScreen/ResetPassword/Controller/reset_password_controller.dart';
 import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/Controller/reset_verify_otp_controller.dart';
 import '../../screens/BaseScreen/AuthScreen/SignInScreen/Controller/sign_in_controller.dart';
 import '../../screens/BaseScreen/NavBar/controller/navbar_controller.dart';
@@ -37,6 +38,7 @@ class AuthBindings extends Bindings {
     Get.lazyPut(() => SignInController());
     Get.lazyPut(() => ForgotPasswordController());
     Get.lazyPut(() => ChooseRoleController());
+    Get.lazyPut(() => ResetPasswordController());
     Get.lazyPut(() => CreateAccountController());
     Get.lazyPut(() => AccountOtpVerifyController());
 

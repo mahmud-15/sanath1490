@@ -1,30 +1,36 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
-import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
+
+import '../../../../../routes/app_routes/app_routes.dart';
+import '../../../../../widget/AppLoader/app_loader.dart';
+import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
+import '../../AuthRepository/auth_repository.dart';
+import '../Model/reset_verify_otp_model.dart';
 
 class ResetVerifyOtpController extends GetxController {
-  ResetVerifyOtpController({String initialEmail = ''}) {
-    email.value = initialEmail;
-  }
+  final List<TextEditingController> controllers =
+  List.generate(4, (_) => TextEditingController());
+  final List<FocusNode> focusNodes =
+  List.generate(4, (_) => FocusNode());
 
-  final List<TextEditingController> controllers = List.generate(
-    4,
-    (_) => TextEditingController(),
-  );
-  final List<FocusNode> focusNodes = List.generate(4, (_) => FocusNode());
+  final RxInt    secondsRemaining = 59.obs;
+  final RxString email            = ''.obs;
 
-  final RxInt secondsRemaining = 59.obs;
-  final RxString email = ''.obs;
+  String currentPin = '';
   Timer? _timer;
 
   @override
   void onInit() {
     super.onInit();
+    final args = Get.arguments;
+    if (args != null && args["email"] != null) {
+      email.value = args["email"];
+    }
     startTimer();
   }
 
+  // ==================== Timer ====================
   void startTimer() {
     _timer?.cancel();
     secondsRemaining.value = 59;
@@ -37,20 +43,38 @@ class ResetVerifyOtpController extends GetxController {
     });
   }
 
-  void onPinChanged(String pin) {
-    currentPin = pin;
-  }
+  void onPinChanged(String pin) => currentPin = pin;
 
-  String currentPin = '';
-
-  void verifyOtp() {
+  // ==================== Verify OTP ====================
+  Future<void> verifyOtp() async {
     if (currentPin.length < 6) return;
-    AppSnackBar.success("Success!\nOTP verified successfully,");
-    Get.toNamed(AppRoutes.resetPasswordScreen);
+
+    AppLoader.show(type: LoaderType.residentialPulse, message: 'Verifying OTP...');
+
+    final request = ResetVerifyOtpRequestModel(
+      email: email.value,
+      oneTimeCode: int.parse(currentPin),
+    );
+
+    final response = await AuthRepository.instance.forgotVerifyOtp(request);
+
+    AppLoader.hide();
+
+    if (response != null) {
+      AppSnackBar.success("OTP verified successfully!");
+      await Future.delayed(const Duration(milliseconds: 800));
+      Get.toNamed(
+        AppRoutes.resetPasswordScreen,
+        arguments: {"email": email.value},
+      );
+    }
   }
 
-  void resendOtp() {
-    if (secondsRemaining.value == 0) startTimer();
+  // ==================== Resend OTP ====================
+  Future<void> resendOtp() async {
+    if (secondsRemaining.value != 0) return;
+    // TODO: resend OTP API call
+    startTimer();
   }
 
   void onOtpChanged(String val, int index) {
@@ -64,12 +88,8 @@ class ResetVerifyOtpController extends GetxController {
   @override
   void onClose() {
     _timer?.cancel();
-    for (final c in controllers) {
-      c.dispose();
-    }
-    for (final f in focusNodes) {
-      f.dispose();
-    }
+    for (final c in controllers) c.dispose();
+    for (final f in focusNodes) f.dispose();
     super.onClose();
   }
 }
