@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
 import '../../constant/app_api_url.dart';
+import '../AppLoader/app_loader.dart';
 
 class AppImage extends StatelessWidget {
   const AppImage({
@@ -43,17 +43,13 @@ class AppImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildPlaceholder();
-        },
+        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
       );
     }
 
     if (url != null) {
-      if (url!.toLowerCase().contains("null")) {
-        return _buildPlaceholder();
-      }
-      return NetworkImageWithRetry(
+      if (url!.toLowerCase().contains("null")) return _buildPlaceholder();
+      return _NetworkImage(
         imageUrl: url!,
         width: width,
         height: height,
@@ -68,9 +64,7 @@ class AppImage extends StatelessWidget {
         height: height,
         fit: fit,
         color: iconColor,
-        errorBuilder: (context, error, stackTrace) {
-          return _buildPlaceholder();
-        },
+        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
       );
     }
 
@@ -83,92 +77,63 @@ class AppImage extends StatelessWidget {
       height: height,
       color: Colors.grey.shade100,
       child: const Center(
-        child: Icon(
-          Icons.directions_car_outlined,
-          size: 48,
-          color: Colors.grey,
-        ),
+        child: Icon(Icons.image_not_supported_outlined, size: 48, color: Colors.grey),
       ),
     );
   }
 }
 
-class NetworkImageWithRetry extends StatefulWidget {
+
+
+class _NetworkImage extends StatelessWidget {
   final String imageUrl;
   final double? width;
   final double? height;
   final BoxFit fit;
 
-  const NetworkImageWithRetry({
-    super.key,
+  const _NetworkImage({
     required this.imageUrl,
-    this.fit = BoxFit.cover,
-    this.height,
     this.width,
+    this.height,
+    this.fit = BoxFit.cover,
   });
 
-  @override
-  State createState() => _NetworkImageWithRetryState();
-}
-
-class _NetworkImageWithRetryState extends State<NetworkImageWithRetry> {
-  int _retryCount = 0;
-  final int _maxRetries = 3;
-  String? _image;
-
-  @override
-  void initState() {
-    super.initState();
-    _setImage();
-  }
-
-  void _setImage() {
-    try {
-      final uri = Uri.tryParse(widget.imageUrl);
-      if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-        _image = widget.imageUrl;
-      } else {
-        _image = "${AppApiUrl.domain}${widget.imageUrl}";
-      }
-    } catch (e) {
-      _image = widget.imageUrl;
+  String get _resolvedUrl {
+    final uri = Uri.tryParse(imageUrl);
+    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+      return imageUrl;
     }
-  }
-
-  void _retry() {
-    if (_retryCount < _maxRetries) {
-      setState(() {
-        _retryCount++;
-      });
-    }
+    return "${AppApiUrl.domain}$imageUrl";
   }
 
   @override
   Widget build(BuildContext context) {
-    HttpOverrides.global = CustomHttpClient();
-    return FadeInImage(
-      placeholder: const AssetImage(
-        'assets/images/brokenImage.png',
-      ), //AppImagesPath.placeHolder
-      image: NetworkImage(_image ?? ""),
-      height: widget.height,
-      width: widget.width,
-      fit: widget.fit,
-      imageErrorBuilder: (context, error, stackTrace) {
-        return GestureDetector(
-          onTap: _retry,
-          child: Container(
-            width: widget.width,
-            height: widget.height,
-            color: Colors.grey.shade100,
-            child: const Center(
-              child: Icon(Icons.directions_car_outlined, size: 48, color: Colors.grey),
-            ),
+    return Image.network(
+      _resolvedUrl,
+      width: width,
+      height: height,
+      fit: fit,
+      // Flutter built-in memory cache — no package needed
+      cacheWidth: (width != null && width!.isFinite) ? width!.toInt() : null,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return Container(
+          width: width,
+          height: height,
+          color: Colors.grey.shade100,
+          child: const Center(
+            child: AppLoader(type: LoaderType.residentialPulse),
           ),
         );
       },
-      fadeInDuration: const Duration(milliseconds: 300),
-      fadeOutDuration: const Duration(milliseconds: 300),
+      errorBuilder: (context, error, stackTrace) => Container(
+        width: width,
+        height: height,
+        color: Colors.grey.shade100,
+        child: const Center(
+          child: Icon(Icons.image_not_supported_outlined, size: 48, color: Colors.grey),
+        ),
+      ),
     );
   }
 }

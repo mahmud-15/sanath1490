@@ -1,57 +1,68 @@
 import 'package:get/get.dart';
+import '../../../../../constant/app_api_url.dart';
+import '../../../../../service/api/api_service.dart';
+import '../Model/property_model.dart';
 
 class HomeController extends GetxController {
   final selectedTab = 0.obs;
 
-  void onTabChanged(int index) => selectedTab.value = index;
+  void onTabChanged(int index) {
+    selectedTab.value = index;
+  }
 
   final searchQuery = ''.obs;
 
   void onSearchChanged(String value) => searchQuery.value = value;
 
-  final buyProperties = <PropertyModel>[
-    PropertyModel(
-      images: [
-        'assets/images/property_img.png',
-        'assets/images/property_img2.png',
-        'assets/images/property_img3.png',
-      ],
-      price: '£875,000',
-      title: '4 bed House',
-      address: '42 Morning Lane, London',
-      addedDate: '01/03/2026',
-      isFeatured: true,
-    ),
-    PropertyModel(
-      images: [
-        'assets/images/property_img3.png',
-        'assets/images/property_img.png',
-        'assets/images/property_img2.png',
-      ],
-      price: '£875,000',
-      title: '4 bed House',
-      address: '42 Morning Lane, London',
-      addedDate: '01/03/2026',
-      isFeatured: true,
-    ),
-  ].obs;
+  // ─── Nearby Listings ───────────────────
+  final isLoading = false.obs;
+  final buyProperties = <PropertyModel>[].obs;
+  final rentProperties = <PropertyModel>[].obs;
 
-  final rentProperties = <PropertyModel>[
-    PropertyModel(
-      images: [
-        'assets/images/property_img3.png',
-        'assets/images/property_img2.png',
-      ],
-      price: '£2,500/mo',
-      title: '3 bed Apartment',
-      address: '8 River Street, Oxford',
-      addedDate: '03/03/2026',
-      isFeatured: true,
-    ),
-  ].obs;
-
-  List<PropertyModel> get currentProperties =>
+  RxList<PropertyModel> get currentProperties =>
       selectedTab.value == 0 ? buyProperties : rentProperties;
+
+  @override
+  void onReady() {
+    super.onReady();
+    fetchNearbyListings();
+  }
+
+  Future<void> fetchNearbyListings() async {
+    try {
+      isLoading(true);
+
+      final response = await ApiServices.instance.getServices(
+        AppApiUrl.instance.nearbyListingProperty,
+        queryParameters: {
+          "lat": 23.8103,
+          "lng": 90.4125,
+          "radiusInKm": 50000,
+        },
+      );
+      print("🏠 RESPONSE >>> $response");
+
+      if (response != null && response["data"] != null) {
+        final List data = response["data"];
+        for (var item in data) {
+          print("📋 listingType >>> ${item["listingType"]}");
+        }
+        print("🏠 TOTAL >>> ${data.length}");
+        final allListings = data.map((e) => PropertyModel.fromJson(e)).toList();
+
+        buyProperties.value =
+            allListings.where((e) => e.listingType == "SALE").toList();
+
+        rentProperties.value =
+            allListings.where((e) => e.listingType == "RENT").toList();
+
+        print("🏠 BUY >>> ${buyProperties.length}");
+        print("🏠 RENT >>> ${rentProperties.length}");
+      }
+    } finally {
+      isLoading(false);
+    }
+  }
 
   // ─── Popular Locations ───────────────────
   final popularLocations = <LocationModel>[
@@ -60,26 +71,6 @@ class HomeController extends GetxController {
     LocationModel(imagePath: 'assets/images/location_img3.jpg', name: 'Oxford', count: '11,400+'),
     LocationModel(imagePath: 'assets/images/location_img4.png', name: 'Leicester', count: '12,400+'),
   ].obs;
-}
-
-// ─────────────────────────────────────────
-class PropertyModel {
-  final List<String> images;
-  final String price;
-  final String title;
-  final String address;
-  final String addedDate;
-  final bool isFeatured;
-  final RxInt currentIndex;
-
-  PropertyModel({
-    required this.images,
-    required this.price,
-    required this.title,
-    required this.address,
-    required this.addedDate,
-    required this.isFeatured,
-  }) : currentIndex = 0.obs;
 }
 
 // ─────────────────────────────────────────

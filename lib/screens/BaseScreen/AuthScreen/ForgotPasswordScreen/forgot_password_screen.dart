@@ -1,141 +1,181 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../Widget/text/custom_text.dart';
 import '../../../../constant/const_color.dart';
-import '../../../../routes/app_routes/app_routes.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
-import '../ResetVerifyOtpScreen/Controller/reset_verify_otp_controller.dart';
-class ForgotPasswordScreen extends StatefulWidget {
+import 'Controller/forgot_password_controller.dart';
+
+class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
-}
-
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const GlobalAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 123.h),
+    final controller = Get.find<ForgotPasswordController>();
+    final formKey    = GlobalKey<FormState>();
 
-                // Key Icon
-                Container(
-                  width: 64.w,
-                  height: 64.h,
-                  decoration: BoxDecoration(
-                    color: ConstColor.primaryColor,
-                    borderRadius: BorderRadius.circular(18.r),
-                  ),
-                  child: Center(
-                    child: AppImage(
-                      path: 'assets/images/key.png',
-                      width: 56.w,
-                      height: 56.h,
+    return Obx(() => Stack(
+      children: [
+
+        // ─── Main Screen ─────────────────────
+        Scaffold(
+          appBar: const GlobalAppBar(),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 123.h),
+
+                    // Key Icon
+                    Container(
+                      width: 64.w,
+                      height: 64.h,
+                      decoration: BoxDecoration(
+                        color: ConstColor.primaryColor,
+                        borderRadius: BorderRadius.circular(18.r),
+                      ),
+                      child: Center(
+                        child: AppImage(
+                          path: 'assets/images/key.png',
+                          width: 56.w,
+                          height: 56.h,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
+                    SizedBox(height: 24.h),
 
-                // Title
-                CustomText(
-                  title: ConstString.forgotPassword,
-                  textColor: ConstColor.primaryColor,
-                  textSize: 30.sp,
-                  fontWeight: FontWeight.w700,
-                  textAlign: TextAlign.center,
-                  maxLine: 1,
-                ),
-                SizedBox(height: 10.h),
-
-                // Subtitle
-                CustomText(
-                  title: ConstString.noWorriesEnterYourEmail,
-                  textColor: ConstColor.bodyColor,
-                  textSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  textAlign: TextAlign.center,
-                  maxLine: 3,
-                ),
-                SizedBox(height: 32.h),
-
-                // Email Field
-                CustomTextFormField(
-                  fromTitle: ConstString.email,
-                  textController: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  hintText: const CustomText(
-                    title: ConstString.yourEmailExample,
-                    textColor: Colors.grey,
-                    textSize: 13,
-                  ),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: SvgPicture.asset(
-                      'assets/icons/email.svg',
-                      width: 19.w,
-                      height: 19.h,
-                      colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+                    // Title
+                    CustomText(
+                      title: ConstString.forgotPassword,
+                      textColor: ConstColor.primaryColor,
+                      textSize: 30.sp,
+                      fontWeight: FontWeight.w700,
+                      textAlign: TextAlign.center,
+                      maxLine: 1,
                     ),
-                  ),
-                  prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) return 'Email is required';
-                    if (!value.contains('@')) return 'Enter a valid email';
-                    return null;
-                  },
+                    SizedBox(height: 10.h),
+
+                    // Subtitle
+                    CustomText(
+                      title: ConstString.noWorriesEnterYourEmail,
+                      textColor: ConstColor.bodyColor,
+                      textSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      textAlign: TextAlign.center,
+                      maxLine: 3,
+                    ),
+                    SizedBox(height: 32.h),
+
+                    // Email Field
+                    CustomTextFormField(
+                      fromTitle: ConstString.email,
+                      textController: controller.emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.done,
+                      hintText: const CustomText(
+                        title: ConstString.yourEmailExample,
+                        textColor: Colors.grey,
+                        textSize: 13,
+                      ),
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12.w),
+                        child: SvgPicture.asset(
+                          'assets/icons/email.svg',
+                          width: 19.w,
+                          height: 19.h,
+                          colorFilter: const ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+                        ),
+                      ),
+                      prefixIconConstraints: BoxConstraints(minWidth: 44.w, minHeight: 44.h),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) return 'Email is required';
+                        if (!value.contains('@')) return 'Enter a valid email';
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 17.h),
+
+                    // Send OTP Button
+                    Obx(() {
+                      final bool canPress = !controller.isLoading.value;
+                      return CustomElevatedButton(
+                        onPressed: canPress
+                            ? () {
+                          if (formKey.currentState!.validate()) {
+                            controller.sendOtp();
+                          }
+                        }
+                            : null,
+                        color: canPress
+                            ? ConstColor.primaryColor
+                            : ConstColor.primaryColor.withAlpha(100),
+                        height: 48,
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        child: controller.isLoading.value
+                            ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2.5,
+                          ),
+                        )
+                            : CustomText(
+                          title: ConstString.sendOtp,
+                          textColor: ConstColor.backgroundColor,
+                          textSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      );
+                    }),
+                  ],
                 ),
-                SizedBox(height: 17.h),
-                CustomElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Get.find<ResetVerifyOtpController>().email.value = _emailController.text.trim();
-                      Get.toNamed(AppRoutes.resetVerifyOtpScreen);
-                    }
-                  },
-                  color: ConstColor.primaryColor,
-                  height: 48,
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  child: CustomText(
-                    title: ConstString.sendOtp,
-                    textColor: ConstColor.backgroundColor,
-                    textSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+
+        // ─── Full Screen Loader ───────────────
+        if (controller.isLoading.value)
+          Container(
+            color: Colors.black.withAlpha(120),
+            child: Center(
+              child: Container(
+                width: 90.w,
+                height: 90.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(30),
+                      blurRadius: 20,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: ConstColor.primaryColor,
+                    strokeWidth: 3,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+      ],
+    ));
   }
 }

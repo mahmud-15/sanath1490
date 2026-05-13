@@ -6,7 +6,6 @@ import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:sanath1490_flutter_app/widget/Divider/divider.dart';
 import '../../../../widget/text/custom_text.dart';
-import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
@@ -33,7 +32,7 @@ class CreateAccountScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 32.h),
 
-                // ─── Header ──────────────────────────
+                // Header
                 Center(
                   child: CustomText(
                     title: ConstString.createAccount,
@@ -57,7 +56,7 @@ class CreateAccountScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 28.h),
 
-                // ─── Full Name ───────────────────────
+                // Full Name
                 CustomTextFormField(
                   fromTitle: ConstString.fullName,
                   textController: controller.fullNameController,
@@ -83,7 +82,7 @@ class CreateAccountScreen extends StatelessWidget {
                   },
                 ),
 
-                // ─── Email ───────────────────────────
+                // Email
                 CustomTextFormField(
                   fromTitle: ConstString.emailAddress,
                   textController: controller.emailController,
@@ -111,9 +110,9 @@ class CreateAccountScreen extends StatelessWidget {
                   },
                 ),
 
-                // ─── Password ────────────────────────
+                // Password
                 Obx(() => CustomTextFormField(
-                  fromTitle: AutofillHints.password,
+                  fromTitle: ConstString.password,
                   textController: controller.passwordController,
                   textInputAction: TextInputAction.next,
                   obscureText: controller.obscurePassword.value,
@@ -154,7 +153,7 @@ class CreateAccountScreen extends StatelessWidget {
                   },
                 )),
 
-                // ─── Confirm Password ────────────────
+                // Confirm Password
                 Obx(() => CustomTextFormField(
                   fromTitle: ConstString.confirmPassword,
                   textController: controller.confirmPasswordController,
@@ -199,41 +198,52 @@ class CreateAccountScreen extends StatelessWidget {
 
                 SizedBox(height: 12.h),
 
-                // ─── Terms & Conditions ──────────────
+                //Terms & Conditions
                 _TermsRow(controller: controller),
                 SizedBox(height: 24.h),
 
-                // ─── Continue Button ─────────────────
-                Obx(() => CustomElevatedButton(
-                  onPressed: controller.isTermsAccepted.value
-                      ? () {
-                    if (formKey.currentState!.validate()) {
-                      controller.onContinue();
-                      Get.toNamed(AppRoutes.accountVerifyOtpScreen);
+                //Continue Button
+                Obx(() {
+                  final bool canPress = controller.isTermsAccepted.value && !controller.isLoading.value;
+                  return CustomElevatedButton(
+                    onPressed: canPress
+                        ? () {
+                      if (formKey.currentState!.validate()) {
+                        controller.onContinue();
+                      }
                     }
-                  }
-                      : null,
-                  color: controller.isTermsAccepted.value
-                      ? ConstColor.primaryColor
-                      : ConstColor.primaryColor.withAlpha(100),
-                  height: 48,
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  child: CustomText(
-                    title: ConstString.continueA,
-                    textColor: Colors.white,
-                    textSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                )),
+                        : null,
+                    color: canPress
+                        ? ConstColor.primaryColor
+                        : ConstColor.primaryColor.withAlpha(100),
+                    height: 48,
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    child: controller.isLoading.value
+                        ? const SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2.5,
+                      ),
+                    )
+                        : CustomText(
+                      title: ConstString.continueA,
+                      textColor: Colors.white,
+                      textSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  );
+                }),
                 SizedBox(height: 20.h),
 
-                // ─── OR Divider ──────────────────────
+                //OR Divider
                 OrDivider(),
                 SizedBox(height: 20.h),
 
-                // ─── Google Button ───────────────────
+                // Google Button
                 CustomElevatedButton(
                   onPressed: () {},
                   color: Colors.white,
@@ -257,7 +267,7 @@ class CreateAccountScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 24.h),
 
-                // ─── Sign In Row ─────────────────────
+                // Sign In Row
                 const _SignInRow(),
                 SizedBox(height: 68.h),
               ],
@@ -269,7 +279,7 @@ class CreateAccountScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
+// ====================================All Helper Widget In Here===========================//
 class _TermsRow extends StatelessWidget {
   final CreateAccountController controller;
 
@@ -314,11 +324,9 @@ class _TermsRow extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 maxLine: 1,
               ),
-              SizedBox(width: 5.w,),
+              SizedBox(width: 5.w),
               GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.termsScreen);
-                },
+                onTap: () => Get.toNamed(AppRoutes.termsScreen),
                 child: CustomText(
                   title: ConstString.termsAndCondition,
                   textColor: ConstColor.primaryColor,
@@ -327,7 +335,7 @@ class _TermsRow extends StatelessWidget {
                   maxLine: 1,
                 ),
               ),
-              SizedBox(width: 5.w,),
+              SizedBox(width: 5.w),
               CustomText(
                 title: ConstString.and,
                 textColor: ConstColor.bodyColor,
@@ -335,11 +343,9 @@ class _TermsRow extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 maxLine: 1,
               ),
-              SizedBox(width: 5.w,),
+              SizedBox(width: 5.w),
               GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.privacyPolicyScreen);
-                },
+                onTap: () => Get.toNamed(AppRoutes.privacyPolicyScreen),
                 child: CustomText(
                   title: ConstString.privacyPolicy,
                   textColor: ConstColor.primaryColor,
@@ -356,10 +362,6 @@ class _TermsRow extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
-
-
-// ─────────────────────────────────────────
 class _SignInRow extends StatelessWidget {
   const _SignInRow();
 
@@ -375,7 +377,7 @@ class _SignInRow extends StatelessWidget {
           fontWeight: FontWeight.w400,
           maxLine: 1,
         ),
-        SizedBox(width: 4.w,),
+        SizedBox(width: 4.w),
         GestureDetector(
           onTap: () => Get.toNamed(AppRoutes.signInScreen),
           child: CustomText(

@@ -8,7 +8,7 @@ import 'error_snackbar_message.dart';
 class AppSnackBar {
 
   // ─── Error ───────────────────────────────
-  static void error(String parameterValue, {int seconds = 6}) {
+  static void error(String parameterValue, {int seconds = 3}) {
     Get.showSnackbar(
       GetSnackBar(
         backgroundColor: Colors.red.withAlpha(230),
@@ -22,19 +22,19 @@ class AppSnackBar {
         },
         messageText: ErrorSnackBarMessageWidget(errorMessage: parameterValue),
         borderRadius: 12.r,
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
         margin: EdgeInsets.only(
           top: 20.h,
           left: 16.w,
           right: 16.w,
         ),
-        snackPosition: SnackPosition.TOP,
+        snackPosition: SnackPosition.BOTTOM,
       ),
     );
   }
 
   // ─── Success ─────────────────────────────
-  static void success(String parameterValue, {int seconds = 4}) {
+  static void success(String parameterValue, {int seconds = 3}) {
     Get.showSnackbar(
       GetSnackBar(
         backgroundColor: const Color(0xFFECFDF5),
@@ -48,13 +48,13 @@ class AppSnackBar {
         },
         messageText: _SuccessMessageWidget(message: parameterValue),
         borderRadius: 12.r,
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 7.h),
         margin: EdgeInsets.only(
           top: 20.h,
           left: 16.w,
           right: 16.w,
         ),
-        snackPosition: SnackPosition.TOP,
+        snackPosition: SnackPosition.BOTTOM,
       ),
     );
   }
@@ -85,13 +85,13 @@ class AppSnackBar {
           fontWeight: FontWeight.w400,
         ),
         borderRadius: 12.r,
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 7.h),
         margin: EdgeInsets.only(
           top: 20.h,
           left: 16.w,
           right: 16.w,
         ),
-        snackPosition: SnackPosition.TOP,
+        snackPosition: SnackPosition.BOTTOM,
       ),
     );
   }

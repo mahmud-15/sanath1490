@@ -3,37 +3,51 @@ import '../utils/log_print.dart';
 
 class AppApiUrl {
   AppApiUrl._privateConstructor();
+
   static final AppApiUrl _instance = AppApiUrl._privateConstructor();
+
   static AppApiUrl get instance => _instance;
 
-  // Domain configuration
+  // ==================== Domain ====================
   static final String domain = _getDomain();
   static final String socket = _getDomain();
   final String baseUrl = "$domain/api/v1";
   final String imgBaseUrl = domain;
 
   // ==================== Auth ====================
-  String register       = "/users";
+  final String register = "/users";
+  final String registerVerifyOtp = "/auth/verify-email";
+  final String singIn = "/auth/login";
+  final String forgotPassword = "/auth/forget-password";
+  final String forgotVerifyOtp = "/auth/verify-email";
+  final String resetPassword = "/auth/reset-password";
+
+
+  // ==================== Home Screen ====================
+  final String nearbyListingProperty = "/listings/nearby";
+  // final String orders   = "/orders";
 
   // ==================== Profile ====================
-  String userProfile       = "/users/profile";
-  String refreshToken      = "/refreshToken";
-  // ==================== USER ====================
-  String banner              = "/banners";
+  final String userProfile = "/users/profile";
+  final String refreshToken = "/refreshToken";
+
+  // ==================== Banner ====================
+  final String banner = "/banners";
 
 
 }
 
 String _getDomain() {
-  // const String liveServer  = "https://api.gogreenmatrix.my";
-  const String localServer = "http://10.10.7.41:5005";
+  // const String liveServer  = "https://your-live-api.com";   // 🔴live URL
+  const String localServer = "http://10.10.7.93:5001"; // 🟡 local Server
 
   try {
-    if (kDebugMode) {
-      return localServer;
-    }
+    if (kDebugMode) return localServer;
+    return localServer;
   } catch (e) {
     errorLog("_getDomain", e);
+    return localServer;
   }
-  return localServer;
 }
+
+// 10.10.7.93:5001/api/v1

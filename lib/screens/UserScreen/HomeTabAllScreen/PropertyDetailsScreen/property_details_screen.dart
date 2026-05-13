@@ -11,6 +11,7 @@ import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../HomeScreen/Controller/home_controller.dart';
+import '../HomeScreen/Model/property_model.dart';
 import 'Controller/property_details_controller.dart';
 
 class PropertyDetailsScreen extends StatelessWidget {

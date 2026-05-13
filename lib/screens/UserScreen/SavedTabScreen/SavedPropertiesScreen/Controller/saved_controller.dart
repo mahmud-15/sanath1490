@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../HomeTabAllScreen/HomeScreen/Controller/home_controller.dart';
+import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
 class SavedController extends GetxController {
   // ─── Tab index: 0 = Properties, 1 = Searches ─────

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../../../../Widget/text/custom_text.dart';
 import '../../../../../constant/const_color.dart';
 import '../../../../../widget/AppImage/app_image.dart';
-import '../Controller/home_controller.dart';
+import '../Model/property_model.dart';
 
 class PropertyCard extends StatelessWidget {
   final PropertyModel property;
@@ -44,7 +44,6 @@ class PropertyCard extends StatelessWidget {
               children: [
 
                 // ─── Inner Image Slider ────────────────
-                // When users swipe here, only the image changes!
                 Stack(
                   children: [
                     ClipRRect(
@@ -53,7 +52,7 @@ class PropertyCard extends StatelessWidget {
                         itemCount: property.images.length,
                         itemBuilder: (context, index, realIndex) {
                           return AppImage(
-                            path: property.images[index],
+                            url: property.images[index],
                             width: double.infinity,
                             height: 200.h,
                             fit: BoxFit.cover,
@@ -61,10 +60,10 @@ class PropertyCard extends StatelessWidget {
                         },
                         options: CarouselOptions(
                           height: 200.h,
-                          viewportFraction: 1.0, // Full width per image
+                          viewportFraction: 1.0,
                           enableInfiniteScroll: false,
                           onPageChanged: (index, reason) {
-                            property.currentIndex.value = index; // Updates image counter
+                            property.currentIndex.value = index;
                           },
                         ),
                       ),

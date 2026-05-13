@@ -1,99 +1,138 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../../constant/app_api_url.dart';
+import '../../routes/app_routes/app_routes.dart';
 import '../../utils/log_print.dart';
 import '../storage/storage_services.dart';
 import 'non_auth_api.dart';
 
 class AppApi {
-  final Dio _dio = Dio();
-  AppApi._privateConstructor(){
+  AppApi._privateConstructor() {
     _initDio();
   }
   static final AppApi _instance = AppApi._privateConstructor();
   static AppApi get instance => _instance;
-  var storageServices = StorageServices.instance;
 
-  _initDio() {
-    _dio.options.baseUrl = AppApiUrl.instance.baseUrl;
-    _dio.options.sendTimeout = const Duration(seconds: 120);
-    _dio.options.connectTimeout = const Duration(seconds: 120);
-    _dio.options.receiveTimeout = const Duration(seconds: 120);
-    _dio.options.followRedirects = false;
+  final Dio _dio = Dio();
+  final _storage = StorageServices.instance;
 
-    _dio.interceptors.addAll({
+  void _initDio() {
+    _dio.options
+      ..baseUrl = AppApiUrl.instance.baseUrl
+      ..connectTimeout = const Duration(seconds: 120)
+      ..sendTimeout = const Duration(seconds: 120)
+      ..receiveTimeout = const Duration(seconds: 120)
+      ..followRedirects = false;
+
+    _dio.interceptors.addAll([
       InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          options.baseUrl = AppApiUrl.instance.baseUrl;
-          options.contentType = 'application/json';
-          options.headers["Accept"] = "application/json";
-
-          String token = await storageServices.getToken();
-          if (token.isNotEmpty) {
-            options.headers["Authorization"] = "Bearer $token";
-          }
-
-          return handler.next(options); // Continue request
-        },
-        onError: (error, handler) async {
-          appLog("""
-
-API error occurred:
-
-Status code: ${error.response?.statusCode}
-
-Error message: ${error.message}
-
-""");
-
-          try {
-            if (error.response?.statusCode == 401) {
-              String token = await storageServices.getRefreshToken();
-              if (token.isEmpty) {
-                await storageServices.logout();
-                // Get.offAllNamed(AppRoutes.logInScreen);
-
-                return handler.next(error);
-              }
-              final newAccessToken = await reFreshNewAccessToken(token);
-              if (newAccessToken.isNotEmpty) {
-                _dio.options.headers["Authorization"] = "Bearer $newAccessToken";
-                return handler.resolve(await _dio.fetch(error.requestOptions));
-              } else {
-                await storageServices.logout();
-                // Get.offAllNamed(AppRoutes.initialPage);
-                // appRoutes.pushReplacement(AppRoutesKey.instance.splash);
-                return handler.next(error);
-              }
-            }
-          } catch (e) {
-            errorLog("error form api try and catch bloc", e);
-            return handler.next(error);
-          }
-
-          return handler.next(error); // Continue with error
-        },
+        onRequest: _onRequest,
+        onError: _onError,
       ),
       if (kDebugMode)
-
-        PrettyDioLogger(requestHeader: true, request: true, compact: true, error: true, requestBody: true, responseHeader: true, responseBody: true),
-    });
+        PrettyDioLogger(
+          requestHeader: true,
+          request: true,
+          compact: true,
+          error: true,
+          requestBody: true,
+          responseHeader: true,
+          responseBody: true,
+        ),
+    ]);
   }
+
+  // ==================== Request Interceptor ====================
+  Future<void> _onRequest(
+      RequestOptions options,
+      RequestInterceptorHandler handler,
+      ) async {
+    options.baseUrl = AppApiUrl.instance.baseUrl;
+    options.contentType = 'application/json';
+    options.headers["Accept"] = "application/json";
+
+    final token = await _storage.getToken();
+    if (token.isNotEmpty) {
+      options.headers["Authorization"] = "Bearer $token";
+    }
+
+    return handler.next(options);
+  }
+
+  // ==================== Error Interceptor ====================
+  Future<void> _onError(
+      DioException error,
+      ErrorInterceptorHandler handler,
+      ) async {
+    appLog("""
+API Error ►
+  Status  : ${error.response?.statusCode}
+  Message : ${error.message}
+  URL     : ${error.requestOptions.path}
+""");
+
+    if (error.response?.statusCode == 401) {
+      await _handle401(error, handler);
+      return;
+    }
+
+    return handler.next(error);
+  }
+
+  // ==================== 401 Handler ====================
+  Future<void> _handle401(
+      DioException error,
+      ErrorInterceptorHandler handler,
+      ) async {
+    try {
+      final refreshToken = await _storage.getRefreshToken();
+
+      if (refreshToken.isEmpty) {
+        await _logoutAndRedirect();
+        return handler.next(error);
+      }
+
+      final newAccessToken = await reFreshNewAccessToken(refreshToken);
+
+      if (newAccessToken.isNotEmpty) {
+        _dio.options.headers["Authorization"] = "Bearer $newAccessToken";
+        final retryResponse = await _dio.fetch(error.requestOptions);
+        return handler.resolve(retryResponse);
+      } else {
+        await _logoutAndRedirect();
+        return handler.next(error);
+      }
+    } catch (e) {
+      errorLog("_handle401", e);
+      return handler.next(error);
+    }
+  }
+
+  // ==================== Logout Helper ====================
+  Future<void> _logoutAndRedirect() async {
+    await _storage.logout();
+    Get.offAllNamed(AppRoutes.signInScreen); // 🔴 Replace with your login route
+  }
+
   Dio get sendRequest => _dio;
 }
 
-// Token refresh logic
+// ==================== Token Refresh ====================
 Future<String> reFreshNewAccessToken(String refreshToken) async {
   try {
-    final response = await NonAuthApi().sendRequest.post(AppApiUrl.instance.refreshToken, data: {"token": refreshToken});
+    final response = await NonAuthApi.instance.sendRequest.post(
+      AppApiUrl.instance.refreshToken,
+      data: {"token": refreshToken},
+    );
+
     if (response.statusCode == 200) {
-      if (response.data["data"] != null && response.data["data"] is Map) {
-        var data = response.data["data"];
-        if (data["accessToken"] != null && data["accessToken"] is String) {
-          await StorageServices.instance.setToken(data["accessToken"]);
-          return data["accessToken"].toString();
-        }
+      final data = response.data?["data"];
+      if (data is Map && data["accessToken"] is String) {
+        final newToken = data["accessToken"] as String;
+        await StorageServices.instance.setToken(newToken);
+        return newToken;
       }
     } else {
       await StorageServices.instance.logout();
