@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../../PropertyDetailsScreen/Controller/property_details_controller.dart';
 
 class GalleryController extends GetxController {
   final selectedTab = 0.obs;
@@ -7,45 +8,55 @@ class GalleryController extends GetxController {
   void openPhotoViewer(int index) => currentViewerIndex.value = index;
   void onTabChanged(int index) => selectedTab.value = index;
 
-  // ─── Photos ──────────────────────────────
-  final photos = [
-    'assets/images/property_img.png',
-    'assets/images/property_img2.png',
-    'assets/images/property_img3.png',
-  ];
+  // Photos
+  final photos = <String>[].obs;
 
-  // ─── Videos ──────────────────────────────
-  final videos = [
-    VideoModel(
-      thumbnail: 'assets/images/property_img2.png',
-      title: 'Property walkthrough',
-      duration: '3:24',
-      quality: 'HD',
-    ),
-    VideoModel(
-      thumbnail: 'assets/images/property_img.png',
-      title: 'Garden tour',
-      duration: '1:15',
-      quality: 'HD',
-    ),
-  ];
+  //Videos
+  final videos = <VideoModel>[].obs;
 
-  // ─── Floorplan ───────────────────────────
-  final floorPlanImage = 'assets/images/floor_plan_img.png';
-  final floorPlanLabel = 'Ground Floor';
+  // Floor plan
+  final floorPlans = <String>[].obs;
+  final floorPlanLabel = 'Floor Plan'.obs;
 
-  // ─── Actions ─────────────────────────────
+  @override
+  void onReady() {
+    super.onReady();
+    _loadFromPropertyDetails();
+  }
+
+  void _loadFromPropertyDetails() {
+    try {
+      final detailsController = Get.find<PropertyDetailsController>();
+
+      photos.value = detailsController.images;
+
+      videos.value = detailsController.videoUrls.map((url) => VideoModel(
+        url: url,
+        thumbnail: detailsController.images.isNotEmpty
+            ? detailsController.images.first
+            : '',
+        title: 'Property Video',
+        duration: '',
+        quality: 'HD',
+      )).toList();
+
+      floorPlans.value = detailsController.floorPlans;
+    } catch (_) {}
+  }
+
   void onCall() {}
   void onEmail() {}
 }
 
 class VideoModel {
+  final String url;
   final String thumbnail;
   final String title;
   final String duration;
   final String quality;
 
   VideoModel({
+    required this.url,
     required this.thumbnail,
     required this.title,
     required this.duration,

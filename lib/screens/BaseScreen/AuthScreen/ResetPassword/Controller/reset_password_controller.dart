@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../routes/app_routes/app_routes.dart';
+import '../../../../../service/storage/storage_services.dart';
 import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
 import '../../AuthRepository/auth_repository.dart';
@@ -37,18 +38,27 @@ class ResetPasswordController extends GetxController {
       isLoading.value = true;
       AppLoader.show(message: 'Resetting password...');
 
+      // ✅ Storage থেকে resetToken নিয়ে header এ পাঠানো হচ্ছে
+      final resetToken = await StorageServices.instance.getResetToken();
+
+
       final request = ResetPasswordRequestModel(
         email:           email.value,
         newPassword:     passwordController.text.trim(),
         confirmPassword: confirmPasswordController.text.trim(),
       );
 
-      final response = await AuthRepository.instance.resetPassword(request);
+      final response = await AuthRepository.instance.resetPassword(
+        request,
+        resetToken: resetToken,
+      );
 
       AppLoader.hide();
       isLoading.value = false;
 
       if (response != null) {
+        // ✅ resetToken আর দরকার নেই, clear করো
+        await StorageServices.instance.clearResetToken();
         AppSnackBar.success("Password reset successfully!");
         await Future.delayed(const Duration(milliseconds: 500));
         Get.offAllNamed(AppRoutes.signInScreen);

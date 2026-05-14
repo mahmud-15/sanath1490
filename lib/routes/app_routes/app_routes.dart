@@ -25,6 +25,7 @@ class AppRoutes {
   static const propertyListScreen = '/propertyListScreen';
   static const propertyDetails = '/propertyDetails';
   static const galleryDetailsScreen = '/galleryDetailsScreen';
+  // static const videoPlayerScreen = '/videoPlayerScreen';
   static const degreeTourScreen = '/degreeTourScreen';
   static const contactAgentScreen = '/contactAgentScreen';
 

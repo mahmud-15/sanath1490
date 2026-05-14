@@ -9,6 +9,7 @@ import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/text/custom_text.dart';
 import 'Controller/gallery_controller.dart';
 import 'Widget/photo_viewer_screen.dart';
+import 'Widget/video_player_screen.dart';
 
 class GalleryDetailsScreen extends StatelessWidget {
   const GalleryDetailsScreen({super.key});
@@ -22,7 +23,6 @@ class GalleryDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // ─── Tab Bar ─────────────────────────
             _GalleryTabBar(controller: controller),
             SizedBox(height: 11.h),
 
@@ -47,7 +47,7 @@ class GalleryDetailsScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Tab Bar ──────────────────────────────────────────
 class _GalleryTabBar extends StatelessWidget {
   final GalleryController controller;
 
@@ -64,7 +64,7 @@ class _GalleryTabBar extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Obx(
-        () => Row(
+            () => Row(
           children: List.generate(tabs.length, (index) {
             final bool isSelected = controller.selectedTab.value == index;
             return Expanded(
@@ -116,7 +116,7 @@ class _GalleryTabBar extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Photos Tab ───────────────────────────────────────
 class _PhotosTab extends StatelessWidget {
   final GalleryController controller;
 
@@ -124,26 +124,31 @@ class _PhotosTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: controller.photos.length,
-      separatorBuilder: (_, __) => SizedBox(height: 8.h),
-      itemBuilder: (context, index) => GestureDetector(
-        onTap: () {
-          controller.openPhotoViewer(index);
-          Get.to(() => const PhotoViewerScreen());
-        },
-        child: AppImage(
-          path: controller.photos[index],
-          width: double.infinity,
-          height: 200.h,
-          fit: BoxFit.cover,
+    return Obx(() {
+      if (controller.photos.isEmpty) {
+        return const Center(child: Text('No photos available'));
+      }
+      return ListView.separated(
+        itemCount: controller.photos.length,
+        separatorBuilder: (_, __) => SizedBox(height: 8.h),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            controller.openPhotoViewer(index);
+            Get.to(() => const PhotoViewerScreen());
+          },
+          child: AppImage(
+            url: controller.photos[index],
+            width: double.infinity,
+            height: 200.h,
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Videos Tab ───────────────────────────────────────
 class _VideosTab extends StatelessWidget {
   final GalleryController controller;
 
@@ -151,19 +156,24 @@ class _VideosTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.symmetric(vertical: 8.h),
-      itemCount: controller.videos.length,
-      separatorBuilder: (_, _) => SizedBox(height: 12.h),
-      itemBuilder: (context, index) {
-        final video = controller.videos[index];
-        return _VideoCard(video: video);
-      },
-    );
+    return Obx(() {
+      if (controller.videos.isEmpty) {
+        return const Center(child: Text('No videos available'));
+      }
+      return ListView.separated(
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        itemCount: controller.videos.length,
+        separatorBuilder: (_, __) => SizedBox(height: 12.h),
+        itemBuilder: (context, index) {
+          final video = controller.videos[index];
+          return _VideoCard(video: video);
+        },
+      );
+    });
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Video Card ───────────────────────────────────────
 class _VideoCard extends StatelessWidget {
   final VideoModel video;
 
@@ -192,50 +202,73 @@ class _VideoCard extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                AppImage(
-                  path: video.thumbnail,
-                  width: double.infinity,
-                  height: 200.h,
-                  fit: BoxFit.cover,
+                // ─── Thumbnail ────────────────────
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(12.r),
+                  ),
+                  child: video.thumbnail.isNotEmpty
+                      ? AppImage(
+                    url: video.thumbnail,
+                    width: double.infinity,
+                    height: 200.h,
+                    fit: BoxFit.cover,
+                  )
+                      : Container(
+                    width: double.infinity,
+                    height: 200.h,
+                    color: Colors.grey.shade300,
+                    child: Icon(
+                      Icons.videocam_outlined,
+                      size: 48.sp,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
 
                 // ─── Play Button ──────────────────
-                Container(
-                  width: 60.w,
-                  height: 60.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
+                InkWell(
+                  onTap: () => Get.to(
+                        () => VideoPlayerScreen(url: video.url),
                   ),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    color: ConstColor.primaryColor,
-                    size: 42.sp,
+                  child: Container(
+                    width: 60.w,
+                    height: 60.h,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.play_arrow_rounded,
+                      color: ConstColor.primaryColor,
+                      size: 42.sp,
+                    ),
                   ),
                 ),
 
                 // ─── Duration Badge ───────────────
-                Positioned(
-                  bottom: 8.h,
-                  right: 8.w,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 6.w,
-                      vertical: 2.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withAlpha(160),
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    child: CustomText(
-                      title: video.duration,
-                      textColor: Colors.white,
-                      textSize: 11.sp,
-                      fontWeight: FontWeight.w500,
-                      maxLine: 1,
+                if (video.duration.isNotEmpty)
+                  Positioned(
+                    bottom: 8.h,
+                    right: 8.w,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 2.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withAlpha(160),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: CustomText(
+                        title: video.duration,
+                        textColor: Colors.white,
+                        textSize: 11.sp,
+                        fontWeight: FontWeight.w500,
+                        maxLine: 1,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
 
@@ -252,7 +285,6 @@ class _VideoCard extends StatelessWidget {
                       color: ConstColor.primaryColor.withAlpha(30),
                       borderRadius: BorderRadius.circular(4),
                     ),
-
                     child: Center(
                       child: SvgPicture.asset("assets/icons/play_icon.svg"),
                     ),
@@ -268,13 +300,14 @@ class _VideoCard extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                         maxLine: 1,
                       ),
-                      CustomText(
-                        title: '${video.duration} ● ${video.quality}',
-                        textColor: ConstColor.bodyColor,
-                        textSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        maxLine: 1,
-                      ),
+                      if (video.duration.isNotEmpty)
+                        CustomText(
+                          title: '${video.duration} ● ${video.quality}',
+                          textColor: ConstColor.bodyColor,
+                          textSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          maxLine: 1,
+                        ),
                     ],
                   ),
                 ],
@@ -287,7 +320,7 @@ class _VideoCard extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Floor Plan Tab ───────────────────────────────────
 class _FloorPlanTab extends StatelessWidget {
   final GalleryController controller;
 
@@ -295,54 +328,64 @@ class _FloorPlanTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16.w),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () => Get.to(
-              () => _FloorPlanFullScreen(
-                imagePath: controller.floorPlanImage,
-                label: controller.floorPlanLabel,
-              ),
-            ),
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: ConstColor.outLineColor),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: AppImage(
-                path: controller.floorPlanImage,
-                width: double.infinity,
-                height: 320.h,
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          SizedBox(height: 12.h),
-          CustomText(
-            title: controller.floorPlanLabel,
-            textColor: ConstColor.titleColor,
-            textSize: 14.sp,
-            fontWeight: FontWeight.w700,
-            textAlign: TextAlign.center,
-            maxLine: 1,
-          ),
-        ],
-      ),
-    );
+    return Obx(() {
+      if (controller.floorPlans.isEmpty) {
+        return const Center(child: Text('No floor plans available'));
+      }
+      return SingleChildScrollView(
+        padding: EdgeInsets.all(16.w),
+        child: Column(
+          children: List.generate(controller.floorPlans.length, (index) {
+            return Column(
+              children: [
+                GestureDetector(
+                  onTap: () => Get.to(
+                        () => _FloorPlanFullScreen(
+                      imageUrl: controller.floorPlans[index],
+                      label: controller.floorPlanLabel.value,
+                    ),
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: ConstColor.outLineColor),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: AppImage(
+                      url: controller.floorPlans[index],
+                      width: double.infinity,
+                      height: 320.h,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                CustomText(
+                  title: controller.floorPlanLabel.value,
+                  textColor: ConstColor.titleColor,
+                  textSize: 14.sp,
+                  fontWeight: FontWeight.w700,
+                  textAlign: TextAlign.center,
+                  maxLine: 1,
+                ),
+                SizedBox(height: 16.h),
+              ],
+            );
+          }),
+        ),
+      );
+    });
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Floor Plan Full Screen ───────────────────────────
 class _FloorPlanFullScreen extends StatelessWidget {
-  final String imagePath;
+  final String imageUrl;
   final String label;
 
-  const _FloorPlanFullScreen({required this.imagePath, required this.label});
+  const _FloorPlanFullScreen({required this.imageUrl, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -351,18 +394,16 @@ class _FloorPlanFullScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            // ─── Image ───────────────────────────
             Center(
               child: InteractiveViewer(
                 child: AppImage(
-                  path: imagePath,
+                  url: imageUrl,
                   width: double.infinity,
                   fit: BoxFit.contain,
                 ),
               ),
             ),
 
-            // ─── Back Button ─────────────────────
             Positioned(
               top: 16.h,
               left: 16.w,
@@ -384,7 +425,6 @@ class _FloorPlanFullScreen extends StatelessWidget {
               ),
             ),
 
-            // ─── Label ───────────────────────────
             Positioned(
               bottom: 24.h,
               left: 0,

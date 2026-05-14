@@ -18,15 +18,18 @@ class ResetVerifyOtpRequestModel {
 class ResetVerifyOtpResponseModel {
   final bool success;
   final String message;
+  final String? resetToken; // ✅ data field = resetToken
 
   const ResetVerifyOtpResponseModel({
     required this.success,
     required this.message,
+    this.resetToken,
   });
 
   factory ResetVerifyOtpResponseModel.fromJson(Map<String, dynamic> json) =>
       ResetVerifyOtpResponseModel(
-        success: json["success"] ?? false,
-        message: json["message"] ?? "",
+        success:    json["success"] ?? false,
+        message:    json["message"] ?? "",
+        resetToken: json["data"]?.toString(),
       );
 }

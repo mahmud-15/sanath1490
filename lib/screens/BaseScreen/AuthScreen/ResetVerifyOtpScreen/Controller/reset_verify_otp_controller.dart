@@ -1,18 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../../routes/app_routes/app_routes.dart';
+import '../../../../../service/storage/storage_services.dart';
 import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
 import '../../AuthRepository/auth_repository.dart';
 import '../Model/reset_verify_otp_model.dart';
 
 class ResetVerifyOtpController extends GetxController {
-  final List<TextEditingController> controllers =
-  List.generate(4, (_) => TextEditingController());
-  final List<FocusNode> focusNodes =
-  List.generate(4, (_) => FocusNode());
+  late final List<TextEditingController> controllers;
+  late final List<FocusNode> focusNodes;
 
   final RxInt    secondsRemaining = 59.obs;
   final RxString email            = ''.obs;
@@ -24,6 +22,9 @@ class ResetVerifyOtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    controllers = List.generate(4, (_) => TextEditingController());
+    focusNodes  = List.generate(4, (_) => FocusNode());
+
     final args = Get.arguments;
     if (args != null && args["email"] != null) {
       email.value = args["email"];
@@ -50,33 +51,40 @@ class ResetVerifyOtpController extends GetxController {
   Future<void> verifyOtp() async {
     if (currentPin.length < 6) return;
 
-    isLoading.value = true;
-    AppLoader.show(message: 'Verifying OTP...');
+    try {
+      isLoading.value = true;
+      AppLoader.show(message: 'Verifying OTP...');
 
-    final request = ResetVerifyOtpRequestModel(
-      email: email.value,
-      oneTimeCode: int.parse(currentPin),
-    );
-
-    final response = await AuthRepository.instance.forgotVerifyOtp(request);
-
-    AppLoader.hide();
-    isLoading.value = false;
-
-    if (response != null) {
-      AppSnackBar.success("OTP verified successfully!");
-      await Future.delayed(const Duration(milliseconds: 800));
-      Get.toNamed(
-        AppRoutes.resetPasswordScreen,
-        arguments: {"email": email.value},
+      final request = ResetVerifyOtpRequestModel(
+        email:       email.value,
+        oneTimeCode: int.parse(currentPin),
       );
+
+      final response = await AuthRepository.instance.forgotVerifyOtp(request);
+
+      AppLoader.hide();
+      isLoading.value = false;
+
+      if (response != null && response.resetToken != null) {
+        // ✅ resetToken storage এ save করা হচ্ছে
+        await StorageServices.instance.setResetToken(response.resetToken!);
+        AppSnackBar.success("OTP verified successfully!");
+        await Future.delayed(const Duration(milliseconds: 150));
+        Get.toNamed(
+          AppRoutes.resetPasswordScreen,
+          arguments: {"email": email.value},
+        );
+      }
+    } catch (e) {
+      AppLoader.hide();
+      isLoading.value = false;
+      AppSnackBar.error("Something went wrong. Please try again.");
     }
   }
 
   // ==================== Resend OTP ====================
   Future<void> resendOtp() async {
     if (secondsRemaining.value != 0) return;
-    // TODO: resend OTP API call
     startTimer();
   }
 

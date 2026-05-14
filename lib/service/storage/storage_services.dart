@@ -8,15 +8,16 @@ class StorageKey {
   static StorageKey get instance => _instance;
 
   final String storageContainerKey = "storageContainerKey";
-  final String loginDataStore = "loginDataStore";
-  final String token = "token";
-  final String refreshToken = "refreshToken";
-  final String user = "user";
-  final String language = "language";
-  final String isDarkMode = "isDarkMode";
-  final String appFirstTime = "appFirstTime";
-  final String appUserRollData = "appUserRollData";
-  final String selectedRole = "selectedRole";
+  final String loginDataStore      = "loginDataStore";
+  final String token               = "token";
+  final String refreshToken        = "refreshToken";
+  final String resetToken          = "resetToken";       // ✅ new
+  final String user                = "user";
+  final String language            = "language";
+  final String isDarkMode          = "isDarkMode";
+  final String appFirstTime        = "appFirstTime";
+  final String appUserRollData     = "appUserRollData";
+  final String selectedRole        = "selectedRole";
 }
 
 class StorageServices {
@@ -24,35 +25,38 @@ class StorageServices {
   static final StorageServices _instance = StorageServices._privateConstructor();
   static StorageServices get instance => _instance;
 
-  final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
+  Future<SharedPreferences> get _pref => SharedPreferences.getInstance();
 
   // ==================== Login Data ====================
   Future<void> setLogDedData(Map<String, dynamic> data) async {
     try {
       final pref = await _pref;
-      var formateData = jsonEncode(data);
-      await pref.setString(StorageKey.instance.loginDataStore, formateData);
+      await pref.setString(StorageKey.instance.loginDataStore, jsonEncode(data));
     } catch (e) {
-      errorLog("setLogDedData data", e);
+      errorLog("setLogDedData", e);
     }
   }
 
   Future<Map<String, dynamic>> getLogDedData() async {
     try {
       final pref = await _pref;
-      var response = pref.getString(StorageKey.instance.loginDataStore) ?? "";
-      if (response.isEmpty) return {};
-      return jsonDecode(response);
+      final raw = pref.getString(StorageKey.instance.loginDataStore) ?? "";
+      if (raw.isEmpty) return {};
+      return jsonDecode(raw);
     } catch (e) {
       errorLog("getLogDedData", e);
       return {};
     }
   }
 
-  // ==================== Token ====================
+  // ==================== Access Token ====================
   Future<void> setToken(String value) async {
-    final pref = await _pref;
-    await pref.setString(StorageKey.instance.token, value);
+    try {
+      final pref = await _pref;
+      await pref.setString(StorageKey.instance.token, value);
+    } catch (e) {
+      errorLog("setToken", e);
+    }
   }
 
   Future<String> getToken() async {
@@ -60,15 +64,19 @@ class StorageServices {
       final pref = await _pref;
       return pref.getString(StorageKey.instance.token) ?? "";
     } catch (e) {
-      errorLog("get token", e);
+      errorLog("getToken", e);
       return "";
     }
   }
 
   // ==================== Refresh Token ====================
   Future<void> setRefreshToken(String value) async {
-    final pref = await _pref;
-    await pref.setString(StorageKey.instance.refreshToken, value);
+    try {
+      final pref = await _pref;
+      await pref.setString(StorageKey.instance.refreshToken, value);
+    } catch (e) {
+      errorLog("setRefreshToken", e);
+    }
   }
 
   Future<String> getRefreshToken() async {
@@ -76,24 +84,61 @@ class StorageServices {
       final pref = await _pref;
       return pref.getString(StorageKey.instance.refreshToken) ?? "";
     } catch (e) {
-      errorLog("get refreshToken", e);
+      errorLog("getRefreshToken", e);
       return "";
     }
   }
 
-  // ==================== User Role (Existing - Keep as is) ====================
-  Future<String> getAppRoll() async {
-    final pref = await _pref;
-    return pref.getString(StorageKey.instance.appUserRollData) ?? "";
+  // ==================== Reset Token ====================
+  Future<void> setResetToken(String value) async {
+    try {
+      final pref = await _pref;
+      await pref.setString(StorageKey.instance.resetToken, value);
+    } catch (e) {
+      errorLog("setResetToken", e);
+    }
   }
 
+  Future<String> getResetToken() async {
+    try {
+      final pref = await _pref;
+      return pref.getString(StorageKey.instance.resetToken) ?? "";
+    } catch (e) {
+      errorLog("getResetToken", e);
+      return "";
+    }
+  }
+
+  Future<void> clearResetToken() async {
+    try {
+      final pref = await _pref;
+      await pref.remove(StorageKey.instance.resetToken);
+    } catch (e) {
+      errorLog("clearResetToken", e);
+    }
+  }
+
+  // ==================== User Role ====================
   Future<void> setAppRoll(String value) async {
-    final pref = await _pref;
-    await pref.setString(StorageKey.instance.appUserRollData, value);
+    try {
+      final pref = await _pref;
+      await pref.setString(StorageKey.instance.appUserRollData, value);
+    } catch (e) {
+      errorLog("setAppRoll", e);
+    }
   }
 
-  // ==================== Selected Role (NEW - For Role Selection) ====================
-  /// ✅ Save selected role from Role Selection Screen
+  Future<String> getAppRoll() async {
+    try {
+      final pref = await _pref;
+      return pref.getString(StorageKey.instance.appUserRollData) ?? "";
+    } catch (e) {
+      errorLog("getAppRoll", e);
+      return "";
+    }
+  }
+
+  // ==================== Selected Role ====================
   Future<void> saveSelectedRole(String role) async {
     try {
       final pref = await _pref;
@@ -103,7 +148,6 @@ class StorageServices {
     }
   }
 
-  /// ✅ Get selected role
   Future<String?> getSelectedRole() async {
     try {
       final pref = await _pref;
@@ -114,7 +158,6 @@ class StorageServices {
     }
   }
 
-  /// ✅ Clear selected role
   Future<void> clearSelectedRole() async {
     try {
       final pref = await _pref;
@@ -124,37 +167,29 @@ class StorageServices {
     }
   }
 
-  // ==================== Logout ====================
-  Future<void> logout() async {
-    try {
-      final pref = await _pref;
-      await pref.remove(StorageKey.instance.refreshToken);
-      await pref.remove(StorageKey.instance.token);
-      await pref.remove(StorageKey.instance.appUserRollData);
-      await pref.remove(StorageKey.instance.loginDataStore);
-      await pref.remove(StorageKey.instance.selectedRole);
-    } catch (e) {
-      errorLog("logout", e);
-    }
-  }
-
   // ==================== Language ====================
-  Future<String> getLanguage() async {
-    final pref = await _pref;
-    return pref.getString(StorageKey.instance.language) ?? "";
-  }
-
   Future<void> setLanguage(String value) async {
     final pref = await _pref;
     await pref.setString(StorageKey.instance.language, value);
   }
 
-  // ==================== First Time Flag ====================
-  Future<bool> getAppFirstTime() async {
+  Future<String> getLanguage() async {
     final pref = await _pref;
-    return pref.getBool(StorageKey.instance.appFirstTime) ?? true;
+    return pref.getString(StorageKey.instance.language) ?? "";
   }
 
+  // ==================== Dark Mode ====================
+  Future<void> setDarkMode(bool value) async {
+    final pref = await _pref;
+    await pref.setBool(StorageKey.instance.isDarkMode, value);
+  }
+
+  Future<bool> isDarkMode() async {
+    final pref = await _pref;
+    return pref.getBool(StorageKey.instance.isDarkMode) ?? true;
+  }
+
+  // ==================== First Time ====================
   Future<void> setAppFirstTime() async {
     try {
       final pref = await _pref;
@@ -164,14 +199,25 @@ class StorageServices {
     }
   }
 
-  // ==================== Dark Mode ====================
-  Future<bool> isDarkMode() async {
+  Future<bool> getAppFirstTime() async {
     final pref = await _pref;
-    return pref.getBool(StorageKey.instance.isDarkMode) ?? true;
+    return pref.getBool(StorageKey.instance.appFirstTime) ?? true;
   }
 
-  Future<void> setDarkMode(bool value) async {
-    final pref = await _pref;
-    await pref.setBool(StorageKey.instance.isDarkMode, value);
+  // ==================== Logout ====================
+  Future<void> logout() async {
+    try {
+      final pref = await _pref;
+      await Future.wait([
+        pref.remove(StorageKey.instance.token),
+        pref.remove(StorageKey.instance.refreshToken),
+        pref.remove(StorageKey.instance.resetToken),
+        pref.remove(StorageKey.instance.loginDataStore),
+        pref.remove(StorageKey.instance.appUserRollData),
+        pref.remove(StorageKey.instance.selectedRole),
+      ]);
+    } catch (e) {
+      errorLog("logout", e);
+    }
   }
 }

@@ -34,56 +34,52 @@ class AuthBindings extends Bindings {
   void dependencies() {
 
     //=========Auth Controller Part=========//
-    Get.lazyPut(() => ResetVerifyOtpController());
-    Get.lazyPut(() => SignInController());
-    Get.lazyPut(() => ForgotPasswordController());
-    Get.lazyPut(() => ChooseRoleController());
-    Get.lazyPut(() => ResetPasswordController());
-    Get.lazyPut(() => CreateAccountController());
-    Get.lazyPut(() => AccountOtpVerifyController());
+    Get.lazyPut(() => SignInController(),           fenix: true);
+    Get.lazyPut(() => CreateAccountController(),    fenix: true);
+    Get.lazyPut(() => AccountOtpVerifyController(), fenix: true);
+    Get.lazyPut(() => ForgotPasswordController(),   fenix: true);
+    Get.lazyPut(() => ResetVerifyOtpController(),   fenix: true);
+    Get.lazyPut(() => ResetPasswordController(),    fenix: true);
+    Get.lazyPut(() => ChooseRoleController(),       fenix: true);
 
+    //=========NavBar=========//
+    Get.lazyPut(() => NavbarController(), fenix: true);
 
     //=========Home Controller Part=========//
-    Get.lazyPut(() => NavbarController());
+    Get.lazyPut(() => HomeController(),             fenix: true);
+    Get.lazyPut(() => FilterController(),           fenix: true);
+    Get.lazyPut(() => SearchController(),           fenix: true);
+    Get.lazyPut(() => PropertyListController(),     fenix: true);
+    Get.lazyPut(() => GalleryController(),          fenix: true);
+    Get.lazyPut(() => ContactAgentController(),     fenix: true);
+    Get.lazyPut(() => PropertyDetailsController(),  fenix: true);
 
-    //=========Home Controller Part=========//
-    Get.lazyPut(() => HomeController());
-    Get.lazyPut(() => FilterController());
-    Get.lazyPut(() => SearchController());
-    Get.lazyPut(() => PropertyListController());
-    Get.lazyPut(() => GalleryController());
-    Get.lazyPut(() => ContactAgentController());
-    Get.lazyPut(() => PropertyDetailsController());
+    //=========Saved Screen=========//
+    Get.lazyPut(() => SavedController(), fenix: true);
 
-    //=========Saved Screen Controller Part=========//
-    Get.lazyPut(() => SavedController());
+    //=========Enquiries Screen=========//
+    Get.lazyPut(() => EnquiriesController(), fenix: true);
 
-    //=========Enquiries Screen Controller Part=========//
-    Get.lazyPut(() => EnquiriesController());
+    //=========Profile Screen=========//
+    Get.lazyPut(() => ProfileScreen(),                    fenix: true);
+    Get.lazyPut(() => PersonalInfoController(),           fenix: true);
+    Get.lazyPut(() => ChangePasswordController(),         fenix: true);
+    Get.lazyPut(() => NotificationSettingsController(),   fenix: true);
+    Get.lazyPut(() => FaqController(),                    fenix: true);
 
-    //=========Profile Screen Controller Part=========//
-    Get.lazyPut(() => ProfileScreen());
-    Get.lazyPut(() => PersonalInfoController());
-    Get.lazyPut(() => ChangePasswordController());
-    Get.lazyPut(() => NotificationSettingsController());
-    Get.lazyPut(() => FaqController());
+    //=========Notification=========//
+    Get.lazyPut(() => NotificationController(), fenix: true);
 
-    //=========Profile Screen Controller Part=========//
-    Get.lazyPut(() => NotificationController());
+    //=========Agent OverView=========//
+    Get.lazyPut(() => Overviewhomecontroller(),  fenix: true);
+    Get.lazyPut(() => SubscriptionController(),  fenix: true);
 
+    //=========Agent MyListing=========//
+    Get.lazyPut(() => MyListingController(),     fenix: true);
+    Get.lazyPut(() => BillingHistoryController(), fenix: true);
+    Get.lazyPut(() => AddListingController(),     fenix: true);
 
-    ///////////////Agent OverView Screen Controller Part////////////////
-    Get.lazyPut(() => Overviewhomecontroller());
-    Get.lazyPut(() => SubscriptionController());
-
-    ///////////////Agent MyListing Screen Controller Part////////////////
-    Get.lazyPut(() => MyListingController());
-    Get.lazyPut(() => BillingHistoryController());
-    Get.lazyPut(() => AddListingController());
-
-    ///////////////Agent Enquiries Screen Controller Part////////////////
-    Get.lazyPut(() => AgentEnquiriesController());
-
-
+    //=========Agent Enquiries=========//
+    Get.lazyPut(() => AgentEnquiriesController(), fenix: true);
   }
 }

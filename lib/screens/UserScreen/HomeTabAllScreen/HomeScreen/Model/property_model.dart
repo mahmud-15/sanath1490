@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../../../../constant/app_api_url.dart';
 
 class PropertyModel {
+  final String id;
   final List<String> images;
   final String price;
   final String title;
@@ -12,6 +13,7 @@ class PropertyModel {
   final RxInt currentIndex;
 
   PropertyModel({
+    this.id = "",
     required this.images,
     required this.price,
     required this.title,
@@ -23,7 +25,6 @@ class PropertyModel {
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
     final baseUrl = AppApiUrl.instance.imgBaseUrl;
-    print("🖼️ IMAGE URL >>> ${AppApiUrl.instance.imgBaseUrl}");
 
     final List<String> photos = (json["photos"] as List? ?? [])
         .map((e) => "$baseUrl$e")
@@ -38,8 +39,8 @@ class PropertyModel {
     final addedDate = _formatDate(json["createdAt"] ?? "");
 
     return PropertyModel(
+      id: json["_id"] ?? "",
       images: photos.isNotEmpty ? photos : ['assets/images/property_img.png'],
-
       price: price,
       title: json["title"] ?? "",
       address: address,

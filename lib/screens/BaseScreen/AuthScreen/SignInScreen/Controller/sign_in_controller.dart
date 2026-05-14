@@ -9,8 +9,8 @@ import '../../AuthRepository/auth_repository.dart';
 import '../Model/sign_in_model.dart';
 
 class SignInController extends GetxController {
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
+  TextEditingController emailController    = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   final obscurePassword = true.obs;
   final isLoading       = false.obs;

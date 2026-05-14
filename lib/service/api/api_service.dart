@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
-
 import '../../widget/app_snack_bar/app_snack_bar.dart';
 import '../../utils/log_print.dart';
 import '../storage/storage_services.dart';
 import 'api.dart';
 
-/// Centralized API service — all HTTP requests go through here.
-/// Handles errors globally so repositories stay clean.
 class ApiServices {
   ApiServices._privateConstructor();
   static final ApiServices _instance = ApiServices._privateConstructor();
@@ -42,9 +38,10 @@ class ApiServices {
     int statusCodeStart = 200,
     int statusCodeEnd = 299,
     Map<String, dynamic>? query,
+    Options? options,
   }) async {
     return _handleRequest(
-          () => _api.sendRequest.post(url, data: body, queryParameters: query),
+          () => _api.sendRequest.post(url, data: body, queryParameters: query, options: options),
       statusCodeStart: statusCodeStart,
       statusCodeEnd: statusCodeEnd,
     );

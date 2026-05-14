@@ -53,9 +53,15 @@ class AppApi {
     options.contentType = 'application/json';
     options.headers["Accept"] = "application/json";
 
-    final token = await _storage.getToken();
-    if (token.isNotEmpty) {
-      options.headers["Authorization"] = "Bearer $token";
+    // ✅ Already custom Authorization header থাকলে overwrite করব না
+    final hasCustomAuth = options.headers.containsKey("Authorization") &&
+        (options.headers["Authorization"] as String? ?? "").isNotEmpty;
+
+    if (!hasCustomAuth) {
+      final token = await _storage.getToken();
+      if (token.isNotEmpty) {
+        options.headers["Authorization"] = "Bearer $token";
+      }
     }
 
     return handler.next(options);

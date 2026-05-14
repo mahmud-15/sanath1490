@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../service/api/api_service.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../AccountVerifyOtpScreen/Model/otp_verify_model.dart';
@@ -76,12 +78,19 @@ class AuthRepository {
   }
 
   // ==================== Reset Password ====================
-  Future<ResetPasswordResponseModel?> resetPassword(ResetPasswordRequestModel request) async {
+  Future<ResetPasswordResponseModel?> resetPassword(
+      ResetPasswordRequestModel request, {
+        required String resetToken,
+      }) async {
     final response = await _apiServices.postServices(
       url: _apiUrl.resetPassword,
       body: request.toJson(),
       statusCodeStart: 200,
       statusCodeEnd: 299,
+      // ✅ resetToken কে Authorization header এ Bearer হিসেবে পাঠানো হচ্ছে
+      options: Options(
+        headers: {"resettoken": resetToken},
+      ),
     );
     if (response == null) return null;
     return ResetPasswordResponseModel.fromJson(response);
