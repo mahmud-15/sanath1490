@@ -17,139 +17,85 @@ class AccountVerifyOtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<AccountOtpVerifyController>();
 
-    return Obx(() => Stack(
-      children: [
+    return Scaffold(
+      appBar: const GlobalAppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 123.h),
 
-        // ─── Main Screen ─────────────────────
-        Scaffold(
-          appBar: const GlobalAppBar(),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 24.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 123.h),
-
-                  // ─── Icon ────────────────────────────
-                  Container(
-                    width: 64.w,
-                    height: 64.h,
-                    decoration: BoxDecoration(
-                      color: ConstColor.primaryColor,
-                      borderRadius: BorderRadius.circular(18.r),
-                    ),
-                    child: Center(
-                      child: AppImage(
-                        path: 'assets/images/security.png',
-                        width: 56.w,
-                        height: 56.h,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 24.h),
-
-                  // ─── Title ───────────────────────────
-                  CustomText(
-                    title: ConstString.verifyOtp,
-                    textColor: ConstColor.primaryColor,
-                    textSize: 30.sp,
-                    fontWeight: FontWeight.w700,
-                    textAlign: TextAlign.center,
-                    maxLine: 1,
-                  ),
-                  SizedBox(height: 12.h),
-
-                  // ─── Subtitle ────────────────────────
-                  CustomText(
-                    title: ConstString.enterThe4Digit,
-                    textColor: ConstColor.bodyColor,
-                    textSize: 15.sp,
-                    fontWeight: FontWeight.w400,
-                    textAlign: TextAlign.center,
-                    maxLine: 2,
-                  ),
-                  SizedBox(height: 32.h),
-
-                  _OtpPinPut(controller: controller),
-                  SizedBox(height: 28.h),
-
-                  _ResendOtpRow(controller: controller),
-                  SizedBox(height: 32.h),
-
-                  // ─── Verify Button ───────────────────
-                  Obx(() {
-                    final bool canPress = !controller.isLoading.value;
-                    return CustomElevatedButton(
-                      onPressed: canPress ? controller.verifyOtp : null,
-                      color: canPress
-                          ? ConstColor.primaryColor
-                          : ConstColor.primaryColor.withAlpha(100),
-                      height: 48,
-                      left: 0,
-                      right: 0,
-                      top: 0,
-                      child: controller.isLoading.value
-                          ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2.5,
-                        ),
-                      )
-                          : CustomText(
-                        title: ConstString.verify,
-                        textColor: Colors.white,
-                        textSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-          ),
-        ),
-
-        // ─── Full Screen Loader ───────────────
-        if (controller.isLoading.value)
-          Container(
-            color: Colors.black.withAlpha(120),
-            child: Center(
-              child: Container(
-                width: 90.w,
-                height: 90.h,
+              Container(
+                width: 64.w,
+                height: 64.h,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withAlpha(30),
-                      blurRadius: 20,
-                      spreadRadius: 2,
-                    ),
-                  ],
+                  color: ConstColor.primaryColor,
+                  borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Center(
-                  child: CircularProgressIndicator(
-                    color: ConstColor.primaryColor,
-                    strokeWidth: 3,
+                  child: AppImage(
+                    path: 'assets/images/security.png',
+                    width: 56.w,
+                    height: 56.h,
                   ),
                 ),
               ),
-            ),
-          ),
+              SizedBox(height: 24.h),
 
-      ],
-    ));
+              CustomText(
+                title: ConstString.verifyOtp,
+                textColor: ConstColor.primaryColor,
+                textSize: 30.sp,
+                fontWeight: FontWeight.w700,
+                textAlign: TextAlign.center,
+                maxLine: 1,
+              ),
+              SizedBox(height: 12.h),
+
+              CustomText(
+                title: ConstString.enterThe4Digit,
+                textColor: ConstColor.bodyColor,
+                textSize: 15.sp,
+                fontWeight: FontWeight.w400,
+                textAlign: TextAlign.center,
+                maxLine: 2,
+              ),
+              SizedBox(height: 32.h),
+
+              _OtpPinPut(controller: controller),
+              SizedBox(height: 28.h),
+
+              _ResendOtpRow(controller: controller),
+              SizedBox(height: 32.h),
+
+              Obx(() => CustomElevatedButton(
+                onPressed: controller.isLoading.value ? null : controller.verifyOtp,
+                color: controller.isLoading.value
+                    ? ConstColor.primaryColor.withAlpha(100)
+                    : ConstColor.primaryColor,
+                height: 48,
+                left: 0,
+                right: 0,
+                top: 0,
+                child: CustomText(
+                  title: ConstString.verify,
+                  textColor: Colors.white,
+                  textSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              )),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
-// ─────────────────────────────────────────
 class _OtpPinPut extends StatelessWidget {
   final AccountOtpVerifyController controller;
-
   const _OtpPinPut({required this.controller});
 
   @override
@@ -168,25 +114,20 @@ class _OtpPinPut extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
       ),
     );
-
     final focusedTheme = defaultTheme.copyWith(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black, width: 1.5),
         borderRadius: BorderRadius.circular(12.r),
       ),
     );
-
     final errorTheme = defaultTheme.copyWith(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.red),
         borderRadius: BorderRadius.circular(12.r),
       ),
     );
-
     return Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + 20.h),
       child: Pinput(
         length: 6,
         defaultPinTheme: defaultTheme,
@@ -194,11 +135,7 @@ class _OtpPinPut extends StatelessWidget {
         errorPinTheme: errorTheme,
         pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
         showCursor: true,
-        cursor: Container(
-          width: 1.5.w,
-          height: 24.h,
-          color: ConstColor.primaryColor,
-        ),
+        cursor: Container(width: 1.5.w, height: 24.h, color: ConstColor.primaryColor),
         onCompleted: (pin) => controller.verifyOtp(),
         onChanged: (pin) => controller.onPinChanged(pin),
       ),
@@ -206,10 +143,8 @@ class _OtpPinPut extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
 class _ResendOtpRow extends StatelessWidget {
   final AccountOtpVerifyController controller;
-
   const _ResendOtpRow({required this.controller});
 
   @override

@@ -25,6 +25,7 @@ class AppApiUrl {
 
   // ==================== Home Screen ====================
   final String nearbyListingProperty = "/listings/nearby";
+  final String listingById = "/listings";
   // final String orders   = "/orders";
 
   // ==================== Profile ====================

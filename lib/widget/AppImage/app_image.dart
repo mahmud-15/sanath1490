@@ -122,7 +122,7 @@ class _NetworkImage extends StatelessWidget {
           height: height,
           color: Colors.grey.shade100,
           child: const Center(
-            child: AppLoader(type: LoaderType.residentialPulse),
+            child: AppLoader(),
           ),
         );
       },

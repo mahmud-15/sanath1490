@@ -30,7 +30,6 @@ class ResetPasswordScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 62.h),
-
                 Container(
                   width: 64.w,
                   height: 64.h,
@@ -47,7 +46,6 @@ class ResetPasswordScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 24.h),
-
                 CustomText(
                   title: ConstString.resetPassword,
                   textColor: ConstColor.primaryColor,
@@ -57,7 +55,6 @@ class ResetPasswordScreen extends StatelessWidget {
                   maxLine: 1,
                 ),
                 SizedBox(height: 10.h),
-
                 CustomText(
                   title: ConstString.createANewStrongPassword,
                   textColor: ConstColor.bodyColor,
@@ -188,21 +185,27 @@ class ResetPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 17.h),
 
-                CustomElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate())
-                      controller.resetPassword();
-                  },
-                  color: ConstColor.primaryColor,
-                  height: 48,
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  child: CustomText(
-                    title: ConstString.resetPassword,
-                    textColor: ConstColor.backgroundColor,
-                    textSize: 16.sp,
-                    fontWeight: FontWeight.w700,
+                Obx(
+                  () => CustomElevatedButton(
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : () {
+                            if (formKey.currentState!.validate())
+                              controller.resetPassword();
+                          },
+                    color: controller.isLoading.value
+                        ? ConstColor.primaryColor.withAlpha(100)
+                        : ConstColor.primaryColor,
+                    height: 48,
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    child: CustomText(
+                      title: ConstString.resetPassword,
+                      textColor: ConstColor.backgroundColor,
+                      textSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ],

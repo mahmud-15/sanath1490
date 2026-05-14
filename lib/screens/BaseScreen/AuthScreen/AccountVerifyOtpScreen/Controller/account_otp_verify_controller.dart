@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../../routes/app_routes/app_routes.dart';
+import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
 import '../../AuthRepository/auth_repository.dart';
 import '../Model/otp_verify_model.dart';
 
 class AccountOtpVerifyController extends GetxController {
-
   final List<TextEditingController> controllers =
   List.generate(4, (_) => TextEditingController());
   final List<FocusNode> focusNodes =
@@ -50,6 +51,7 @@ class AccountOtpVerifyController extends GetxController {
     if (currentPin.length < 6) return;
 
     isLoading.value = true;
+    AppLoader.show(message: 'Verifying OTP...');
 
     final request = OtpVerifyRequestModel(
       email: email.value,
@@ -58,10 +60,11 @@ class AccountOtpVerifyController extends GetxController {
 
     final response = await AuthRepository.instance.verifyOtp(request);
 
+    AppLoader.hide();
     isLoading.value = false;
 
     if (response != null) {
-      AppSnackBar.success("Account verified successfully!",seconds: 5);
+      AppSnackBar.success("Account verified successfully!");
       await Future.delayed(const Duration(milliseconds: 800));
       Get.toNamed(AppRoutes.signInScreen);
     }
@@ -85,12 +88,8 @@ class AccountOtpVerifyController extends GetxController {
   @override
   void onClose() {
     _timer?.cancel();
-    for (final c in controllers) {
-      c.dispose();
-    }
-    for (final f in focusNodes) {
-      f.dispose();
-    }
+    for (final c in controllers) c.dispose();
+    for (final f in focusNodes) f.dispose();
     super.onClose();
   }
 }

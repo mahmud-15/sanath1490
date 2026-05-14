@@ -8,11 +8,12 @@ import '../../AuthRepository/auth_repository.dart';
 import '../Model/reset_password_model.dart';
 
 class ResetPasswordController extends GetxController {
-  final passwordController        = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  late final TextEditingController passwordController;
+  late final TextEditingController confirmPasswordController;
 
   final obscurePassword        = true.obs;
   final obscureConfirmPassword = true.obs;
+  final isLoading              = false.obs;
   final RxString email         = ''.obs;
 
   void togglePassword()        => obscurePassword.value = !obscurePassword.value;
@@ -21,6 +22,9 @@ class ResetPasswordController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    passwordController        = TextEditingController();
+    confirmPasswordController = TextEditingController();
+
     final args = Get.arguments;
     if (args != null && args["email"] != null) {
       email.value = args["email"];
@@ -29,21 +33,30 @@ class ResetPasswordController extends GetxController {
 
   // ==================== Reset Password ====================
   Future<void> resetPassword() async {
-    AppLoader.show(type: LoaderType.residentialPulse, message: 'Resetting password...');
+    try {
+      isLoading.value = true;
+      AppLoader.show(message: 'Resetting password...');
 
-    final request = ResetPasswordRequestModel(
-      email: email.value,
-      newPassword: passwordController.text.trim(),
-    );
+      final request = ResetPasswordRequestModel(
+        email:           email.value,
+        newPassword:     passwordController.text.trim(),
+        confirmPassword: confirmPasswordController.text.trim(),
+      );
 
-    final response = await AuthRepository.instance.resetPassword(request);
+      final response = await AuthRepository.instance.resetPassword(request);
 
-    AppLoader.hide();
+      AppLoader.hide();
+      isLoading.value = false;
 
-    if (response != null) {
-      AppSnackBar.success("Password reset successfully!");
-      await Future.delayed(const Duration(milliseconds: 800));
-      Get.offAllNamed(AppRoutes.signInScreen);
+      if (response != null) {
+        AppSnackBar.success("Password reset successfully!");
+        await Future.delayed(const Duration(milliseconds: 500));
+        Get.offAllNamed(AppRoutes.signInScreen);
+      }
+    } catch (e) {
+      AppLoader.hide();
+      isLoading.value = false;
+      AppSnackBar.error("Something went wrong. Please try again.");
     }
   }
 

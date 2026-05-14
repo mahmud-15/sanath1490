@@ -2,30 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../routes/app_routes/app_routes.dart';
+import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../AuthRepository/auth_repository.dart';
 import '../Model/forgot_password_model.dart';
 
 class ForgotPasswordController extends GetxController {
-  final emailController = TextEditingController();
-  final isLoading       = false.obs;
+  late final TextEditingController emailController;
+  final isLoading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    emailController = TextEditingController();
+  }
 
   // ==================== Forgot Password ====================
   Future<void> sendOtp() async {
-    isLoading.value = true;
+    try {
+      isLoading.value = true;
+      AppLoader.show(message: 'Sending OTP...');
 
-    final request = ForgotPasswordRequestModel(
-      email: emailController.text.trim(),
-    );
-
-    final response = await AuthRepository.instance.forgotPassword(request);
-
-    isLoading.value = false;
-
-    if (response != null) {
-      Get.toNamed(
-        AppRoutes.resetVerifyOtpScreen,
-        arguments: {"email": emailController.text.trim()},
+      final request = ForgotPasswordRequestModel(
+        email: emailController.text.trim(),
       );
+
+      final response = await AuthRepository.instance.forgotPassword(request);
+
+      AppLoader.hide();
+      isLoading.value = false;
+
+      if (response != null) {
+        await Future.delayed(const Duration(milliseconds: 150));
+        Get.toNamed(
+          AppRoutes.resetVerifyOtpScreen,
+          arguments: {"email": emailController.text.trim()},
+        );
+      }
+    } catch (e) {
+      AppLoader.hide();
+      isLoading.value = false;
     }
   }
 

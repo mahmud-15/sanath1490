@@ -16,6 +16,7 @@ class ResetVerifyOtpController extends GetxController {
 
   final RxInt    secondsRemaining = 59.obs;
   final RxString email            = ''.obs;
+  final RxBool   isLoading        = false.obs;
 
   String currentPin = '';
   Timer? _timer;
@@ -49,7 +50,8 @@ class ResetVerifyOtpController extends GetxController {
   Future<void> verifyOtp() async {
     if (currentPin.length < 6) return;
 
-    AppLoader.show(type: LoaderType.residentialPulse, message: 'Verifying OTP...');
+    isLoading.value = true;
+    AppLoader.show(message: 'Verifying OTP...');
 
     final request = ResetVerifyOtpRequestModel(
       email: email.value,
@@ -59,6 +61,7 @@ class ResetVerifyOtpController extends GetxController {
     final response = await AuthRepository.instance.forgotVerifyOtp(request);
 
     AppLoader.hide();
+    isLoading.value = false;
 
     if (response != null) {
       AppSnackBar.success("OTP verified successfully!");
@@ -88,8 +91,12 @@ class ResetVerifyOtpController extends GetxController {
   @override
   void onClose() {
     _timer?.cancel();
-    for (final c in controllers) c.dispose();
-    for (final f in focusNodes) f.dispose();
+    for (final c in controllers) {
+      c.dispose();
+    }
+    for (final f in focusNodes) {
+      f.dispose();
+    }
     super.onClose();
   }
 }

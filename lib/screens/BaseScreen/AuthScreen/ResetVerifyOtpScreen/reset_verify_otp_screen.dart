@@ -26,36 +26,26 @@ class ResetVerifyOtpScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: 123.h),
-
               Container(
-                width: 64.w,
-                height: 64.h,
+                width: 64.w, height: 64.h,
                 decoration: BoxDecoration(color: ConstColor.primaryColor, borderRadius: BorderRadius.circular(18.r)),
                 child: Center(child: AppImage(path: 'assets/images/security.png', width: 56.w, height: 56.h)),
               ),
               SizedBox(height: 24.h),
-
               CustomText(title: ConstString.verifyOtp, textColor: ConstColor.primaryColor, textSize: 30.sp, fontWeight: FontWeight.w700, textAlign: TextAlign.center, maxLine: 1),
               SizedBox(height: 12.h),
-
               CustomText(title: ConstString.enterThe4Digit, textColor: ConstColor.bodyColor, textSize: 15.sp, fontWeight: FontWeight.w400, textAlign: TextAlign.center, maxLine: 2),
               SizedBox(height: 32.h),
-
               _OtpPinPut(controller: controller),
               SizedBox(height: 28.h),
-
               _ResendOtpRow(controller: controller),
               SizedBox(height: 32.h),
-
-              CustomElevatedButton(
-                onPressed: controller.verifyOtp,
-                color: ConstColor.primaryColor,
-                height: 48,
-                left: 0,
-                right: 0,
-                top: 0,
+              Obx(() => CustomElevatedButton(
+                onPressed: controller.isLoading.value ? null : controller.verifyOtp,
+                color: controller.isLoading.value ? ConstColor.primaryColor.withAlpha(100) : ConstColor.primaryColor,
+                height: 48, left: 0, right: 0, top: 0,
                 child: CustomText(title: ConstString.verify, textColor: Colors.white, textSize: 16.sp, fontWeight: FontWeight.w600),
-              ),
+              )),
             ],
           ),
         ),
@@ -71,8 +61,7 @@ class _OtpPinPut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultTheme = PinTheme(
-      width: 47.w,
-      height: 55.h,
+      width: 47.w, height: 55.h,
       textStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600, color: ConstColor.titleColor),
       decoration: BoxDecoration(color: Colors.white, border: Border.all(color: ConstColor.outLineColor), borderRadius: BorderRadius.circular(12.r)),
     );
