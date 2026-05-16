@@ -18,13 +18,14 @@ class DegreeTourScreen extends StatelessWidget {
     String tourUrl = '';
     try {
       tourUrl = Get.find<PropertyDetailsController>().threeSixtyTour.value;
+      print("🔭 360 TOUR URL >>> $tourUrl");
     } catch (_) {}
 
     return Scaffold(
       appBar: GlobalAppBar(title: ConstString.tourDegree),
       body: tourUrl.isEmpty
           ? const Center(
-        child: AppLoader(message: "Unable to load 360° view",),
+        child: AppLoader(message: "Loading 360° view, please wait...",),
       )
           : Stack(
         children: [

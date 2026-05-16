@@ -12,13 +12,31 @@ import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
 import 'Controller/sign_in_controller.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final controller = Get.put(SignInController());
+  final formKey    = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   controller.emailController = TextEditingController();
+  //   controller.passwordController = TextEditingController();
+  // }
+  @override
   Widget build(BuildContext context) {
-    final controller = Get.find<SignInController>();
-    final formKey    = GlobalKey<FormState>();
+    if (Get.isRegistered<SignInController>()) {
+      Get.delete<SignInController>(force: true);
+    }
+
 
     return Scaffold(
       body: SafeArea(
@@ -50,7 +68,7 @@ class SignInScreen extends StatelessWidget {
                 SizedBox(height: 32.h),
                 CustomTextFormField(
                   fromTitle: ConstString.email,
-                  textController: controller.emailController,
+                  textController: emailController,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   hintText: const CustomText(title: ConstString.yourEmailExample, textColor: Colors.grey, textSize: 14),
@@ -67,7 +85,7 @@ class SignInScreen extends StatelessWidget {
                 ),
                 Obx(() => CustomTextFormField(
                   fromTitle: ConstString.password,
-                  textController: controller.passwordController,
+                  textController: passwordController,
                   obscureText: controller.obscurePassword.value,
                   textInputAction: TextInputAction.done,
                   hintText: const CustomText(title: ConstString.enterYourPassWord, textColor: Colors.grey, textSize: 14),
@@ -100,7 +118,7 @@ class SignInScreen extends StatelessWidget {
                 Obx(() => CustomElevatedButton(
                   onPressed: controller.isLoading.value
                       ? null
-                      : () { if (formKey.currentState!.validate()) controller.signIn(); },
+                      : () { if (formKey.currentState!.validate()) controller.signIn(email: emailController.text.trim(),password: passwordController.text.trim());},
                   color: const Color(0xFF1A3C6E),
                   height: 48, left: 0, right: 0, top: 0,
                   child: CustomText(title: ConstString.signIn, textColor: Colors.white, textSize: 16.sp, fontWeight: FontWeight.w600),

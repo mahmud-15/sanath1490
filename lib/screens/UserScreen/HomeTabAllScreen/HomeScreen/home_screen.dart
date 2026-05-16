@@ -7,9 +7,11 @@ import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AppImage/app_image.dart';
+import '../../../../widget/AppLoader/app_loader.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import 'Controller/home_controller.dart';
+import 'Model/property_model.dart';
 import 'Widget/property_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -40,9 +42,23 @@ class HomeScreen extends StatelessWidget {
 
           SliverToBoxAdapter(
             child: Obx(() {
-              final properties = controller.currentProperties;
-              if (properties.isEmpty) return const SizedBox.shrink();
+              // ─── Loading ──────────────────────
+              if (controller.isLoading.value) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Column(
+                    children: List.generate(2, (_) => _PropertyCardSkeleton()),
+                  ),
+                );
+              }
 
+              // ─── Empty ────────────────────────
+              final properties = controller.currentProperties;
+              if (properties.isEmpty) {
+                return SizedBox(height: 400.h);
+              }
+
+              // ─── Data ─────────────────────────
               return Column(
                 children: [
                   CarouselSlider.builder(
@@ -129,6 +145,88 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// ─── Property Card Skeleton ───────────────────────────
+class _PropertyCardSkeleton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 16.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(15),
+            blurRadius: 10.r,
+            offset: Offset(0, 4.h),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // ─── Image skeleton ───────────
+          Container(
+            width: double.infinity,
+            height: 200.h,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(14.r)),
+            ),
+            child: Center(
+              child: AppLoader(message: "Finding properties near you...",),
+            ),
+          ),
+
+
+
+          // ─── Price skeleton ───────────
+          Container(
+            width: double.infinity,
+            height: 44.h,
+            color: Colors.grey.shade100,
+          ),
+
+          // ─── Info skeleton ────────────
+          Padding(
+            padding: EdgeInsets.all(12.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 160.w,
+                  height: 16.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Container(
+                  width: 120.w,
+                  height: 12.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                ),
+                SizedBox(height: 36.h),
+                Container(
+                  width: 80.w,
+                  height: 10.h,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ─────────────────────────────────────────
 class _HomeHeader extends StatelessWidget {
   final HomeController controller;
@@ -146,7 +244,7 @@ class _HomeHeader extends StatelessWidget {
         ),
       ),
       child: Container(
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -197,7 +295,6 @@ class _HomeHeader extends StatelessWidget {
 
             SizedBox(height: 24.h),
 
-            // ─── Card ─────────────────────────
             Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
@@ -278,8 +375,11 @@ class _HomeHeader extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {
-                                Get.toNamed(AppRoutes.filterScreen);
+                              onTap: () async {
+                                final result = await Get.toNamed(AppRoutes.filterScreen);
+                                if (result != null && result is List<PropertyModel>) {
+                                  controller.applyFilterResults(result);
+                                }
                               },
                               child: Container(
                                 margin: EdgeInsets.all(6.w),
@@ -294,7 +394,6 @@ class _HomeHeader extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
 
-                  // ─── Search Button ────────────
                   CustomElevatedButton(
                     onPressed: () {
                       Get.toNamed(AppRoutes.propertyListScreen);

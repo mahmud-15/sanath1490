@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../../routes/app_routes/app_routes.dart';
 import '../../../../../service/storage/storage_services.dart';
 import '../../../../../widget/AppLoader/app_loader.dart';
@@ -9,8 +8,8 @@ import '../../AuthRepository/auth_repository.dart';
 import '../Model/reset_password_model.dart';
 
 class ResetPasswordController extends GetxController {
-  late final TextEditingController passwordController;
-  late final TextEditingController confirmPasswordController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
 
   final obscurePassword        = true.obs;
   final obscureConfirmPassword = true.obs;
@@ -25,22 +24,18 @@ class ResetPasswordController extends GetxController {
     super.onInit();
     passwordController        = TextEditingController();
     confirmPasswordController = TextEditingController();
-
     final args = Get.arguments;
     if (args != null && args["email"] != null) {
       email.value = args["email"];
     }
   }
 
-  // ==================== Reset Password ====================
   Future<void> resetPassword() async {
     try {
       isLoading.value = true;
       AppLoader.show(message: 'Resetting password...');
 
-      // ✅ Storage থেকে resetToken নিয়ে header এ পাঠানো হচ্ছে
       final resetToken = await StorageServices.instance.getResetToken();
-
 
       final request = ResetPasswordRequestModel(
         email:           email.value,
@@ -57,7 +52,6 @@ class ResetPasswordController extends GetxController {
       isLoading.value = false;
 
       if (response != null) {
-        // ✅ resetToken আর দরকার নেই, clear করো
         await StorageServices.instance.clearResetToken();
         AppSnackBar.success("Password reset successfully!");
         await Future.delayed(const Duration(milliseconds: 500));
@@ -72,8 +66,8 @@ class ResetPasswordController extends GetxController {
 
   @override
   void onClose() {
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    try { passwordController.dispose(); } catch (_) {}
+    try { confirmPasswordController.dispose(); } catch (_) {}
     super.onClose();
   }
 }

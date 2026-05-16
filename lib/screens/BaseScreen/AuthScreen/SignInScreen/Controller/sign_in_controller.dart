@@ -9,30 +9,30 @@ import '../../AuthRepository/auth_repository.dart';
 import '../Model/sign_in_model.dart';
 
 class SignInController extends GetxController {
-  TextEditingController emailController    = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  // late TextEditingController emailController;
+  // late TextEditingController passwordController;
 
   final obscurePassword = true.obs;
-  final isLoading       = false.obs;
+  final isLoading = false.obs;
 
   void togglePassword() => obscurePassword.value = !obscurePassword.value;
 
-  @override
-  void onInit() {
-    super.onInit();
-    emailController    = TextEditingController();
-    passwordController = TextEditingController();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   emailController    = TextEditingController();
+  //   passwordController = TextEditingController();
+  // }
 
   // ==================== Sign In ====================
-  Future<void> signIn() async {
+  Future<void> signIn({required String email, required String password}) async {
     try {
       isLoading.value = true;
       AppLoader.show(message: 'Signing in...');
 
       final request = SignInRequestModel(
-        email:    emailController.text.trim(),
-        password: passwordController.text.trim(),
+          email: email,
+          password: password
       );
 
       final response = await AuthRepository.instance.signIn(request);
@@ -41,8 +41,10 @@ class SignInController extends GetxController {
       isLoading.value = false;
 
       if (response != null) {
-        await StorageServices.instance.setToken(response.data?.accessToken ?? "");
-        await StorageServices.instance.setRefreshToken(response.data?.refreshToken ?? "");
+        await StorageServices.instance.setToken(
+            response.data?.accessToken ?? "");
+        await StorageServices.instance.setRefreshToken(
+            response.data?.refreshToken ?? "");
         AppSnackBar.success("Welcome back!");
         await Future.delayed(const Duration(milliseconds: 150));
         Get.offAllNamed(AppRoutes.navBar);
@@ -53,11 +55,12 @@ class SignInController extends GetxController {
       AppSnackBar.error("Something went wrong. Please try again.");
     }
   }
-
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
-  }
 }
+
+//   @override
+//   void onClose() {
+//     try { emailController.dispose(); } catch (_) {}
+//     try { passwordController.dispose(); } catch (_) {}
+//     super.onClose();
+//   }
+// }

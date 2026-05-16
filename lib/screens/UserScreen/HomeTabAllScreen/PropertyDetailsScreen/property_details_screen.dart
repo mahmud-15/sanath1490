@@ -51,7 +51,7 @@ class PropertyDetailsScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               _AgentCard(controller: controller),
               SizedBox(height: 10.h),
-              _MapCard(controller: controller,),
+              _MapCard(controller: controller),
               SizedBox(height: 40.h),
             ],
           ),
@@ -82,7 +82,7 @@ class _HeroImageSection extends StatelessWidget {
                   height: 220.h,
                   color: Colors.grey.shade200,
                   child: const Center(
-                    child: AppLoader(message: "Unable to load image"),
+                    child: AppLoader(message: "Preparing image preview..."),
                   ),
                 );
               }
@@ -249,7 +249,9 @@ class _PropertyInfoCard extends StatelessWidget {
                 SizedBox(width: 18.w),
                 Obx(
                   () => GestureDetector(
-                    onTap: () => controller.toggleFavourite(),
+                    onTap: controller.isTogglingFavourite.value
+                        ? null
+                        : () => controller.toggleFavourite(),
                     child: SvgPicture.asset(
                       controller.isFavourite.value
                           ? "assets/icons/favourite_click_icon.svg"
@@ -484,57 +486,86 @@ class _DescriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: ConstColor.outLineColor, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CustomText(
-            title: ConstString.description,
-            textColor: ConstColor.titleColor,
-            textSize: 14.sp,
-            fontWeight: FontWeight.w700,
-            maxLine: 1,
-          ),
-          SizedBox(height: 10.h),
+    return Obx(() {
+      if (controller.description.value.isEmpty) return const SizedBox.shrink();
 
-          Obx(
-            () => CustomText(
-              title: controller.description.value,
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.all(16.w),
+        constraints: BoxConstraints(minHeight: 80.h),
+        // ← add
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: ConstColor.outLineColor, width: 1),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomText(
+              title: ConstString.description,
               textColor: ConstColor.titleColor,
               textSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              maxLine: controller.isDescriptionExpanded.value ? 20 : 4,
-              textHeight: 1.6,
+              fontWeight: FontWeight.w700,
+              maxLine: 1,
             ),
-          ),
+            SizedBox(height: 10.h),
 
-          SizedBox(height: 10.h),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final textSpan = TextSpan(
+                  text: controller.description.value,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    height: 1.6,
+                    fontFamily: 'Roboto',
+                  ),
+                );
+                final tp = TextPainter(
+                  text: textSpan,
+                  maxLines: 4,
+                  textDirection: TextDirection.ltr,
+                );
+                tp.layout(maxWidth: constraints.maxWidth);
+                final isOverflow = tp.didExceedMaxLines;
 
-          GestureDetector(
-            onTap: () => controller.isDescriptionExpanded.value =
-                !controller.isDescriptionExpanded.value,
-            child: Obx(
-              () => CustomText(
-                title: controller.isDescriptionExpanded.value
-                    ? "View less"
-                    : ConstString.viewFullDescription,
-                textColor: ConstColor.secondaryColor,
-                textSize: 14.sp,
-                fontWeight: FontWeight.w500,
-                maxLine: 1,
-              ),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      title: controller.description.value,
+                      textColor: ConstColor.titleColor,
+                      textSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      maxLine: controller.isDescriptionExpanded.value ? 100 : 4,
+                      textHeight: 1.6,
+                    ),
+
+                    if (isOverflow) ...[
+                      SizedBox(height: 10.h),
+                      GestureDetector(
+                        onTap: () => controller.isDescriptionExpanded.value =
+                            !controller.isDescriptionExpanded.value,
+                        child: CustomText(
+                          title: controller.isDescriptionExpanded.value
+                              ? "View less"
+                              : ConstString.viewFullDescription,
+                          textColor: ConstColor.secondaryColor,
+                          textSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          maxLine: 1,
+                        ),
+                      ),
+                    ],
+                  ],
+                );
+              },
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -986,7 +1017,7 @@ class _BottomActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 40.h),
+      padding: EdgeInsets.fromLTRB(16.w, 6.h, 16.w, 20.h),
       decoration: BoxDecoration(
         color: ConstColor.primaryColor,
         borderRadius: const BorderRadius.only(
@@ -1002,7 +1033,7 @@ class _BottomActionBar extends StatelessWidget {
                   Get.find<PropertyDetailsController>().makePhoneCall(),
               color: ConstColor.secondaryColor,
               elevation: 0,
-              height: 48,
+              height: 46,
               top: 0,
               left: 0,
               right: 0,
@@ -1028,7 +1059,7 @@ class _BottomActionBar extends StatelessWidget {
             child: CustomElevatedButton(
               onPressed: () => Get.toNamed(AppRoutes.contactAgentScreen),
               color: Colors.white,
-              height: 48,
+              height: 46,
               top: 0,
               left: 0,
               right: 0,

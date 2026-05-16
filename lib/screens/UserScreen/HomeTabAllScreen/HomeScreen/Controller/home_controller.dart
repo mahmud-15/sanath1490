@@ -16,16 +16,31 @@ class HomeController extends GetxController {
 
   // ─── Nearby Listings ───────────────────
   final isLoading = false.obs;
+  final isFiltered = false.obs;
   final buyProperties = <PropertyModel>[].obs;
   final rentProperties = <PropertyModel>[].obs;
+  final filteredProperties = <PropertyModel>[].obs;
 
-  RxList<PropertyModel> get currentProperties =>
-      selectedTab.value == 0 ? buyProperties : rentProperties;
+  RxList<PropertyModel> get currentProperties {
+    if (isFiltered.value) return filteredProperties;
+    return selectedTab.value == 0 ? buyProperties : rentProperties;
+  }
 
   @override
   void onReady() {
     super.onReady();
     fetchNearbyListings();
+  }
+
+  // ─── Apply filter results ───────────────
+  void applyFilterResults(List<PropertyModel> results) {
+    filteredProperties.value = results;
+    isFiltered.value = true;
+  }
+
+  void clearFilter() {
+    filteredProperties.clear();
+    isFiltered.value = false;
   }
 
   Future<void> fetchNearbyListings() async {
@@ -40,14 +55,9 @@ class HomeController extends GetxController {
           "radiusInKm": 50000,
         },
       );
-      print("🏠 RESPONSE >>> $response");
 
       if (response != null && response["data"] != null) {
         final List data = response["data"];
-        for (var item in data) {
-          print("📋 listingType >>> ${item["listingType"]}");
-        }
-        print("🏠 TOTAL >>> ${data.length}");
         final allListings = data.map((e) => PropertyModel.fromJson(e)).toList();
 
         buyProperties.value =
@@ -55,9 +65,6 @@ class HomeController extends GetxController {
 
         rentProperties.value =
             allListings.where((e) => e.listingType == "RENT").toList();
-
-        print("🏠 BUY >>> ${buyProperties.length}");
-        print("🏠 RENT >>> ${rentProperties.length}");
       }
     } finally {
       isLoading(false);

@@ -23,6 +23,7 @@ class ConstString {
   static const donHaveSnAccount = "Don't have an account?";
   static const signUp = 'Sign Up';
   static const sendOtp = 'Send OTP';
+  static const send = 'Send';
   static const verifyOtp = 'Verify OTP';
   static const verify = 'Verify';
   static const enterThe4Digit =

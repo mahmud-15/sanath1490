@@ -15,7 +15,7 @@ class AccountVerifyOtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<AccountOtpVerifyController>();
+    final controller = Get.put(AccountOtpVerifyController());
 
     return Scaffold(
       appBar: const GlobalAppBar(),

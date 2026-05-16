@@ -45,7 +45,7 @@ class PropertyModel {
       title: json["title"] ?? "",
       address: address,
       addedDate: addedDate,
-      isFeatured: json["status"] == "PUBLISHED",
+      isFeatured: json["isFeatured"] ?? false,
       listingType: json["listingType"] ?? "SALE",
     );
   }

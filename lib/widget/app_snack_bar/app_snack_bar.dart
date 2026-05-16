@@ -28,7 +28,7 @@ class AppSnackBar {
           left: 16.w,
           right: 16.w,
         ),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       ),
     );
   }
@@ -54,7 +54,7 @@ class AppSnackBar {
           left: 16.w,
           right: 16.w,
         ),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       ),
     );
   }
@@ -91,7 +91,7 @@ class AppSnackBar {
           left: 16.w,
           right: 16.w,
         ),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:sanath1490_flutter_app/widget/Divider/divider.dart';
 import '../../../../widget/text/custom_text.dart';
+import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
@@ -17,7 +18,10 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<CreateAccountController>();
+    if (Get.isRegistered<CreateAccountController>()) {
+      Get.delete<CreateAccountController>(force: true);
+    }
+    final controller = Get.put(CreateAccountController());
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -32,7 +36,7 @@ class CreateAccountScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 32.h),
 
-                // Header
+                // ─── Header ──────────────────────────
                 Center(
                   child: CustomText(
                     title: ConstString.createAccount,
@@ -56,7 +60,7 @@ class CreateAccountScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 28.h),
 
-                // Full Name
+                // ─── Full Name ───────────────────────
                 CustomTextFormField(
                   fromTitle: ConstString.fullName,
                   textController: controller.fullNameController,
@@ -82,7 +86,7 @@ class CreateAccountScreen extends StatelessWidget {
                   },
                 ),
 
-                // Email
+                // ─── Email ───────────────────────────
                 CustomTextFormField(
                   fromTitle: ConstString.emailAddress,
                   textController: controller.emailController,
@@ -110,9 +114,9 @@ class CreateAccountScreen extends StatelessWidget {
                   },
                 ),
 
-                // Password
+                // ─── Password ────────────────────────
                 Obx(() => CustomTextFormField(
-                  fromTitle: ConstString.password,
+                  fromTitle: AutofillHints.password,
                   textController: controller.passwordController,
                   textInputAction: TextInputAction.next,
                   obscureText: controller.obscurePassword.value,
@@ -153,7 +157,7 @@ class CreateAccountScreen extends StatelessWidget {
                   },
                 )),
 
-                // Confirm Password
+                // ─── Confirm Password ────────────────
                 Obx(() => CustomTextFormField(
                   fromTitle: ConstString.confirmPassword,
                   textController: controller.confirmPasswordController,
@@ -198,11 +202,11 @@ class CreateAccountScreen extends StatelessWidget {
 
                 SizedBox(height: 12.h),
 
-                //Terms & Conditions
+                // ─── Terms & Conditions ──────────────
                 _TermsRow(controller: controller),
                 SizedBox(height: 24.h),
 
-                //Continue Button
+                // ─── Continue Button ─────────────────
                 Obx(() {
                   final bool canPress = controller.isTermsAccepted.value && !controller.isLoading.value;
                   return CustomElevatedButton(
@@ -239,11 +243,11 @@ class CreateAccountScreen extends StatelessWidget {
                 }),
                 SizedBox(height: 20.h),
 
-                //OR Divider
+                // ─── OR Divider ──────────────────────
                 OrDivider(),
                 SizedBox(height: 20.h),
 
-                // Google Button
+                // ─── Google Button ───────────────────
                 CustomElevatedButton(
                   onPressed: () {},
                   color: Colors.white,
@@ -267,7 +271,7 @@ class CreateAccountScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 24.h),
 
-                // Sign In Row
+                // ─── Sign In Row ─────────────────────
                 const _SignInRow(),
                 SizedBox(height: 68.h),
               ],
@@ -279,7 +283,7 @@ class CreateAccountScreen extends StatelessWidget {
   }
 }
 
-// ====================================All Helper Widget In Here===========================//
+// ─────────────────────────────────────────
 class _TermsRow extends StatelessWidget {
   final CreateAccountController controller;
 
@@ -362,6 +366,7 @@ class _TermsRow extends StatelessWidget {
   }
 }
 
+// ─────────────────────────────────────────
 class _SignInRow extends StatelessWidget {
   const _SignInRow();
 

@@ -3,6 +3,7 @@ import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
+import '../../../../../utils/log_print.dart';
 import '../../HomeScreen/Model/property_model.dart';
 
 class PropertyDetailsController extends GetxController {
@@ -10,8 +11,27 @@ class PropertyDetailsController extends GetxController {
   late PropertyModel property;
 
   final isFavourite = false.obs;
+  final isTogglingFavourite = false.obs;
 
-  void toggleFavourite() => isFavourite.value = !isFavourite.value;
+  Future<void> toggleFavourite() async {
+    if (isTogglingFavourite.value) return;
+    isTogglingFavourite.value = true;
+    try {
+      final response = await ApiServices.instance.postServices(
+        url: AppApiUrl.instance.addFavouriteProperty,
+        body: {"listingId": property.id},
+        statusCodeStart: 200,
+        statusCodeEnd: 299,
+      );
+      if (response != null && response["success"] == true) {
+        isFavourite.value = response["data"]["isFavorite"] ?? !isFavourite.value;
+      }
+    } catch (e) {
+      errorLog("toggleFavourite", e);
+    } finally {
+      isTogglingFavourite.value = false;
+    }
+  }
 
 
   final images = <String>[].obs;
@@ -108,7 +128,8 @@ class PropertyDetailsController extends GetxController {
         councilTaxBand.value = data["councilTaxBand"] ?? "";
         epcLabel.value = data["epcEnergyRating"]?["label"] ?? "";
         epcScore.value = "${data["epcEnergyRating"]?["score"] ?? ""}";
-        threeSixtyTour.value = data["threeSixtyTour"] ?? "";
+        final tour = data["threeSixtyTour"] ?? "";
+        threeSixtyTour.value = tour.isNotEmpty ? "$baseUrl$tour" : "";
         listedDate.value = _formatDate(data["createdAt"] ?? "");
 
 
@@ -141,6 +162,7 @@ class PropertyDetailsController extends GetxController {
         final addr = data["location"]?["address"] ?? "";
         final postal = data["postalCode"] ?? "";
         address.value = postal.isNotEmpty ? "$addr, $postal" : addr;
+        isFavourite.value = data["isFavorite"] ?? false;
       }
     } catch (e) {
       AppSnackBar.error("Failed to fetch property details.");

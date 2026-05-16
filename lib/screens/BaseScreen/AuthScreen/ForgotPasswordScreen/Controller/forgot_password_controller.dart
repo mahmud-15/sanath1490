@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../../routes/app_routes/app_routes.dart';
 import '../../../../../widget/AppLoader/app_loader.dart';
+import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
 import '../../AuthRepository/auth_repository.dart';
 import '../Model/forgot_password_model.dart';
 
 class ForgotPasswordController extends GetxController {
-  late final TextEditingController emailController;
+  late TextEditingController emailController;
   final isLoading = false.obs;
 
   @override
@@ -16,7 +16,6 @@ class ForgotPasswordController extends GetxController {
     emailController = TextEditingController();
   }
 
-  // ==================== Forgot Password ====================
   Future<void> sendOtp() async {
     try {
       isLoading.value = true;
@@ -41,12 +40,13 @@ class ForgotPasswordController extends GetxController {
     } catch (e) {
       AppLoader.hide();
       isLoading.value = false;
+      AppSnackBar.error("Something went wrong. Please try again.");
     }
   }
 
   @override
   void onClose() {
-    emailController.dispose();
+    try { emailController.dispose(); } catch (_) {}
     super.onClose();
   }
 }

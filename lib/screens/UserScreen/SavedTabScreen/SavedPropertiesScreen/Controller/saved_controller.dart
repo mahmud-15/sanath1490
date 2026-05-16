@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
-import '../../../HomeTabAllScreen/HomeScreen/Controller/home_controller.dart';
+import '../../../../../constant/app_api_url.dart';
+import '../../../../../service/api/api_service.dart';
+import '../../../../../utils/log_print.dart';
 import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
 class SavedController extends GetxController {
@@ -10,36 +12,59 @@ class SavedController extends GetxController {
   void onTabChanged(int index) => selectedTab.value = index;
 
   // ─── Saved Properties ─────────────────────────────
-  final savedProperties = <PropertyModel>[
-    PropertyModel(
-      images: ['assets/images/property_img3.png', 'assets/images/property_img2.png', 'assets/images/property_img.png'],
-      price: '£875,000',
-      title: '4 bed House',
-      address: '42 Morning Lane, London',
-      addedDate: '01/03/2026',
-      isFeatured: true,
-    ),
-    PropertyModel(
-      images: ['assets/images/property_img2.png', 'assets/images/property_img.png', 'assets/images/property_img2.png'],
-      price: '£1,200,000',
-      title: '5 bed Villa',
-      address: '10 Park Avenue, Manchester',
-      addedDate: '02/03/2026',
-      isFeatured: false,
-    ),
-    PropertyModel(
-      images: ['assets/images/property_img3.png', 'assets/images/property_img2.png', 'assets/images/property_img.png'],
-      price: '£650,000',
-      title: '3 bed Apartment',
-      address: '8 River Street, Oxford',
-      addedDate: '03/03/2026',
-      isFeatured: false,
-    ),
-  ].obs;
+  final savedProperties = <PropertyModel>[].obs;
+  final isLoading = false.obs;
 
-  // ─── Remove a saved property by index ─────────────
-  void removeProperty(int index) {
-    savedProperties.removeAt(index);
+  @override
+  void onReady() {
+    super.onReady();
+    // fetchFavouriteProperties();
+  }
+
+  Future<void> fetchFavouriteProperties() async {
+    try {
+      isLoading(true);
+      final response = await ApiServices.instance.getServices(
+        AppApiUrl.instance.favouriteProperties,
+      );
+
+      if (response != null && response["success"] == true) {
+        final List data = response["data"] ?? [];
+        final baseUrl = AppApiUrl.instance.imgBaseUrl;
+
+        // এটা বসাও ↓
+        savedProperties.value = data.map((item) {
+          final listing = item["listingId"] as Map<String, dynamic>;
+          return PropertyModel.fromJson(listing);
+        }).toList();
+      }
+    } catch (e) {
+      errorLog("fetchFavouriteProperties", e);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  // ─── Remove from favourites via API ───────────────
+  Future<void> removeProperty(int index) async {
+    final property = savedProperties[index];
+    savedProperties.removeAt(index); // optimistic remove
+
+    try {
+      final response = await ApiServices.instance.postServices(
+        url: AppApiUrl.instance.addFavouriteProperty,
+        body: {"listingId": property.id},
+        statusCodeStart: 200,
+        statusCodeEnd: 299,
+      );
+
+      if (response == null || response["success"] != true) {
+        savedProperties.insert(index, property); // rollback on failure
+      }
+    } catch (e) {
+      errorLog("removeProperty", e);
+      savedProperties.insert(index, property); // rollback on error
+    }
   }
 
   // ─── Saved Searches ───────────────────────────────
@@ -62,12 +87,8 @@ class SavedController extends GetxController {
     ),
   ].obs;
 
-  // ─── Remove a saved search by index ───────────────
-  void removeSearch(int index) {
-    savedSearches.removeAt(index);
-  }
+  void removeSearch(int index) => savedSearches.removeAt(index);
 
-  // ─── Toggle alert on/off for a saved search ───────
   void toggleAlert(int index) {
     final item = savedSearches[index];
     savedSearches[index] = SavedSearchModel(
@@ -80,9 +101,29 @@ class SavedController extends GetxController {
     );
   }
 
-  // ─── Navigate to results for a saved search ───────
   void viewResults(SavedSearchModel search) {
     Get.toNamed(AppRoutes.propertyListScreen);
+  }
+
+  // ─── Helper ───────────────────────────────────────
+  String _formatDate(String isoDate) {
+    try {
+      final dt = DateTime.parse(isoDate);
+      final day = dt.day.toString().padLeft(2, '0');
+      final month = dt.month.toString().padLeft(2, '0');
+      return "$day/${month}/${dt.year}";
+    } catch (_) {
+      return "";
+    }
+  }
+
+  void onResumed() {
+    fetchFavouriteProperties();
+  }
+  @override
+  void onInit() {
+    super.onInit();
+    fetchFavouriteProperties();
   }
 }
 

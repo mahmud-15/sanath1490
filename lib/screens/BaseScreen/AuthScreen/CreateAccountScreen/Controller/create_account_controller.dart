@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../../../../Widget/app_snack_bar/app_snack_bar.dart';
 import '../../../../../routes/app_routes/app_routes.dart';
 import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../AuthRepository/auth_repository.dart';
 import '../Model/register_model.dart';
 
 class CreateAccountController extends GetxController {
-  late final TextEditingController fullNameController;
-  late final TextEditingController emailController;
-  late final TextEditingController passwordController;
-  late final TextEditingController confirmPasswordController;
+  late TextEditingController fullNameController;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
 
   final isTermsAccepted        = false.obs;
   final obscurePassword        = true.obs;
@@ -30,7 +30,6 @@ class CreateAccountController extends GetxController {
     confirmPasswordController = TextEditingController();
   }
 
-  // ==================== Register ====================
   Future<void> onContinue() async {
     try {
       isLoading.value = true;
@@ -57,19 +56,18 @@ class CreateAccountController extends GetxController {
     } catch (e) {
       AppLoader.hide();
       isLoading.value = false;
+      AppSnackBar.error("Something went wrong. Please try again.");
     }
   }
 
-  void onGoogleSignUp() {
-    // TODO: google sign up logic
-  }
+  void onGoogleSignUp() {}
 
   @override
   void onClose() {
-    fullNameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    try { fullNameController.dispose(); } catch (_) {}
+    try { emailController.dispose(); } catch (_) {}
+    try { passwordController.dispose(); } catch (_) {}
+    try { confirmPasswordController.dispose(); } catch (_) {}
     super.onClose();
   }
 }

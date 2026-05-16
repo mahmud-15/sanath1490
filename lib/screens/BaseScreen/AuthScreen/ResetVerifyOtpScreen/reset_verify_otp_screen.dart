@@ -15,7 +15,7 @@ class ResetVerifyOtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ResetVerifyOtpController>();
+    final controller = Get.put(ResetVerifyOtpController());
 
     return Scaffold(
       appBar: const GlobalAppBar(),

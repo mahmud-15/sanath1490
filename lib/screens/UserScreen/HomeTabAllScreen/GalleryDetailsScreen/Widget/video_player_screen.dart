@@ -1,7 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
 import '../../../../../widget/AppLoader/app_loader.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -23,16 +22,21 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   Future<void> _init() async {
-    _videoController = VideoPlayerController.networkUrl(
-      Uri.parse(widget.url),
-    );
-    await _videoController.initialize();
-    _chewieController = ChewieController(
-      videoPlayerController: _videoController,
-      autoPlay: true,
-      looping: false,
-    );
-    setState(() {});
+
+    try {
+      _videoController = VideoPlayerController.networkUrl(
+        Uri.parse(widget.url),
+      );
+      await _videoController.initialize();
+      _chewieController = ChewieController(
+        videoPlayerController: _videoController,
+        autoPlay: true,
+        looping: false,
+      );
+      setState(() {});
+    } catch (e) {
+      setState(() {});
+    }
   }
 
   @override
@@ -53,7 +57,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       body: Center(
         child: _chewieController != null
             ? Chewie(controller: _chewieController!)
-            : const AppLoader(message: "Unable to play video",),
+            : const AppLoader(message: "Video is loading, please wait...",),
       ),
     );
   }

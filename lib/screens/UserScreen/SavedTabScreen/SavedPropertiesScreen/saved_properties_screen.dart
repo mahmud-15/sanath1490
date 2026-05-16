@@ -14,7 +14,11 @@ class SavedPropertiesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SavedController());
+    final controller = Get.delete<SavedController>() == true
+        ? Get.put(SavedController())
+        : Get.put(SavedController());
+    ever(controller.selectedTab, (_) {});
+
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
@@ -133,6 +137,9 @@ class _SavedPropertiesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      if (controller.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
       if (controller.savedProperties.isEmpty) {
         return _EmptyState(
           icon: Icons.favorite_border,

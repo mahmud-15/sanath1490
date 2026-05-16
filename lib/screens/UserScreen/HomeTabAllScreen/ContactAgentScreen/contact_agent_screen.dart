@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../constant/const_string.dart';
 import '../../../../widget/AppImage/app_image.dart';
+import '../../../../widget/AppLoader/app_loader.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
@@ -30,11 +31,9 @@ class ContactAgentScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // ─── Property Card ───────────────
-                      _PropertyCard(),
+                      _PropertyCard(controller: controller),
                       SizedBox(height: 20.h),
 
-                      // ─── Form Fields ─────────────────
                       CustomTextFormField(
                         hintText: const CustomText(title: ConstString.yourName, textColor: ConstColor.bodyColor, textSize: 13),
                         textController: controller.nameController,
@@ -70,16 +69,13 @@ class ContactAgentScreen extends StatelessWidget {
                         validator: (v) => v == null || v.trim().isEmpty ? 'Postal code is required' : null,
                       ),
 
-                      // ─── Country Dropdown ─────────────
                       _CountryDropdown(controller: controller),
                       SizedBox(height: 8.h),
 
-                      // ─── Message Field ────────────────
                       _MessageField(controller: controller),
                       SizedBox(height: 20.h),
 
-                      // ─── Agent Info ───────────────────
-                      _AgentCard(),
+                      _AgentCard(controller: controller),
                       SizedBox(height: 16.h),
                     ],
                   ),
@@ -87,7 +83,6 @@ class ContactAgentScreen extends StatelessWidget {
               ),
             ),
 
-            // ─── Send Button ──────────────────────
             _SendButton(controller: controller),
           ],
         ),
@@ -96,11 +91,15 @@ class ContactAgentScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Property Card ────────────────────────────────────
 class _PropertyCard extends StatelessWidget {
+  final ContactAgentController controller;
+
+  const _PropertyCard({required this.controller});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(() => Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -111,7 +110,14 @@ class _PropertyCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(6.r),
-            child: AppImage(
+            child: controller.propertyImage.value.isNotEmpty
+                ? AppImage(
+              url: controller.propertyImage.value,
+              width: 72.w,
+              height: 60.h,
+              fit: BoxFit.cover,
+            )
+                : AppImage(
               path: 'assets/images/property_img.png',
               width: 72.w,
               height: 60.h,
@@ -124,7 +130,7 @@ class _PropertyCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  title: '£595,000',
+                  title: controller.propertyPrice.value,
                   textColor: ConstColor.titleColor,
                   textSize: 16.sp,
                   fontWeight: FontWeight.w700,
@@ -132,7 +138,7 @@ class _PropertyCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 CustomText(
-                  title: '15 High Street, Bourton-on-the-Water, Cheltenham, GL54 2AN',
+                  title: controller.propertyAddress.value,
                   textColor: ConstColor.bodyColor,
                   textSize: 12.sp,
                   fontWeight: FontWeight.w400,
@@ -143,11 +149,11 @@ class _PropertyCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Country Dropdown ─────────────────────────────────
 class _CountryDropdown extends StatelessWidget {
   final ContactAgentController controller;
 
@@ -165,30 +171,40 @@ class _CountryDropdown extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: controller.selectedCountry.value,
-          isExpanded: true,
-          hint: CustomText(
-            title: 'Country',
-            textColor: ConstColor.bodyColor,
-            textSize: 13.sp,
-            maxLine: 1,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            hoverColor: Colors.transparent,
+            focusColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            canvasColor: Colors.white,
           ),
-          icon: Icon(Icons.keyboard_arrow_down, color: ConstColor.bodyColor, size: 20.sp),
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: ConstColor.titleColor,
-            fontFamily: 'Roboto',
+
+          child: DropdownButton<String>(
+            value: controller.selectedCountry.value,
+            isExpanded: true,
+            hint: CustomText(
+              title: 'Country',
+              textColor: ConstColor.bodyColor,
+              textSize: 13.sp,
+              maxLine: 1,
+            ),
+            icon: Icon(Icons.keyboard_arrow_down, color: ConstColor.bodyColor, size: 20.sp),
+            style: TextStyle(
+              fontSize: 13.sp,
+              color: ConstColor.titleColor,
+              fontFamily: 'Roboto',
+            ),
+            items: controller.countries.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
+            onChanged: controller.onCountryChanged,
           ),
-          items: controller.countries.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
-          onChanged: controller.onCountryChanged,
         ),
       ),
     ));
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Message Field ────────────────────────────────────
 class _MessageField extends StatelessWidget {
   final ContactAgentController controller;
 
@@ -235,11 +251,15 @@ class _MessageField extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Agent Card ───────────────────────────────────────
 class _AgentCard extends StatelessWidget {
+  final ContactAgentController controller;
+
+  const _AgentCard({required this.controller});
+
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Obx(() => Row(
       children: [
         Container(
           width: 47.w,
@@ -250,7 +270,9 @@ class _AgentCard extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: CustomText(
-            title: 'CC',
+            title: controller.agentName.value.isNotEmpty
+                ? controller.agentName.value.substring(0, 1).toUpperCase()
+                : 'A',
             textColor: Colors.white,
             textSize: 14.sp,
             fontWeight: FontWeight.w700,
@@ -262,14 +284,14 @@ class _AgentCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
-              title: 'Cotswold Country Homes',
+              title: controller.agentName.value,
               textColor: ConstColor.titleColor,
               textSize: 16.sp,
               fontWeight: FontWeight.w600,
               maxLine: 1,
             ),
             CustomText(
-              title: 'Cheltenham',
+              title: controller.agentEmail.value,
               textColor: ConstColor.bodyColor,
               textSize: 14.sp,
               fontWeight: FontWeight.w400,
@@ -278,11 +300,11 @@ class _AgentCard extends StatelessWidget {
           ],
         ),
       ],
-    );
+    ));
   }
 }
 
-// ─────────────────────────────────────────
+// ─── Send Button ──────────────────────────────────────
 class _SendButton extends StatelessWidget {
   final ContactAgentController controller;
 
@@ -293,20 +315,29 @@ class _SendButton extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       color: Colors.white,
-      child: CustomElevatedButton(
-        onPressed: controller.onSend,
+      child: Obx(() => CustomElevatedButton(
+        onPressed: controller.isLoading.value ? () {} : controller.onSend,
         color: ConstColor.primaryColor,
         height: 48,
         top: 0,
         left: 0,
         right: 0,
-        child: CustomText(
-          title: 'Send',
+        child: controller.isLoading.value
+            ? const SizedBox(
+          height: 24,
+          width: 24,
+          child: CircularProgressIndicator(
+            color: Colors.white,
+            strokeWidth: 2.5,
+          ),
+        )
+            : CustomText(
+          title: ConstString.send,
           textColor: Colors.white,
           textSize: 18.sp,
           fontWeight: FontWeight.w700,
         ),
-      ),
+      )),
     );
   }
 }

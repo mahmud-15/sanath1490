@@ -16,7 +16,10 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ForgotPasswordController>();
+    if (Get.isRegistered<ForgotPasswordController>()) {
+      Get.delete<ForgotPasswordController>(force: true);
+    }
+    final controller = Get.put(ForgotPasswordController());
     final formKey    = GlobalKey<FormState>();
 
     return Scaffold(

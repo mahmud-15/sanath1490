@@ -23,9 +23,7 @@ class FilterScreen extends StatelessWidget {
         showBack: false,
         title: ConstString.filter,
         action: InkWell(
-          onTap: (){
-            Get.back();
-          },
+          onTap: () => Get.back(),
           child: SvgPicture.asset(
             'assets/icons/remove_icon.svg',
             width: 24.0,
@@ -40,7 +38,6 @@ class FilterScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -96,9 +93,6 @@ class FilterScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-            // ─── Bottom Buttons ───────────────────
-
           ],
         ),
       ),
@@ -193,36 +187,32 @@ class _RadiusSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _SectionTitle(title: ConstString.radius),
-            Obx(
-              () => CustomText(
-                title: '${controller.radius.value.toInt()} miles',
-                textColor: ConstColor.primaryColor,
-                textSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                maxLine: 1,
-              ),
-            ),
+            Obx(() => CustomText(
+              title: '${controller.radius.value.toInt()} miles',
+              textColor: ConstColor.primaryColor,
+              textSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              maxLine: 1,
+            )),
           ],
         ),
         SizedBox(height: 6.h),
-        Obx(
-          () => SliderTheme(
-            data: SliderTheme.of(context).copyWith(
-              activeTrackColor: ConstColor.primaryColor,
-              inactiveTrackColor: ConstColor.outLineColor,
-              thumbColor: ConstColor.primaryColor,
-              overlayColor: ConstColor.primaryColor.withAlpha(30),
-              trackHeight: 4.h,
-              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.r),
-            ),
-            child: Slider(
-              value: controller.radius.value,
-              min: 1,
-              max: 50,
-              onChanged: controller.onRadiusChanged,
-            ),
+        Obx(() => SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            activeTrackColor: ConstColor.primaryColor,
+            inactiveTrackColor: ConstColor.outLineColor,
+            thumbColor: ConstColor.primaryColor,
+            overlayColor: ConstColor.primaryColor.withAlpha(30),
+            trackHeight: 4.h,
+            thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8.r),
           ),
-        ),
+          child: Slider(
+            value: controller.radius.value,
+            min: 1,
+            max: 50,
+            onChanged: controller.onRadiusChanged,
+          ),
+        )),
       ],
     );
   }
@@ -236,57 +226,50 @@ class _PropertyTypeGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Wrap(
-        spacing: 10.w,
-        runSpacing: 10.h,
-        children: controller.propertyTypes.map((type) {
-          final bool isSelected = controller.selectedPropertyType.value == type;
-          return GestureDetector(
-            onTap: () => controller.selectPropertyType(type),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: (MediaQuery.of(context).size.width - 52.w) / 3,
-              padding: EdgeInsets.symmetric(vertical: 9.h),
-              decoration: BoxDecoration(
-                color: isSelected ? ConstColor.primaryColor : Colors.white,
-                border: Border.all(
-                  color: isSelected
-                      ? ConstColor.primaryColor
-                      : ConstColor.outLineColor,
-                ),
-                borderRadius: BorderRadius.circular(8.r),
+    return Obx(() => Wrap(
+      spacing: 10.w,
+      runSpacing: 10.h,
+      children: controller.propertyTypes.map((type) {
+        final bool isSelected = controller.selectedPropertyType.value == type;
+        return GestureDetector(
+          onTap: () => controller.selectPropertyType(type),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            width: (MediaQuery.of(context).size.width - 52.w) / 3,
+            padding: EdgeInsets.symmetric(vertical: 9.h),
+            decoration: BoxDecoration(
+              color: isSelected ? ConstColor.primaryColor : Colors.white,
+              border: Border.all(
+                color: isSelected ? ConstColor.primaryColor : ConstColor.outLineColor,
               ),
-              child: Column(
-                children: [
-                  SvgPicture.asset(
-                    controller.propertyTypeIcons[controller.propertyTypes
-                        .indexOf(type)],
-                    width: 16.w,
-                    height: 18.h,
-                    colorFilter: ColorFilter.mode(
-                      isSelected ? Colors.white : ConstColor.bodyColor,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  CustomText(
-                    title: type,
-                    textColor: isSelected
-                        ? Colors.white
-                        : ConstColor.bodyColor,
-                    textSize: 12.sp,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                    textAlign: TextAlign.center,
-                    maxLine: 1,
-                  ),
-                ],
-              ),
+              borderRadius: BorderRadius.circular(8.r),
             ),
-          );
-        }).toList(),
-      ),
-    );
+            child: Column(
+              children: [
+                SvgPicture.asset(
+                  controller.propertyTypeIcons[controller.propertyTypes.indexOf(type)],
+                  width: 16.w,
+                  height: 18.h,
+                  colorFilter: ColorFilter.mode(
+                    isSelected ? Colors.white : ConstColor.bodyColor,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                SizedBox(height: 4.h),
+                CustomText(
+                  title: type,
+                  textColor: isSelected ? Colors.white : ConstColor.bodyColor,
+                  textSize: 12.sp,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                  textAlign: TextAlign.center,
+                  maxLine: 1,
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    ));
   }
 }
 
@@ -318,8 +301,6 @@ class _PriceRangeRow extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────
-
-
 class _PriceField extends StatelessWidget {
   final TextEditingController controller;
 
@@ -375,46 +356,40 @@ class _OptionSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: options.map((option) {
-          final bool isSelected = selected.value == option;
-          return Padding(
-            padding: EdgeInsets.only(right: 8.w),
-            child: GestureDetector(
-              onTap: () => onSelect(option),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: isSelected ? ConstColor.primaryColor : Colors.white,
-                  border: Border.all(
-                    color: isSelected
-                        ? ConstColor.primaryColor
-                        : ConstColor.outLineColor,
-                  ),
-                  borderRadius: BorderRadius.circular(8.r),
+    return Obx(() => Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: options.map((option) {
+        final bool isSelected = selected.value == option;
+        return Padding(
+          padding: EdgeInsets.only(right: 8.w),
+          child: GestureDetector(
+            onTap: () => onSelect(option),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 8.h),
+              decoration: BoxDecoration(
+                color: isSelected ? ConstColor.primaryColor : Colors.white,
+                border: Border.all(
+                  color: isSelected ? ConstColor.primaryColor : ConstColor.outLineColor,
                 ),
-                child: CustomText(
-                  title: option,
-                  textColor: isSelected ? Colors.white : ConstColor.titleColor,
-                  textSize: 14.sp,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                  maxLine: 1,
-                ),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: CustomText(
+                title: option,
+                textColor: isSelected ? Colors.white : ConstColor.titleColor,
+                textSize: 14.sp,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                maxLine: 1,
               ),
             ),
-          );
-        }).toList(),
-      ),
-    );
+          ),
+        );
+      }).toList(),
+    ));
   }
 }
 
-//─────────────────────────────────────────
-
-
+// ─────────────────────────────────────────
 class AddedToSiteFieldWidget extends StatelessWidget {
   final FilterController controller;
 
@@ -425,49 +400,44 @@ class AddedToSiteFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-          () => GestureDetector(
-        onTap: () {
-          // ─── Open Bottom Sheet on Tap
-          Get.bottomSheet(
-            AddedToSiteBottomSheetWidget(controller: controller),
-            isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-          );
-        },
-        child: Container(
-          height: 46.h,
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: ConstColor.iconColor),
-            borderRadius: BorderRadius.circular(8.r),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // ─── Selected Value Text
-              CustomText(
-                title: controller.selectedAddedToSite.value,
-                textColor: ConstColor.titleColor,
-                textSize: 14.sp,
-                fontWeight: FontWeight.w400,
-              ),
-              // ─── Dropdown Icon
-              Icon(
-                Icons.keyboard_arrow_down,
-                color: ConstColor.iconColor,
-                size: 20.sp,
-              ),
-            ],
-          ),
+    return Obx(() => GestureDetector(
+      onTap: () {
+        Get.bottomSheet(
+          AddedToSiteBottomSheetWidget(controller: controller),
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+        );
+      },
+      child: Container(
+        height: 46.h,
+        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: ConstColor.iconColor),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomText(
+              title: controller.selectedAddedToSite.value,
+              textColor: ConstColor.titleColor,
+              textSize: 14.sp,
+              fontWeight: FontWeight.w400,
+            ),
+            Icon(
+              Icons.keyboard_arrow_down,
+              color: ConstColor.iconColor,
+              size: 20.sp,
+            ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
 
-//─────────────────────────────────────────
+// ─────────────────────────────────────────
 class _TenureRow extends StatelessWidget {
   final FilterController controller;
 
@@ -475,29 +445,27 @@ class _TenureRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Row(
-        children: [
-          _CheckItem(
-            label: 'Freehold',
-            value: controller.isFreehold.value,
-            onTap: controller.toggleFreehold,
-          ),
-          SizedBox(width: 16.w),
-          _CheckItem(
-            label: 'Leasehold',
-            value: controller.isLeasehold.value,
-            onTap: controller.toggleLeasehold,
-          ),
-          SizedBox(width: 16.w),
-          _CheckItem(
-            label: 'Share of Freehold',
-            value: controller.isShareOfFreehold.value,
-            onTap: controller.toggleShareOfFreehold,
-          ),
-        ],
-      ),
-    );
+    return Obx(() => Row(
+      children: [
+        _CheckItem(
+          label: 'Freehold',
+          value: controller.isFreehold.value,
+          onTap: controller.toggleFreehold,
+        ),
+        SizedBox(width: 16.w),
+        _CheckItem(
+          label: 'Leasehold',
+          value: controller.isLeasehold.value,
+          onTap: controller.toggleLeasehold,
+        ),
+        SizedBox(width: 16.w),
+        _CheckItem(
+          label: 'Share of Freehold',
+          value: controller.isShareOfFreehold.value,
+          onTap: controller.toggleShareOfFreehold,
+        ),
+      ],
+    ));
   }
 }
 
@@ -509,23 +477,21 @@ class _FeaturesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Row(
-        children: [
-          _CheckItem(
-            label: 'Garden',
-            value: controller.hasGarden.value,
-            onTap: controller.toggleGarden,
-          ),
-          SizedBox(width: 16.w),
-          _CheckItem(
-            label: 'Parking',
-            value: controller.hasParking.value,
-            onTap: controller.toggleParking,
-          ),
-        ],
-      ),
-    );
+    return Obx(() => Row(
+      children: [
+        _CheckItem(
+          label: 'Garden',
+          value: controller.hasGarden.value,
+          onTap: controller.toggleGarden,
+        ),
+        SizedBox(width: 16.w),
+        _CheckItem(
+          label: 'Parking',
+          value: controller.hasParking.value,
+          onTap: controller.toggleParking,
+        ),
+      ],
+    ));
   }
 }
 
@@ -554,9 +520,7 @@ class _CheckItem extends StatelessWidget {
             decoration: BoxDecoration(
               color: value ? ConstColor.primaryColor : Colors.white,
               border: Border.all(
-                color: value
-                    ? ConstColor.primaryColor
-                    : ConstColor.outLineColor,
+                color: value ? ConstColor.primaryColor : ConstColor.outLineColor,
                 width: 2.5,
               ),
               borderRadius: BorderRadius.circular(3.r),
@@ -609,20 +573,29 @@ class _BottomButtons extends StatelessWidget {
         ),
         SizedBox(width: 16.w),
         Expanded(
-          child: CustomElevatedButton(
-            onPressed: controller.onSearch,
+          child: Obx(() => CustomElevatedButton(
+            onPressed: controller.isLoading.value ? () {} : controller.onSearch,
             color: ConstColor.secondaryColor,
             height: 46,
             top: 0,
             left: 0,
             right: 0,
-            child: CustomText(
+            child: controller.isLoading.value
+                ? const SizedBox(
+              height: 22,
+              width: 22,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2.5,
+              ),
+            )
+                : CustomText(
               title: ConstString.search,
               textColor: Colors.white,
               textSize: 16.sp,
               fontWeight: FontWeight.w700,
             ),
-          ),
+          )),
         ),
       ],
     );

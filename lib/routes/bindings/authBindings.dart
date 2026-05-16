@@ -33,14 +33,6 @@ class AuthBindings extends Bindings {
   @override
   void dependencies() {
 
-    //=========Auth Controller Part=========//
-    Get.lazyPut(() => SignInController(),           fenix: true);
-    Get.lazyPut(() => CreateAccountController(),    fenix: true);
-    Get.lazyPut(() => AccountOtpVerifyController(), fenix: true);
-    Get.lazyPut(() => ForgotPasswordController(),   fenix: true);
-    Get.lazyPut(() => ResetVerifyOtpController(),   fenix: true);
-    Get.lazyPut(() => ResetPasswordController(),    fenix: true);
-    Get.lazyPut(() => ChooseRoleController(),       fenix: true);
 
     //=========NavBar=========//
     Get.lazyPut(() => NavbarController(), fenix: true);

@@ -34,7 +34,7 @@ class PhotoViewerScreen extends StatelessWidget {
                   controller.currentViewerIndex.value = index,
                 ),
                 itemBuilder: (context, index, _) => AppImage(
-                  path: controller.photos[index],
+                  url: controller.photos[index],
                   width: double.infinity,
                   fit: BoxFit.contain,
                 ),
@@ -98,7 +98,7 @@ class PhotoViewerScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(5.r),
                               child: AppImage(
-                                path: controller.photos[index],
+                                url: controller.photos[index],
                                 width: 72.w,
                                 height: 64.h,
                                 fit: BoxFit.cover,

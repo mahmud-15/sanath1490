@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../constant/app_api_url.dart';
+import '../../../../../service/api/api_service.dart';
+import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
+import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
 class FilterController extends GetxController {
   // ─── Location ────────────────────────────
@@ -21,6 +25,16 @@ class FilterController extends GetxController {
     'assets/icons/park_home.svg',
   ];
   final propertyTypes = ['Detached', 'Semi', 'Terraced', 'Bungalow', 'Flat', 'Park Home'];
+
+  // Backend property type mapping
+  final _propertyTypeMap = {
+    'Detached': 'DETACHED',
+    'Semi': 'SEMI',
+    'Terraced': 'TERRACED',
+    'Bungalow': 'BANGLOW',
+    'Flat': 'FLAT',
+    'Park Home': 'PARK_HOME',
+  };
 
   void selectPropertyType(String type) => selectedPropertyType.value = type;
 
@@ -44,6 +58,15 @@ class FilterController extends GetxController {
   final selectedAddedToSite = 'Any'.obs;
   final addedToSiteOptions = ['Any', 'Last 24 hours', 'Last 3 days', 'Last 7 days', 'Last 14 days'];
 
+  // Backend timeFilter mapping
+  final _timeFilterMap = {
+    'Any': 'any',
+    'Last 24 hours': 'twentyFourHours',
+    'Last 3 days': 'threeDays',
+    'Last 7 days': 'sevenDays',
+    'Last 14 days': 'fourteenDays',
+  };
+
   void selectAddedToSite(String value) => selectedAddedToSite.value = value;
 
   // ─── Tenure ──────────────────────────────
@@ -62,6 +85,12 @@ class FilterController extends GetxController {
   void toggleGarden() => hasGarden.value = !hasGarden.value;
   void toggleParking() => hasParking.value = !hasParking.value;
 
+  // ─── Loading ─────────────────────────────
+  final isLoading = false.obs;
+
+  // ─── Results ─────────────────────────────
+  final searchResults = <PropertyModel>[].obs;
+
   // ─── Actions ─────────────────────────────
   void onClear() {
     locationController.clear();
@@ -79,9 +108,88 @@ class FilterController extends GetxController {
     hasParking.value = false;
   }
 
-  void onSearch() {
-    // TODO: apply filter logic
-    Get.back();
+  Future<void> onSearch() async {
+    try {
+      isLoading(true);
+
+      // ─── Build tenure list ────────────────
+      final tenureList = <String>[];
+      if (isFreehold.value) tenureList.add('FREEHOLD');
+      if (isLeasehold.value) tenureList.add('LEASEHOLD');
+      if (isShareOfFreehold.value) tenureList.add('SHARE_OF_FREEHOLD');
+
+      // ─── Build features list ──────────────
+      final featuresList = <String>[];
+      if (hasGarden.value) featuresList.add('GARDEN');
+      if (hasParking.value) featuresList.add('PARKING');
+
+      // ─── Build query params ───────────────
+      final Map<String, dynamic> params = {
+        'lat': 23.8103,
+        'lng': 90.4125,
+        'radiusInKm': (radius.value * 1.60934 * 1000).toInt(),
+      };
+
+      final propertyType = _propertyTypeMap[selectedPropertyType.value];
+      if (propertyType != null) params['propertyType'] = propertyType;
+
+      final location = locationController.text.trim();
+      if (location.isNotEmpty) params['location'] = location;
+
+      final minPrice = _parsePrice(minPriceController.text);
+      if (minPrice != null) params['minPrice'] = minPrice;
+
+      final maxPrice = _parsePrice(maxPriceController.text);
+      if (maxPrice != null) params['maxPrice'] = maxPrice;
+
+      if (selectedBedroom.value != 'Any') {
+        params['bedrooms'] = selectedBedroom.value == '4+'
+            ? 4
+            : int.tryParse(selectedBedroom.value);
+      }
+
+      if (selectedBathroom.value != 'Any') {
+        params['bathrooms'] = selectedBathroom.value == '4+'
+            ? 4
+            : int.tryParse(selectedBathroom.value);
+      }
+
+      final timeFilter = _timeFilterMap[selectedAddedToSite.value];
+      if (timeFilter != null && timeFilter != 'any') {
+        params['timeFilter'] = timeFilter;
+      }
+
+      if (tenureList.isNotEmpty) params['tenure'] = tenureList.join(',');
+      if (featuresList.isNotEmpty) params['features'] = featuresList.join(',');
+
+      final response = await ApiServices.instance.getServices(
+        AppApiUrl.instance.listingsSearch,
+        queryParameters: params,
+      );
+
+      if (response != null && response['data'] != null) {
+        final List data = response['data'];
+        searchResults.value = data
+            .map((e) => PropertyModel.fromJson(e))
+            .toList();
+        Get.back(result: searchResults);
+      }
+    } catch (e) {
+      AppSnackBar.error("Failed to search. Please try again.");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  // ─── Parse price from text ────────────────
+  int? _parsePrice(String text) {
+    final cleaned = text.replaceAll(RegExp(r'[£,\s]'), '').toLowerCase();
+    if (cleaned.isEmpty || cleaned == 'nomin' || cleaned == '5000k') return null;
+    if (cleaned.endsWith('k')) {
+      final num = double.tryParse(cleaned.replaceAll('k', ''));
+      return num != null ? (num * 1000).toInt() : null;
+    }
+    return int.tryParse(cleaned);
   }
 
   @override
