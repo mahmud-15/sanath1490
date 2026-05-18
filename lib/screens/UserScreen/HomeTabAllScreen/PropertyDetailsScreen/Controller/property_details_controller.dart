@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../../../../utils/log_print.dart';
+import '../../../SavedTabScreen/SavedPropertiesScreen/Controller/saved_controller.dart';
 import '../../HomeScreen/Model/property_model.dart';
 
 class PropertyDetailsController extends GetxController {
@@ -25,6 +26,9 @@ class PropertyDetailsController extends GetxController {
       );
       if (response != null && response["success"] == true) {
         isFavourite.value = response["data"]["isFavorite"] ?? !isFavourite.value;
+        if (Get.isRegistered<SavedController>()) {
+          Get.find<SavedController>().fetchFavouriteProperties();
+        }
       }
     } catch (e) {
       errorLog("toggleFavourite", e);
@@ -75,6 +79,7 @@ class PropertyDetailsController extends GetxController {
     try {
       if (Get.arguments != null && Get.arguments is PropertyModel) {
         property = Get.arguments as PropertyModel;
+        isFavourite.value = property.isFavourite;
         _mapFromPropertyModel(property);
         _fetchDetails(property.id);
       }
@@ -92,6 +97,7 @@ class PropertyDetailsController extends GetxController {
   }
 
   Future<void> _fetchDetails(String id) async {
+    final previousFavState = isFavourite.value;
     try {
       isLoading(true);
 
@@ -162,7 +168,9 @@ class PropertyDetailsController extends GetxController {
         final addr = data["location"]?["address"] ?? "";
         final postal = data["postalCode"] ?? "";
         address.value = postal.isNotEmpty ? "$addr, $postal" : addr;
-        isFavourite.value = data["isFavorite"] ?? false;
+        isFavourite.value = previousFavState;
+        await _checkFavouriteStatus(id);
+        // isFavourite.value = data["isFavorite"] ?? false;
       }
     } catch (e) {
       AppSnackBar.error("Failed to fetch property details.");
@@ -225,6 +233,25 @@ class PropertyDetailsController extends GetxController {
       }
     } catch (e) {
       AppSnackBar.error("Failed to open phone dialer.");
+    }
+  }
+
+  Future<void> _checkFavouriteStatus(String id) async {
+    try {
+      final response = await ApiServices.instance.getServices(
+        AppApiUrl.instance.favouriteProperties,
+      );
+      if (response != null && response["success"] == true) {
+        final List data = response["data"] ?? [];
+        final isSaved = data.any((item) {
+          final listing = item["listingId"];
+          if (listing is Map) return listing["_id"] == id;
+          return listing == id;
+        });
+        isFavourite.value = isSaved;
+      }
+    } catch (e) {
+      errorLog("_checkFavouriteStatus", e);
     }
   }
 }

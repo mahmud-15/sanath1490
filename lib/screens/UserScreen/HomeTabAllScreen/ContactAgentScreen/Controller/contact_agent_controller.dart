@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
+import '../../../EnquiriesScreen/Controller/enquiries_controller.dart';
 import '../../PropertyDetailsScreen/Controller/property_details_controller.dart';
 
 class ContactAgentController extends GetxController {
@@ -86,6 +87,10 @@ class ContactAgentController extends GetxController {
       if (response != null) {
         AppSnackBar.success("Enquiry sent successfully");
         Get.back();
+        Get.back();
+        if (Get.isRegistered<EnquiriesController>()) {
+          Get.find<EnquiriesController>().fetchEnquiries();
+        }
       }
     } catch (e) {
       AppSnackBar.error("Failed to send enquiry. Please try again.");

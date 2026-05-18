@@ -375,12 +375,7 @@ class _HomeHeader extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () async {
-                                final result = await Get.toNamed(AppRoutes.filterScreen);
-                                if (result != null && result is List<PropertyModel>) {
-                                  controller.applyFilterResults(result);
-                                }
-                              },
+                              onTap: () => Get.toNamed(AppRoutes.filterScreen),
                               child: Container(
                                 margin: EdgeInsets.all(6.w),
                                 padding: EdgeInsets.all(6.w),

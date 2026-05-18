@@ -50,7 +50,6 @@ class AppLoader extends StatelessWidget {
     );
   }
 
-  // ─── Hide overlay (safe — runs after current frame) ──
   static void hide() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = navigatorKey.currentContext;
@@ -86,9 +85,6 @@ class AppLoader extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Residential Pulse — house with dual rotating arcs + glow
-// ─────────────────────────────────────────────────────
 class _ResidentialPulse extends StatefulWidget {
   const _ResidentialPulse();
 
@@ -119,7 +115,7 @@ class _ResidentialPulseState extends State<_ResidentialPulse>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, __) => CustomPaint(
+      builder: (_, _) => CustomPaint(
         painter: _ResidentialPulsePainter(progress: _controller.value),
         child: Center(
           child: _GlowCircle(
@@ -131,9 +127,6 @@ class _ResidentialPulseState extends State<_ResidentialPulse>
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Glow circle with house icon
-// ─────────────────────────────────────────────────────
 class _GlowCircle extends StatelessWidget {
   final int glowOpacity;
 
@@ -162,9 +155,6 @@ class _GlowCircle extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Dual arc painter
-// ─────────────────────────────────────────────────────
 class _ResidentialPulsePainter extends CustomPainter {
   final double progress;
 
@@ -178,7 +168,6 @@ class _ResidentialPulsePainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2 - 8;
 
-    // ─── Outer glow ring ──────────────────────────
     canvas.drawCircle(
       center,
       size.width / 2 - 6,
@@ -188,7 +177,6 @@ class _ResidentialPulsePainter extends CustomPainter {
         ..strokeWidth = 12,
     );
 
-    // ─── Arc 1 — forward (teal) ───────────────────
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       -pi / 2 + (progress * pi * 2),
@@ -201,7 +189,6 @@ class _ResidentialPulsePainter extends CustomPainter {
         ..strokeCap = StrokeCap.round,
     );
 
-    // ─── Arc 2 — reverse (dark blue) ─────────────
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
       pi / 2 - (progress * pi * 2),
@@ -220,9 +207,7 @@ class _ResidentialPulsePainter extends CustomPainter {
       old.progress != progress;
 }
 
-// ─────────────────────────────────────────────────────
 // House icon painter
-// ─────────────────────────────────────────────────────
 class _HouseIcon extends StatelessWidget {
   final double size;
   final Color color;
@@ -255,7 +240,6 @@ class _HouseIconPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    // ─── Roof ─────────────────────────────────────
     canvas.drawPath(
       Path()
         ..moveTo(w * 0.1, h * 0.52)
@@ -264,7 +248,6 @@ class _HouseIconPainter extends CustomPainter {
       paint,
     );
 
-    // ─── Walls ────────────────────────────────────
     canvas.drawPath(
       Path()
         ..moveTo(w * 0.18, h * 0.48)
@@ -274,7 +257,6 @@ class _HouseIconPainter extends CustomPainter {
       paint,
     );
 
-    // ─── Door ─────────────────────────────────────
     canvas.drawPath(
       Path()
         ..moveTo(w * 0.40, h * 0.92)

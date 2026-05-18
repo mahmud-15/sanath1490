@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
+import '../../../../widget/AppLoader/app_loader.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../HomeTabAllScreen/HomeScreen/Widget/property_card.dart';
@@ -138,8 +139,9 @@ class _SavedPropertiesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
+        return const Center(child: AppLoader());
       }
+
       if (controller.savedProperties.isEmpty) {
         return _EmptyState(
           icon: Icons.favorite_border,
@@ -147,53 +149,55 @@ class _SavedPropertiesTab extends StatelessWidget {
         );
       }
 
-      return ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-        itemCount: controller.savedProperties.length,
-        separatorBuilder: (_, _) => SizedBox(height: 16.h),
-        itemBuilder: (context, index) {
-          final property = controller.savedProperties[index];
-
-          return Stack(
-            ///////////////Error astece eikane
-            children: [
-              PropertyCard(property: property,
-                onTap: () => Get.toNamed(
-                  AppRoutes.propertyDetails,
-                  arguments: property,
+      return RefreshIndicator(
+        onRefresh: controller.fetchFavouriteProperties,
+        color: ConstColor.primaryColor,
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+          itemCount: controller.savedProperties.length,
+          separatorBuilder: (_, __) => SizedBox(height: 16.h),
+          itemBuilder: (context, index) {
+            final property = controller.savedProperties[index];
+            return Stack(
+              children: [
+                PropertyCard(
+                  property: property,
+                  onTap: () => Get.toNamed(
+                    AppRoutes.propertyDetails,
+                    arguments: property,
+                  ),
                 ),
-              ),
-
-              Positioned(
-                bottom: 30.h,
-                right: 14.w,
-                child: GestureDetector(
-                  onTap: () => controller.removeProperty(index),
-                  child: Container(
-                    width: 34.w,
-                    height: 34.w,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(20),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 18.sp,
+                Positioned(
+                  bottom: 30.h,
+                  right: 14.w,
+                  child: GestureDetector(
+                    onTap: () => controller.removeProperty(index),
+                    child: Container(
+                      width: 34.w,
+                      height: 34.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(20),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 18.sp,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       );
     });
   }
@@ -208,6 +212,10 @@ class _SavedSearchesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      if (controller.isSearchLoading.value) {
+        return const Center(child: AppLoader());
+      }
+
       if (controller.savedSearches.isEmpty) {
         return _EmptyState(
           icon: Icons.search_off,
@@ -215,19 +223,23 @@ class _SavedSearchesTab extends StatelessWidget {
         );
       }
 
-      return ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-        itemCount: controller.savedSearches.length,
-        separatorBuilder: (_, _) => SizedBox(height: 12.h),
-        itemBuilder: (context, index) {
-          final search = controller.savedSearches[index];
-          return SavedSearchCard(
-            search: search,
-            onRemove: () => controller.removeSearch(index),
-            onToggleAlert: () => controller.toggleAlert(index),
-            onViewResults: () => controller.viewResults(search),
-          );
-        },
+      return RefreshIndicator(
+        onRefresh: controller.fetchSavedSearches,
+        color: ConstColor.primaryColor,
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+          itemCount: controller.savedSearches.length,
+          separatorBuilder: (_, __) => SizedBox(height: 12.h),
+          itemBuilder: (context, index) {
+            final search = controller.savedSearches[index];
+            return SavedSearchCard(
+              search: search,
+              onRemove: () => controller.removeSearch(index),
+              onToggleAlert: () => controller.toggleAlert(index),
+              onViewResults: () => controller.viewResults(search),
+            );
+          },
+        ),
       );
     });
   }

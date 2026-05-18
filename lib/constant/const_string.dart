@@ -240,4 +240,9 @@ class ConstString {
   static const fiveDaysAgo            = '5 days ago';
   static const edit            = 'Edit';
   static const next            = 'Next';
+  static const enquiresDetails       = 'Enquires Details';
+  static const yourMessage           = 'Your Message';
+  static const sentTo                = 'Sent To';
+  static const enquired              = 'Enquired';
+  static const enquiryMessageSample  = 'I would like to arrange a viewing for this weekend if possible. Thanks!"';
 }

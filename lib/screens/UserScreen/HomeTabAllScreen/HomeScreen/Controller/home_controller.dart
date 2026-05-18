@@ -16,15 +16,11 @@ class HomeController extends GetxController {
 
   // ─── Nearby Listings ───────────────────
   final isLoading = false.obs;
-  final isFiltered = false.obs;
   final buyProperties = <PropertyModel>[].obs;
   final rentProperties = <PropertyModel>[].obs;
-  final filteredProperties = <PropertyModel>[].obs;
 
-  RxList<PropertyModel> get currentProperties {
-    if (isFiltered.value) return filteredProperties;
-    return selectedTab.value == 0 ? buyProperties : rentProperties;
-  }
+  RxList<PropertyModel> get currentProperties =>
+      selectedTab.value == 0 ? buyProperties : rentProperties;
 
   @override
   void onReady() {
@@ -32,16 +28,6 @@ class HomeController extends GetxController {
     fetchNearbyListings();
   }
 
-  // ─── Apply filter results ───────────────
-  void applyFilterResults(List<PropertyModel> results) {
-    filteredProperties.value = results;
-    isFiltered.value = true;
-  }
-
-  void clearFilter() {
-    filteredProperties.clear();
-    isFiltered.value = false;
-  }
 
   Future<void> fetchNearbyListings() async {
     try {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../constant/const_string.dart';
 import '../../../../widget/AppImage/app_image.dart';
@@ -235,6 +236,14 @@ class _MessageField extends StatelessWidget {
               border: InputBorder.none,
               counterText: '',
               contentPadding: EdgeInsets.all(14.w),
+              hintText: 'Write your message to the agent...'  ,
+              hintStyle: TextStyle(
+                fontSize: 13.sp,
+                color: ConstColor.bodyColor,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w400,
+              ),
+              hintMaxLines: 4,
             ),
           ),
         ),

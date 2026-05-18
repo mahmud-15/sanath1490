@@ -11,6 +11,7 @@ class PropertyModel {
   final bool isFeatured;
   final String listingType;
   final RxInt currentIndex;
+  final bool isFavourite;
 
   PropertyModel({
     this.id = "",
@@ -21,6 +22,7 @@ class PropertyModel {
     required this.addedDate,
     required this.isFeatured,
     this.listingType = "SALE",
+    this.isFavourite = false,
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {

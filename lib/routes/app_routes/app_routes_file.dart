@@ -26,6 +26,7 @@ import '../../screens/BaseScreen/ProfileAllScreen/PrivacyPolcyScreen/privacy_pol
 import '../../screens/BaseScreen/ProfileAllScreen/ProfileScreen/profile_screen.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/TermsScreen/terms_screen.dart';
 import '../../screens/UserScreen/EnquiriesScreen/enquiries_screen.dart';
+import '../../screens/UserScreen/EnquiriesScreen/enquiry_details_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/ContactAgentScreen/contact_agent_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/DegreeTourScreen/degree_tour_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/FilterScreen/filter_screen.dart';
@@ -80,6 +81,7 @@ List<GetPage> appRouteFile = <GetPage>[
 
   ///////////////Enquiries Screen Part////////////////
   GetPage(name: AppRoutes.enquiriesScreen,     page: () => EnquiriesScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.enquiryDetails,     page: () => EnquiryDetailsScreen(),binding: AuthBindings()),
 
   ///////////////Profile Screen Part////////////////
   GetPage(name: AppRoutes.profileScreen,     page: () => ProfileScreen(),binding: AuthBindings()),

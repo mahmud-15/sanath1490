@@ -32,6 +32,9 @@ class MinPriceBottomSheetWidget extends StatelessWidget {
       "£ 130000",
       "£ 140000",
       "£ 150000",
+      "£ 180000",
+      "£ 220000",
+      "£ 250000",
     ];
 
     return Container(

@@ -6,6 +6,7 @@ import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
+import '../../../widget/AppLoader/app_loader.dart';
 import '../../../widget/AuthAppBar/global_app_bar.dart';
 import 'Controller/enquiries_controller.dart';
 
@@ -20,6 +21,10 @@ class EnquiriesScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF2F4F7),
       appBar: GlobalAppBar(title: ConstString.enquiries, showBack: false),
       body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: AppLoader());
+        }
+
         if (controller.enquiries.isEmpty) {
           return Center(
             child: CustomText(
@@ -32,17 +37,21 @@ class EnquiriesScreen extends StatelessWidget {
           );
         }
 
-        return ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-          itemCount: controller.enquiries.length,
-          separatorBuilder: (_, _) => SizedBox(height: 10.h),
-          itemBuilder: (context, index) {
-            final item = controller.enquiries[index];
-            return _EnquiryCard(
-              item: item,
-              onTap: () => controller.onCardTap(item),
-            );
-          },
+        return RefreshIndicator(
+          onRefresh: controller.fetchEnquiries,
+          color: ConstColor.primaryColor,
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+            itemCount: controller.enquiries.length,
+            separatorBuilder: (_, __) => SizedBox(height: 10.h),
+            itemBuilder: (context, index) {
+              final item = controller.enquiries[index];
+              return _EnquiryCard(
+                item: item,
+                onTap: () => controller.onCardTap(item),
+              );
+            },
+          ),
         );
       }),
     );

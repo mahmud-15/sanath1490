@@ -7,7 +7,6 @@ import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
-import '../HomeScreen/Controller/home_controller.dart';
 import '../HomeScreen/Widget/property_card.dart';
 import '../SearchResultMapScreen/search_result_map_screen.dart';
 import 'Controller/property_list_controller.dart';
@@ -19,23 +18,19 @@ class PropertyListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(PropertyListController());
-    final homeController = Get.find<HomeController>();
 
     return Scaffold(
       backgroundColor: ConstColor.backgroundColor,
 
-      // ─── AppBar ────────────────────────────────────
       appBar: GlobalAppBar(
         title: ConstString.london,
         action: Row(
           children: [
             GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.filterScreen);
-              },
-              child: SvgPicture.asset("assets/icons/filter_icon.svg",
-              colorFilter: ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
-
+              onTap: () => Get.toNamed(AppRoutes.filterScreen),
+              child: SvgPicture.asset(
+                "assets/icons/filter_icon.svg",
+                colorFilter: ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
               ),
             ),
             SizedBox(width: 15.w),
@@ -56,17 +51,16 @@ class PropertyListScreen extends StatelessWidget {
         ),
       ),
 
-      // ─── Body ──────────────────────────────────────
       body: Column(
         children: [
-          // ─── Results count + Sort dropdown ─────────
+          // ─── Results count + Sort ─────────────────
           Padding(
             padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Obx(() => CustomText(
-                  title: '${homeController.currentProperties.length} results',
+                  title: '${controller.properties.length} results',
                   textColor: ConstColor.bodyColor,
                   textSize: 14.sp,
                   fontWeight: FontWeight.w400,
@@ -105,34 +99,47 @@ class PropertyListScreen extends StatelessWidget {
 
           Divider(height: 1.h, color: ConstColor.outLineColor),
 
-          // ─── Property List ──────────────────────────
+          // ─── Property List ────────────────────────
           Expanded(
-            child: Obx(() => ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-              itemCount: homeController.currentProperties.length,
-              separatorBuilder: (_, _) => SizedBox(height: 16.h),
-              itemBuilder: (context, index) {
-                final property = homeController.currentProperties[index];
-                return PropertyCard(
-                  onTap: () {
-                    Get.toNamed(
+            child: Obx(() {
+              if (controller.properties.isEmpty) {
+                return Center(
+                  child: CustomText(
+                    title: 'No properties found',
+                    textColor: ConstColor.bodyColor,
+                    textSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    maxLine: 1,
+                  ),
+                );
+              }
+
+              return ListView.separated(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                itemCount: controller.properties.length,
+                separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                itemBuilder: (context, index) {
+                  final property = controller.properties[index];
+                  return PropertyCard(
+                    onTap: () => Get.toNamed(
                       AppRoutes.propertyDetails,
                       arguments: property,
-                    );
-                  },
-                  property: property,
-                );
-              },
-            )),
+                    ),
+                    property: property,
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
 
-        bottomNavigationBar: _ListMapToggle(controller: controller),
+      bottomNavigationBar: _ListMapToggle(controller: controller),
     );
   }
 }
 
+// ─── List Map Toggle ──────────────────────────────────
 class _ListMapToggle extends StatelessWidget {
   final PropertyListController controller;
 
@@ -153,7 +160,6 @@ class _ListMapToggle extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ─── List Tab ───────────────────────────
             _ToggleItem(
               icon: Icons.list,
               label: ConstString.list,
@@ -161,7 +167,6 @@ class _ListMapToggle extends StatelessWidget {
               onTap: () => controller.isListView.value = true,
             ),
 
-            // ─── Divider ────────────────────────────
             Container(
               height: 20.h,
               width: 1.w,
@@ -169,7 +174,6 @@ class _ListMapToggle extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 16.w),
             ),
 
-            // ─── Map Tab ────────────────────────────
             _ToggleItem(
               icon: Icons.map_outlined,
               label: ConstString.map,
@@ -186,7 +190,7 @@ class _ListMapToggle extends StatelessWidget {
   }
 }
 
-
+// ─── Toggle Item ──────────────────────────────────────
 class _ToggleItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -214,7 +218,7 @@ class _ToggleItem extends StatelessWidget {
             title: label,
             textColor: color,
             textSize: 13.sp,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w600,
+            fontWeight: FontWeight.w600,
             maxLine: 1,
           ),
         ],

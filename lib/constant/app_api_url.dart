@@ -26,13 +26,19 @@ class AppApiUrl {
   // ==================== Home Screen ====================
   final String nearbyListingProperty = "/listings/nearby";
   final String listingById = "/listings";
-  final String createEnquiries = "/enquiries";
   final String listingsSearch = "/listings/search";
 
   // ==================== Saved Screen ====================
   final String addFavouriteProperty = "/favorite-properties/toggle";
   final String favouriteProperties = "/favorite-properties";
+  final String savedSearches = "/saved-searches";
+  final String deleteSavedSearch = "/saved-searches";
 
+
+  // ==================== Enquires ====================
+  final String createEnquiries = "/enquiries";
+  final String myEnquiries = "/enquiries/my-enqueries";
+  final String myEnquiriesById = "/enquiries/my-enqueries";
 
   // ==================== Profile ====================
   final String refreshToken = "/refreshToken";

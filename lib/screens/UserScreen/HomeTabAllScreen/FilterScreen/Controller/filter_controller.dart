@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../constant/app_api_url.dart';
+import '../../../../../routes/app_routes/app_routes.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
 import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
@@ -24,7 +25,14 @@ class FilterController extends GetxController {
     'assets/icons/flat_icon.svg',
     'assets/icons/park_home.svg',
   ];
-  final propertyTypes = ['Detached', 'Semi', 'Terraced', 'Bungalow', 'Flat', 'Park Home'];
+  final propertyTypes = [
+    'Detached',
+    'Semi',
+    'Terraced',
+    'Bungalow',
+    'Flat',
+    'Park Home',
+  ];
 
   // Backend property type mapping
   final _propertyTypeMap = {
@@ -56,7 +64,13 @@ class FilterController extends GetxController {
 
   // ─── Added to Site ───────────────────────
   final selectedAddedToSite = 'Any'.obs;
-  final addedToSiteOptions = ['Any', 'Last 24 hours', 'Last 3 days', 'Last 7 days', 'Last 14 days'];
+  final addedToSiteOptions = [
+    'Any',
+    'Last 24 hours',
+    'Last 3 days',
+    'Last 7 days',
+    'Last 14 days',
+  ];
 
   // Backend timeFilter mapping
   final _timeFilterMap = {
@@ -75,14 +89,18 @@ class FilterController extends GetxController {
   final isShareOfFreehold = false.obs;
 
   void toggleFreehold() => isFreehold.value = !isFreehold.value;
+
   void toggleLeasehold() => isLeasehold.value = !isLeasehold.value;
-  void toggleShareOfFreehold() => isShareOfFreehold.value = !isShareOfFreehold.value;
+
+  void toggleShareOfFreehold() =>
+      isShareOfFreehold.value = !isShareOfFreehold.value;
 
   // ─── Property Features ───────────────────
   final hasGarden = false.obs;
   final hasParking = true.obs;
 
   void toggleGarden() => hasGarden.value = !hasGarden.value;
+
   void toggleParking() => hasParking.value = !hasParking.value;
 
   // ─── Loading ─────────────────────────────
@@ -172,7 +190,10 @@ class FilterController extends GetxController {
         searchResults.value = data
             .map((e) => PropertyModel.fromJson(e))
             .toList();
-        Get.back(result: searchResults);
+        Get.toNamed(
+          AppRoutes.propertyListScreen,
+          arguments: searchResults,
+        );
       }
     } catch (e) {
       AppSnackBar.error("Failed to search. Please try again.");
@@ -184,7 +205,9 @@ class FilterController extends GetxController {
   // ─── Parse price from text ────────────────
   int? _parsePrice(String text) {
     final cleaned = text.replaceAll(RegExp(r'[£,\s]'), '').toLowerCase();
-    if (cleaned.isEmpty || cleaned == 'nomin' || cleaned == '5000k') return null;
+    if (cleaned.isEmpty || cleaned == 'nomin' || cleaned == '5000k') {
+      return null;
+    }
     if (cleaned.endsWith('k')) {
       final num = double.tryParse(cleaned.replaceAll('k', ''));
       return num != null ? (num * 1000).toInt() : null;

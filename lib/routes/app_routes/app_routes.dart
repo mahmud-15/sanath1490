@@ -37,6 +37,7 @@ class AppRoutes {
 
   ///////////////Enquiries Screen Part///////////////
   static const enquiriesScreen = '/enquiriesScreen';
+  static const enquiryDetails = '/enquiryDetails';
 
   ///////////////Profile Screen Part///////////////
   static const profileScreen = '/profileScreen';
