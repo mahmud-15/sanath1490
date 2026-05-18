@@ -15,6 +15,7 @@ class EnquiriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.delete<EnquiriesController>(force: true);
     final controller = Get.put(EnquiriesController());
 
     return Scaffold(
@@ -93,7 +94,7 @@ class _EnquiryCard extends StatelessWidget {
                 bottomLeft: Radius.circular(12.r),
               ),
               child: AppImage(
-                path: item.imagePath,
+                url: item.imagePath,
                 width: 110.w,
                 height: 110.h,
                 fit: BoxFit.cover,

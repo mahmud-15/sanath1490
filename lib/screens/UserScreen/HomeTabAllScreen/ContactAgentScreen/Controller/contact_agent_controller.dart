@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
@@ -86,8 +87,7 @@ class ContactAgentController extends GetxController {
 
       if (response != null) {
         AppSnackBar.success("Enquiry sent successfully");
-        Get.back();
-        Get.back();
+        Get.toNamed(AppRoutes.navBar, arguments: 2);
         if (Get.isRegistered<EnquiriesController>()) {
           Get.find<EnquiriesController>().fetchEnquiries();
         }

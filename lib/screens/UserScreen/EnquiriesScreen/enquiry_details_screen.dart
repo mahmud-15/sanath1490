@@ -199,20 +199,26 @@ class _AgentInfo extends StatelessWidget {
       children: [
         Row(
           children: [
-            Container(
-              width: 48.w,
-              height: 48.w,
-              decoration: BoxDecoration(
+            ClipOval(
+              child: item.agentImage.isNotEmpty
+                  ? AppImage(
+                url: item.agentImage,
+                width: 48.w,
+                height: 48.w,
+                fit: BoxFit.cover,
+              )
+                  : Container(
+                width: 48.w,
+                height: 48.w,
                 color: ConstColor.primaryColor,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: CustomText(
-                  title: initial,
-                  textColor: Colors.white,
-                  textSize: 18.sp,
-                  fontWeight: FontWeight.w700,
-                  maxLine: 1,
+                child: Center(
+                  child: CustomText(
+                    title: initial,
+                    textColor: Colors.white,
+                    textSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    maxLine: 1,
+                  ),
                 ),
               ),
             ),

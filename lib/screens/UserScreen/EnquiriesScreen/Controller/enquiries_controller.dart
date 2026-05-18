@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../../constant/app_api_url.dart';
@@ -54,6 +55,7 @@ class EnquiryModel {
   final String agentEmail;
   final String agentPhone;
   final String enquiredDate;
+  final String agentImage;
 
   EnquiryModel({
     required this.id,
@@ -70,6 +72,7 @@ class EnquiryModel {
     required this.agentEmail,
     required this.agentPhone,
     required this.enquiredDate,
+    required this.agentImage,
   });
 
   factory EnquiryModel.fromJson(Map<String, dynamic> json) {
@@ -99,6 +102,7 @@ class EnquiryModel {
       enquiredDate = "$day/$month/${dt.year}";
     } catch (_) {}
 
+
     return EnquiryModel(
       id: json["_id"] ?? "",
       imagePath: imagePath,
@@ -114,6 +118,9 @@ class EnquiryModel {
       agentEmail: json["email"] ?? "",
       agentPhone: json["phone"] ?? "",
       enquiredDate: enquiredDate,
+      agentImage: (user["profileImage"] != null && user["profileImage"].toString().isNotEmpty)
+          ? "$baseUrl${user["profileImage"]}"
+          : "",
     );
   }
 }

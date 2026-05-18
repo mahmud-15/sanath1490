@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../constant/app_api_url.dart';
+import '../../../../../routes/app_routes/app_routes.dart';
+import '../../../../../service/api/api_service.dart';
+import '../../HomeScreen/Model/property_model.dart';
 
 class SearchScreenController extends GetxController {
   final textEditingController = TextEditingController();
 
   final searchQuery = ''.obs;
+  final isLoading = false.obs;
 
   final recentSearches = <String>[
     'London',
@@ -42,9 +47,7 @@ class SearchScreenController extends GetxController {
         .toList();
   }
 
-  void onSearchChanged(String value) {
-    searchQuery.value = value;
-  }
+  void onSearchChanged(String value) => searchQuery.value = value;
 
   void clearSearch() {
     textEditingController.clear();
@@ -56,17 +59,52 @@ class SearchScreenController extends GetxController {
     searchQuery.value = item;
   }
 
-  void onSuggestionTap(String suggestion) {
+  Future<void> onSuggestionTap(String suggestion) async {
+    // ─── Update recent searches ───────────
     if (!recentSearches.contains(suggestion)) {
       recentSearches.insert(0, suggestion);
-      if (recentSearches.length > 5) {
-        recentSearches.removeLast();
-      }
+      if (recentSearches.length > 5) recentSearches.removeLast();
     }
     clearSearch();
-    // Get.toNamed(AppRoutes.resultsScreen, arguments: suggestion);
+
+    await _searchAndNavigate(suggestion);
   }
-  void useCurrentLocation() {
+
+  Future<void> useCurrentLocation() async {
+    await _searchAndNavigate('');
+  }
+
+  Future<void> _searchAndNavigate(String location) async {
+    try {
+      isLoading(true);
+
+      final Map<String, dynamic> params = {
+        'lat': 23.8103,
+        'lng': 90.4125,
+        'radiusInKm': 50000,
+      };
+
+      if (location.isNotEmpty) params['location'] = location;
+
+      final response = await ApiServices.instance.getServices(
+        AppApiUrl.instance.listingsSearch,
+        queryParameters: params,
+      );
+
+      if (response != null && response['data'] != null) {
+        final List data = response['data'];
+        final results = data.map((e) => PropertyModel.fromJson(e)).toList();
+
+        Get.toNamed(
+          AppRoutes.propertyListScreen,
+          arguments: results,
+        );
+      }
+    } catch (e) {
+      // silent fail — user stays on search screen
+    } finally {
+      isLoading(false);
+    }
   }
 
   @override

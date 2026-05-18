@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
+import '../../../../widget/AppLoader/app_loader.dart';
 import '../../../../widget/text/custom_text.dart';
 import 'Controller/search_screen_controller.dart';
 
@@ -17,6 +18,13 @@ class SearchScreen extends StatelessWidget {
     return Scaffold(
       appBar: _SearchAppBar(controller: controller),
       body: Obx(() {
+        // ─── Loading ──────────────────────
+        if (controller.isLoading.value) {
+          return const Center(
+            child: AppLoader(message: "Searching for results...",),
+          );
+        }
+
         if (controller.searchQuery.value.isNotEmpty) {
           return _SuggestionList(controller: controller);
         }
@@ -42,7 +50,6 @@ class _SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: Row(
           children: [
-            // ─── Back Button ─────────────────────────
             GestureDetector(
               onTap: () => Get.back(),
               child: Container(
@@ -57,12 +64,11 @@ class _SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             SizedBox(width: 10.w),
 
-            // ─── Search TextField ─────────────────────
             Expanded(
               child: Container(
                 height: 40.h,
                 decoration: BoxDecoration(
-                  color: Color(0xFF002142),
+                  color: const Color(0xFF002142),
                   borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(color: ConstColor.bodyColor, width: 1.5),
                 ),
@@ -94,19 +100,15 @@ class _SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ),
 
-                    Obx(
-                      () => controller.searchQuery.value.isNotEmpty
-                          ? GestureDetector(
-                              onTap: controller.clearSearch,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 10.w),
-                                child: SvgPicture.asset(
-                                  "assets/icons/remove_icon.svg",
-                                ),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ),
+                    Obx(() => controller.searchQuery.value.isNotEmpty
+                        ? GestureDetector(
+                      onTap: controller.clearSearch,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10.w),
+                        child: SvgPicture.asset("assets/icons/remove_icon.svg"),
+                      ),
+                    )
+                        : const SizedBox.shrink()),
                   ],
                 ),
               ),
@@ -131,7 +133,6 @@ class _DefaultSearchView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ─── Use Current Location ─────────────────
         InkWell(
           onTap: controller.useCurrentLocation,
           child: Padding(
@@ -168,7 +169,6 @@ class _DefaultSearchView extends StatelessWidget {
 
         Divider(height: 1.h, color: ConstColor.outLineColor),
 
-        // ─── Recent Searches Label ────────────────
         Padding(
           padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 8.h),
           child: CustomText(
@@ -180,58 +180,48 @@ class _DefaultSearchView extends StatelessWidget {
           ),
         ),
 
-        // ─── Recent Search Items ──────────────────
-        Obx(
-          () => ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: controller.recentSearches.length,
-            itemBuilder: (context, index) {
-              final item = controller.recentSearches[index];
-              return InkWell(
-                onTap: () => controller.onRecentTap(item),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 12.h,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 50.w,
-                        height: 46.h,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withAlpha(280),
-                          borderRadius: BorderRadius.circular(8),
-                          // shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            "assets/icons/search_icon.svg",
-                            width: 20.w,
-                            height: 20.h,
-                            colorFilter: ColorFilter.mode(
-                              ConstColor.titleColor,
-                              BlendMode.srcIn,
-                            ),
-                          ),
+        Obx(() => ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: controller.recentSearches.length,
+          itemBuilder: (context, index) {
+            final item = controller.recentSearches[index];
+            return InkWell(
+              onTap: () => controller.onRecentTap(item),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 50.w,
+                      height: 46.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withAlpha(280),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          "assets/icons/search_icon.svg",
+                          width: 20.w,
+                          height: 20.h,
+                          colorFilter: ColorFilter.mode(ConstColor.titleColor, BlendMode.srcIn),
                         ),
                       ),
-                      SizedBox(width: 12.w),
-                      CustomText(
-                        title: item,
-                        textColor: ConstColor.titleColor,
-                        textSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        maxLine: 1,
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(width: 12.w),
+                    CustomText(
+                      title: item,
+                      textColor: ConstColor.titleColor,
+                      textSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      maxLine: 1,
+                    ),
+                  ],
                 ),
-              );
-            },
-          ),
-        ),
+              ),
+            );
+          },
+        )),
       ],
     );
   }
@@ -265,7 +255,7 @@ class _SuggestionList extends StatelessWidget {
       return ListView.separated(
         padding: EdgeInsets.symmetric(vertical: 8.h),
         itemCount: suggestions.length,
-        separatorBuilder: (_, _) => Divider(
+        separatorBuilder: (_, __) => Divider(
           height: 1.h,
           indent: 16.w,
           endIndent: 16.w,
@@ -285,17 +275,13 @@ class _SuggestionList extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.grey.withAlpha(280),
                       borderRadius: BorderRadius.circular(8),
-                      // shape: BoxShape.circle,
                     ),
                     child: Center(
                       child: SvgPicture.asset(
                         "assets/icons/location_icon.svg",
                         width: 20.w,
                         height: 20.h,
-                        colorFilter: ColorFilter.mode(
-                          ConstColor.titleColor,
-                          BlendMode.srcIn,
-                        ),
+                        colorFilter: ColorFilter.mode(ConstColor.titleColor, BlendMode.srcIn),
                       ),
                     ),
                   ),
