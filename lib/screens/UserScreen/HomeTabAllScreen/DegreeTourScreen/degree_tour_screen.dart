@@ -10,21 +10,52 @@ import 'package:sanath1490_flutter_app/widget/AppLoader/app_loader.dart';
 import '../../../../Widget/text/custom_text.dart';
 import '../PropertyDetailsScreen/Controller/property_details_controller.dart';
 
-class DegreeTourScreen extends StatelessWidget {
+class DegreeTourScreen extends StatefulWidget {
   const DegreeTourScreen({super.key});
+
+  @override
+  State<DegreeTourScreen> createState() => _DegreeTourScreenState();
+}
+
+class _DegreeTourScreenState extends State<DegreeTourScreen> {
+  bool _showNotFound = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted) setState(() => _showNotFound = true);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     String tourUrl = '';
     try {
       tourUrl = Get.find<PropertyDetailsController>().threeSixtyTour.value;
-      print("🔭 360 TOUR URL >>> $tourUrl");
     } catch (_) {}
 
     return Scaffold(
       appBar: GlobalAppBar(title: ConstString.tourDegree),
       body: tourUrl.isEmpty
-          ? const Center(
+          ? _showNotFound
+          ? Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.threesixty, size: 64, color: Colors.grey.shade400),
+            SizedBox(height: 12.h),
+            CustomText(
+              title: '360° tour not available',
+              textColor: ConstColor.bodyColor,
+              textSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              maxLine: 1,
+            ),
+          ],
+        ),
+      )
+          : const Center(
         child: AppLoader(message: "Loading 360° view, please wait...",),
       )
           : Stack(
@@ -40,11 +71,7 @@ class DegreeTourScreen extends StatelessWidget {
                 errorBuilder: (context, error, stackTrace) => Container(
                   color: Colors.black,
                   child: const Center(
-                    child: Icon(
-                      Icons.threesixty,
-                      size: 64,
-                      color: Colors.white54,
-                    ),
+                    child: Icon(Icons.threesixty, size: 64, color: Colors.white54),
                   ),
                 ),
               ),

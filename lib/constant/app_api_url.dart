@@ -41,6 +41,14 @@ class AppApiUrl {
   final String myEnquiriesById = "/enquiries/my-enqueries";
 
   // ==================== Profile ====================
+  final String userProfile = "/users";
+  final String userProfileInfo = "/users/profile";
+  final String userDeleteProfile = "/users/profile";
+  final String changePassword = "/auth/change-password";
+  final String about = "/rules/about";
+  final String privacy = "/rules/privacy";
+  final String terms = "/rules/terms";
+  final String faqs = "/faqs";
   final String refreshToken = "/refreshToken";
 
   // ==================== Banner ====================

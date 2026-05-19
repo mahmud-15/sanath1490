@@ -3,11 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
-import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/text/custom_text.dart';
-import 'Widget/account_deleted_popup.dart';
+import 'DeleteAccountController/delete_account_controller.dart';
 
 class DeleteAccountBottomSheet extends StatelessWidget {
   const DeleteAccountBottomSheet({super.key});
@@ -22,8 +21,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final passwordController = TextEditingController();
-    final obscure = true.obs;
+    final controller = Get.put(DeleteAccountController());
 
     return Container(
       padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 32.h),
@@ -72,10 +70,13 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                 color: Colors.red.withAlpha(25),
                 shape: BoxShape.circle,
               ),
-              child: Center(child: SvgPicture.asset("assets/icons/delete_icon.svg",
-              width: 24.w,
-              height: 24.h,
-              ))
+              child: Center(
+                child: SvgPicture.asset(
+                  "assets/icons/delete_icon.svg",
+                  width: 24.w,
+                  height: 24.h,
+                ),
+              ),
             ),
           ),
           SizedBox(height: 16.h),
@@ -151,8 +152,8 @@ class DeleteAccountBottomSheet extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    controller: passwordController,
-                    obscureText: obscure.value,
+                    controller: controller.passwordController,
+                    obscureText: controller.obscure.value,
                     style: TextStyle(
                       fontSize: 13.sp,
                       color: ConstColor.titleColor,
@@ -171,9 +172,11 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => obscure.value = !obscure.value,
+                  onTap: controller.toggleObscure,
                   child: Icon(
-                    obscure.value ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                    controller.obscure.value
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
                     color: ConstColor.bodyColor,
                     size: 20.sp,
                   ),
@@ -187,12 +190,8 @@ class DeleteAccountBottomSheet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: // ─── Delete Button ────────────────────
-                CustomElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                    _showDeletedPopup();
-                  },
+                child: CustomElevatedButton(
+                  onPressed: controller.deleteAccount,
                   color: ConstColor.red,
                   height: 48,
                   top: 0,
@@ -234,7 +233,6 @@ class DeleteAccountBottomSheet extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────
 class _BulletItem extends StatelessWidget {
   final String text;
 
@@ -271,16 +269,4 @@ class _BulletItem extends StatelessWidget {
       ),
     );
   }
-}
-
-void _showDeletedPopup() {
-  Get.dialog(
-    const AccountDeletedPopup(),
-    barrierDismissible: false,
-  );
-
-  Future.delayed(const Duration(seconds: 2), () {
-    Get.back();
-    Get.offAllNamed(AppRoutes.signInScreen);
-  });
 }

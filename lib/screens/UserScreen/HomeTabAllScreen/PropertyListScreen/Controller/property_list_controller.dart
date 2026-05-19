@@ -40,8 +40,10 @@ class PropertyListController extends GetxController {
       case 'Newest First':
         properties.sort((a, b) => b.addedDate.compareTo(a.addedDate));
         break;
-      case 'Old First':
+      case 'Oldest First':
         properties.sort((a, b) => a.addedDate.compareTo(b.addedDate));
+        break;
+      case 'Nearest First':
         break;
     }
   }

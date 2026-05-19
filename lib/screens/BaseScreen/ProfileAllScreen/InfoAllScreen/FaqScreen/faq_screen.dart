@@ -2,58 +2,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
-import '../../../../constant/const_color.dart';
-import '../../../../widget/AuthAppBar/global_app_bar.dart';
-import '../../../../widget/text/custom_text.dart';
-import 'Controller/faq_controller.dart';
+import '../../../../../Widget/text/custom_text.dart';
+import '../../../../../constant/const_color.dart';
+import '../../../../../widget/AuthAppBar/global_app_bar.dart';
+import '../InfoController/info_controller.dart';
 
 class FaqScreen extends StatelessWidget {
   const FaqScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(FaqController());
+    final controller = Get.find<InfoController>()..loadFaqs();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
       appBar: GlobalAppBar(title: ConstString.faq),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(14.r),
-          ),
-          child: ListView.separated(           // ← Obx সরিয়ে দিলাম এখান থেকে
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: controller.faqs.length,
-            separatorBuilder: (_, __) => Divider(
-              height: 1.h,
-              color: ConstColor.outLineColor,
-            ),
-            itemBuilder: (context, index) {
-              final faq = controller.faqs[index];
+      body: Obx(() {
+        if (controller.isFaqLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-              return Obx(() => _FaqItem(       // ← Obx এখানে দিলাম (প্রত্যেক item এ)
-                question: faq.question,
-                answer: faq.answer,
-                isExpanded: controller.expandedIndex.value == index,
-                onTap: () => controller.toggleFaq(index),
-                isFirst: index == 0,
-                isLast: index == controller.faqs.length - 1,
-              ));
-            },
+        if (controller.faqs.isEmpty) {
+          return const Center(child: Text('No FAQs available'));
+        }
+
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14.r),
+            ),
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: controller.faqs.length,
+              separatorBuilder: (_, __) => Divider(
+                height: 1.h,
+                color: ConstColor.outLineColor,
+              ),
+              itemBuilder: (context, index) {
+                final faq = controller.faqs[index];
+                return Obx(() => _FaqItem(
+                  question: faq.question,
+                  answer: faq.answer,
+                  isExpanded: controller.expandedIndex.value == index,
+                  onTap: () => controller.toggleFaq(index),
+                  isFirst: index == 0,
+                  isLast: index == controller.faqs.length - 1,
+                ));
+              },
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
 
-// ─────────────────────────────────────────────────────
-// Single expandable FAQ item
-// ─────────────────────────────────────────────────────
 class _FaqItem extends StatelessWidget {
   final String question;
   final String answer;
@@ -87,7 +93,6 @@ class _FaqItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ─── Question row ──────────────────
               Row(
                 children: [
                   Expanded(
@@ -111,8 +116,6 @@ class _FaqItem extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // ─── Answer (visible when expanded) ─
               AnimatedCrossFade(
                 firstChild: const SizedBox.shrink(),
                 secondChild: Padding(

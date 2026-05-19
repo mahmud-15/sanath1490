@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
+import '../../../../../constant/app_api_url.dart';
+import '../../../../../utils/log_print.dart';
 import '../../DeleteAccountBottomSheet/delete_account_bottom_sheet.dart';
 import '../../LogoutBottomSheet/logout_bottom_sheet.dart';
+import '../../UserRepository/user_repository.dart';
 
-// ─── All profile menu options ──────────────────────
 enum ProfileMenu {
   personalInfo,
   changePassword,
@@ -19,12 +21,40 @@ enum ProfileMenu {
 }
 
 class ProfileController extends GetxController {
-  // ─── User info ────────────────────────────────────
-  final userName = 'Sarah Johnson'.obs;
-  final userRole = 'Property Seeker'.obs;
-  final avatarPath = 'assets/images/profile_img.jpg'.obs;
+  // ─── User info (reactive) ─────────────────────
+  final userName    = ''.obs;
+  final userRole    = ''.obs;
+  final avatarPath  = ''.obs;
+  final isLoading   = false.obs;
 
-  // ─── Menu tap handler ─────────────────────────────
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProfile();
+  }
+
+  // ==================== Fetch Profile ====================
+  Future<void> fetchProfile() async {
+    try {
+      isLoading.value = true;
+      final profile = await UserRepository.instance.getProfile();
+      isLoading.value = false;
+
+      if (profile != null) {
+        userName.value   = profile.name ?? '';
+        userRole.value   = profile.role ?? '';
+        // ✅ image url — baseUrl + path
+        avatarPath.value = profile.profileImage != null
+            ? "${AppApiUrl.instance.imgBaseUrl}${profile.profileImage}"
+            : 'assets/images/profile_img.jpg';
+      }
+    } catch (e) {
+      isLoading.value = false;
+      errorLog("ProfileController.fetchProfile", e);
+    }
+  }
+
+  // ─── Menu tap handler ─────────────────────────
   void onMenuTap(ProfileMenu menu) {
     switch (menu) {
       case ProfileMenu.personalInfo:
@@ -51,30 +81,12 @@ class ProfileController extends GetxController {
       case ProfileMenu.deleteAccount:
         DeleteAccountBottomSheet.show();
         break;
-        case ProfileMenu.logoutAccount:
+      case ProfileMenu.logoutAccount:
         LogoutBottomSheet.show();
         break;
-      }
+    }
   }
 
-  // ─── Delete account confirmation dialog ──────────
-  void _showDeleteDialog() {
-    Get.defaultDialog(
-      title: 'Delete Account',
-      middleText:
-          'Are you sure you want to delete your account? This action cannot be undone.',
-      textConfirm: 'Delete',
-      textCancel: 'Cancel',
-      confirmTextColor: Colors.white,
-      buttonColor: Colors.red,
-      onConfirm: () {
-        Get.back();
-        // TODO: call delete account API
-      },
-    );
-  }
-
-  // ─── Log out ──────────────────────────────────────
   void onLogOut() {
     Get.defaultDialog(
       title: 'Log Out',
@@ -85,7 +97,6 @@ class ProfileController extends GetxController {
       buttonColor: Colors.red,
       onConfirm: () {
         Get.back();
-        // TODO: Get.offAllNamed(AppRoutes.login);
       },
     );
   }

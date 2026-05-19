@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../constant/const_color.dart';
 import '../../constant/const_string.dart';
 import '../text/custom_text.dart';
 
 class OrDivider extends StatelessWidget {
-  const OrDivider();
+  const OrDivider({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -78,7 +78,7 @@ class MyListingScreen extends StatelessWidget {
               return ListView.separated(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                 itemCount: listings.length,
-                separatorBuilder: (_, __) => SizedBox(height: 10.h),
+                separatorBuilder: (_, _) => SizedBox(height: 10.h),
                 itemBuilder: (context, index) => ListingCard(
                   item: listings[index],
                   onTap: () => controller.onCardTap(listings[index]),

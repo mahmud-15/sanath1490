@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sanath1490_flutter_app/screens/BaseScreen/AuthScreen/CreateAccountScreen/Controller/create_account_controller.dart';
 import '../../screens/AgentScreen/EnquiriesTabScreen/EnquiriesScreen/Controller/enquiries_controller.dart';
 import '../../screens/AgentScreen/MyListingTabScreen/MyListingScreen/Controller/my_listing_controller.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/AddNewListingScreen/Controller/add_listing_controller.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/BillingHistoryScreen/Controller/billing_history_controller.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/OverViewHomeScreen/controller/overviewHomeController.dart';
 import '../../screens/AgentScreen/OverViewTabScreen/SubscriptionScreen/controller/subscriptionController.dart';
-import '../../screens/BaseScreen/AuthScreen/AccountVerifyOtpScreen/Controller/account_otp_verify_controller.dart';
-import '../../screens/BaseScreen/AuthScreen/ChooseRoleScreen/Widget/choose_role_controller.dart';
-import '../../screens/BaseScreen/AuthScreen/ForgotPasswordScreen/Controller/forgot_password_controller.dart';
-import '../../screens/BaseScreen/AuthScreen/ResetPassword/Controller/reset_password_controller.dart';
-import '../../screens/BaseScreen/AuthScreen/ResetVerifyOtpScreen/Controller/reset_verify_otp_controller.dart';
-import '../../screens/BaseScreen/AuthScreen/SignInScreen/Controller/sign_in_controller.dart';
 import '../../screens/BaseScreen/NavBar/controller/navbar_controller.dart';
 import '../../screens/BaseScreen/NotificationScreen/Controller/notification_controller.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/ChangePasswordScreen/Controller/change_password_controller.dart';
-import '../../screens/BaseScreen/ProfileAllScreen/FaqScreen/Controller/faq_controller.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/DeleteAccountBottomSheet/DeleteAccountController/delete_account_controller.dart';
+import '../../screens/BaseScreen/ProfileAllScreen/InfoAllScreen/InfoController/info_controller.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/NotificationSettingsScreen/Controller/notification_settings_controller.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/PersonalInfoScreen/Controller/personal_info_controller.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/ProfileScreen/profile_screen.dart';
@@ -57,7 +51,8 @@ class AuthBindings extends Bindings {
     Get.lazyPut(() => PersonalInfoController(),           fenix: true);
     Get.lazyPut(() => ChangePasswordController(),         fenix: true);
     Get.lazyPut(() => NotificationSettingsController(),   fenix: true);
-    Get.lazyPut(() => FaqController(),                    fenix: true);
+    Get.lazyPut(() => InfoController(),   fenix: true);
+    Get.lazyPut(() => DeleteAccountController(),   fenix: true);
 
     //=========Notification=========//
     Get.lazyPut(() => NotificationController(), fenix: true);

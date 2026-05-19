@@ -59,7 +59,7 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
               )
             else
               const Spacer(),
-            if (action != null) action!,
+            ?action,
           ],
         ),
       ),

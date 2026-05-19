@@ -7,10 +7,6 @@ import '../../../../../widget/text/custom_text.dart';
 import '../../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../../routes/app_routes/app_routes.dart';
-import '../../../../BaseScreen/NavBar/controller/navbar_controller.dart';
-import '../../../MyListingTabScreen/MyListingScreen/my_listing_screen.dart';
-import '../../OverViewHomeScreen/overviewHomeScreen.dart';
-
 class ListingSuccessScreen extends StatelessWidget {
   const ListingSuccessScreen({super.key});
 

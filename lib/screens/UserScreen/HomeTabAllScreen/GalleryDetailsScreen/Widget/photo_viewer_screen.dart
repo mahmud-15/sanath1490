@@ -74,7 +74,7 @@ class PhotoViewerScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       itemCount: controller.photos.length,
-                      separatorBuilder: (_, __) => SizedBox(width: 6.w),
+                      separatorBuilder: (_, _) => SizedBox(width: 6.w),
                       itemBuilder: (context, index) {
                         final bool isActive =
                             controller.currentViewerIndex.value == index;

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../constant/app_api_url.dart';
 import '../AppLoader/app_loader.dart';
 
@@ -30,9 +31,8 @@ class AppImage extends StatelessWidget {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: _buildImage(),
-      transitionBuilder: (child, animation) {
-        return FadeTransition(opacity: animation, child: child);
-      },
+      transitionBuilder: (child, animation) =>
+          FadeTransition(opacity: animation, child: child),
     );
   }
 
@@ -43,18 +43,15 @@ class AppImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
+        errorBuilder: (_, _, _) => _PlaceholderWidget(width: width, height: height),
       );
     }
 
     if (url != null) {
-      if (url!.toLowerCase().contains("null")) return _buildPlaceholder();
-      return _NetworkImage(
-        imageUrl: url!,
-        width: width,
-        height: height,
-        fit: fit,
-      );
+      if (url!.toLowerCase().contains("null")) {
+        return _PlaceholderWidget(width: width, height: height);
+      }
+      return _NetworkImage(imageUrl: url!, width: width, height: height, fit: fit);
     }
 
     if (path != null) {
@@ -64,26 +61,13 @@ class AppImage extends StatelessWidget {
         height: height,
         fit: fit,
         color: iconColor,
-        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
+        errorBuilder: (_, __, ___) => _PlaceholderWidget(width: width, height: height),
       );
     }
 
-    return _buildPlaceholder();
-  }
-
-  Widget _buildPlaceholder() {
-    return Container(
-      width: width,
-      height: height,
-      color: Colors.grey.shade100,
-      child: const Center(
-        child: Icon(Icons.image_not_supported_outlined, size: 48, color: Colors.grey),
-      ),
-    );
+    return _PlaceholderWidget(width: width, height: height);
   }
 }
-
-
 
 class _NetworkImage extends StatelessWidget {
   final String imageUrl;
@@ -113,26 +97,48 @@ class _NetworkImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      // Flutter built-in memory cache — no package needed
-      cacheWidth: (width != null && width!.isFinite) ? width!.toInt() : null,
+      key: ValueKey(_resolvedUrl),
       loadingBuilder: (context, child, loadingProgress) {
         if (loadingProgress == null) return child;
-        return Container(
-          width: width,
-          height: height,
-          color: Colors.grey.shade100,
-          child: const Center(
-            child: AppLoader(),
-          ),
-        );
+        return _LoadingWidget(width: width, height: height);
       },
-      errorBuilder: (context, error, stackTrace) => Container(
-        width: width,
-        height: height,
-        color: Colors.grey.shade100,
-        child: const Center(
-          child: Icon(Icons.image_not_supported_outlined, size: 48, color: Colors.grey),
-        ),
+      errorBuilder: (_, _, _) =>
+          _PlaceholderWidget(width: width, height: height),
+    );
+  }
+}
+
+class _LoadingWidget extends StatelessWidget {
+  final double? width;
+  final double? height;
+
+  const _LoadingWidget({this.width, this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      color: Colors.grey.shade100,
+      child: Center(child: AppLoader(size: 30.sp)),
+    );
+  }
+}
+
+class _PlaceholderWidget extends StatelessWidget {
+  final double? width;
+  final double? height;
+
+  const _PlaceholderWidget({this.width, this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      color: Colors.grey.shade100,
+      child: const Center(
+        child: Icon(Icons.image_not_supported_outlined, size: 48, color: Colors.grey),
       ),
     );
   }
@@ -142,6 +148,7 @@ class CustomHttpClient extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

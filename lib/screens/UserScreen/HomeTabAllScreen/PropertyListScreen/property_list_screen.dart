@@ -117,7 +117,7 @@ class PropertyListScreen extends StatelessWidget {
               return ListView.separated(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                 itemCount: controller.properties.length,
-                separatorBuilder: (_, __) => SizedBox(height: 16.h),
+                separatorBuilder: (_, _) => SizedBox(height: 16.h),
                 itemBuilder: (context, index) {
                   final property = controller.properties[index];
                   return PropertyCard(

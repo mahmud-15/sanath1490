@@ -66,7 +66,7 @@ class PropertyDetailsScreen extends StatelessWidget {
 class _HeroImageSection extends StatelessWidget {
   final PropertyDetailsController controller;
 
-  const _HeroImageSection({super.key, required this.controller});
+  const _HeroImageSection({required this.controller});
 
   @override
   Widget build(BuildContext context) {

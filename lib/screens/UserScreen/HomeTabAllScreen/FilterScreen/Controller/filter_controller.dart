@@ -145,7 +145,7 @@ class FilterController extends GetxController {
       final Map<String, dynamic> params = {
         'lat': 23.8103,
         'lng': 90.4125,
-        'radiusInKm': (radius.value * 1.60934 * 1000).toInt(),
+        'radiusInMiles': (radius.value * 1.60934 * 1000).toInt(),
       };
 
       final propertyType = _propertyTypeMap[selectedPropertyType.value];

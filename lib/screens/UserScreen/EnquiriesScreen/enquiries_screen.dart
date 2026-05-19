@@ -44,7 +44,7 @@ class EnquiriesScreen extends StatelessWidget {
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             itemCount: controller.enquiries.length,
-            separatorBuilder: (_, __) => SizedBox(height: 10.h),
+            separatorBuilder: (_, _) => SizedBox(height: 10.h),
             itemBuilder: (context, index) {
               final item = controller.enquiries[index];
               return _EnquiryCard(

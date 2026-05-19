@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../../../../../routes/app_routes/app_routes.dart';
-import '../../../../UserScreen/HomeTabAllScreen/HomeScreen/Controller/home_controller.dart';
 import '../../../../UserScreen/HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
 class MyListingController extends GetxController {

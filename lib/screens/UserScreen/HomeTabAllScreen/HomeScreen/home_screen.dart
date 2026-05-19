@@ -11,7 +11,7 @@ import '../../../../widget/AppLoader/app_loader.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import 'Controller/home_controller.dart';
-import 'Model/property_model.dart';
+import 'Widget/properties_empty_state.dart';
 import 'Widget/property_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -27,22 +27,110 @@ class HomeScreen extends StatelessWidget {
         slivers: [
           SliverToBoxAdapter(child: _HomeHeader(controller: controller)),
 
+          // SliverToBoxAdapter(
+          //   child: Padding(
+          //     padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
+          //     child: CustomText(
+          //       title: ConstString.propertiesNearYou,
+          //       textColor: ConstColor.titleColor,
+          //       textSize: 18.sp,
+          //       fontWeight: FontWeight.w700,
+          //       maxLine: 1,
+          //     ),
+          //   ),
+          // ),
+          //
+          // SliverToBoxAdapter(
+          //   child: Obx(() {
+          //     // ─── Loading ──────────────────────
+          //     if (controller.isLoading.value) {
+          //       return Padding(
+          //         padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //         child: Column(
+          //           children: List.generate(2, (_) => _PropertyCardSkeleton()),
+          //         ),
+          //       );
+          //     }
+          //
+          //     // ─── Empty ────────────────────────
+          //     final properties = controller.currentProperties;
+          //     if (properties.isEmpty) {
+          //       return SizedBox(height: 400.h);
+          //     }
+          //
+          //     // ─── Data ─────────────────────────
+          //     return Column(
+          //       children: [
+          //         CarouselSlider.builder(
+          //           itemCount: properties.length,
+          //           itemBuilder: (context, index, realIndex) {
+          //             return Padding(
+          //               padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //               child: PropertyCard(
+          //                 onTap: () => Get.toNamed(
+          //                   AppRoutes.propertyDetails,
+          //                   arguments: properties[index],
+          //                 ),
+          //                 property: properties[index],
+          //               ),
+          //             );
+          //           },
+          //           options: CarouselOptions(
+          //             height: 400.h,
+          //             viewportFraction: 1.0,
+          //             enableInfiniteScroll: false,
+          //             onPageChanged: (index, reason) {
+          //               currentCardIndex.value = index;
+          //             },
+          //           ),
+          //         ),
+          //
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: List.generate(properties.length, (index) {
+          //             return Obx(() {
+          //               final bool isActive = index == currentCardIndex.value;
+          //               return AnimatedContainer(
+          //                 duration: const Duration(milliseconds: 200),
+          //                 margin: EdgeInsets.symmetric(horizontal: 3.w),
+          //                 width: isActive ? 16.w : 6.w,
+          //                 height: 6.h,
+          //                 decoration: BoxDecoration(
+          //                   color: isActive ? ConstColor.primaryColor : ConstColor.outLineColor,
+          //                   borderRadius: BorderRadius.circular(3.r),
+          //                 ),
+          //               );
+          //             });
+          //           }),
+          //         ),
+          //       ],
+          //     );
+          //   }),
+          // ),
+
+          // ─── Popular Locations ───────────────
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
-              child: CustomText(
-                title: ConstString.propertiesNearYou,
-                textColor: ConstColor.titleColor,
-                textSize: 18.sp,
-                fontWeight: FontWeight.w700,
-                maxLine: 1,
-              ),
-            ),
+            child: Obx(() {
+              final properties = controller.currentProperties;
+              final bool isEmpty =
+                  !controller.isLoading.value && properties.isEmpty;
+              if (isEmpty) return const SizedBox.shrink();
+
+              return Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
+                child: CustomText(
+                  title: ConstString.propertiesNearYou,
+                  textColor: ConstColor.titleColor,
+                  textSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  maxLine: 1,
+                ),
+              );
+            }),
           ),
 
           SliverToBoxAdapter(
             child: Obx(() {
-              // ─── Loading ──────────────────────
               if (controller.isLoading.value) {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -52,13 +140,14 @@ class HomeScreen extends StatelessWidget {
                 );
               }
 
-              // ─── Empty ────────────────────────
               final properties = controller.currentProperties;
               if (properties.isEmpty) {
-                return SizedBox(height: 400.h);
+                return Padding(
+                  padding: EdgeInsets.only(top: 20.h, bottom: 12.h),
+                  child: const PropertiesEmptyState(),
+                );
               }
 
-              // ─── Data ─────────────────────────
               return Column(
                 children: [
                   CarouselSlider.builder(
@@ -96,7 +185,9 @@ class HomeScreen extends StatelessWidget {
                           width: isActive ? 16.w : 6.w,
                           height: 6.h,
                           decoration: BoxDecoration(
-                            color: isActive ? ConstColor.primaryColor : ConstColor.outLineColor,
+                            color: isActive
+                                ? ConstColor.primaryColor
+                                : ConstColor.outLineColor,
                             borderRadius: BorderRadius.circular(3.r),
                           ),
                         );
@@ -107,8 +198,6 @@ class HomeScreen extends StatelessWidget {
               );
             }),
           ),
-
-          // ─── Popular Locations ───────────────
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
@@ -125,16 +214,18 @@ class HomeScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: SizedBox(
               height: 110.h,
-              child: Obx(() => ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                itemCount: controller.popularLocations.length,
-                separatorBuilder: (_, _) => SizedBox(width: 12.w),
-                itemBuilder: (context, index) {
-                  final location = controller.popularLocations[index];
-                  return _LocationCard(location: location);
-                },
-              )),
+              child: Obx(
+                () => ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  itemCount: controller.popularLocations.length,
+                  separatorBuilder: (_, _) => SizedBox(width: 12.w),
+                  itemBuilder: (context, index) {
+                    final location = controller.popularLocations[index];
+                    return _LocationCard(location: location);
+                  },
+                ),
+              ),
             ),
           ),
 
@@ -173,11 +264,9 @@ class _PropertyCardSkeleton extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(14.r)),
             ),
             child: Center(
-              child: AppLoader(message: "Finding properties near you...",),
+              child: AppLoader(message: "Finding properties near you..."),
             ),
           ),
-
-
 
           // ─── Price skeleton ───────────
           Container(
@@ -248,10 +337,7 @@ class _HomeHeader extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Colors.transparent,
-              Colors.black.withAlpha(50),
-            ],
+            colors: [Colors.transparent, Colors.black.withAlpha(50)],
             stops: const [0.0, 0.85],
           ),
         ),
@@ -303,38 +389,47 @@ class _HomeHeader extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Obx(() => Row(
-                    children: ['Buy', 'Rent'].asMap().entries.map((entry) {
-                      final bool isSelected = controller.selectedTab.value == entry.key;
-                      return Expanded(
-                        child: GestureDetector(
-                          onTap: () => controller.onTabChanged(entry.key),
-                          child: Column(
-                            children: [
-                              CustomText(
-                                title: entry.value,
-                                textColor: isSelected ? Colors.white : Colors.white.withAlpha(140),
-                                textSize: isSelected ? 18.sp : 18.sp,
-                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w600,
-                                textAlign: TextAlign.center,
-                                maxLine: 1,
-                              ),
-                              SizedBox(height: 6.h),
-                              AnimatedContainer(
-                                duration: const Duration(milliseconds: 200),
-                                height: isSelected ? 2.h : 1.h,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: isSelected ? Colors.white : Colors.white.withAlpha(80),
-                                  borderRadius: BorderRadius.circular(2.r),
+                  Obx(
+                    () => Row(
+                      children: ['Buy', 'Rent'].asMap().entries.map((entry) {
+                        final bool isSelected =
+                            controller.selectedTab.value == entry.key;
+                        return Expanded(
+                          child: GestureDetector(
+                            onTap: () => controller.onTabChanged(entry.key),
+                            child: Column(
+                              children: [
+                                CustomText(
+                                  title: entry.value,
+                                  textColor: isSelected
+                                      ? Colors.white
+                                      : Colors.white.withAlpha(140),
+                                  textSize: isSelected ? 18.sp : 18.sp,
+                                  fontWeight: isSelected
+                                      ? FontWeight.w600
+                                      : FontWeight.w600,
+                                  textAlign: TextAlign.center,
+                                  maxLine: 1,
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 6.h),
+                                AnimatedContainer(
+                                  duration: const Duration(milliseconds: 200),
+                                  height: isSelected ? 2.h : 1.h,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.white.withAlpha(80),
+                                    borderRadius: BorderRadius.circular(2.r),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList(),
-                  )),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                   SizedBox(height: 14.h),
 
                   InkWell(
@@ -371,7 +466,8 @@ class _HomeHeader extends StatelessWidget {
                                   border: InputBorder.none,
                                   isDense: true,
                                 ),
-                                onTap: () => Get.toNamed(AppRoutes.searchScreen),
+                                onTap: () =>
+                                    Get.toNamed(AppRoutes.searchScreen),
                               ),
                             ),
                             InkWell(
@@ -379,7 +475,9 @@ class _HomeHeader extends StatelessWidget {
                               child: Container(
                                 margin: EdgeInsets.all(6.w),
                                 padding: EdgeInsets.all(6.w),
-                                child: SvgPicture.asset('assets/icons/filter_icon.svg'),
+                                child: SvgPicture.asset(
+                                  'assets/icons/filter_icon.svg',
+                                ),
                               ),
                             ),
                           ],

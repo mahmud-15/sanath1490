@@ -13,11 +13,11 @@ class SortBottomSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> sortOptions = [
-      "Price: Low to High",
-      "Price: High to Low",
       "Newest First",
-      "Old First",
+      "Oldest First",
       "Nearest First",
+      "Price: High to Low",
+      "Price: Low to High",
     ];
 
     return Container(

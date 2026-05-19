@@ -222,6 +222,7 @@ class ConstString {
   static const postalCode           = "Postal Code";
   static const allTab                 = 'All';
   static const unreadTab              = 'Unread';
+  static const about              = 'About us';
   static const markAllAsRead          = 'Mark all as read';
   static const newPropertyMatch       = 'New Property Match';
   static const priceReduced           = 'Price Reduced';

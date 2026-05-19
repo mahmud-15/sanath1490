@@ -23,7 +23,12 @@ class PersonalInfoScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
       appBar: const GlobalAppBar(title: 'Personal Info'),
-      body: SingleChildScrollView(
+
+      body: Obx(() => controller.isLoading.value
+      // ─── Loading state ───────────────────────
+          ? const Center(child: CircularProgressIndicator())
+      // ─── Loaded ─────────────────────────────
+          : SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         child: Column(
           children: [
@@ -49,25 +54,24 @@ class PersonalInfoScreen extends StatelessWidget {
                         colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                       ),
                     ),
-
                     SizedBox(height: 8.h),
 
-                    // ─── Email Address ───────────
+                    // ─── Email (read only) ────────────────
                     CustomTextFormField(
                       fromTitle: ConstString.emailAddress,
                       backgroundColor: ConstColor.backgroundColor,
                       textController: controller.emailController,
                       keyboardType: TextInputType.emailAddress,
+                      readOnly: true, // ✅ email change allow নেই
                       titleIcon: SvgPicture.asset(
                         'assets/icons/email.svg',
                         width: 18.w,
                         colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                       ),
                     ),
-
                     SizedBox(height: 8.h),
 
-                    // ─── Phone Number ───────────
+                    // ─── Phone ────────────────────────────
                     CustomTextFormField(
                       fromTitle: ConstString.phoneNumber,
                       backgroundColor: ConstColor.backgroundColor,
@@ -79,17 +83,17 @@ class PersonalInfoScreen extends StatelessWidget {
                         colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                       ),
                     ),
-
                     SizedBox(height: 14.h),
+
                     Divider(color: ConstColor.outLineColor.withAlpha(150)),
                     SizedBox(height: 16.h),
 
-                    // ─── Address Section ───────────
+                    // ─── Address Section ──────────────────
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SvgPicture.asset(
-                          'assets/icons/location_icon.svg', // Use correct pin icon name
+                          'assets/icons/location_icon.svg',
                           width: 19.w,
                           colorFilter: const ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
                         ),
@@ -105,7 +109,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 12.h),
 
-                    // Country dropdown title
+                    // ─── Country Dropdown ─────────────────
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: CustomText(
@@ -117,7 +121,6 @@ class PersonalInfoScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
 
-                    // Country dropdown box
                     Obx(() => GestureDetector(
                       onTap: controller.pickCountry,
                       child: Container(
@@ -151,10 +154,9 @@ class PersonalInfoScreen extends StatelessWidget {
                         ),
                       ),
                     )),
-
                     SizedBox(height: 12.h),
 
-                    // Postal code
+                    // ─── Postal Code ──────────────────────
                     CustomTextFormField(
                       fromTitle: ConstString.postalCode,
                       backgroundColor: ConstColor.backgroundColor,
@@ -167,35 +169,19 @@ class PersonalInfoScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 44.h),
-
-            // ─── Save Button ──────────────────────
-            // CustomElevatedButton(
-            //   onPressed: controller.saveChanges,
-            //   color: ConstColor.primaryColor,
-            //   height: 48,
-            //   top: 0,
-            //   left: 0,
-            //   right: 0,
-            //   child: CustomText(
-            //     title: 'Save Changes',
-            //     textColor: Colors.white,
-            //     textSize: 15.sp,
-            //     fontWeight: FontWeight.w600,
-            //     maxLine: 1,
-            //   ),
-            // ),
-            //
-            // SizedBox(height: 24.h),
           ],
         ),
-      ),
+      )),
+
+      // ─── Save Button ──────────────────────────────
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(right: 16,left: 16,bottom: 32),
-        child: CustomElevatedButton(
-          onPressed: controller.saveChanges,
-          color: ConstColor.primaryColor,
+        padding: const EdgeInsets.only(right: 16, left: 16, bottom: 32),
+        child: Obx(() => CustomElevatedButton(
+          onPressed: controller.isSaving.value ? null : controller.saveChanges,
+          color: controller.isSaving.value
+              ? ConstColor.primaryColor.withAlpha(100)
+              : ConstColor.primaryColor,
           height: 48,
           top: 0,
           left: 0,
@@ -207,15 +193,15 @@ class PersonalInfoScreen extends StatelessWidget {
             fontWeight: FontWeight.w600,
             maxLine: 1,
           ),
-        ),
+        )),
       ),
     );
   }
 }
 
+// ─────────────────────────────────────────────────
 class _AvatarPicker extends StatelessWidget {
   final PersonalInfoController controller;
-
   const _AvatarPicker({required this.controller});
 
   @override
@@ -226,35 +212,51 @@ class _AvatarPicker extends StatelessWidget {
           onTap: () {
             MediaPickerBottomSheet.show(
               onGallery: () => controller.pickImageFromGallery(),
-              onCamera: () => controller.pickImageFromCamera(),
+              onCamera:  () => controller.pickImageFromCamera(),
             );
           },
           child: Stack(
             children: [
-              Obx(() => ClipRRect(
-                borderRadius: BorderRadius.circular(50.r),
-                child: controller.avatarPath.value.startsWith('assets/')
-                    ? AppImage(
-                  path: controller.avatarPath.value,
-                  width: 100.w,
-                  height: 100.w,
-                  fit: BoxFit.cover,
-                )
-                    : Image.file(
-                  File(controller.avatarPath.value),
-                  width: 100.w,
-                  height: 100.w,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
+              Obx(() {
+                final path = controller.avatarPath.value;
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(50.r),
+                  child: path.startsWith('assets/')
+                      ? AppImage(
+                    path: path,
+                    width: 100.w,
+                    height: 100.w,
+                    fit: BoxFit.cover,
+                  )
+                      : path.startsWith('http') || path.startsWith('https') || path.startsWith('/')
+                  // ✅ Network image — server path
+                      ? Image.network(
+                    path.startsWith('/') ? path : path,
+                    width: 100.w,
+                    height: 100.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => AppImage(
+                      path: 'assets/images/profile_img.jpg',
+                      width: 100.w,
+                      height: 100.w,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                  // ✅ Local file — camera/gallery pick
+                      : Image.file(
+                    File(path),
+                    width: 100.w,
+                    height: 100.w,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => Container(
                       width: 100.w,
                       height: 100.w,
                       color: Colors.grey.shade300,
                       child: Icon(Icons.person, size: 50.sp, color: Colors.grey),
-                    );
-                  },
-                ),
-              )),
+                    ),
+                  ),
+                );
+              }),
 
               Positioned(
                 bottom: 0,

@@ -130,7 +130,7 @@ class _PhotosTab extends StatelessWidget {
       }
       return ListView.separated(
         itemCount: controller.photos.length,
-        separatorBuilder: (_, __) => SizedBox(height: 8.h),
+        separatorBuilder: (_, _) => SizedBox(height: 8.h),
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
             controller.openPhotoViewer(index);
@@ -163,7 +163,7 @@ class _VideosTab extends StatelessWidget {
       return ListView.separated(
         padding: EdgeInsets.symmetric(vertical: 8.h),
         itemCount: controller.videos.length,
-        separatorBuilder: (_, __) => SizedBox(height: 12.h),
+        separatorBuilder: (_, _) => SizedBox(height: 12.h),
         itemBuilder: (context, index) {
           final video = controller.videos[index];
           return _VideoCard(video: video);

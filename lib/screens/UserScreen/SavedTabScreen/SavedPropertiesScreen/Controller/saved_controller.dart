@@ -3,6 +3,7 @@ import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../../../../utils/log_print.dart';
+import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
 class SavedController extends GetxController {
@@ -132,9 +133,32 @@ class SavedController extends GetxController {
     );
   }
 
-  void viewResults(SavedSearchModel search) {
-    Get.toNamed(AppRoutes.propertyListScreen);
+
+  Future<void> viewResults(SavedSearchModel search) async {
+    try {
+      final Map<String, dynamic> params = {
+        'lat': 23.8103,
+        'lng': 90.4125,
+        'radiusInKm': 50000,
+      };
+
+      if (search.location.isNotEmpty) params['searchTerm'] = search.location;
+
+      final response = await ApiServices.instance.getServices(
+        AppApiUrl.instance.listingsSearch,
+        queryParameters: params,
+      );
+
+      if (response != null && response['data'] != null) {
+        final List data = response['data'];
+        final results = data.map((e) => PropertyModel.fromJson(e)).toList();
+        Get.toNamed(AppRoutes.propertyListScreen, arguments: results);
+      }
+    } catch (_) {}
   }
+  // void viewResults(SavedSearchModel search) {
+  //   Get.toNamed(AppRoutes.propertyListScreen);
+  // }
 }
 
 // ─────────────────────────────────────────────────────
@@ -158,9 +182,8 @@ class SavedSearchModel {
   });
 
   factory SavedSearchModel.fromJson(Map<String, dynamic> json) {
-    final addr = json["location"]?["address"] ?? "";
     final city = json["city"] ?? "";
-    final location = addr.isNotEmpty ? addr : city;
+    final location = city;
 
     final listingType = json["listingType"] ?? "SALE";
     final type = listingType == "RENT" ? "For Rent" : "For Sale";

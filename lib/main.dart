@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,9 @@ void main() async {
   await init();
   await ScreenUtil.ensureScreenSize();
   HttpOverrides.global = CustomHttpClient();
-  PaintingBinding.instance.imageCache.maximumSizeBytes = 100 * 1024 * 1024;
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 200 * 1024 * 1024;
+  PaintingBinding.instance.imageCache.maximumSize = 1000;
+
   runApp(const MainApp());
 }
 

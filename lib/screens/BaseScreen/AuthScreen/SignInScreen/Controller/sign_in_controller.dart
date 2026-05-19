@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../routes/app_routes/app_routes.dart';
@@ -9,8 +8,6 @@ import '../../AuthRepository/auth_repository.dart';
 import '../Model/sign_in_model.dart';
 
 class SignInController extends GetxController {
-  // late TextEditingController emailController;
-  // late TextEditingController passwordController;
 
   final obscurePassword = true.obs;
   final isLoading = false.obs;

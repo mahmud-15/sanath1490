@@ -155,7 +155,7 @@ class _SavedPropertiesTab extends StatelessWidget {
         child: ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
           itemCount: controller.savedProperties.length,
-          separatorBuilder: (_, __) => SizedBox(height: 16.h),
+          separatorBuilder: (_, _) => SizedBox(height: 16.h),
           itemBuilder: (context, index) {
             final property = controller.savedProperties[index];
             return Stack(
@@ -229,7 +229,7 @@ class _SavedSearchesTab extends StatelessWidget {
         child: ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
           itemCount: controller.savedSearches.length,
-          separatorBuilder: (_, __) => SizedBox(height: 12.h),
+          separatorBuilder: (_, _) => SizedBox(height: 12.h),
           itemBuilder: (context, index) {
             final search = controller.savedSearches[index];
             return SavedSearchCard(

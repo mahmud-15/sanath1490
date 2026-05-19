@@ -6,7 +6,6 @@ import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:sanath1490_flutter_app/widget/Divider/divider.dart';
 import '../../../../widget/text/custom_text.dart';
-import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';

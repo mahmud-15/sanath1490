@@ -8,8 +8,6 @@ import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import 'Controller/profile_controller.dart';
-import '../../../../utils/app_role.dart';
-import '../../../BaseScreen/NavBar/controller/navbar_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -27,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
         child: Column(
           children: [
             // ─── User Info Card ───────────────────
-            _UserInfoCard(controller: controller),
+            UserInfoCard(controller: controller),
 
             SizedBox(height: 14.h),
 
@@ -161,13 +159,11 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────
-// User info header card
-// ─────────────────────────────────────────────────────
-class _UserInfoCard extends StatelessWidget {
+
+class UserInfoCard extends StatelessWidget {
   final ProfileController controller;
 
-  const _UserInfoCard({required this.controller});
+  const UserInfoCard({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -185,26 +181,79 @@ class _UserInfoCard extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(16.r),
       ),
-      child: Row(
+      child: controller.isLoading.value
+      // ─── Loading skeleton ───────────────
+          ? Row(
         children: [
-          // ─── Avatar ────────────────────────
+          Container(
+            width: 52.w,
+            height: 52.w,
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(40),
+              shape: BoxShape.circle,
+            ),
+          ),
+          SizedBox(width: 14.w),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 120.w,
+                height: 14.h,
+                decoration: BoxDecoration(
+                  color: Colors.white.withAlpha(40),
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+              ),
+              SizedBox(height: 8.h),
+              Container(
+                width: 80.w,
+                height: 10.h,
+                decoration: BoxDecoration(
+                  color: Colors.white.withAlpha(30),
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+              ),
+            ],
+          ),
+        ],
+      )
+      // ─── Loaded ─────────────────────────
+          : Row(
+        children: [
+          // Avatar
           ClipRRect(
             borderRadius: BorderRadius.circular(30.r),
-            child: AppImage(
+            child: controller.avatarPath.value.startsWith('assets/')
+                ? AppImage(
               path: controller.avatarPath.value,
               width: 52.w,
               height: 52.w,
               fit: BoxFit.cover,
+            )
+                : Image.network(
+              controller.avatarPath.value,
+              width: 52.w,
+              height: 52.w,
+              fit: BoxFit.cover,
+              errorBuilder: (_, _, _) => AppImage(
+                path: 'assets/images/profile_img.jpg',
+                width: 52.w,
+                height: 52.w,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(width: 14.w),
 
-          // ─── Name + Role ───────────────────
+          // Name + Role
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                title: controller.userName.value,
+                title: controller.userName.value.isNotEmpty
+                    ? controller.userName.value
+                    : 'User',
                 textColor: Colors.white,
                 textSize: 18.sp,
                 fontWeight: FontWeight.w700,
@@ -212,7 +261,9 @@ class _UserInfoCard extends StatelessWidget {
               ),
               SizedBox(height: 3.h),
               CustomText(
-                title: controller.userRole.value,
+                title: controller.userRole.value.isNotEmpty
+                    ? controller.userRole.value
+                    : '',
                 textColor: Colors.white.withAlpha(180),
                 textSize: 14.sp,
                 fontWeight: FontWeight.w400,
