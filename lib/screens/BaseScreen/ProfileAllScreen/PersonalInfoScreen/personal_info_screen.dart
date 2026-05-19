@@ -8,7 +8,6 @@ import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/MediaPickerBottomSheet/media_picker_bottom_sheet.dart';
 import '../../../../widget/text/custom_text.dart';
-import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/CustomTextFormField/custom_text_form_field.dart';
 import 'Controller/personal_info_controller.dart';
@@ -32,7 +31,7 @@ class PersonalInfoScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         child: Column(
           children: [
-            _AvatarPicker(controller: controller),
+            AvatarPicker(controller: controller),
             SizedBox(height: 24.h),
             Container(
               padding: EdgeInsets.all(16.w),
@@ -122,7 +121,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     SizedBox(height: 4.h),
 
                     Obx(() => GestureDetector(
-                      onTap: controller.pickCountry,
+                      onTap: () => controller.pickCountry(context),
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                         decoration: BoxDecoration(
@@ -200,9 +199,9 @@ class PersonalInfoScreen extends StatelessWidget {
 }
 
 // ─────────────────────────────────────────────────
-class _AvatarPicker extends StatelessWidget {
+class AvatarPicker extends StatelessWidget {
   final PersonalInfoController controller;
-  const _AvatarPicker({required this.controller});
+  const AvatarPicker({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -219,45 +218,14 @@ class _AvatarPicker extends StatelessWidget {
             children: [
               Obx(() {
                 final path = controller.avatarPath.value;
+
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(50.r),
-                  child: path.startsWith('assets/')
-                      ? AppImage(
-                    path: path,
-                    width: 100.w,
-                    height: 100.w,
-                    fit: BoxFit.cover,
-                  )
-                      : path.startsWith('http') || path.startsWith('https') || path.startsWith('/')
-                  // ✅ Network image — server path
-                      ? Image.network(
-                    path.startsWith('/') ? path : path,
-                    width: 100.w,
-                    height: 100.w,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => AppImage(
-                      path: 'assets/images/profile_img.jpg',
-                      width: 100.w,
-                      height: 100.w,
-                      fit: BoxFit.cover,
-                    ),
-                  )
-                  // ✅ Local file — camera/gallery pick
-                      : Image.file(
-                    File(path),
-                    width: 100.w,
-                    height: 100.w,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, _, _) => Container(
-                      width: 100.w,
-                      height: 100.w,
-                      color: Colors.grey.shade300,
-                      child: Icon(Icons.person, size: 50.sp, color: Colors.grey),
-                    ),
-                  ),
+                  child: _buildImage(path),
                 );
               }),
 
+              // Camera icon badge
               Positioned(
                 bottom: 0,
                 right: 0,
@@ -290,6 +258,55 @@ class _AvatarPicker extends StatelessWidget {
           maxLine: 1,
         ),
       ],
+    );
+  }
+
+  Widget _buildImage(String? path) {
+    final size = 100.w;
+
+    if (path == null || path.isEmpty) {
+      return _PlaceholderAvatar(size: size);
+    }
+
+    if (!path.startsWith('http') && !path.startsWith('/uploads')) {
+      return Image.file(
+        File(path),
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        errorBuilder: (_, _, _) => _PlaceholderAvatar(size: size),
+      );
+    }
+
+    return Image.network(
+      path,
+      width: size,
+      height: size,
+      fit: BoxFit.cover,
+      loadingBuilder: (_, child, progress) {
+        if (progress == null) return child;
+        return _PlaceholderAvatar(size: size);
+      },
+      errorBuilder: (_, _, _) => _PlaceholderAvatar(size: size),
+    );
+  }
+}
+
+class _PlaceholderAvatar extends StatelessWidget {
+  final double size;
+  const _PlaceholderAvatar({required this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      color: ConstColor.outLineColor.withAlpha(80),
+      child: Icon(
+        Icons.person_rounded,
+        size: size * 0.5,
+        color: ConstColor.bodyColor.withAlpha(150),
+      ),
     );
   }
 }

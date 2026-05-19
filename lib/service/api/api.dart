@@ -53,7 +53,6 @@ class AppApi {
     options.contentType = 'application/json';
     options.headers["Accept"] = "application/json";
 
-    // ✅ Already custom Authorization header থাকলে overwrite করব না
     final hasCustomAuth = options.headers.containsKey("Authorization") &&
         (options.headers["Authorization"] as String? ?? "").isNotEmpty;
 

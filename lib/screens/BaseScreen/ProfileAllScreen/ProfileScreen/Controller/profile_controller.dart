@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 
-import '../../../../../constant/app_api_url.dart';
-import '../../../../../utils/log_print.dart';
+import '../../../../../service/UserService/user_service.dart';
 import '../../DeleteAccountBottomSheet/delete_account_bottom_sheet.dart';
 import '../../LogoutBottomSheet/logout_bottom_sheet.dart';
-import '../../UserRepository/user_repository.dart';
 
 enum ProfileMenu {
   personalInfo,
@@ -21,40 +19,28 @@ enum ProfileMenu {
 }
 
 class ProfileController extends GetxController {
-  // ─── User info (reactive) ─────────────────────
-  final userName    = ''.obs;
-  final userRole    = ''.obs;
-  final avatarPath  = ''.obs;
-  final isLoading   = false.obs;
+
+  UserService get _userService => UserService.instance;
+
+  String get userName   => _userService.name;
+  String get userRole   => _userService.role;
+  bool   get isLoading  => _userService.isLoading.value;
+
+  String? get avatarUrl {
+    final img = _userService.profileImage;
+    if (img.isEmpty) return null;
+    return img;
+  }
 
   @override
   void onInit() {
     super.onInit();
-    fetchProfile();
-  }
-
-  // ==================== Fetch Profile ====================
-  Future<void> fetchProfile() async {
-    try {
-      isLoading.value = true;
-      final profile = await UserRepository.instance.getProfile();
-      isLoading.value = false;
-
-      if (profile != null) {
-        userName.value   = profile.name ?? '';
-        userRole.value   = profile.role ?? '';
-        // ✅ image url — baseUrl + path
-        avatarPath.value = profile.profileImage != null
-            ? "${AppApiUrl.instance.imgBaseUrl}${profile.profileImage}"
-            : 'assets/images/profile_img.jpg';
-      }
-    } catch (e) {
-      isLoading.value = false;
-      errorLog("ProfileController.fetchProfile", e);
+    if (_userService.profile.value == null) {
+      _userService.fetchProfile();
     }
   }
 
-  // ─── Menu tap handler ─────────────────────────
+  // ─── Menu tap ────────────────────────────────
   void onMenuTap(ProfileMenu menu) {
     switch (menu) {
       case ProfileMenu.personalInfo:

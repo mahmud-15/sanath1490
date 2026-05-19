@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../constant/app_api_url.dart';
+import '../../../../../service/UserService/user_service.dart';
 import '../../../../../utils/log_print.dart';
 import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
@@ -17,8 +19,9 @@ class PersonalInfoController extends GetxController {
   final phoneController  = TextEditingController();
   final postalController = TextEditingController();
 
-  final avatarPath       = 'assets/images/profile_img.jpg'.obs;
-  final selectedCountry  = ''.obs;
+  final avatarPath = Rxn<String>();
+  final selectedCountry     = ''.obs;
+  final selectedCountryCode = ''.obs;
   final isLoading        = false.obs;
   final isSaving         = false.obs;
 
@@ -35,11 +38,18 @@ class PersonalInfoController extends GetxController {
   // ==================== GET Profile ====================
   Future<void> fetchProfile() async {
     try {
+      final cached = UserService.instance.profile.value;
+      if (cached != null) {
+        _fillFields(cached);
+        return;
+      }
+
       isLoading.value = true;
       final profile = await UserRepository.instance.getProfile();
       isLoading.value = false;
 
       if (profile != null) {
+        UserService.instance.updateProfile(profile);
         _fillFields(profile);
       }
     } catch (e) {
@@ -49,13 +59,14 @@ class PersonalInfoController extends GetxController {
     }
   }
 
-  // ─── Fill fields from profile ──────────────────
+  // Fill fields from profile ──────────────────
   void _fillFields(UserProfileModel profile) {
     nameController.text   = profile.name   ?? '';
     emailController.text  = profile.email  ?? '';
     phoneController.text  = profile.phone  ?? '';
     postalController.text = profile.postalCode ?? '';
-    selectedCountry.value = profile.country ?? '';
+    selectedCountry.value     = profile.country     ?? '';
+    selectedCountryCode.value = profile.countryCode ?? '';
 
     avatarPath.value = profile.profileImage != null
         ? "${AppApiUrl.instance.imgBaseUrl}${profile.profileImage}"
@@ -76,10 +87,13 @@ class PersonalInfoController extends GetxController {
       }
 
       final request = UpdateProfileRequestModel(
-        name:       nameController.text.trim(),
-        phone:      phoneController.text.trim(),
-        country:    selectedCountry.value,
-        postalCode: postalController.text.trim(),
+        name:        nameController.text.trim(),
+        phone:       phoneController.text.trim(),
+        country:     selectedCountry.value,
+        countryCode: selectedCountryCode.value.isNotEmpty
+            ? selectedCountryCode.value
+            : null,
+        postalCode:  postalController.text.trim(),
       );
 
       final response = await UserRepository.instance.updateProfile(request);
@@ -88,9 +102,10 @@ class PersonalInfoController extends GetxController {
       isSaving.value = false;
 
       if (response != null) {
+        UserService.instance.updateProfile(response);
         AppSnackBar.success("Profile updated successfully!");
-        await Future.delayed(const Duration(milliseconds: 150));
-        Get.back();
+        await Future.delayed(const Duration(milliseconds: 1500));
+        Navigator.of(Get.context!).pop();
       }
     } catch (e) {
       AppLoader.hide();
@@ -133,9 +148,27 @@ class PersonalInfoController extends GetxController {
     }
   }
 
-  void pickCountry() {
-    // TODO: country picker package দিয়ে replace করুন
-    selectedCountry.value = 'United Kingdom';
+  // ==================== Country Picker ====================
+  void pickCountry(context) {
+    showCountryPicker(
+      context: context,
+      showPhoneCode: false,
+      showSearch: true,
+      countryListTheme: CountryListThemeData(
+        borderRadius: BorderRadius.circular(16),
+        inputDecoration: InputDecoration(
+          hintText: 'Search country...',
+          prefixIcon: const Icon(Icons.search),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+      onSelect: (Country country) {
+        selectedCountry.value  = country.name;
+        selectedCountryCode.value = "+\${country.phoneCode}";
+      },
+    );
   }
 
   @override

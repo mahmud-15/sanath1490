@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
+import '../../../../constant/app_api_url.dart';
 import '../../../../constant/const_color.dart';
+import '../../../../service/UserService/user_service.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
@@ -167,119 +169,135 @@ class UserInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            ConstColor.primaryColor,
-            ConstColor.primaryDeepColor,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: controller.isLoading.value
-      // ─── Loading skeleton ───────────────
-          ? Row(
-        children: [
-          Container(
-            width: 52.w,
-            height: 52.w,
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(40),
-              shape: BoxShape.circle,
-            ),
-          ),
-          SizedBox(width: 14.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 120.w,
-                height: 14.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(40),
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-              ),
-              SizedBox(height: 8.h),
-              Container(
-                width: 80.w,
-                height: 10.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(30),
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-              ),
+    return Obx(() {
+      // ✅ UserService directly listen — save হলে auto update
+      final service   = UserService.instance;
+      final loading   = service.isLoading.value;
+      final name      = service.name;
+      final role      = service.role;
+      final imgPath   = service.profileImage;
+
+      // ✅ Full image URL build
+      final imageUrl = imgPath.isNotEmpty
+          ? "${AppApiUrl.instance.imgBaseUrl}$imgPath"
+          : null;
+
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              ConstColor.primaryColor,
+              ConstColor.primaryDeepColor,
             ],
           ),
-        ],
-      )
-      // ─── Loaded ─────────────────────────
-          : Row(
-        children: [
-          // Avatar
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30.r),
-            child: controller.avatarPath.value.startsWith('assets/')
-                ? AppImage(
-              path: controller.avatarPath.value,
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: loading
+        // ─── Skeleton ─────────────────────────
+            ? Row(
+          children: [
+            Container(
               width: 52.w,
               height: 52.w,
-              fit: BoxFit.cover,
-            )
-                : Image.network(
-              controller.avatarPath.value,
-              width: 52.w,
-              height: 52.w,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) => AppImage(
-                path: 'assets/images/profile_img.jpg',
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(40),
+                shape: BoxShape.circle,
+              ),
+            ),
+            SizedBox(width: 14.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 120.w, height: 14.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(40),
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Container(
+                  width: 80.w, height: 10.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withAlpha(30),
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        )
+        // ─── Loaded ───────────────────────────
+            : Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(30.r),
+              child: imageUrl != null
+                  ? Image.network(
+                imageUrl,
                 width: 52.w,
                 height: 52.w,
                 fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => _Placeholder(),
+              )
+                  : _Placeholder(),
+            ),
+            SizedBox(width: 14.w),
+
+            // Name + Role
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(
+                    title: name.isNotEmpty ? name : 'User',
+                    textColor: Colors.white,
+                    textSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    maxLine: 1,
+                  ),
+                  SizedBox(height: 3.h),
+                  CustomText(
+                    title: role.isNotEmpty ? role : '',
+                    textColor: Colors.white.withAlpha(180),
+                    textSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    maxLine: 1,
+                  ),
+                ],
               ),
             ),
-          ),
-          SizedBox(width: 14.w),
-
-          // Name + Role
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                title: controller.userName.value.isNotEmpty
-                    ? controller.userName.value
-                    : 'User',
-                textColor: Colors.white,
-                textSize: 18.sp,
-                fontWeight: FontWeight.w700,
-                maxLine: 1,
-              ),
-              SizedBox(height: 3.h),
-              CustomText(
-                title: controller.userRole.value.isNotEmpty
-                    ? controller.userRole.value
-                    : '',
-                textColor: Colors.white.withAlpha(180),
-                textSize: 14.sp,
-                fontWeight: FontWeight.w400,
-                maxLine: 1,
-              ),
-            ],
-          ),
-        ],
-      ),
-    ));
+          ],
+        ),
+      );
+    });
   }
 }
 
-// ─────────────────────────────────────────────────────
+class _Placeholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 52.w,
+      height: 52.w,
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(40),
+        shape: BoxShape.circle,
+      ),
+      child: Icon(
+        Icons.person_rounded,
+        color: Colors.white.withAlpha(200),
+        size: 28.sp,
+      ),
+    );
+  }
+}
+
 // White card group wrapping menu items
-// ─────────────────────────────────────────────────────
 class _MenuGroup extends StatelessWidget {
   final List<_MenuItem> items;
 
