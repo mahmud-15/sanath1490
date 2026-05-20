@@ -18,7 +18,7 @@ class SearchResultMapScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: GlobalAppBar(
-        title: ConstString.london,
+        title: ConstString.searchResult,
         action: Row(
           children: [
             GestureDetector(

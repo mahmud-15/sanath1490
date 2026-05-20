@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
+import '../../../../../service/location/location_service.dart';
 import '../Model/property_model.dart';
 
 class HomeController extends GetxController {
@@ -36,9 +37,9 @@ class HomeController extends GetxController {
       final response = await ApiServices.instance.getServices(
         AppApiUrl.instance.nearbyListingProperty,
         queryParameters: {
-          "lat": 23.8103,
-          "lng": 90.4125,
-          "radiusInKm": 50000,
+          "lat": LocationService.instance.lat,
+          "lng": LocationService.instance.lng,
+          "radiusInMiles": 50000,
         },
       );
 

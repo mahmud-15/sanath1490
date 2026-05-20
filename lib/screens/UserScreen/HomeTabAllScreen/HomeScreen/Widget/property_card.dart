@@ -170,8 +170,8 @@ class PropertyCard extends StatelessWidget {
                           SizedBox(width: 10.w),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(4.r),
-                            child: Image.asset(
-                              'assets/images/company_img.jpg',
+                            child: AppImage(
+                              url: property.agentImage,
                               width: 70.w,
                               height: 35.h,
                               fit: BoxFit.cover,

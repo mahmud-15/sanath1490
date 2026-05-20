@@ -78,6 +78,7 @@ class ConstString {
   static const recentSearches = 'Recent searches';
   static const noResultFound = 'No results found';
   static const london = 'London';
+  static const searchResult = 'Search Results';
   static const sort = "Sort";
   static const list = 'List';
   static const map = 'Map';

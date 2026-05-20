@@ -116,12 +116,15 @@ class _PropertyCard extends StatelessWidget {
               height: 60.h,
               fit: BoxFit.cover,
             )
-                : AppImage(
-              path: 'assets/images/property_img.png',
+                : Container(
               width: 72.w,
               height: 60.h,
-              fit: BoxFit.cover,
-            ),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: Icon(Icons.home_outlined, color: Colors.grey.shade400),
+            )
           ),
           SizedBox(width: 12.w),
           Expanded(

@@ -19,7 +19,7 @@ class PropertyDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(PropertyDetailsController());
+    final controller = Get.find<PropertyDetailsController>();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),
@@ -45,8 +45,14 @@ class PropertyDetailsScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               _PropertyFeaturesCard(controller: controller),
               SizedBox(height: 10.h),
-              _BrochuresCard(controller: controller),
-              SizedBox(height: 10.h),
+              Obx(() => controller.brochureUrl.value.isEmpty
+                  ? const SizedBox.shrink()
+                  : Column(
+                children: [
+                  _BrochuresCard(controller: controller),
+                  SizedBox(height: 10.h),
+                ],
+              )),
               _CouncilTaxCard(controller: controller),
               SizedBox(height: 10.h),
               _AgentCard(controller: controller),
@@ -63,78 +69,102 @@ class PropertyDetailsScreen extends StatelessWidget {
 }
 
 // ─── Hero Image Section ───────────────────────────────
-class _HeroImageSection extends StatelessWidget {
+class _HeroImageSection extends StatefulWidget {
   final PropertyDetailsController controller;
 
   const _HeroImageSection({required this.controller});
 
   @override
+  State<_HeroImageSection> createState() => _HeroImageSectionState();
+}
+
+class _HeroImageSectionState extends State<_HeroImageSection> {
+  bool _showFallback = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 4), () {
+      if (mounted && widget.controller.images.isEmpty) {
+        setState(() => _showFallback = true);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Stack(
-        children: [
-          CarouselSlider.builder(
-            itemCount: controller.images.isEmpty ? 1 : controller.images.length,
-            itemBuilder: (context, index, realIndex) {
-              if (controller.images.isEmpty) {
-                return Container(
-                  width: double.infinity,
-                  height: 220.h,
-                  color: Colors.grey.shade200,
-                  child: const Center(
-                    child: AppLoader(message: "Preparing image preview..."),
-                  ),
-                );
-              }
-              return AppImage(
-                url: controller.images[index],
+    return Obx(() => Stack(
+      children: [
+        CarouselSlider.builder(
+          itemCount: widget.controller.images.isEmpty ? 1 : widget.controller.images.length,
+          itemBuilder: (context, index, realIndex) {
+            if (widget.controller.images.isEmpty) {
+              return Container(
                 width: double.infinity,
                 height: 220.h,
-                fit: BoxFit.cover,
+                color: Colors.grey.shade200,
+                child: Center(
+                  child: _showFallback
+                      ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.image_not_supported_outlined,
+                          size: 48, color: Colors.grey.shade400),
+                      SizedBox(height: 8.h),
+                      CustomText(
+                        title: 'No images available',
+                        textColor: ConstColor.bodyColor,
+                        textSize: 13.sp,
+                        fontWeight: FontWeight.w400,
+                        maxLine: 1,
+                      ),
+                    ],
+                  )
+                      : const AppLoader(message: "Preparing image preview...",),
+                ),
               );
-            },
-            options: CarouselOptions(
+            }
+            return AppImage(
+              url: widget.controller.images[index],
+              width: double.infinity,
               height: 220.h,
-              viewportFraction: 1.0,
-              enableInfiniteScroll: false,
-              onPageChanged: (index, _) => controller.onImageChanged(index),
-            ),
+              fit: BoxFit.cover,
+            );
+          },
+          options: CarouselOptions(
+            height: 220.h,
+            viewportFraction: 1.0,
+            enableInfiniteScroll: false,
+            onPageChanged: (index, _) => widget.controller.onImageChanged(index),
           ),
+        ),
 
-          Positioned(
-            top: 12.h,
-            left: 12.w,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
-              decoration: BoxDecoration(
-                color: Colors.black.withAlpha(140),
-                borderRadius: BorderRadius.circular(6.r),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.camera_alt_outlined,
-                    size: 14.sp,
-                    color: Colors.white,
-                  ),
-                  SizedBox(width: 4.w),
-                  Obx(
-                    () => CustomText(
-                      title:
-                          '${controller.currentImageIndex.value + 1}/${controller.images.isEmpty ? 1 : controller.images.length}',
-                      textColor: Colors.white,
-                      textSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      maxLine: 1,
-                    ),
-                  ),
-                ],
-              ),
+        Positioned(
+          top: 12.h,
+          left: 12.w,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+            decoration: BoxDecoration(
+              color: Colors.black.withAlpha(140),
+              borderRadius: BorderRadius.circular(6.r),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.camera_alt_outlined, size: 14.sp, color: Colors.white),
+                SizedBox(width: 4.w),
+                Obx(() => CustomText(
+                  title: '${widget.controller.currentImageIndex.value + 1}/${widget.controller.images.isEmpty ? 1 : widget.controller.images.length}',
+                  textColor: Colors.white,
+                  textSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                  maxLine: 1,
+                )),
+              ],
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ));
   }
 }
 
@@ -241,12 +271,12 @@ class _PropertyInfoCard extends StatelessWidget {
                     maxLine: 1,
                   ),
                 ),
-                SvgPicture.asset(
-                  "assets/icons/upload_icon.svg",
-                  height: 16.h,
-                  width: 16.w,
-                ),
-                SizedBox(width: 18.w),
+                // SvgPicture.asset(
+                //   "assets/icons/upload_icon.svg",
+                //   height: 16.h,
+                //   width: 16.w,
+                // ),
+                // SizedBox(width: 18.w),
                 Obx(
                   () => GestureDetector(
                     onTap: controller.isTogglingFavourite.value
@@ -457,17 +487,25 @@ class _FloorPlanCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.r),
                   child: controller.floorPlans.isNotEmpty
                       ? AppImage(
-                          url: controller.floorPlans.first,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        )
-                      : AppImage(
-                          path: "assets/images/floor_img.png",
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
+                    url: controller.floorPlans.first,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                  )
+                      : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.layers_outlined, size: 40, color: Colors.grey.shade400),
+                      SizedBox(height: 8.h),
+                      CustomText(
+                        title: 'Floor plan not available',
+                        textColor: ConstColor.bodyColor,
+                        textSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        maxLine: 1,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -707,15 +745,9 @@ class _BrochuresCard extends StatelessWidget {
           Obx(
             () => CustomElevatedButton(
               onPressed: controller.brochureUrl.value.isNotEmpty
-                  ? () async {
-                      final uri = Uri.parse(controller.brochureUrl.value);
-                      if (await canLaunchUrl(uri)) {
-                        await launchUrl(
-                          uri,
-                          mode: LaunchMode.externalApplication,
-                        );
-                      }
-                    }
+                  ? () => Get.to(
+                    () => _BrochureFullScreen(url: controller.brochureUrl.value),
+              )
                   : () {},
               isOutLined: true,
               borderColor: ConstColor.secondaryColor,
@@ -739,6 +771,32 @@ class _BrochuresCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+class _BrochureFullScreen extends StatelessWidget {
+  final String url;
+  const _BrochureFullScreen({required this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Center(
+        child: InteractiveViewer(
+          minScale: 0.5,
+          maxScale: 4.0,
+          child: AppImage(
+            url: url,
+            width: double.infinity,
+            fit: BoxFit.contain,
+          ),
+        ),
       ),
     );
   }

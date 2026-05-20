@@ -5,12 +5,15 @@ import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
+import '../../../../constant/app_api_url.dart';
 import '../../../../constant/const_color.dart';
+import '../../../../service/api/api_service.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/AppLoader/app_loader.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import 'Controller/home_controller.dart';
+import 'Model/property_model.dart';
 import 'Widget/properties_empty_state.dart';
 import 'Widget/property_card.dart';
 
@@ -26,89 +29,6 @@ class HomeScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: _HomeHeader(controller: controller)),
-
-          // SliverToBoxAdapter(
-          //   child: Padding(
-          //     padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
-          //     child: CustomText(
-          //       title: ConstString.propertiesNearYou,
-          //       textColor: ConstColor.titleColor,
-          //       textSize: 18.sp,
-          //       fontWeight: FontWeight.w700,
-          //       maxLine: 1,
-          //     ),
-          //   ),
-          // ),
-          //
-          // SliverToBoxAdapter(
-          //   child: Obx(() {
-          //     // ─── Loading ──────────────────────
-          //     if (controller.isLoading.value) {
-          //       return Padding(
-          //         padding: EdgeInsets.symmetric(horizontal: 16.w),
-          //         child: Column(
-          //           children: List.generate(2, (_) => _PropertyCardSkeleton()),
-          //         ),
-          //       );
-          //     }
-          //
-          //     // ─── Empty ────────────────────────
-          //     final properties = controller.currentProperties;
-          //     if (properties.isEmpty) {
-          //       return SizedBox(height: 400.h);
-          //     }
-          //
-          //     // ─── Data ─────────────────────────
-          //     return Column(
-          //       children: [
-          //         CarouselSlider.builder(
-          //           itemCount: properties.length,
-          //           itemBuilder: (context, index, realIndex) {
-          //             return Padding(
-          //               padding: EdgeInsets.symmetric(horizontal: 16.w),
-          //               child: PropertyCard(
-          //                 onTap: () => Get.toNamed(
-          //                   AppRoutes.propertyDetails,
-          //                   arguments: properties[index],
-          //                 ),
-          //                 property: properties[index],
-          //               ),
-          //             );
-          //           },
-          //           options: CarouselOptions(
-          //             height: 400.h,
-          //             viewportFraction: 1.0,
-          //             enableInfiniteScroll: false,
-          //             onPageChanged: (index, reason) {
-          //               currentCardIndex.value = index;
-          //             },
-          //           ),
-          //         ),
-          //
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: List.generate(properties.length, (index) {
-          //             return Obx(() {
-          //               final bool isActive = index == currentCardIndex.value;
-          //               return AnimatedContainer(
-          //                 duration: const Duration(milliseconds: 200),
-          //                 margin: EdgeInsets.symmetric(horizontal: 3.w),
-          //                 width: isActive ? 16.w : 6.w,
-          //                 height: 6.h,
-          //                 decoration: BoxDecoration(
-          //                   color: isActive ? ConstColor.primaryColor : ConstColor.outLineColor,
-          //                   borderRadius: BorderRadius.circular(3.r),
-          //                 ),
-          //               );
-          //             });
-          //           }),
-          //         ),
-          //       ],
-          //     );
-          //   }),
-          // ),
-
-          // ─── Popular Locations ───────────────
           SliverToBoxAdapter(
             child: Obx(() {
               final properties = controller.currentProperties;
@@ -488,8 +408,19 @@ class _HomeHeader extends StatelessWidget {
                   SizedBox(height: 12.h),
 
                   CustomElevatedButton(
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.propertyListScreen);
+                    onPressed: () async {
+                      final response = await ApiServices.instance.getServices(
+                        AppApiUrl.instance.listingsSearch,
+                        queryParameters: {
+                          'radiusInMiles': 50000,
+                        },
+                      );
+
+                      if (response != null && response['data'] != null) {
+                        final List data = response['data'];
+                        final results = data.map((e) => PropertyModel.fromJson(e)).toList();
+                        Get.toNamed(AppRoutes.propertyListScreen, arguments: results);
+                      }
                     },
                     color: ConstColor.secondaryColor,
                     height: 48,

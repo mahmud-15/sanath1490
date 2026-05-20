@@ -12,6 +12,7 @@ class PropertyModel {
   final String listingType;
   final RxInt currentIndex;
   final bool isFavourite;
+  final String agentImage;
 
   PropertyModel({
     this.id = "",
@@ -23,6 +24,7 @@ class PropertyModel {
     required this.isFeatured,
     this.listingType = "SALE",
     this.isFavourite = false,
+    this.agentImage = "",
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
@@ -40,15 +42,24 @@ class PropertyModel {
 
     final addedDate = _formatDate(json["createdAt"] ?? "");
 
+    final agent = json["agentId"];
+    final agentImage = agent?["agencyLogo"] != null
+        ? "$baseUrl${agent["agencyLogo"]}"
+        : agent?["profileImage"] != null
+        ? "$baseUrl${agent["profileImage"]}"
+        : "";
+
     return PropertyModel(
       id: json["_id"] ?? "",
-      images: photos.isNotEmpty ? photos : ['assets/images/property_img.png'],
+      images: photos.isNotEmpty ? photos : [''],
       price: price,
       title: json["title"] ?? "",
       address: address,
       addedDate: addedDate,
-      isFeatured: json["isFeatured"] ?? false,
+      // isFeatured: json["isFeatured"] ?? false,
+      isFeatured: false,
       listingType: json["listingType"] ?? "SALE",
+      agentImage: agentImage,
     );
   }
 }

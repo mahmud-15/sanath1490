@@ -41,17 +41,33 @@ class EnquiriesScreen extends StatelessWidget {
         return RefreshIndicator(
           onRefresh: controller.fetchEnquiries,
           color: ConstColor.primaryColor,
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-            itemCount: controller.enquiries.length,
-            separatorBuilder: (_, _) => SizedBox(height: 10.h),
-            itemBuilder: (context, index) {
-              final item = controller.enquiries[index];
-              return _EnquiryCard(
-                item: item,
-                onTap: () => controller.onCardTap(item),
-              );
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (scroll) {
+              if (scroll.metrics.pixels >= scroll.metrics.maxScrollExtent - 200) {
+                controller.fetchEnquiries(loadMore: true);
+              }
+              return false;
             },
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+              itemCount: controller.enquiries.length + (controller.hasMore.value ? 1 : 0),
+              separatorBuilder: (_, _) => SizedBox(height: 10.h),
+              itemBuilder: (context, index) {
+                if (index == controller.enquiries.length) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: AppLoader(message: "Loading enquiries, please wait...",),
+                    ),
+                  );
+                }
+                final item = controller.enquiries[index];
+                return _EnquiryCard(
+                  item: item,
+                  onTap: () => controller.onCardTap(item),
+                );
+              },
+            ),
           ),
         );
       }),

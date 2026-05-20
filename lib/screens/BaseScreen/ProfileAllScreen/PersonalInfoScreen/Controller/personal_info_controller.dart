@@ -70,7 +70,7 @@ class PersonalInfoController extends GetxController {
 
     avatarPath.value = profile.profileImage != null
         ? "${AppApiUrl.instance.imgBaseUrl}${profile.profileImage}"
-        : 'assets/images/profile_img.jpg';
+        : null;
   }
 
   // ==================== PATCH Profile ====================

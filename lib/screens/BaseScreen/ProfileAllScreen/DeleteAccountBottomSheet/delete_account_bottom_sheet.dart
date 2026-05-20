@@ -21,7 +21,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(DeleteAccountController());
+    final controller = Get.put(DeleteAccountController(), permanent: false);
 
     return Container(
       padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 32.h),

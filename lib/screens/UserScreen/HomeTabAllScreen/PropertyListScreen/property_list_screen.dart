@@ -23,7 +23,7 @@ class PropertyListScreen extends StatelessWidget {
       backgroundColor: ConstColor.backgroundColor,
 
       appBar: GlobalAppBar(
-        title: ConstString.london,
+        title: ConstString.searchResult,
         action: Row(
           children: [
             GestureDetector(
@@ -33,20 +33,21 @@ class PropertyListScreen extends StatelessWidget {
                 colorFilter: ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
               ),
             ),
-            SizedBox(width: 15.w),
-            Obx(() => GestureDetector(
-              onTap: () => controller.toggleFavourite(),
-              child: SvgPicture.asset(
-                controller.isFavourite.value
-                    ? "assets/icons/favourite_click_icon.svg"
-                    : "assets/icons/favourite_icon.svg",
-                width: 22.w,
-                height: 22.w,
-                colorFilter: controller.isFavourite.value
-                    ? null
-                    : ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
-              ),
-            )),
+            // SizedBox(width: 15.w),
+            // Obx(() => GestureDetector(
+            //   onTap: () => controller.toggleFavourite(),
+            //   child: SvgPicture.asset(
+            //     controller.isFavourite.value
+            //         ? "assets/icons/favourite_click_icon.svg"
+            //         : "assets/icons/favourite_icon.svg",
+            //     width: 22.w,
+            //     height: 22.w,
+            //     colorFilter: controller.isFavourite.value
+            //         ? null
+            //         : ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
+            //   ),
+            // )
+            // ),
           ],
         ),
       ),

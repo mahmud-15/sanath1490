@@ -477,19 +477,26 @@ class _FeaturesRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Row(
+    return Obx(() => Wrap(
+      spacing: 12.w,
+      runSpacing: 10.h,
       children: [
-        _CheckItem(
-          label: 'Garden',
-          value: controller.hasGarden.value,
-          onTap: controller.toggleGarden,
-        ),
-        SizedBox(width: 16.w),
-        _CheckItem(
-          label: 'Parking',
-          value: controller.hasParking.value,
-          onTap: controller.toggleParking,
-        ),
+        _CheckItem(label: 'Garden', value: controller.hasGarden.value, onTap: controller.toggleGarden),
+        _CheckItem(label: 'Parking', value: controller.hasParking.value, onTap: controller.toggleParking),
+        _CheckItem(label: 'New Build', value: controller.hasNewBuild.value, onTap: controller.toggleNewBuild),
+        _CheckItem(label: 'Chain Fee', value: controller.hasChainFee.value, onTap: controller.toggleChainFee),
+        _CheckItem(label: 'Swimming Pool', value: controller.hasSwimmingPool.value, onTap: controller.toggleSwimmingPool),
+        _CheckItem(label: 'Gym', value: controller.hasGym.value, onTap: controller.toggleGym),
+        _CheckItem(label: 'Concierge', value: controller.hasConcierge.value, onTap: controller.toggleConcierge),
+        _CheckItem(label: 'Balcony', value: controller.hasBalcony.value, onTap: controller.toggleBalcony),
+        _CheckItem(label: 'Terrace', value: controller.hasTerrace.value, onTap: controller.toggleTerrace),
+        _CheckItem(label: 'Lift', value: controller.hasLift.value, onTap: controller.toggleLift),
+        _CheckItem(label: 'Fitted Kitchen', value: controller.hasFittedKitchen.value, onTap: controller.toggleFittedKitchen),
+        _CheckItem(label: 'Underfloor Heating', value: controller.hasUnderFloorHeating.value, onTap: controller.toggleUnderFloorHeating),
+        _CheckItem(label: 'Solar Panels', value: controller.hasSolarPanels.value, onTap: controller.toggleSolarPanels),
+        _CheckItem(label: 'Off Street Parking', value: controller.hasOffStreetParking.value, onTap: controller.toggleOffStreetParking),
+        _CheckItem(label: 'Driveway', value: controller.hasDriveway.value, onTap: controller.toggleDriveway),
+        _CheckItem(label: 'Alarm System', value: controller.hasAlarmSystem.value, onTap: controller.toggleAlarmSystem),
       ],
     ));
   }

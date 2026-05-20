@@ -48,7 +48,7 @@ class AppImage extends StatelessWidget {
     }
 
     if (url != null) {
-      if (url!.toLowerCase().contains("null")) {
+      if (url!.isEmpty || url!.toLowerCase().contains("null")) {
         return _PlaceholderWidget(width: width, height: height);
       }
       return _NetworkImage(imageUrl: url!, width: width, height: height, fit: fit);
@@ -61,7 +61,7 @@ class AppImage extends StatelessWidget {
         height: height,
         fit: fit,
         color: iconColor,
-        errorBuilder: (_, __, ___) => _PlaceholderWidget(width: width, height: height),
+        errorBuilder: (_, _, _) => _PlaceholderWidget(width: width, height: height),
       );
     }
 

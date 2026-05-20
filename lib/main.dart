@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes_file.dart';
+import 'package:sanath1490_flutter_app/service/location/location_service.dart';
 import 'package:sanath1490_flutter_app/widget/AppImage/app_image.dart';
 import 'package:sanath1490_flutter_app/widget/AppLoader/app_loader.dart';
 import 'constant/const_color.dart';
@@ -11,6 +12,7 @@ import 'initializer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocationService.instance.init();
   await init();
   await ScreenUtil.ensureScreenSize();
   HttpOverrides.global = CustomHttpClient();

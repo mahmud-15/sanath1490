@@ -167,45 +167,44 @@ class _DefaultSearchView extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 8.h),
-                child: CustomText(
-                  title: ConstString.recentSearches,
-                  textColor: ConstColor.titleColor,
-                  textSize: 14.sp,
-                  fontWeight: FontWeight.w700,
-                  maxLine: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomText(
+                      title: ConstString.recentSearches,
+                      textColor: ConstColor.titleColor,
+                      textSize: 14.sp,
+                      fontWeight: FontWeight.w700,
+                      maxLine: 1,
+                    ),
+                    GestureDetector(
+                      onTap: controller.clearRecentSearches,
+                      child: CustomText(
+                        title: 'Clear all history',
+                        textColor: ConstColor.primaryColor,
+                        textSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        maxLine: 1,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              ListView.builder(
+              AnimatedList(
+                key: controller.listKey,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.recentSearches.length,
-                itemBuilder: (context, index) {
+                initialItemCount: controller.recentSearches.length,
+                itemBuilder: (context, index, animation) {
                   final item = controller.recentSearches[index];
-                  return InkWell(
-                    onTap: () => controller.onRecentTap(item),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                      child: Row(
-                        children: [
-                          _IconBox(
-                            child: SvgPicture.asset(
-                              "assets/icons/search_icon.svg",
-                              width: 18.w,
-                              height: 18.h,
-                              colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: CustomText(
-                              title: item,
-                              textColor: ConstColor.titleColor,
-                              textSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              maxLine: 1,
-                            ),
-                          ),
-                        ],
+                  return SizeTransition(
+                    sizeFactor: animation,
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: _RecentItem(
+                        item: item,
+                        onTap: () => controller.onRecentTap(item),
+                        onRemove: () => controller.removeRecentSearch(index),
                       ),
                     ),
                   );
@@ -425,3 +424,56 @@ class _IconBox extends StatelessWidget {
     );
   }
 }
+
+class _RecentItem extends StatelessWidget {
+  final String item;
+  final VoidCallback onTap;
+  final VoidCallback onRemove;
+
+  const _RecentItem({
+    required this.item,
+    required this.onTap,
+    required this.onRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+        child: Row(
+          children: [
+            _IconBox(
+              child: SvgPicture.asset(
+                "assets/icons/search_icon.svg",
+                width: 18.w,
+                height: 18.h,
+                colorFilter: ColorFilter.mode(ConstColor.bodyColor, BlendMode.srcIn),
+              ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: CustomText(
+                title: item,
+                textColor: ConstColor.titleColor,
+                textSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                maxLine: 1,
+              ),
+            ),
+            GestureDetector(
+              onTap: onRemove,
+              child: Icon(
+                Icons.close,
+                size: 18.sp,
+                color: ConstColor.bodyColor,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

@@ -12,6 +12,8 @@ class DeleteAccountController extends GetxController {
   final passwordController = TextEditingController();
   final obscure = true.obs;
 
+  final isDeleting = false.obs;
+
   void toggleObscure() => obscure.value = !obscure.value;
 
   Future<void> deleteAccount() async {
@@ -23,30 +25,37 @@ class DeleteAccountController extends GetxController {
     }
 
     try {
+      isDeleting.value = true;
       AppLoader.show();
 
       final success = await _repo.deleteAccount(password: password);
 
       AppLoader.hide();
+      isDeleting.value = false;
 
       if (success) {
-        Get.back(); // close bottom sheet
+        passwordController.clear();
+        Get.back();
         _showDeletedPopup();
       }
     } catch (e) {
       AppLoader.hide();
+      isDeleting.value = false;
       AppSnackBar.error('Something went wrong. Please try again.');
     }
   }
 
   void _showDeletedPopup() {
     Get.dialog(
-      const AccountDeletedPopup(),
+      PopScope(
+        canPop: false,
+        child: const AccountDeletedPopup(),
+      ),
       barrierDismissible: false,
     );
 
     Future.delayed(const Duration(seconds: 2), () {
-      Get.back(); // close popup
+      if (Get.isDialogOpen ?? false) Get.back();
       AppSnackBar.success('Your account has been deleted successfully');
       Get.offAllNamed(AppRoutes.signInScreen);
     });

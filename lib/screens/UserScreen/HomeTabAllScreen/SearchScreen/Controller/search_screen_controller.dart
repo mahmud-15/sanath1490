@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../routes/app_routes/app_routes.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../HomeScreen/Model/property_model.dart';
+import '../Widget/recent_item_placeholder.dart';
 
 class SearchSuggestion {
   final String label;
@@ -25,15 +27,15 @@ class SearchScreenController extends GetxController {
   final isLoading = false.obs;
   final isSuggestionLoading = false.obs;
   final suggestions = <SearchSuggestion>[].obs;
-
   final recentSearches = <String>[].obs;
+  final listKey = GlobalKey<AnimatedListState>();
 
   Worker? _debounceWorker;
 
   @override
   void onInit() {
     super.onInit();
-    // ─── Debounce search ──────────────────
+    _loadRecentSearches();
     _debounceWorker = debounce(
       searchQuery,
           (value) {
@@ -43,10 +45,24 @@ class SearchScreenController extends GetxController {
           suggestions.clear();
         }
       },
-      time: const Duration(milliseconds: 400),
+      time: const Duration(milliseconds: 300),
     );
   }
 
+  Future<void> _loadRecentSearches() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final saved = prefs.getStringList('recentSearches') ?? [];
+      recentSearches.value = saved;
+    } catch (_) {}
+  }
+
+  Future<void> _saveRecentSearches() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList('recentSearches', recentSearches.toList());
+    } catch (_) {}
+  }
   Future<void> _fetchSuggestions(String query) async {
     isSuggestionLoading(true);
     suggestions.clear();
@@ -110,9 +126,53 @@ class SearchScreenController extends GetxController {
     if (!recentSearches.contains(suggestion.label)) {
       recentSearches.insert(0, suggestion.label);
       if (recentSearches.length > 5) recentSearches.removeLast();
+      await _saveRecentSearches();
     }
     clearSearch();
     await _searchAndNavigate(suggestion.searchValue);
+  }
+
+
+  void removeRecentSearch(int index) {
+    final removed = recentSearches[index];
+    recentSearches.removeAt(index);
+    listKey.currentState?.removeItem(
+      index,
+          (context, animation) => SizeTransition(
+        sizeFactor: animation,
+        child: FadeTransition(
+          opacity: animation,
+          child: RecentItemPlaceholder(item: removed),
+        ),
+      ),
+      duration: const Duration(milliseconds: 300),
+    );
+    _saveRecentSearches();
+  }
+
+  Future<void> clearRecentSearches() async {
+    final length = recentSearches.length;
+    for (int i = length - 1; i >= 0; i--) {
+      await Future.delayed(const Duration(milliseconds: 80));
+      if (recentSearches.isEmpty) break;
+      final removed = recentSearches[i < recentSearches.length ? i : recentSearches.length - 1];
+      recentSearches.removeAt(i < recentSearches.length ? i : recentSearches.length - 1);
+      listKey.currentState?.removeItem(
+        i < (listKey.currentState?.widget.initialItemCount ?? 0) ? i : 0,
+            (context, animation) => SizeTransition(
+          sizeFactor: CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+          ),
+          child: FadeTransition(
+            opacity: animation,
+            child: RecentItemPlaceholder(item: removed),
+          ),
+        ),
+        duration: const Duration(milliseconds: 250),
+      );
+    }
+    await _saveRecentSearches();
   }
 
   Future<void> useCurrentLocation() async {
@@ -150,3 +210,4 @@ class SearchScreenController extends GetxController {
     super.onClose();
   }
 }
+

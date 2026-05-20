@@ -34,14 +34,19 @@ class ChangePasswordScreen extends StatelessWidget {
                 key: controller.formKey,
                 child: Column(
                   children: [
-                    // Current Password
                     Obx(
-                      () => CustomTextFormField(
+                          () => CustomTextFormField(
                         fromTitle: ConstString.currentPassword,
                         backgroundColor: ConstColor.backgroundColor,
                         textController: controller.currentPassController,
                         hintText: const Text(ConstString.enterCurrentPassword),
                         obscureText: controller.hideCurrentPass.value,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'This field is required';
+                          }
+                          return null;
+                        },
                         suffixIcon: GestureDetector(
                           onTap: controller.toggleCurrentPass,
                           child: Icon(

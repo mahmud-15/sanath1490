@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../routes/app_routes/app_routes.dart';
 import '../../../../../service/api/api_service.dart';
+import '../../../../../service/location/location_service.dart';
 import '../../../../../widget/app_snack_bar/app_snack_bar.dart';
 import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
@@ -97,11 +98,39 @@ class FilterController extends GetxController {
 
   // ─── Property Features ───────────────────
   final hasGarden = false.obs;
-  final hasParking = true.obs;
+  final hasParking = false.obs;
+  final hasNewBuild = false.obs;
+  final hasChainFee = false.obs;
+  final hasSwimmingPool = false.obs;
+  final hasGym = false.obs;
+  final hasConcierge = false.obs;
+  final hasBalcony = false.obs;
+  final hasTerrace = false.obs;
+  final hasLift = false.obs;
+  final hasFittedKitchen = false.obs;
+  final hasUnderFloorHeating = false.obs;
+  final hasSolarPanels = false.obs;
+  final hasOffStreetParking = false.obs;
+  final hasDriveway = false.obs;
+  final hasAlarmSystem = false.obs;
 
+  //////// Property Features
   void toggleGarden() => hasGarden.value = !hasGarden.value;
-
   void toggleParking() => hasParking.value = !hasParking.value;
+  void toggleNewBuild() => hasNewBuild.value = !hasNewBuild.value;
+  void toggleChainFee() => hasChainFee.value = !hasChainFee.value;
+  void toggleSwimmingPool() => hasSwimmingPool.value = !hasSwimmingPool.value;
+  void toggleGym() => hasGym.value = !hasGym.value;
+  void toggleConcierge() => hasConcierge.value = !hasConcierge.value;
+  void toggleBalcony() => hasBalcony.value = !hasBalcony.value;
+  void toggleTerrace() => hasTerrace.value = !hasTerrace.value;
+  void toggleLift() => hasLift.value = !hasLift.value;
+  void toggleFittedKitchen() => hasFittedKitchen.value = !hasFittedKitchen.value;
+  void toggleUnderFloorHeating() => hasUnderFloorHeating.value = !hasUnderFloorHeating.value;
+  void toggleSolarPanels() => hasSolarPanels.value = !hasSolarPanels.value;
+  void toggleOffStreetParking() => hasOffStreetParking.value = !hasOffStreetParking.value;
+  void toggleDriveway() => hasDriveway.value = !hasDriveway.value;
+  void toggleAlarmSystem() => hasAlarmSystem.value = !hasAlarmSystem.value;
 
   // ─── Loading ─────────────────────────────
   final isLoading = false.obs;
@@ -124,6 +153,20 @@ class FilterController extends GetxController {
     isShareOfFreehold.value = false;
     hasGarden.value = false;
     hasParking.value = false;
+    hasNewBuild.value = false;
+    hasChainFee.value = false;
+    hasSwimmingPool.value = false;
+    hasGym.value = false;
+    hasConcierge.value = false;
+    hasBalcony.value = false;
+    hasTerrace.value = false;
+    hasLift.value = false;
+    hasFittedKitchen.value = false;
+    hasUnderFloorHeating.value = false;
+    hasSolarPanels.value = false;
+    hasOffStreetParking.value = false;
+    hasDriveway.value = false;
+    hasAlarmSystem.value = false;
   }
 
   Future<void> onSearch() async {
@@ -140,12 +183,26 @@ class FilterController extends GetxController {
       final featuresList = <String>[];
       if (hasGarden.value) featuresList.add('GARDEN');
       if (hasParking.value) featuresList.add('PARKING');
+      if (hasNewBuild.value) featuresList.add('NEW_BUILD');
+      if (hasChainFee.value) featuresList.add('CHAIN_FEE');
+      if (hasSwimmingPool.value) featuresList.add('SWIMMING_POOL');
+      if (hasGym.value) featuresList.add('GYM');
+      if (hasConcierge.value) featuresList.add('CONCIERGE');
+      if (hasBalcony.value) featuresList.add('BALCONY');
+      if (hasTerrace.value) featuresList.add('TERRACE');
+      if (hasLift.value) featuresList.add('LIFT');
+      if (hasFittedKitchen.value) featuresList.add('FITTED_KITCHEN');
+      if (hasUnderFloorHeating.value) featuresList.add('UNDER_FLOOR_HEATING');
+      if (hasSolarPanels.value) featuresList.add('SOLAR_PANELS');
+      if (hasOffStreetParking.value) featuresList.add('OFF_STREET_PARKING');
+      if (hasDriveway.value) featuresList.add('DRIVEWAY');
+      if (hasAlarmSystem.value) featuresList.add('ALARM_SYSTEM');
 
       // ─── Build query params ───────────────
       final Map<String, dynamic> params = {
-        'lat': 23.8103,
-        'lng': 90.4125,
-        'radiusInMiles': (radius.value * 1.60934 * 1000).toInt(),
+        "lat": LocationService.instance.lat,
+        "lng": LocationService.instance.lng,
+        'radiusInMiles': 50000,
       };
 
       final propertyType = _propertyTypeMap[selectedPropertyType.value];
@@ -184,6 +241,9 @@ class FilterController extends GetxController {
         AppApiUrl.instance.listingsSearch,
         queryParameters: params,
       );
+      print("🔍 FILTER RESPONSE >>> $response");
+      // print("🔍 FILTER DATA >>> ${response?['data']}");
+      // print("🔍 FILTER PARAMS >>> $params");
 
       if (response != null && response['data'] != null) {
         final List data = response['data'];

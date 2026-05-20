@@ -254,4 +254,9 @@ class PropertyDetailsController extends GetxController {
       errorLog("_checkFavouriteStatus", e);
     }
   }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
 }

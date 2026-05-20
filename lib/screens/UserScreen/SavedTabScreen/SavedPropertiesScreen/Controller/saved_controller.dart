@@ -130,29 +130,24 @@ class SavedController extends GetxController {
       priceRange: item.priceRange,
       newCount: item.newCount,
       alertsOn: !item.alertsOn,
+      listingId: item.listingId,
     );
   }
 
 
   Future<void> viewResults(SavedSearchModel search) async {
     try {
-      final Map<String, dynamic> params = {
-        'lat': 23.8103,
-        'lng': 90.4125,
-        'radiusInKm': 50000,
-      };
-
-      if (search.location.isNotEmpty) params['searchTerm'] = search.location;
-
       final response = await ApiServices.instance.getServices(
-        AppApiUrl.instance.listingsSearch,
-        queryParameters: params,
+        "${AppApiUrl.instance.listingById}/${search.listingId}",
       );
 
       if (response != null && response['data'] != null) {
-        final List data = response['data'];
-        final results = data.map((e) => PropertyModel.fromJson(e)).toList();
-        Get.toNamed(AppRoutes.propertyListScreen, arguments: results);
+        final listing = response['data'];
+        final property = PropertyModel.fromJson(listing);
+        Get.toNamed(
+          AppRoutes.propertyDetails,
+          arguments: property,
+        );
       }
     } catch (_) {}
   }
@@ -170,6 +165,7 @@ class SavedSearchModel {
   final String priceRange;
   final int newCount;
   final bool alertsOn;
+  final String listingId;
 
   SavedSearchModel({
     required this.id,
@@ -179,9 +175,11 @@ class SavedSearchModel {
     required this.priceRange,
     required this.newCount,
     required this.alertsOn,
+    required this.listingId,
   });
 
   factory SavedSearchModel.fromJson(Map<String, dynamic> json) {
+    print("🔍 SAVED SEARCH JSON >>> $json");
     final city = json["city"] ?? "";
     final location = city;
 
@@ -202,6 +200,7 @@ class SavedSearchModel {
       priceRange: priceRange,
       newCount: 0,
       alertsOn: false,
+      listingId: json["listingId"]?.toString() ?? json["_id"] ?? "",
     );
   }
 }

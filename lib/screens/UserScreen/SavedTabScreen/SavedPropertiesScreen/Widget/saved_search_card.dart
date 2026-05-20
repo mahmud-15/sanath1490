@@ -131,30 +131,30 @@ class SavedSearchCard extends StatelessWidget {
           Row(
             children: [
               // ─── Alert toggle ─────────────────────
-              GestureDetector(
-                onTap: onToggleAlert,
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      search.alertsOn
-                          ? "assets/icons/notification_icon.svg"
-                          : "assets/icons/notification_off_icon.svg",
-                      width: 13.w,
-                      height: 13.h,
-                    ),
-                    SizedBox(width: 5.w),
-                    CustomText(
-                      title: search.alertsOn ? 'Alerts on' : 'Alerts off',
-                      textColor: search.alertsOn
-                          ? ConstColor.primaryColor
-                          : ConstColor.bodyColor,
-                      textSize: 12.sp,
-                      fontWeight: FontWeight.w700,
-                      maxLine: 1,
-                    ),
-                  ],
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: onToggleAlert,
+              //   child: Row(
+              //     children: [
+              //       SvgPicture.asset(
+              //         search.alertsOn
+              //             ? "assets/icons/notification_icon.svg"
+              //             : "assets/icons/notification_off_icon.svg",
+              //         width: 13.w,
+              //         height: 13.h,
+              //       ),
+              //       SizedBox(width: 5.w),
+              //       CustomText(
+              //         title: search.alertsOn ? 'Alerts on' : 'Alerts off',
+              //         textColor: search.alertsOn
+              //             ? ConstColor.primaryColor
+              //             : ConstColor.bodyColor,
+              //         textSize: 12.sp,
+              //         fontWeight: FontWeight.w700,
+              //         maxLine: 1,
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               const Spacer(),
 

@@ -23,7 +23,7 @@ class _DegreeTourScreenState extends State<DegreeTourScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 4), () {
       if (mounted) setState(() => _showNotFound = true);
     });
   }

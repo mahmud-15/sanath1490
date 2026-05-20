@@ -12,7 +12,7 @@ class AboutUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<InfoController>()..loadAbout();
+    final controller = Get.put(InfoController(), permanent: false);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF2F4F7),

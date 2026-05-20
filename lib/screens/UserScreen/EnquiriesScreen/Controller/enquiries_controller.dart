@@ -7,6 +7,9 @@ import '../../../../../utils/log_print.dart';
 class EnquiriesController extends GetxController {
   final enquiries = <EnquiryModel>[].obs;
   final isLoading = false.obs;
+  final currentPage = 1.obs;
+  final totalPages = 1.obs;
+  final hasMore = true.obs;
 
   @override
   void onInit() {
@@ -14,18 +17,38 @@ class EnquiriesController extends GetxController {
     fetchEnquiries();
   }
 
-  Future<void> fetchEnquiries() async {
+  Future<void> fetchEnquiries({bool loadMore = false}) async {
     try {
+      if (loadMore) {
+        if (!hasMore.value) return;
+        currentPage.value++;
+      } else {
+        currentPage.value = 1;
+      }
+
       isLoading(true);
+
       final response = await ApiServices.instance.getServices(
         AppApiUrl.instance.myEnquiries,
+        queryParameters: {
+          'page': currentPage.value,
+          'limit': 10,
+        },
       );
 
       if (response != null && response["success"] == true) {
         final List data = response["data"] ?? [];
-        enquiries.value = data
-            .map((item) => EnquiryModel.fromJson(item))
-            .toList();
+        final meta = response["meta"];
+        totalPages.value = meta?["totalPage"] ?? 1;
+        hasMore.value = currentPage.value < totalPages.value;
+
+        final newItems = data.map((item) => EnquiryModel.fromJson(item)).toList();
+
+        if (loadMore) {
+          enquiries.addAll(newItems);
+        } else {
+          enquiries.value = newItems;
+        }
       }
     } catch (e) {
       errorLog("fetchEnquiries", e);
@@ -80,9 +103,7 @@ class EnquiryModel {
     final user = json["userId"] as Map<String, dynamic>? ?? {};
 
     final photos = listing["photos"] as List? ?? [];
-    final imagePath = photos.isNotEmpty
-        ? "$baseUrl${photos.first}"
-        : 'assets/images/property_img.png';
+    final imagePath = photos.isNotEmpty ? "$baseUrl${photos.first}" : "";
 
     final askingPrice = listing["askingPrice"] ?? 0;
     final listingType = listing["listingType"] ?? "SALE";

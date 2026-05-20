@@ -31,7 +31,7 @@ class EnquiryDetailsScreen extends StatelessWidget {
               title: ConstString.yourMessage,
               child: CustomText(
                 title: item.message,
-                textColor: ConstColor.bodyColor,
+                textColor: Colors.black,
                 textSize: 13.sp,
                 fontWeight: FontWeight.w400,
                 maxLine: 10,
