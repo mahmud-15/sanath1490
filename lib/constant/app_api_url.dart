@@ -27,6 +27,7 @@ class AppApiUrl {
   final String nearbyListingProperty = "/listings/nearby";
   final String listingById = "/listings";
   final String listingsSearch = "/listings/search";
+  final String popularLocations = "/popular-locations";
 
   // ==================== Saved Screen ====================
   final String addFavouriteProperty = "/favorite-properties/toggle";

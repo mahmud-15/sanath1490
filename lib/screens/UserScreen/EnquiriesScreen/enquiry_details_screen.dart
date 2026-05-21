@@ -70,7 +70,7 @@ class _PropertyCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8.r),
             child: AppImage(
-              path: item.imagePath,
+              url: item.imagePath,
               width: 90.w,
               height: 80.h,
               fit: BoxFit.cover,

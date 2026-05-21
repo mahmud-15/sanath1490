@@ -23,6 +23,7 @@ class AppRoutes {
   static const filterScreen = '/filterScreen';
   static const searchScreen = '/searchScreen';
   static const propertyListScreen = '/propertyListScreen';
+  static const popularLocationListingsScreen = '/popularLocationListingsScreen';
   static const propertyDetails = '/propertyDetails';
   static const galleryDetailsScreen = '/galleryDetailsScreen';
   // static const videoPlayerScreen = '/videoPlayerScreen';

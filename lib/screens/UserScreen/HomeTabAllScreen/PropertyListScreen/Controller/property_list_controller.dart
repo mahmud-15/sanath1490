@@ -6,6 +6,7 @@ class PropertyListController extends GetxController {
   final selectedSort = 'Newest First'.obs;
   final RxBool isFavourite = false.obs;
   final isLoading = false.obs;
+  final selectedMapIndex = (-1).obs;
 
   // ─── Properties ──────────────────────────
   final properties = <PropertyModel>[].obs;
@@ -46,6 +47,10 @@ class PropertyListController extends GetxController {
       case 'Nearest First':
         break;
     }
+  }
+
+  void onMapMarkerTap(int index) {
+    selectedMapIndex.value = index;
   }
 
   int _parsePrice(String price) {

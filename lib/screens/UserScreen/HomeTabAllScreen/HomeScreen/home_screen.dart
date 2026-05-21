@@ -454,7 +454,7 @@ class _LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(AppRoutes.propertyListScreen);
+        Get.toNamed(AppRoutes.popularLocationListingsScreen);
       },
       child: SizedBox(
         width: 80.w,

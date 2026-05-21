@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../constant/app_api_url.dart';
@@ -43,7 +44,8 @@ class AppImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
-        errorBuilder: (_, _, _) => _PlaceholderWidget(width: width, height: height),
+        errorBuilder: (_, _, _) =>
+            _PlaceholderWidget(width: width, height: height),
       );
     }
 
@@ -51,7 +53,12 @@ class AppImage extends StatelessWidget {
       if (url!.isEmpty || url!.toLowerCase().contains("null")) {
         return _PlaceholderWidget(width: width, height: height);
       }
-      return _NetworkImage(imageUrl: url!, width: width, height: height, fit: fit);
+      return _NetworkImage(
+        imageUrl: url!,
+        width: width,
+        height: height,
+        fit: fit,
+      );
     }
 
     if (path != null) {
@@ -61,7 +68,8 @@ class AppImage extends StatelessWidget {
         height: height,
         fit: fit,
         color: iconColor,
-        errorBuilder: (_, _, _) => _PlaceholderWidget(width: width, height: height),
+        errorBuilder: (_, _, _) =>
+            _PlaceholderWidget(width: width, height: height),
       );
     }
 
@@ -92,18 +100,14 @@ class _NetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      _resolvedUrl,
+    return CachedNetworkImage(
+      imageUrl: _resolvedUrl,
       width: width,
       height: height,
       fit: fit,
-      key: ValueKey(_resolvedUrl),
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-        return _LoadingWidget(width: width, height: height);
-      },
-      errorBuilder: (_, _, _) =>
-          _PlaceholderWidget(width: width, height: height),
+      cacheKey: _resolvedUrl,
+      placeholder: (_, _) => _LoadingWidget(width: width, height: height),
+      errorWidget: (_, _, _) => _PlaceholderWidget(width: width, height: height),
     );
   }
 }
@@ -138,7 +142,11 @@ class _PlaceholderWidget extends StatelessWidget {
       height: height,
       color: Colors.grey.shade100,
       child: const Center(
-        child: Icon(Icons.image_not_supported_outlined, size: 48, color: Colors.grey),
+        child: Icon(
+          Icons.image_not_supported_outlined,
+          size: 48,
+          color: Colors.grey,
+        ),
       ),
     );
   }

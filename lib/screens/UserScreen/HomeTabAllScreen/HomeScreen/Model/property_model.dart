@@ -13,6 +13,8 @@ class PropertyModel {
   final RxInt currentIndex;
   final bool isFavourite;
   final String agentImage;
+  final double lat;
+  final double lng;
 
   PropertyModel({
     this.id = "",
@@ -25,6 +27,8 @@ class PropertyModel {
     this.listingType = "SALE",
     this.isFavourite = false,
     this.agentImage = "",
+    this.lat = 0.0,
+    this.lng = 0.0,
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
@@ -49,6 +53,15 @@ class PropertyModel {
         ? "$baseUrl${agent["profileImage"]}"
         : "";
 
+    final coords = json["location"]?["coordinates"];
+    final double lat = coords != null && coords.length >= 2
+        ? (coords[0] as num).toDouble()
+        : 0.0;
+    final double lng = coords != null && coords.length >= 2
+        ? (coords[1] as num).toDouble()
+        : 0.0;
+    print("📍 LAT >>> $lat, LNG >>> $lng");
+
     return PropertyModel(
       id: json["_id"] ?? "",
       images: photos.isNotEmpty ? photos : [''],
@@ -60,6 +73,8 @@ class PropertyModel {
       isFeatured: false,
       listingType: json["listingType"] ?? "SALE",
       agentImage: agentImage,
+      lat: lat,
+      lng: lng,
     );
   }
 }

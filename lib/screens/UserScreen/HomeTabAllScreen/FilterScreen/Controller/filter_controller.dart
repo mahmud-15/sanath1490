@@ -209,7 +209,7 @@ class FilterController extends GetxController {
       if (propertyType != null) params['propertyType'] = propertyType;
 
       final location = locationController.text.trim();
-      if (location.isNotEmpty) params['location'] = location;
+      if (location.isNotEmpty) params['searchTerm'] = location;
 
       final minPrice = _parsePrice(minPriceController.text);
       if (minPrice != null) params['minPrice'] = minPrice;
@@ -243,7 +243,7 @@ class FilterController extends GetxController {
       );
       print("🔍 FILTER RESPONSE >>> $response");
       // print("🔍 FILTER DATA >>> ${response?['data']}");
-      // print("🔍 FILTER PARAMS >>> $params");
+      print("🔍 FILTER PARAMS >>> $params");
 
       if (response != null && response['data'] != null) {
         final List data = response['data'];

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -958,78 +959,88 @@ class _AgentCard extends StatelessWidget {
 }
 
 // ─── Map Card ─────────────────────────────────────────
-class _MapCard extends StatelessWidget {
+class _MapCard extends StatefulWidget {
   final PropertyDetailsController controller;
 
   const _MapCard({required this.controller});
 
   @override
+  State<_MapCard> createState() => _MapCardState();
+}
+
+class _MapCardState extends State<_MapCard> {
+  GoogleMapController? _mapController;
+
+  @override
+  void dispose() {
+    _mapController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      height: 180.h,
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: ConstColor.outLineColor, width: 1),
-      ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: AppImage(
-              path: "assets/images/street_map.png",
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
+    return Obx(() {
+      final lat = widget.controller.latitude.value;
+      final lng = widget.controller.longitude.value;
+      final hasLocation = lat != 0.0 && lng != 0.0;
+      final targetLocation = LatLng(lat, lng);
 
-          Positioned(
-            top: 10.h,
-            left: 10.w,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(30),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 16.w),
+        height: 180.h,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: ConstColor.outLineColor, width: 1),
+        ),
+        child: Stack(
+          children: [
+            // ─── Map ─────────────────────────────
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: hasLocation
+                  ? GoogleMap(
+                onMapCreated: (GoogleMapController controller) {
+                  _mapController = controller;
+                },
+                initialCameraPosition: CameraPosition(
+                  target: targetLocation,
+                  zoom: 14.4746,
+                ),
+                markers: {
+                  Marker(
+                    markerId: const MarkerId("property"),
+                    position: targetLocation,
                   ),
-                ],
-              ),
-              child: CustomText(
-                title: ConstString.approximateLocation,
-                textColor: ConstColor.titleColor,
-                textSize: 12.sp,
-                fontWeight: FontWeight.w400,
-                maxLine: 1,
+                },
+                liteModeEnabled: true,
+                compassEnabled: false,
+                mapToolbarEnabled: false,
+                myLocationEnabled: false,
+                zoomControlsEnabled: false,
+                zoomGesturesEnabled: false,
+                scrollGesturesEnabled: false,
+                tiltGesturesEnabled: false,
+                rotateGesturesEnabled: false,
+                myLocationButtonEnabled: false,
+              )
+                  : AppImage(
+                path: "assets/images/street_map.png",
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
-          ),
 
-          Positioned(
-            bottom: 10.h,
-            right: 10.w,
-            child: GestureDetector(
-              onTap: () async {
-                final lat = controller.latitude.value;
-                final lng = controller.longitude.value;
-                final uri = Uri.parse(
-                  "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=$lat,$lng",
-                );
-                if (await canLaunchUrl(uri)) {
-                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                }
-              },
+            // ─── Approximate Location Badge ───────
+            Positioned(
+              top: 10.h,
+              left: 10.w,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(6.r),
+                  borderRadius: BorderRadius.circular(4.r),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withAlpha(30),
@@ -1038,33 +1049,70 @@ class _MapCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icons/password_icon.svg",
-                      width: 17.w,
-                      height: 16.h,
-                      colorFilter: ColorFilter.mode(
-                        ConstColor.titleColor,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    SizedBox(width: 4.w),
-                    CustomText(
-                      title: ConstString.streetView,
-                      textColor: ConstColor.titleColor,
-                      textSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      maxLine: 1,
-                    ),
-                  ],
+                child: CustomText(
+                  title: ConstString.approximateLocation,
+                  textColor: ConstColor.titleColor,
+                  textSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                  maxLine: 1,
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+
+            // ─── Street View Button ───────────────
+            Positioned(
+              bottom: 10.h,
+              right: 10.w,
+              child: GestureDetector(
+                onTap: () async {
+                  final uri = Uri.parse(
+                    "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=$lat,$lng",
+                  );
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(6.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(30),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/password_icon.svg",
+                        width: 17.w,
+                        height: 16.h,
+                        colorFilter: ColorFilter.mode(
+                          ConstColor.titleColor,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      CustomText(
+                        title: ConstString.streetView,
+                        textColor: ConstColor.titleColor,
+                        textSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        maxLine: 1,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 

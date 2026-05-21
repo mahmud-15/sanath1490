@@ -104,11 +104,13 @@ class SavedController extends GetxController {
 
   Future<void> removeSearch(int index) async {
     final search = savedSearches[index];
+    print("🗑️ DELETE URL >>> ${AppApiUrl.instance.deleteSavedSearch}/${search.id}");
+    print("🗑️ SEARCH ID >>> ${search.id}");
     savedSearches.removeAt(index);
 
     try {
       final response = await ApiServices.instance.deleteServices(
-        url: "${AppApiUrl.instance.savedSearches}/${search.id}",
+        url: "${AppApiUrl.instance.deleteSavedSearch}/${search.id}",
       );
 
       if (response == null || response["success"] != true) {
@@ -179,7 +181,6 @@ class SavedSearchModel {
   });
 
   factory SavedSearchModel.fromJson(Map<String, dynamic> json) {
-    print("🔍 SAVED SEARCH JSON >>> $json");
     final city = json["city"] ?? "";
     final location = city;
 

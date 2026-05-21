@@ -32,6 +32,7 @@ import '../../screens/UserScreen/HomeTabAllScreen/DegreeTourScreen/degree_tour_s
 import '../../screens/UserScreen/HomeTabAllScreen/FilterScreen/filter_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/GalleryDetailsScreen/gallery_details_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/HomeScreen/home_screen.dart';
+import '../../screens/UserScreen/HomeTabAllScreen/PopularLocationListingsScreen/popular_location_listings_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyDetailsScreen/property_details_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/PropertyListScreen/property_list_screen.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/SearchScreen/search_screen.dart';
@@ -67,6 +68,7 @@ List<GetPage> appRouteFile = <GetPage>[
   GetPage(name: AppRoutes.filterScreen,     page: () => FilterScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.searchScreen,     page: () => SearchScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.propertyListScreen,     page: () => PropertyListScreen(),binding: AuthBindings()),
+  GetPage(name: AppRoutes.popularLocationListingsScreen,     page: () => PopularLocationListingsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.propertyDetails,     page: () => PropertyDetailsScreen(),binding: AuthBindings()),
   GetPage(name: AppRoutes.galleryDetailsScreen,     page: () => GalleryDetailsScreen(),binding: AuthBindings()),
   // GetPage(name: AppRoutes.videoPlayerScreen,     page: () => VideoPlayerScreen()),

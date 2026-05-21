@@ -150,8 +150,8 @@ class PropertyDetailsController extends GetxController {
 
         final coords = data["location"]?["coordinates"];
         if (coords != null && coords.length >= 2) {
-          longitude.value = coords[0].toDouble();
-          latitude.value = coords[1].toDouble();
+          longitude.value = coords[1].toDouble();
+          latitude.value = coords[0].toDouble();
         }
 
 

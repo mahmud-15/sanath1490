@@ -98,12 +98,26 @@ class EnquiryModel {
   });
 
   factory EnquiryModel.fromJson(Map<String, dynamic> json) {
+
+
+
     final baseUrl = AppApiUrl.instance.imgBaseUrl;
-    final listing = json["listingId"] as Map<String, dynamic>? ?? {};
-    final user = json["userId"] as Map<String, dynamic>? ?? {};
+    final listingRaw = json["listingId"];
+    final listing = listingRaw is Map<String, dynamic> ? listingRaw : <String, dynamic>{};
+
+    final agentRaw = listing["agentId"];
+    final user = agentRaw is Map<String, dynamic> ? agentRaw : <String, dynamic>{};
+
 
     final photos = listing["photos"] as List? ?? [];
     final imagePath = photos.isNotEmpty ? "$baseUrl${photos.first}" : "";
+    // print("📋 LISTING >>> $listing");
+    // print("👤 USER >>> $user");
+    // print("🏠 PHOTOS >>> $photos");
+    // print("🖼️ IMAGE PATH >>> $imagePath");
+    // print("👤 AGENT NAME >>> ${user["name"]}");
+    // print("🔑 RAW listingId >>> ${json["listingId"].runtimeType} = ${json["listingId"]}");
+    // print("🔑 RAW userId >>> ${json["userId"].runtimeType} = ${json["userId"]}");
 
     final askingPrice = listing["askingPrice"] ?? 0;
     final listingType = listing["listingType"] ?? "SALE";
