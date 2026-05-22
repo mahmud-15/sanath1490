@@ -47,10 +47,12 @@ class PropertyModel {
     final addedDate = _formatDate(json["createdAt"] ?? "");
 
     final agent = json["agentId"];
-    final agentImage = agent?["agencyLogo"] != null
+    final agentImage = (agent is Map)
+        ? (agent["agencyLogo"] != null
         ? "$baseUrl${agent["agencyLogo"]}"
-        : agent?["profileImage"] != null
+        : agent["profileImage"] != null
         ? "$baseUrl${agent["profileImage"]}"
+        : "")
         : "";
 
     final coords = json["location"]?["coordinates"];
@@ -60,7 +62,6 @@ class PropertyModel {
     final double lng = coords != null && coords.length >= 2
         ? (coords[1] as num).toDouble()
         : 0.0;
-    print("📍 LAT >>> $lat, LNG >>> $lng");
 
     return PropertyModel(
       id: json["_id"] ?? "",

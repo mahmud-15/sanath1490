@@ -29,12 +29,7 @@ class AppImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      child: _buildImage(),
-      transitionBuilder: (child, animation) =>
-          FadeTransition(opacity: animation, child: child),
-    );
+    return _buildImage();
   }
 
   Widget _buildImage() {

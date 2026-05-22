@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../../../../service/location/location_service.dart';
+import '../../../../../utils/log_print.dart';
 import '../Model/property_model.dart';
 
 class HomeController extends GetxController {
@@ -20,6 +21,9 @@ class HomeController extends GetxController {
   final buyProperties = <PropertyModel>[].obs;
   final rentProperties = <PropertyModel>[].obs;
 
+  final popularLocations = <LocationModel>[].obs;
+  final isLocationLoading = false.obs;
+/////////////////popular location
   RxList<PropertyModel> get currentProperties =>
       selectedTab.value == 0 ? buyProperties : rentProperties;
 
@@ -27,6 +31,7 @@ class HomeController extends GetxController {
   void onReady() {
     super.onReady();
     fetchNearbyListings();
+    fetchPopularLocations();
   }
 
 
@@ -59,23 +64,62 @@ class HomeController extends GetxController {
   }
 
   // ─── Popular Locations ───────────────────
-  final popularLocations = <LocationModel>[
-    LocationModel(imagePath: 'assets/images/location_img1.jpg', name: 'London', count: '12,600+'),
-    LocationModel(imagePath: 'assets/images/location_img2.jpg', name: 'Manchester', count: '10,400+'),
-    LocationModel(imagePath: 'assets/images/location_img3.jpg', name: 'Oxford', count: '11,400+'),
-    LocationModel(imagePath: 'assets/images/location_img4.png', name: 'Leicester', count: '12,400+'),
-  ].obs;
+  Future<void> fetchPopularLocations() async {
+    try {
+      isLocationLoading(true);
+      final response = await ApiServices.instance.getServices(
+        AppApiUrl.instance.popularLocations,
+      );
+
+      if (response != null && response["data"] != null) {
+        final List data = response["data"];
+        popularLocations.assignAll(
+          data.map((e) => LocationModel.fromJson(e)).toList(),
+        );
+      }
+    } catch (e) {
+      errorLog("fetchPopularLocations", e);
+    } finally {
+      isLocationLoading(false);
+    }
+  }
+
 }
+
 
 // ─────────────────────────────────────────
 class LocationModel {
+  final String id;
   final String imagePath;
   final String name;
   final String count;
+  final List<PropertyModel> listings;
 
   LocationModel({
+    required this.id,
     required this.imagePath,
     required this.name,
     required this.count,
+    required this.listings,
   });
+
+  factory LocationModel.fromJson(Map<String, dynamic> json) {
+    final baseUrl = AppApiUrl.instance.imgBaseUrl;
+    final image = json["image"] ?? "";
+    final imagePath = image.isNotEmpty ? "$baseUrl$image" : "";
+
+    final List listingsRaw = json["listings"] ?? [];
+    final listings = listingsRaw
+        .whereType<Map<String, dynamic>>()
+        .map((e) => PropertyModel.fromJson(e))
+        .toList();
+
+    return LocationModel(
+      id: json["_id"] ?? "",
+      imagePath: imagePath,
+      name: json["name"] ?? "",
+      count: "${json["totalListing"] ?? 0}+ listings",
+      listings: listings,
+    );
+  }
 }

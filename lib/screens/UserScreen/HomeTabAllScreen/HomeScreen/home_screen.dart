@@ -119,34 +119,54 @@ class HomeScreen extends StatelessWidget {
             }),
           ),
           SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
-              child: CustomText(
-                title: ConstString.popularLocation,
-                textColor: ConstColor.titleColor,
-                textSize: 18.sp,
-                fontWeight: FontWeight.w700,
-                maxLine: 1,
-              ),
-            ),
+            child: Obx(() {
+              if (controller.isLocationLoading.value ||
+                  controller.popularLocations.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 12.h),
+                child: CustomText(
+                  title: ConstString.popularLocation,
+                  textColor: ConstColor.titleColor,
+                  textSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  maxLine: 1,
+                ),
+              );
+            }),
           ),
 
           SliverToBoxAdapter(
-            child: SizedBox(
-              height: 110.h,
-              child: Obx(
-                () => ListView.separated(
+            child: Obx(() {
+              if (controller.isLocationLoading.value) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: SizedBox(
+                    height: 110.h,
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                );
+              }
+
+              if (controller.popularLocations.isEmpty) {
+                return const SizedBox.shrink();
+              }
+
+              return SizedBox(
+                height: 110.h,
+                child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   itemCount: controller.popularLocations.length,
-                  separatorBuilder: (_, _) => SizedBox(width: 12.w),
+                  separatorBuilder: (_, __) => SizedBox(width: 12.w),
                   itemBuilder: (context, index) {
                     final location = controller.popularLocations[index];
                     return _LocationCard(location: location);
                   },
                 ),
-              ),
-            ),
+              );
+            }),
           ),
 
           SliverToBoxAdapter(child: SizedBox(height: 24.h)),
@@ -454,7 +474,10 @@ class _LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(AppRoutes.popularLocationListingsScreen);
+        Get.toNamed(
+          AppRoutes.propertyListScreen,
+          arguments: location.listings,
+        );
       },
       child: SizedBox(
         width: 80.w,
@@ -463,7 +486,7 @@ class _LocationCard extends StatelessWidget {
           children: [
             ClipRRect(
               child: AppImage(
-                path: location.imagePath,
+                url: location.imagePath,
                 width: 80.w,
                 height: 70.h,
                 fit: BoxFit.cover,

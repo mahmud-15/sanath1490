@@ -3,7 +3,6 @@ import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
 import '../../../../../utils/log_print.dart';
-import '../../../../../widget/AppLoader/app_loader.dart';
 import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
 class SavedController extends GetxController {
@@ -104,8 +103,6 @@ class SavedController extends GetxController {
 
   Future<void> removeSearch(int index) async {
     final search = savedSearches[index];
-    print("🗑️ DELETE URL >>> ${AppApiUrl.instance.deleteSavedSearch}/${search.id}");
-    print("🗑️ SEARCH ID >>> ${search.id}");
     savedSearches.removeAt(index);
 
     try {
@@ -168,6 +165,7 @@ class SavedSearchModel {
   final int newCount;
   final bool alertsOn;
   final String listingId;
+  final String agentImage;
 
   SavedSearchModel({
     required this.id,
@@ -178,6 +176,7 @@ class SavedSearchModel {
     required this.newCount,
     required this.alertsOn,
     required this.listingId,
+    this.agentImage = "",
   });
 
   factory SavedSearchModel.fromJson(Map<String, dynamic> json) {

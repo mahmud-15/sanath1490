@@ -63,7 +63,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     // New Password
                     Obx(
                       () => CustomTextFormField(
-                        fromTitle: AutofillHints.newPassword,
+                        fromTitle: ConstString.newPassword,
                         backgroundColor: ConstColor.backgroundColor,
                         textController: controller.newPassController,
                         hintText: const Text('Enter new password'),
