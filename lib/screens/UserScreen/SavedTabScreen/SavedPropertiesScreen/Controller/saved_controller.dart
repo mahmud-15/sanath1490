@@ -45,6 +45,9 @@ class SavedController extends GetxController {
             isFeatured: model.isFeatured,
             listingType: model.listingType,
             isFavourite: true,
+            agentImage: model.agentImage,
+            lat: model.lat,   // ← add
+            lng: model.lng,
           );
         }).toList();
       }

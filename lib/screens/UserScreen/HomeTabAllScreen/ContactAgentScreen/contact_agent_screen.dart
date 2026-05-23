@@ -271,22 +271,32 @@ class _AgentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Row(
       children: [
-        Container(
-          width: 47.w,
-          height: 47.h,
-          decoration: BoxDecoration(
-            color: ConstColor.titleColor,
-            borderRadius: BorderRadius.circular(8.r),
-          ),
-          alignment: Alignment.center,
-          child: CustomText(
-            title: controller.agentName.value.isNotEmpty
-                ? controller.agentName.value.substring(0, 1).toUpperCase()
-                : 'A',
-            textColor: Colors.white,
-            textSize: 14.sp,
-            fontWeight: FontWeight.w700,
-            maxLine: 1,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.r),
+          child: controller.agentImage.value.isNotEmpty
+              ? AppImage(
+            url: controller.agentImage.value,
+            width: 47.w,
+            height: 47.h,
+            fit: BoxFit.cover,
+          )
+              : Container(
+            width: 47.w,
+            height: 47.h,
+            decoration: BoxDecoration(
+              color: ConstColor.titleColor,
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            alignment: Alignment.center,
+            child: CustomText(
+              title: controller.agentName.value.isNotEmpty
+                  ? controller.agentName.value.substring(0, 1).toUpperCase()
+                  : 'A',
+              textColor: Colors.white,
+              textSize: 14.sp,
+              fontWeight: FontWeight.w700,
+              maxLine: 1,
+            ),
           ),
         ),
         SizedBox(width: 10.w),

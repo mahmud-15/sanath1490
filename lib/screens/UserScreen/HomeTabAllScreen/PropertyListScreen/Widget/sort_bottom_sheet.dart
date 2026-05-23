@@ -73,7 +73,7 @@ class SortBottomSheetWidget extends StatelessWidget {
                 return InkWell(
                   onTap: () {
                     // Update controller value & close BottomSheet
-                    controller.selectedSort.value = sortOptions[index];
+                    controller.selectSort(sortOptions[index]);
                     Get.back();
                   },
                   child: Padding(

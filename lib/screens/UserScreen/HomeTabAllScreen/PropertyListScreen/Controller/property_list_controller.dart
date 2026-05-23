@@ -21,6 +21,9 @@ class PropertyListController extends GetxController {
     try {
       if (Get.arguments != null && Get.arguments is List<PropertyModel>) {
         properties.value = Get.arguments as List<PropertyModel>;
+        if (properties.isNotEmpty) {
+          // print("🏠❌❤️❌AGENT IMAGE >>> ${properties.first.agentImage}");
+        }
       }
     } catch (_) {}
   }
@@ -39,13 +42,26 @@ class PropertyListController extends GetxController {
         properties.sort((a, b) => _parsePrice(b.price).compareTo(_parsePrice(a.price)));
         break;
       case 'Newest First':
-        properties.sort((a, b) => b.addedDate.compareTo(a.addedDate));
+        properties.sort((a, b) => _parseDate(b.addedDate).compareTo(_parseDate(a.addedDate)));
         break;
       case 'Oldest First':
-        properties.sort((a, b) => a.addedDate.compareTo(b.addedDate));
+        properties.sort((a, b) => _parseDate(a.addedDate).compareTo(_parseDate(b.addedDate)));
         break;
-      case 'Nearest First':
-        break;
+    }
+    properties.refresh();
+  }
+
+  DateTime _parseDate(String date) {
+    try {
+      final parts = date.split('/');
+      if (parts.length != 3) return DateTime(0);
+      return DateTime(
+        int.parse(parts[2]),
+        int.parse(parts[1]),
+        int.parse(parts[0]),
+      );
+    } catch (_) {
+      return DateTime(0);
     }
   }
 

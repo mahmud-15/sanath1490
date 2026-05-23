@@ -26,6 +26,7 @@ class ContactAgentController extends GetxController {
   final propertyImage = ''.obs;
   final propertyPrice = ''.obs;
   final propertyAddress = ''.obs;
+  final agentImage = ''.obs;
   final agentName = ''.obs;
   final agentEmail = ''.obs;
   late String _listingId;
@@ -54,6 +55,7 @@ class ContactAgentController extends GetxController {
       propertyAddress.value = details.address.value;
       agentName.value = details.agentName.value;
       agentEmail.value = details.agentEmail.value;
+      agentImage.value = details.agentImage.value;
     } catch (_) {}
   }
 

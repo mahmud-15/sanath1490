@@ -42,7 +42,7 @@ class MainApp extends StatelessWidget {
           ),
           defaultTransition: Transition.noTransition,
           getPages: appRouteFile,
-          initialRoute: AppRoutes.splashScreen
+          initialRoute: AppRoutes.navBar
         );
       },
     );

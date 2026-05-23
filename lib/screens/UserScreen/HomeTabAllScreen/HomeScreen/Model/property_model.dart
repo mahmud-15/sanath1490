@@ -48,9 +48,9 @@ class PropertyModel {
 
     final agent = json["agentId"];
     final agentImage = (agent is Map)
-        ? (agent["agencyLogo"] != null
+        ? (agent["agencyLogo"] != null && agent["agencyLogo"].toString().isNotEmpty
         ? "$baseUrl${agent["agencyLogo"]}"
-        : agent["profileImage"] != null
+        : agent["profileImage"] != null && agent["profileImage"].toString().isNotEmpty
         ? "$baseUrl${agent["profileImage"]}"
         : "")
         : "";
