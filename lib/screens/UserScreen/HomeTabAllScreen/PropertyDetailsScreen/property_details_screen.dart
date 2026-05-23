@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -752,12 +757,12 @@ class _BrochuresCard extends StatelessWidget {
                   : () {},
               isOutLined: true,
               borderColor: ConstColor.secondaryColor,
-              borderWidth: 1.5,
+              borderWidth: 1,
               outLineColour: ConstColor.secondaryColor,
               color: Colors.transparent,
               buttonBorderRadius: 4,
               elevation: 0,
-              height: 32.h,
+              height: 30.h,
               width: 124.w,
               top: 0,
               left: 0,
@@ -776,29 +781,76 @@ class _BrochuresCard extends StatelessWidget {
     );
   }
 }
-class _BrochureFullScreen extends StatelessWidget {
+class _BrochureFullScreen extends StatefulWidget {
   final String url;
   const _BrochureFullScreen({required this.url});
 
   @override
+  State<_BrochureFullScreen> createState() => _BrochureFullScreenState();
+}
+
+class _BrochureFullScreenState extends State<_BrochureFullScreen> {
+  bool _isLoading = true;
+  bool _hasError = false;
+  String? _localPath;
+
+  @override
+  void initState() {
+    super.initState();
+    _downloadPdf();
+  }
+
+  Future<void> _downloadPdf() async {
+    try {
+      print("📄 DOWNLOADING >>> ${widget.url}");
+      final response = await http.get(Uri.parse(widget.url));
+      print("📄 STATUS >>> ${response.statusCode}");
+      print("📄 BYTES >>> ${response.bodyBytes.length}");
+      final bytes = response.bodyBytes;
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/brochure.pdf');
+      await file.writeAsBytes(bytes);
+      if (mounted) {
+        setState(() {
+          _localPath = file.path;
+          _isLoading = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() { _isLoading = false; _hasError = true; });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: const Text('Brochure', style: TextStyle(color: Colors.black)),
+        elevation: 0,
       ),
-      body: Center(
-        child: InteractiveViewer(
-          minScale: 0.5,
-          maxScale: 4.0,
-          child: AppImage(
-            url: url,
-            width: double.infinity,
-            fit: BoxFit.contain,
-          ),
+      body: _isLoading
+          ? const Center(child: AppLoader(message: "Loading PDF, please wait...",))
+          : _hasError || _localPath == null
+          ? Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.picture_as_pdf_outlined, size: 48, color: Colors.grey.shade400),
+            SizedBox(height: 12.h),
+            CustomText(
+              title: 'Brochure not available',
+              textColor: ConstColor.bodyColor,
+              textSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              maxLine: 1,
+            ),
+          ],
         ),
-      ),
+      )
+          : PDFView(filePath: _localPath!),
     );
   }
 }
@@ -1123,7 +1175,12 @@ class _BottomActionBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 6.h, 16.w, 20.h),
+      padding: EdgeInsets.fromLTRB(
+        16.w,
+        3.h,
+        16.w,
+        4.h + MediaQuery.of(context).padding.bottom,
+      ),
       decoration: BoxDecoration(
         color: ConstColor.primaryColor,
         borderRadius: const BorderRadius.only(

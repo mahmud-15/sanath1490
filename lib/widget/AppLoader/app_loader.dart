@@ -2,19 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// ─────────────────────────────────────────────────────
-// AppLoader — Residential Pulse themed loader
-//
-// Usage:
-//   AppLoader()                            — widget
-//   AppLoader(message: 'Loading...')       — widget with message
-//   AppLoader.show(message: 'Searching..') — full screen overlay
-//   AppLoader.hide()                       — dismiss overlay
-//
-// Setup (required):
-//   GetMaterialApp(navigatorKey: AppLoader.navigatorKey, ...)
-// ─────────────────────────────────────────────────────
-
 class AppLoader extends StatelessWidget {
   final String? message;
   final double size;
@@ -149,7 +136,7 @@ class _GlowCircle extends StatelessWidget {
         ],
       ),
       child: const Center(
-        child: _HouseIcon(size: 26, color: Color(0xFF0B3C6D)),
+        child: _HouseIcon(size: 20, color: Color(0xFF0B3C6D)),
       ),
     );
   }

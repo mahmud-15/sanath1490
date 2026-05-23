@@ -175,7 +175,12 @@ class PersonalInfoScreen extends StatelessWidget {
 
       // ─── Save Button ──────────────────────────────
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(right: 16, left: 16, bottom: 32),
+        padding: EdgeInsets.fromLTRB(
+          16.w,
+          0,
+          16.w,
+          4.h + MediaQuery.of(context).padding.bottom,
+        ),
         child: Obx(() => CustomElevatedButton(
           onPressed: controller.isSaving.value ? null : controller.saveChanges,
           color: controller.isSaving.value

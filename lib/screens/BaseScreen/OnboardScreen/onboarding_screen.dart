@@ -8,6 +8,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../Widget/text/custom_text.dart';
 import '../../../constant/const_string.dart';
+import '../../../service/storage/storage_services.dart';
 import '../../../widget/AppImage/app_image.dart';
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({super.key});
@@ -49,8 +50,9 @@ class _OnboardScreenState extends State<OnboardScreen> {
     }
   }
 
-  void _navigateToLogin() {
-    Get.toNamed(AppRoutes.signInScreen);
+  void _navigateToLogin() async {
+    await StorageServices.instance.setAppFirstTime();
+    Get.offAllNamed(AppRoutes.signInScreen);
   }
 
   @override

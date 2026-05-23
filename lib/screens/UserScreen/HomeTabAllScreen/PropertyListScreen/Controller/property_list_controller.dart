@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../../../../../routes/app_routes/app_routes.dart';
 import '../../HomeScreen/Model/property_model.dart';
 
 class PropertyListController extends GetxController {
@@ -22,7 +23,6 @@ class PropertyListController extends GetxController {
       if (Get.arguments != null && Get.arguments is List<PropertyModel>) {
         properties.value = Get.arguments as List<PropertyModel>;
         if (properties.isNotEmpty) {
-          // print("🏠❌❤️❌AGENT IMAGE >>> ${properties.first.agentImage}");
         }
       }
     } catch (_) {}
@@ -74,7 +74,7 @@ class PropertyListController extends GetxController {
     return int.tryParse(cleaned) ?? 0;
   }
 
-  void onFilterTap() => Get.toNamed('/filterScreen');
+  void onFilterTap() => Get.toNamed(AppRoutes.filterScreen);
 
   void toggleFavourite() => isFavourite.value = !isFavourite.value;
 }

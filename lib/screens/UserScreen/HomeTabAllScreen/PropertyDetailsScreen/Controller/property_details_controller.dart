@@ -124,9 +124,12 @@ class PropertyDetailsController extends GetxController {
         title.value = data["title"] ?? "";
         description.value = data["description"] ?? "";
         propertyType.value = _formatPropertyType(data["propertyType"] ?? "");
-        brochureUrl.value = data["brochure"] != null
-            ? "$baseUrl${data["brochure"]}"
-            : "";
+
+
+        final brochure = data["brochure"]?.toString() ?? "";
+        brochureUrl.value = brochure.isNotEmpty ? "$baseUrl$brochure" : "";
+
+
         bedrooms.value = "${data["propertyBedrooms"] ?? ""}";
         bathrooms.value = "${data["propertyBathrooms"] ?? ""}";
         squareFoot.value = "${data["propertySquareFoot"] ?? ""} sq ft";

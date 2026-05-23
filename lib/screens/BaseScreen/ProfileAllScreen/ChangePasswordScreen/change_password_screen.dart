@@ -138,28 +138,26 @@ class ChangePasswordScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
-            bottom: 20.h,
-            top: 10.h,
-          ),
-          child: CustomElevatedButton(
-            onPressed: controller.saveChanges,
-            color: ConstColor.primaryColor,
-            height: 48,
-            top: 0,
-            left: 0,
-            right: 0,
-            child: CustomText(
-              title: ConstString.saveChanges,
-              textColor: Colors.white,
-              textSize: 15.sp,
-              fontWeight: FontWeight.w600,
-              maxLine: 1,
-            ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.fromLTRB(
+          16.w,
+          0,
+          16.w,
+          4.h + MediaQuery.of(context).padding.bottom,
+        ),
+        child: CustomElevatedButton(
+          onPressed: controller.saveChanges,
+          color: ConstColor.primaryColor,
+          height: 48,
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomText(
+            title: ConstString.saveChanges,
+            textColor: Colors.white,
+            textSize: 15.sp,
+            fontWeight: FontWeight.w600,
+            maxLine: 1,
           ),
         ),
       ),

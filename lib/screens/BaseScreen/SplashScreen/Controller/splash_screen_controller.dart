@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../../../routes/app_routes/app_routes.dart';
+import '../../../../service/storage/storage_services.dart';
 
 class SplashScreenController extends GetxController {
 
@@ -13,10 +14,19 @@ class SplashScreenController extends GetxController {
 
       await Future.delayed(const Duration(seconds: 3));
 
-      Get.offAllNamed(AppRoutes.onboardingScreen);
+      final isFirstTime = await StorageServices.instance.getAppFirstTime();
+      final token = await StorageServices.instance.getToken();
+
+      if (isFirstTime) {
+        Get.offAllNamed(AppRoutes.onboardingScreen);
+      } else if (token.isNotEmpty) {
+        Get.offAllNamed(AppRoutes.navBar);
+      } else {
+        Get.offAllNamed(AppRoutes.signInScreen);
+      }
 
     } catch (e) {
-      Get.offAllNamed(AppRoutes.onboardingScreen);
+      Get.offAllNamed(AppRoutes.signInScreen);
     }
   }
 

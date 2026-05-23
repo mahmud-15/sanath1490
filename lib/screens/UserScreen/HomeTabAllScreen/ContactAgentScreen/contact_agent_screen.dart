@@ -333,7 +333,12 @@ class _SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.fromLTRB(
+        16.w,
+        0,
+        16.w,
+        4.h + MediaQuery.of(context).padding.bottom,
+      ),
       color: Colors.white,
       child: Obx(() => CustomElevatedButton(
         onPressed: controller.isLoading.value ? () {} : controller.onSend,

@@ -197,6 +197,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                   top: 0,
                   left: 0,
                   right: 0,
+                  bottom: 14,
                   child: CustomText(
                     title: ConstString.delete,
                     textColor: Colors.white,
@@ -217,6 +218,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                   top: 0,
                   left: 0,
                   right: 0,
+                  bottom: 14,
                   child: CustomText(
                     title: ConstString.cancel,
                     textColor: ConstColor.titleColor,

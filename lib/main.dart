@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
@@ -15,13 +16,16 @@ void main() async {
   await LocationService.instance.init();
   await init();
   await ScreenUtil.ensureScreenSize();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   HttpOverrides.global = CustomHttpClient();
   PaintingBinding.instance.imageCache.maximumSizeBytes = 200 * 1024 * 1024;
   PaintingBinding.instance.imageCache.maximumSize = 1000;
 
   runApp(const MainApp());
 }
-
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -36,13 +40,11 @@ class MainApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,
-            navigatorKey: AppLoader.navigatorKey,
-          theme: ThemeData(
-            scaffoldBackgroundColor: ConstColor.backgroundColor,
-          ),
+          navigatorKey: AppLoader.navigatorKey,
+          theme: ThemeData(scaffoldBackgroundColor: ConstColor.backgroundColor),
           defaultTransition: Transition.noTransition,
           getPages: appRouteFile,
-          initialRoute: AppRoutes.navBar
+          initialRoute: AppRoutes.splashScreen,
         );
       },
     );

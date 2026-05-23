@@ -24,16 +24,12 @@ class PropertyListScreen extends StatelessWidget {
       backgroundColor: ConstColor.backgroundColor,
       appBar: GlobalAppBar(
         title: ConstString.searchResult,
-        action: Row(
-          children: [
-            GestureDetector(
-              onTap: () => Get.toNamed(AppRoutes.filterScreen),
-              child: SvgPicture.asset(
-                "assets/icons/filter_icon.svg",
-                colorFilter: ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
-              ),
-            ),
-          ],
+        action: GestureDetector(
+          onTap: () => controller.onFilterTap(),
+          child: SvgPicture.asset(
+            "assets/icons/filter_icon.svg",
+            colorFilter: ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
+          ),
         ),
       ),
 
@@ -349,7 +345,7 @@ class _ListMapToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55.h,
+      height: 40.h + MediaQuery.of(context).padding.bottom,
       decoration: BoxDecoration(
         color: ConstColor.primaryColor,
         border: Border(
@@ -357,7 +353,12 @@ class _ListMapToggle extends StatelessWidget {
         ),
       ),
       child: Obx(() => Padding(
-        padding: EdgeInsets.only(bottom: 23.h),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom > 0
+              ? MediaQuery.of(context).padding.bottom
+              : 0,
+          top: MediaQuery.of(context).padding.bottom > 0 ? 0 : 8.h,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
