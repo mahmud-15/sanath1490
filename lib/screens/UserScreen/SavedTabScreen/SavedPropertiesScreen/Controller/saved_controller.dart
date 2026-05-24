@@ -22,6 +22,22 @@ class SavedController extends GetxController {
     fetchSavedSearches();
   }
 
+
+  Future<void> clearAllSearches() async {
+    try {
+      final List<SavedSearchModel> toDelete = List.from(savedSearches);
+      savedSearches.clear();
+
+      for (final search in toDelete) {
+        await ApiServices.instance.deleteServices(
+          url: "${AppApiUrl.instance.deleteSavedSearch}/${search.id}",
+        );
+      }
+    } catch (e) {
+      errorLog("clearAllSearches", e);
+    }
+  }
+
   Future<void> fetchFavouriteProperties() async {
     try {
       isLoading(true);

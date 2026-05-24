@@ -114,6 +114,7 @@ class _SectionTitle extends StatelessWidget {
       textSize: 16.sp,
       fontWeight: FontWeight.w600,
       maxLine: 1,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }
@@ -361,7 +362,7 @@ class _OptionSelector extends StatelessWidget {
       children: options.map((option) {
         final bool isSelected = selected.value == option;
         return Padding(
-          padding: EdgeInsets.only(right: 8.w),
+          padding: EdgeInsets.only(right: 5.w),
           child: GestureDetector(
             onTap: () => onSelect(option),
             child: AnimatedContainer(
@@ -445,20 +446,20 @@ class _TenureRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Row(
+    return Obx(() => Wrap(
+      spacing: 16.w,
+      runSpacing: 10.h,
       children: [
         _CheckItem(
           label: 'Freehold',
           value: controller.isFreehold.value,
           onTap: controller.toggleFreehold,
         ),
-        SizedBox(width: 16.w),
         _CheckItem(
           label: 'Leasehold',
           value: controller.isLeasehold.value,
           onTap: controller.toggleLeasehold,
         ),
-        SizedBox(width: 16.w),
         _CheckItem(
           label: 'Share of Freehold',
           value: controller.isShareOfFreehold.value,

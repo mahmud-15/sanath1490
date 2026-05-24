@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AppLoader/app_loader.dart';
@@ -226,19 +227,75 @@ class _SavedSearchesTab extends StatelessWidget {
       return RefreshIndicator(
         onRefresh: controller.fetchSavedSearches,
         color: ConstColor.primaryColor,
-        child: ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-          itemCount: controller.savedSearches.length,
-          separatorBuilder: (_, _) => SizedBox(height: 12.h),
-          itemBuilder: (context, index) {
-            final search = controller.savedSearches[index];
-            return SavedSearchCard(
-              search: search,
-              onRemove: () => controller.removeSearch(index),
-              onToggleAlert: () => controller.toggleAlert(index),
-              onViewResults: () => controller.viewResults(search),
-            );
-          },
+        child: Column(
+          children: [
+            // ─── Clear all button ─────────────────
+            Padding(
+              padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(
+                    title: '${controller.savedSearches.length} searches',
+                    textColor: ConstColor.bodyColor,
+                    textSize: 13.sp,
+                    fontWeight: FontWeight.w400,
+                    maxLine: 1,
+                  ),
+                  GestureDetector(
+                    onTap: () => Get.dialog(
+                      AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: const Text('Clear all searches?'),
+                        content: const Text('This will delete all your saved searches.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Get.back(),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                              controller.clearAllSearches();
+                            },
+                            child: Text(
+                              ConstString.clearAll,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    child: CustomText(
+                      title: ConstString.clearAll,
+                      textColor: ConstColor.primaryColor,
+                      textSize: 13.sp,
+                      fontWeight: FontWeight.w600,
+                      maxLine: 1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // ─── List ─────────────────────────────
+            Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                itemCount: controller.savedSearches.length,
+                separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                itemBuilder: (context, index) {
+                  final search = controller.savedSearches[index];
+                  return SavedSearchCard(
+                    search: search,
+                    onRemove: () => controller.removeSearch(index),
+                    onToggleAlert: () => controller.toggleAlert(index),
+                    onViewResults: () => controller.viewResults(search),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       );
     });

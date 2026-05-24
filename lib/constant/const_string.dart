@@ -72,6 +72,7 @@ class ConstString {
   static const propertyFeatures = 'Property features';
   static const radius = 'Radius';
   static const clear = 'Clear';
+  static const clearAll = 'Clear all';
   static const search = 'Search';
   static const minPrice = "Min Price";
   static const useCurrentLocation = 'Use current location';

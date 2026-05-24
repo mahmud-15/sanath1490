@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import '../../../../constant/const_color.dart';
+import '../../../../service/UserService/user_service.dart';
+import '../../../../service/storage/storage_services.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/text/custom_text.dart';
 
@@ -34,7 +36,7 @@ class LogoutBottomSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // ─── Handle ──────────────────────────
+          // Handle
           Container(
             width: 40.w,
             height: 4.h,
@@ -45,7 +47,7 @@ class LogoutBottomSheet extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
 
-          // ─── Title ───────────────────────────
+          // Title
           CustomText(
             title: ConstString.logOut,
             textColor: ConstColor.titleColor,
@@ -55,7 +57,7 @@ class LogoutBottomSheet extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
 
-          // ─── Content Card ─────────────────────
+          // Content Card
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(20.w),
@@ -66,7 +68,7 @@ class LogoutBottomSheet extends StatelessWidget {
             ),
             child: Column(
               children: [
-                // ─── Warning Icon ─────────────────
+                // Warning Icon
                 Container(
                   width: 64.w,
                   height: 64.h,
@@ -82,7 +84,7 @@ class LogoutBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
 
-                // ─── Heading ──────────────────────
+                // Heading
                 CustomText(
                   title: ConstString.areYouSureWant,
                   textColor: ConstColor.titleColor,
@@ -93,7 +95,7 @@ class LogoutBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 10.h),
 
-                // ─── Subtitle ─────────────────────
+                // Subtitle
                 CustomText(
                   title: ConstString.youWillNeedToLog,
                   textColor: ConstColor.bodyColor,
@@ -104,10 +106,12 @@ class LogoutBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 28.h),
 
-                // ─── Yes Logout Button ─────────────
+                // Yes Logout Button
                 CustomElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.signInScreen);
+                  onPressed: () async {
+                    await StorageServices.instance.logout();
+                    UserService.instance.clearProfile();
+                    Get.offAllNamed(AppRoutes.signInScreen);
                   },
                   color: ConstColor.red,
                   height: 48,
@@ -123,7 +127,7 @@ class LogoutBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 12.h),
 
-                // ─── Cancel Button ────────────────
+                // Cancel Button
                 CustomElevatedButton(
                   isOutLined: true,
                   borderColor: const Color(0xFFE5E7EB),
