@@ -130,11 +130,14 @@ class _HeroImageSectionState extends State<_HeroImageSection> {
                 ),
               );
             }
-            return AppImage(
-              url: widget.controller.images[index],
-              width: double.infinity,
-              height: 220.h,
-              fit: BoxFit.cover,
+            return Hero(
+              tag: 'property_image_${widget.controller.property.id}',
+              child: AppImage(
+                url: widget.controller.images[index],
+                width: double.infinity,
+                height: 220.h,
+                fit: BoxFit.cover,
+              ),
             );
           },
           options: CarouselOptions(
@@ -284,19 +287,22 @@ class _PropertyInfoCard extends StatelessWidget {
                 // ),
                 // SizedBox(width: 18.w),
                 Obx(
-                  () => GestureDetector(
-                    onTap: controller.isTogglingFavourite.value
-                        ? null
-                        : () => controller.toggleFavourite(),
-                    child: SvgPicture.asset(
-                      controller.isFavourite.value
-                          ? "assets/icons/favourite_click_icon.svg"
-                          : "assets/icons/favourite_icon.svg",
-                      height: 18.h,
-                      width: 18.w,
-                      colorFilter: controller.isFavourite.value
-                          ? null
-                          : ColorFilter.mode(ConstColor.red, BlendMode.srcIn),
+                  () => TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 1.0, end: controller.isFavourite.value ? 1.3 : 1.0),
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.elasticOut,
+                    builder: (context, scale, child) => Transform.scale(
+                      scale: scale,
+                      child: GestureDetector(
+                        onTap: controller.toggleFavourite,
+                        child: SvgPicture.asset(
+                          controller.isFavourite.value
+                              ? "assets/icons/favourite_click_icon.svg"
+                              : "assets/icons/favourite_icon.svg",
+                          height: 18.h,
+                          width: 18.w,
+                        ),
+                      ),
                     ),
                   ),
                 ),

@@ -51,11 +51,14 @@ class PropertyCard extends StatelessWidget {
                       child: CarouselSlider.builder(
                         itemCount: property.images.length,
                         itemBuilder: (context, index, realIndex) {
-                          return AppImage(
-                            url: property.images[index],
-                            width: double.infinity,
-                            height: 200.h,
-                            fit: BoxFit.cover,
+                          return Hero(
+                            tag: 'property_image_${property.id}',
+                            child: AppImage(
+                              url: property.images[index],
+                              width: double.infinity,
+                              height: 200.h,
+                              fit: BoxFit.cover,
+                            ),
                           );
                         },
                         options: CarouselOptions(

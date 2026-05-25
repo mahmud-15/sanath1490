@@ -100,148 +100,150 @@ class _EnquiryCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ─── Property Image ───────────────────
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.r),
-                bottomLeft: Radius.circular(12.r),
-              ),
-              child: AppImage(
-                url: item.imagePath,
-                width: 110.w,
-                height: 110.h,
-                fit: BoxFit.cover,
-              ),
-            ),
-
-            // ─── Details ──────────────────────────
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(12.w, 10.h, 10.w, 10.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ─── Price + Enquired badge ────
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: CustomText(
-                            title: item.price,
-                            textColor: ConstColor.primaryColor,
-                            textSize: 18.sp,
-                            fontWeight: FontWeight.w700,
-                            maxLine: 1,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 3.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ConstColor.secondaryColor,
-                          ),
-                          child: CustomText(
-                            title: 'Enquired',
-                            textColor: Colors.white,
-                            textSize: 10.sp,
-                            fontWeight: FontWeight.w600,
-                            maxLine: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 4.h),
-
-                    // ─── Title ────────────────────
-                    CustomText(
-                      title: item.title,
-                      textColor: ConstColor.titleColor,
-                      textSize: 14.sp,
-                      fontWeight: FontWeight.w700,
-                      maxLine: 1,
-                    ),
-
-                    SizedBox(height: 2.h),
-
-                    // ─── Address ──────────────────
-                    CustomText(
-                      title: item.address,
-                      textColor: ConstColor.bodyColor,
-                      textSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      maxLine: 1,
-                    ),
-
-                    SizedBox(height: 8.h),
-
-                    // ─── Specs row ─────────────────
-                    Row(
-                      children: [
-                        // Bedrooms
-                        SvgPicture.asset(
-                          "assets/icons/bed_room_icon.svg",
-                          width: 20,
-                          height: 20,
-                          colorFilter: ColorFilter.mode(
-                            ConstColor.bodyColor,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                        SizedBox(width: 3.w),
-                        CustomText(
-                          title: '${item.bedrooms}',
-                          textColor: ConstColor.bodyColor,
-                          textSize: 11.sp,
-                          fontWeight: FontWeight.w400,
-                          maxLine: 1,
-                        ),
-                        SizedBox(width: 10.w),
-
-                        // Bathrooms
-                        SvgPicture.asset(
-                          "assets/icons/bathrooms_icon.svg",
-                          colorFilter: ColorFilter.mode(
-                            ConstColor.bodyColor,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                        SizedBox(width: 3.w),
-                        CustomText(
-                          title: '${item.bathrooms}',
-                          textColor: ConstColor.bodyColor,
-                          textSize: 11.sp,
-                          fontWeight: FontWeight.w400,
-                          maxLine: 1,
-                        ),
-                        SizedBox(width: 10.w),
-
-                        // Size
-                        Icon(
-                          Icons.crop_square,
-                          size: 13.sp,
-                          color: ConstColor.bodyColor,
-                        ),
-                        SizedBox(width: 3.w),
-                        CustomText(
-                          title: '${item.sizeSqFt}',
-                          textColor: ConstColor.bodyColor,
-                          textSize: 11.sp,
-                          fontWeight: FontWeight.w400,
-                          maxLine: 1,
-                        ),
-                      ],
-                    ),
-                  ],
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ─── Property Image ───────────────────
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.r),
+                  bottomLeft: Radius.circular(12.r),
+                ),
+                child: AppImage(
+                  url: item.imagePath,
+                  width: 110.w,
+                  height: 110.h,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ],
+          
+              // ─── Details ──────────────────────────
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(12.w, 10.h, 10.w, 10.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // ─── Price + Enquired badge ────
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: CustomText(
+                              title: item.price,
+                              textColor: ConstColor.primaryColor,
+                              textSize: 18.sp,
+                              fontWeight: FontWeight.w700,
+                              maxLine: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 3.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: ConstColor.secondaryColor,
+                            ),
+                            child: CustomText(
+                              title: 'Enquired',
+                              textColor: Colors.white,
+                              textSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              maxLine: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+          
+                      SizedBox(height: 4.h),
+          
+                      // ─── Title ────────────────────
+                      CustomText(
+                        title: item.title,
+                        textColor: ConstColor.titleColor,
+                        textSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                        maxLine: 1,
+                      ),
+          
+                      SizedBox(height: 2.h),
+          
+                      // ─── Address ──────────────────
+                      CustomText(
+                        title: item.address,
+                        textColor: ConstColor.bodyColor,
+                        textSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        maxLine: 1,
+                      ),
+          
+                      SizedBox(height: 8.h),
+          
+                      // ─── Specs row ─────────────────
+                      Row(
+                        children: [
+                          // Bedrooms
+                          SvgPicture.asset(
+                            "assets/icons/bed_room_icon.svg",
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                              ConstColor.bodyColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          SizedBox(width: 3.w),
+                          CustomText(
+                            title: '${item.bedrooms}',
+                            textColor: ConstColor.bodyColor,
+                            textSize: 11.sp,
+                            fontWeight: FontWeight.w400,
+                            maxLine: 1,
+                          ),
+                          SizedBox(width: 10.w),
+          
+                          // Bathrooms
+                          SvgPicture.asset(
+                            "assets/icons/bathrooms_icon.svg",
+                            colorFilter: ColorFilter.mode(
+                              ConstColor.bodyColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          SizedBox(width: 3.w),
+                          CustomText(
+                            title: '${item.bathrooms}',
+                            textColor: ConstColor.bodyColor,
+                            textSize: 11.sp,
+                            fontWeight: FontWeight.w400,
+                            maxLine: 1,
+                          ),
+                          SizedBox(width: 10.w),
+          
+                          // Size
+                          Icon(
+                            Icons.crop_square,
+                            size: 13.sp,
+                            color: ConstColor.bodyColor,
+                          ),
+                          SizedBox(width: 3.w),
+                          CustomText(
+                            title: '${item.sizeSqFt}',
+                            textColor: ConstColor.bodyColor,
+                            textSize: 11.sp,
+                            fontWeight: FontWeight.w400,
+                            maxLine: 1,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

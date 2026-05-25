@@ -42,7 +42,8 @@ class MainApp extends StatelessWidget {
           themeMode: ThemeMode.light,
           navigatorKey: AppLoader.navigatorKey,
           theme: ThemeData(scaffoldBackgroundColor: ConstColor.backgroundColor),
-          defaultTransition: Transition.noTransition,
+          defaultTransition: Transition.fadeIn,
+          transitionDuration: const Duration(milliseconds: 200),
           getPages: appRouteFile,
           initialRoute: AppRoutes.splashScreen,
         );
