@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.4shaw
+  sdk: ^3.11.4
 
 dependencies:
   flutter:
@@ -18,10 +18,10 @@ dependencies:
   socket_io_client: ^2.0.3+1
   geolocator: ^13.0.0
   google_maps_flutter: ^2.9.0
-#  flutter_cache_manager: ^3.4.1
+  #  flutter_cache_manager: ^3.4.1
   cached_network_image: ^3.4.1
-#  sqflite: ^2.3.3
-#  shimmer: ^3.0.0
+  #  sqflite: ^2.3.3
+  #  shimmer: ^3.0.0
   flutter_screenutil: ^5.9.3
   google_fonts: ^8.0.2
   flutter_svg: ^2.2.4
@@ -50,8 +50,8 @@ flutter:
   uses-material-design: true
 
   assets:
-     - assets/images/
-     - assets/icons/
+    - assets/images/
+    - assets/icons/
   #   - assets/icons/navbar_Icons/
   #   - assets/icons/profile_icons/
   #   - assets/temp/
