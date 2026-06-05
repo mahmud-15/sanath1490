@@ -59,15 +59,15 @@ class AppApiUrl {
 }
 
 String _getDomain() {
-  // const String liveServer  = "http://195.35.6.13:5093";   // 🔴live URL
-  const String localServer = "http://10.10.7.93:5001"; // 🟡 local Server
+  const String liveServer  = "http://195.35.6.13:5093";   // 🔴live URL
+  // const String localServer = "http://10.10.7.93:5001"; // 🟡 local Server
 
   try {
-    if (kDebugMode) return localServer;
-    return localServer;
+    if (kDebugMode) return liveServer;
+    return liveServer;
   } catch (e) {
     errorLog("_getDomain", e);
-    return localServer;
+    return liveServer;
   }
 }
 
