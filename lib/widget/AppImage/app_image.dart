@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../constant/app_api_url.dart';
@@ -95,14 +94,17 @@ class _NetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: _resolvedUrl,
+    return Image.network(
+      _resolvedUrl,
       width: width,
       height: height,
       fit: fit,
-      cacheKey: _resolvedUrl,
-      placeholder: (_, _) => _LoadingWidget(width: width, height: height),
-      errorWidget: (_, _, _) => _PlaceholderWidget(width: width, height: height),
+      loadingBuilder: (_, child, loadingProgress) {
+        if (loadingProgress == null) return child;
+        return _LoadingWidget(width: width, height: height);
+      },
+      errorBuilder: (_, _, _) =>
+          _PlaceholderWidget(width: width, height: height),
     );
   }
 }

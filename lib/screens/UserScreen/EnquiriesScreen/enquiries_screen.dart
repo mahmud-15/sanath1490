@@ -57,7 +57,7 @@ class EnquiriesScreen extends StatelessWidget {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.all(16),
-                      child: AppLoader(message: "Loading enquiries, please wait...",),
+                      child: AppLoader(message: "Loading enquiries, please wait..."),
                     ),
                   );
                 }
