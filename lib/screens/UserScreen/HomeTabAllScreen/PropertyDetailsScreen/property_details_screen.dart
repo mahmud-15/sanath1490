@@ -248,7 +248,7 @@ class _GalleryTourTab extends StatelessWidget {
   }
 }
 
-// ─── Property Info Card ───────────────────────────────
+// Property Info Card
 class _PropertyInfoCard extends StatelessWidget {
   final PropertyDetailsController controller;
 

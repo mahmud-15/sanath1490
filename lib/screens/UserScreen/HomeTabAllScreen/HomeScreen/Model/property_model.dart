@@ -38,9 +38,14 @@ class PropertyModel {
         .map((e) => "$baseUrl$e")
         .toList();
 
+    final rawPrice = (json["askingPrice"] as num?)?.toInt() ?? 0;
+    final formattedPrice = '£${rawPrice.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (m) => '${m[1]},',
+    )}';
     final price = json["listingType"] == "RENT"
-        ? "£${json["askingPrice"]}/mo"
-        : "£${json["askingPrice"]}";
+        ? "$formattedPrice pcm"
+        : formattedPrice;
 
     final address = json["location"]?["address"] ?? "";
 

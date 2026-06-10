@@ -158,11 +158,15 @@ class PropertyDetailsController extends GetxController {
         }
 
 
+        final rawPrice = (data["askingPrice"] as num?)?.toInt() ?? 0;
+        final formattedPrice = '£${rawPrice.toString().replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+              (m) => '${m[1]},',
+        )}';
         final listingType = data["listingType"] ?? "SALE";
-        final askingPrice = data["askingPrice"] ?? 0;
         price.value = listingType == "RENT"
-            ? "£$askingPrice/mo"
-            : "£$askingPrice";
+            ? "$formattedPrice pcm"
+            : formattedPrice;
 
         features.value = (data["features"] as List? ?? [])
             .map((e) => _formatFeature(e.toString()))
@@ -222,7 +226,7 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  // ─── Phone Call ───────────────────────────
+  //Phone Call
   Future<void> makePhoneCall() async {
     const String phoneNumber = "(98) 9016714574";
     final Uri telUri = Uri(scheme: 'tel', path: phoneNumber);

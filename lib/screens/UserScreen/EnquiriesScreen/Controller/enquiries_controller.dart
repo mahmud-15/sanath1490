@@ -131,14 +131,21 @@ class EnquiryModel {
         : "";
 
     // Price
-    final askingPrice = listing["askingPrice"];
-    final priceNum = askingPrice is num
-        ? askingPrice.toInt()
-        : int.tryParse(askingPrice?.toString() ?? '') ?? 0;
+    // final askingPrice = listing["askingPrice"];
+    // final priceNum = askingPrice is num
+    //     ? askingPrice.toInt()
+    //     : int.tryParse(askingPrice?.toString() ?? '') ?? 0;
+    // final listingType = (listing["listingType"] ?? "SALE").toString().toUpperCase();
+    // final price = priceNum > 0
+    //     ? (listingType == "RENT" ? "£$priceNum/mo" : "£$priceNum")
+    //     : "";
+    final rawPrice    = (listing["askingPrice"] as num?)?.toInt() ?? 0;
+    final formattedPrice = '£${rawPrice.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (m) => '${m[1]},',
+    )}';
     final listingType = (listing["listingType"] ?? "SALE").toString().toUpperCase();
-    final price = priceNum > 0
-        ? (listingType == "RENT" ? "£$priceNum/mo" : "£$priceNum")
-        : "";
+    final price       = listingType == "RENT" ? "$formattedPrice pcm" : formattedPrice;
 
     // Address
     final addr = listing["location"]?["address"]?.toString() ?? "";
