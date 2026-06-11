@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/app_api_url.dart';
 import '../../../../constant/const_color.dart';
@@ -237,12 +238,15 @@ class UserInfoCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(30.r),
               child: imageUrl != null
-                  ? Image.network(
-                imageUrl,
+                  ? CachedNetworkImage(
+                imageUrl: imageUrl,
                 width: 52.w,
                 height: 52.w,
                 fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => _Placeholder(),
+                fadeInDuration: Duration.zero,
+                fadeOutDuration: Duration.zero,
+                placeholderFadeInDuration: Duration.zero,
+                errorWidget: (_, _, _) => _Placeholder(),
               )
                   : _Placeholder(),
             ),

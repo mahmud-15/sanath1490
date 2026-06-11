@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
@@ -24,9 +25,9 @@ class PersonalInfoScreen extends StatelessWidget {
       appBar: const GlobalAppBar(title: 'Personal Info'),
 
       body: Obx(() => controller.isLoading.value
-      // ─── Loading state ───────────────────────
+      // Loading state
           ? const Center(child: CircularProgressIndicator())
-      // ─── Loaded ─────────────────────────────
+      // Loaded
           : SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         child: Column(
@@ -55,13 +56,13 @@ class PersonalInfoScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8.h),
 
-                    // ─── Email (read only) ────────────────
+                    //Email (read only)
                     CustomTextFormField(
                       fromTitle: ConstString.emailAddress,
                       backgroundColor: ConstColor.backgroundColor,
                       textController: controller.emailController,
                       keyboardType: TextInputType.emailAddress,
-                      readOnly: true, // ✅ email change allow নেই
+                      readOnly: true,
                       titleIcon: SvgPicture.asset(
                         'assets/icons/email.svg',
                         width: 18.w,
@@ -70,7 +71,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 8.h),
 
-                    // ─── Phone ────────────────────────────
+                    //Phone
                     CustomTextFormField(
                       fromTitle: ConstString.phoneNumber,
                       backgroundColor: ConstColor.backgroundColor,
@@ -87,7 +88,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     Divider(color: ConstColor.outLineColor.withAlpha(150)),
                     SizedBox(height: 16.h),
 
-                    // ─── Address Section ──────────────────
+                    // Address Section
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -108,7 +109,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 12.h),
 
-                    // ─── Country Dropdown ─────────────────
+                    // Country Dropdown
                     Align(
                       alignment: Alignment.bottomLeft,
                       child: CustomText(
@@ -155,7 +156,7 @@ class PersonalInfoScreen extends StatelessWidget {
                     )),
                     SizedBox(height: 12.h),
 
-                    // ─── Postal Code ──────────────────────
+                    // Postal Code
                     CustomTextFormField(
                       fromTitle: ConstString.postalCode,
                       backgroundColor: ConstColor.backgroundColor,
@@ -173,7 +174,7 @@ class PersonalInfoScreen extends StatelessWidget {
         ),
       )),
 
-      // ─── Save Button ──────────────────────────────
+      // Save Button
       bottomNavigationBar: Padding(
         padding: EdgeInsets.fromLTRB(
           16.w,
@@ -203,7 +204,6 @@ class PersonalInfoScreen extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────
 class AvatarPicker extends StatelessWidget {
   final PersonalInfoController controller;
   const AvatarPicker({super.key, required this.controller});
@@ -283,16 +283,16 @@ class AvatarPicker extends StatelessWidget {
       );
     }
 
-    return Image.network(
-      path,
+    return CachedNetworkImage(
+      imageUrl: path,
       width: size,
       height: size,
       fit: BoxFit.cover,
-      loadingBuilder: (_, child, progress) {
-        if (progress == null) return child;
-        return _PlaceholderAvatar(size: size);
-      },
-      errorBuilder: (_, _, _) => _PlaceholderAvatar(size: size),
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
+      placeholderFadeInDuration: Duration.zero,
+      placeholder: (_, _) => _PlaceholderAvatar(size: size),
+      errorWidget: (_, _, _) => _PlaceholderAvatar(size: size),
     );
   }
 }
@@ -315,3 +315,4 @@ class _PlaceholderAvatar extends StatelessWidget {
     );
   }
 }
+

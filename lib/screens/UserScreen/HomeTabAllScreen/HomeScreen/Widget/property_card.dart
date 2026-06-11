@@ -23,7 +23,7 @@ class PropertyCard extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // ─── The Card ─────────
+        // The Card
         GestureDetector(
           onTap: onTap,
           child: Container(
@@ -43,7 +43,7 @@ class PropertyCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                // ─── Inner Image Slider ────────────────
+                // Inner Image Slider
                 Stack(
                   children: [
                     ClipRRect(
@@ -72,7 +72,7 @@ class PropertyCard extends StatelessWidget {
                       ),
                     ),
 
-                    // ─── Image Counter ────────────────
+                    // Image Counter
                     Positioned(
                       top: 10.h,
                       left: 10.w,
@@ -100,7 +100,7 @@ class PropertyCard extends StatelessWidget {
                   ],
                 ),
 
-                // ─── Price + Featured
+                // Price + Featured
                 IntrinsicHeight(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -113,14 +113,14 @@ class PropertyCard extends StatelessWidget {
                           child: CustomText(
                             title: property.price,
                             textColor: Colors.white,
-                            textSize: 20.sp,
+                            textSize: 26.sp,
                             fontWeight: FontWeight.w700,
                             maxLine: 1,
                           ),
                         ),
                       ),
 
-                      // ─── Featured Badge ───────────────
+                      // Featured Badge
                       if (property.isFeatured)
                         Container(
                           alignment: Alignment.center,
@@ -139,7 +139,7 @@ class PropertyCard extends StatelessWidget {
                   ),
                 ),
 
-                // ─── Info ─────────────────────────────
+                // Info
                 Padding(
                   padding: EdgeInsets.all(12.w),
                   child: Column(
@@ -157,7 +157,7 @@ class PropertyCard extends StatelessWidget {
                                   textColor: ConstColor.titleColor,
                                   textSize: 16.sp,
                                   fontWeight: FontWeight.w600,
-                                  maxLine: 1,
+                                  maxLine: 2,
                                 ),
                                 SizedBox(height: 4.h),
                                 CustomText(
