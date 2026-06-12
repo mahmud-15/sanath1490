@@ -56,13 +56,13 @@ class PropertyCard extends StatelessWidget {
                             child: AppImage(
                               url: property.images[index],
                               width: double.infinity,
-                              height: 200.h,
+                              height: 260.h,
                               fit: BoxFit.cover,
                             ),
                           );
                         },
                         options: CarouselOptions(
-                          height: 200.h,
+                          height: 260.h,
                           viewportFraction: 1.0,
                           enableInfiniteScroll: false,
                           onPageChanged: (index, reason) {
@@ -113,7 +113,7 @@ class PropertyCard extends StatelessWidget {
                           child: CustomText(
                             title: property.price,
                             textColor: Colors.white,
-                            textSize: 26.sp,
+                            textSize: 36.sp,
                             fontWeight: FontWeight.w700,
                             maxLine: 1,
                           ),
@@ -175,8 +175,8 @@ class PropertyCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4.r),
                             child: AppImage(
                               url: property.agentImage,
-                              width: 70.w,
-                              height: 35.h,
+                              width: 80.w,
+                              height: 45.h,
                               fit: BoxFit.cover,
                             ),
                           ),

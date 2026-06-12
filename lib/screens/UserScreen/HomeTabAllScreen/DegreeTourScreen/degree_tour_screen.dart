@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:panorama_viewer/panorama_viewer.dart';
 // import 'package:panorama_viewer/panorama_viewer.dart'; // TODO: Uncomment when publishing
 import 'package:sanath1490_flutter_app/constant/const_color.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
@@ -62,27 +63,27 @@ class _DegreeTourScreenState extends State<DegreeTourScreen> {
         children: [
           Positioned.fill(
             // TODO: Uncomment PanoramaViewer when publishing
-            // child: PanoramaViewer(
-            //   minZoom: 0.8,
-            //   maxZoom: 3.0,
-            //   sensitivity: 2.0,
-            //   child: Image.network(
-            //     tourUrl,
-            //     fit: BoxFit.cover,
-            //     errorBuilder: (context, error, stackTrace) => Container(
-            //       color: Colors.black,
-            //       child: const Center(
-            //         child: Icon(Icons.threesixty, size: 64, color: Colors.white54),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            child: Container(
-              color: Colors.black,
-              child: const Center(
-                child: Icon(Icons.threesixty, size: 64, color: Colors.white54),
+            child: PanoramaViewer(
+              minZoom: 0.8,
+              maxZoom: 3.0,
+              sensitivity: 2.0,
+              child: Image.network(
+                tourUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: Colors.black,
+                  child: const Center(
+                    child: Icon(Icons.threesixty, size: 64, color: Colors.white54),
+                  ),
+                ),
               ),
             ),
+            // child: Container(
+            //   color: Colors.black,
+            //   child: const Center(
+            //     child: Icon(Icons.threesixty, size: 64, color: Colors.white54),
+            //   ),
+            // ),
           ),
 
           Positioned(

@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     options: CarouselOptions(
-                      height: 400.h,
+                      height: 480.h,
                       viewportFraction: 1.0,
                       enableInfiniteScroll: false,
                       onPageChanged: (index, reason) {
@@ -335,8 +335,13 @@ class _HomeHeader extends StatelessWidget {
                         final bool isSelected =
                             controller.selectedTab.value == entry.key;
                         return Expanded(
-                          child: GestureDetector(
-                            onTap: () => controller.onTabChanged(entry.key),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () => controller.onTabChanged(entry.key),
+                              splashColor: Colors.white.withAlpha(80),
+                              highlightColor: Colors.white.withAlpha(40),
+                              borderRadius: BorderRadius.circular(8.r),
                             child: Column(
                               children: [
                                 CustomText(
@@ -353,19 +358,22 @@ class _HomeHeader extends StatelessWidget {
                                 ),
                                 SizedBox(height: 6.h),
                                 AnimatedContainer(
-                                  duration: const Duration(milliseconds: 200),
-                                  height: isSelected ? 2.h : 1.h,
-                                  width: double.infinity,
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                  height: isSelected ? 3.h : 1.h,
+                                  width: isSelected ? 200.w : 0,
                                   decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? Colors.white
-                                        : Colors.white.withAlpha(80),
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(2.r),
+                                    boxShadow: isSelected
+                                        ? [BoxShadow(color: Colors.white.withAlpha(80), blurRadius: 6, spreadRadius: 1)]
+                                        : [],
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                        ),
                         );
                       }).toList(),
                     ),

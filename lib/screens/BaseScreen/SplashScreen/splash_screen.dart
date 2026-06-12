@@ -41,8 +41,8 @@ class SplashScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(horizontal: 40.w),
                       child: AppImage(
                         path: "assets/images/app_logo.png",
-                        width: 400.w,
-                        height: 150.h,
+                        width: 430.w,
+                        height: 180.h,
                         fit: BoxFit.contain,
                       ),
                     ),

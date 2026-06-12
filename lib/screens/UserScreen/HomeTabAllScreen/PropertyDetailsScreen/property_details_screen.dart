@@ -18,6 +18,7 @@ import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/AppLoader/app_loader.dart';
+import '../HomeScreen/Model/property_model.dart';
 import 'Controller/property_details_controller.dart';
 
 class PropertyDetailsScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class PropertyDetailsScreen extends StatelessWidget {
             children: [
               _HeroImageSection(controller: controller),
               SizedBox(height: 10.h),
-              _GalleryTourTab(),
+              _GalleryTourTab(property: controller.property),
               SizedBox(height: 10.h),
               _PropertyInfoCard(controller: controller),
               SizedBox(height: 10.h),
@@ -179,7 +180,8 @@ class _HeroImageSectionState extends State<_HeroImageSection> {
 
 // ─── Gallery / 360 Tour Tab ───────────────────────────
 class _GalleryTourTab extends StatelessWidget {
-  const _GalleryTourTab();
+  final PropertyModel property;
+  const _GalleryTourTab({required this.property});
 
   @override
   Widget build(BuildContext context) {
@@ -214,10 +216,11 @@ class _GalleryTourTab extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: GestureDetector(
-              onTap: () => Get.toNamed(AppRoutes.degreeTourScreen),
+              if (property.tourUrl != null && property.tourUrl!.isNotEmpty) ...[
+    SizedBox(width: 12.w),
+    Expanded(
+    child: GestureDetector(
+    onTap: () => Get.toNamed(AppRoutes.degreeTourScreen),
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 12.h),
                 decoration: BoxDecoration(
@@ -243,7 +246,7 @@ class _GalleryTourTab extends StatelessWidget {
             ),
           ),
         ],
-      ),
+      ]),
     );
   }
 }
@@ -275,17 +278,11 @@ class _PropertyInfoCard extends StatelessWidget {
                   child: CustomText(
                     title: controller.price.value,
                     textColor: ConstColor.primaryColor,
-                    textSize: 18.sp,
+                    textSize: 24.sp,
                     fontWeight: FontWeight.w600,
                     maxLine: 1,
                   ),
                 ),
-                // SvgPicture.asset(
-                //   "assets/icons/upload_icon.svg",
-                //   height: 16.h,
-                //   width: 16.w,
-                // ),
-                // SizedBox(width: 18.w),
                 Obx(
                   () => TweenAnimationBuilder<double>(
                     tween: Tween(begin: 1.0, end: controller.isFavourite.value ? 1.3 : 1.0),
@@ -299,8 +296,8 @@ class _PropertyInfoCard extends StatelessWidget {
                           controller.isFavourite.value
                               ? "assets/icons/favourite_click_icon.svg"
                               : "assets/icons/favourite_icon.svg",
-                          height: 18.h,
-                          width: 18.w,
+                          height: 22.h,
+                          width: 22.w,
                         ),
                       ),
                     ),
@@ -313,7 +310,7 @@ class _PropertyInfoCard extends StatelessWidget {
             CustomText(
               title: controller.title.value,
               textColor: ConstColor.titleColor,
-              textSize: 14.sp,
+              textSize: 16.sp,
               fontWeight: FontWeight.w700,
               maxLine: 2,
             ),
@@ -323,8 +320,8 @@ class _PropertyInfoCard extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   "assets/icons/location_icon.svg",
-                  height: 14.h,
-                  width: 14.w,
+                  height: 16.h,
+                  width: 16.w,
                   colorFilter: ColorFilter.mode(
                     ConstColor.primaryColor,
                     BlendMode.srcIn,
@@ -335,9 +332,9 @@ class _PropertyInfoCard extends StatelessWidget {
                   child: CustomText(
                     title: controller.address.value,
                     textColor: ConstColor.bodyColor,
-                    textSize: 12.sp,
+                    textSize: 14.sp,
                     fontWeight: FontWeight.w400,
-                    maxLine: 1,
+                    maxLine: 2,
                   ),
                 ),
               ],
@@ -419,7 +416,7 @@ class _SpecItem extends StatelessWidget {
         CustomText(
           title: label,
           textColor: ConstColor.bodyColor,
-          textSize: 10.sp,
+          textSize: 13.sp,
           fontWeight: FontWeight.w400,
           maxLine: 1,
         ),
@@ -429,8 +426,8 @@ class _SpecItem extends StatelessWidget {
             if (showIcon) ...[
               SvgPicture.asset(
                 icon,
-                width: 15.sp,
-                height: 15.sp,
+                width: 16.sp,
+                height: 16.sp,
                 colorFilter: const ColorFilter.mode(
                   ConstColor.titleColor,
                   BlendMode.srcIn,
@@ -441,7 +438,7 @@ class _SpecItem extends StatelessWidget {
             CustomText(
               title: value,
               textColor: ConstColor.titleColor,
-              textSize: 13.sp,
+              textSize: 16.sp,
               fontWeight: FontWeight.w600,
               maxLine: 1,
             ),
@@ -479,7 +476,7 @@ class _FloorPlanCard extends StatelessWidget {
                 CustomText(
                   title: ConstString.floorPlan,
                   textColor: ConstColor.titleColor,
-                  textSize: 14.sp,
+                  textSize: 16.sp,
                   fontWeight: FontWeight.w700,
                   maxLine: 1,
                 ),
@@ -556,7 +553,7 @@ class _DescriptionCard extends StatelessWidget {
             CustomText(
               title: ConstString.description,
               textColor: ConstColor.titleColor,
-              textSize: 14.sp,
+              textSize: 16.sp,
               fontWeight: FontWeight.w700,
               maxLine: 1,
             ),
@@ -646,7 +643,7 @@ class _PropertyFeaturesCard extends StatelessWidget {
             CustomText(
               title: ConstString.propertyFeatures,
               textColor: ConstColor.titleColor,
-              textSize: 14.sp,
+              textSize: 15.sp,
               fontWeight: FontWeight.w700,
               maxLine: 1,
             ),
@@ -740,7 +737,7 @@ class _BrochuresCard extends StatelessWidget {
           CustomText(
             title: ConstString.brochures,
             textColor: ConstColor.titleColor,
-            textSize: 14.sp,
+            textSize: 16.sp,
             fontWeight: FontWeight.w600,
             maxLine: 1,
           ),
@@ -808,10 +805,7 @@ class _BrochureFullScreenState extends State<_BrochureFullScreen> {
 
   Future<void> _downloadPdf() async {
     try {
-      print("📄 DOWNLOADING >>> ${widget.url}");
       final response = await http.get(Uri.parse(widget.url));
-      print("📄 STATUS >>> ${response.statusCode}");
-      print("📄 BYTES >>> ${response.bodyBytes.length}");
       final bytes = response.bodyBytes;
       final dir = await getTemporaryDirectory();
       final file = File('${dir.path}/brochure.pdf');
@@ -922,7 +916,7 @@ class _TaxItem extends StatelessWidget {
         CustomText(
           title: label,
           textColor: ConstColor.bodyColor,
-          textSize: 10.sp,
+          textSize: 13.sp,
           fontWeight: FontWeight.w500,
           maxLine: 1,
         ),
@@ -930,7 +924,7 @@ class _TaxItem extends StatelessWidget {
         CustomText(
           title: value,
           textColor: ConstColor.titleColor,
-          textSize: 14.sp,
+          textSize: 16.sp,
           fontWeight: FontWeight.w600,
           maxLine: 1,
         ),
@@ -965,7 +959,7 @@ class _AgentCard extends StatelessWidget {
                   CustomText(
                     title: controller.agentName.value,
                     textColor: ConstColor.titleColor,
-                    textSize: 14.sp,
+                    textSize: 16.sp,
                     fontWeight: FontWeight.w700,
                     maxLine: 1,
                   ),
@@ -973,7 +967,7 @@ class _AgentCard extends StatelessWidget {
                   CustomText(
                     title: controller.agentEmail.value,
                     textColor: ConstColor.bodyColor,
-                    textSize: 12.sp,
+                    textSize: 14.sp,
                     fontWeight: FontWeight.w400,
                     maxLine: 2,
                   ),
@@ -1045,7 +1039,7 @@ class _MapCardState extends State<_MapCard> {
 
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w),
-        height: 180.h,
+        height: 220.h,
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(12.r),
@@ -1202,7 +1196,7 @@ class _BottomActionBar extends StatelessWidget {
                   Get.find<PropertyDetailsController>().makePhoneCall(),
               color: ConstColor.secondaryColor,
               elevation: 0,
-              height: 46,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,
@@ -1228,7 +1222,7 @@ class _BottomActionBar extends StatelessWidget {
             child: CustomElevatedButton(
               onPressed: () => Get.toNamed(AppRoutes.contactAgentScreen),
               color: Colors.white,
-              height: 46,
+              height: 48,
               top: 0,
               left: 0,
               right: 0,

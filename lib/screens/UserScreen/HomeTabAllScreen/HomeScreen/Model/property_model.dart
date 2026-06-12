@@ -15,6 +15,7 @@ class PropertyModel {
   final String agentImage;
   final double lat;
   final double lng;
+  final String? tourUrl;
 
   PropertyModel({
     this.id = "",
@@ -29,6 +30,7 @@ class PropertyModel {
     this.agentImage = "",
     this.lat = 0.0,
     this.lng = 0.0,
+    this.tourUrl,
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
@@ -43,7 +45,7 @@ class PropertyModel {
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
           (m) => '${m[1]},',
     )}';
-    final price = json["listingType"] == "RENT"
+    final price = (json["listingType"]?.toString().toUpperCase() == "RENT")
         ? "$formattedPrice pcm"
         : formattedPrice;
 
@@ -75,12 +77,13 @@ class PropertyModel {
       title: json["title"] ?? "",
       address: address,
       addedDate: addedDate,
-      // isFeatured: json["isFeatured"] ?? false,
-      isFeatured: false,
+      isFeatured: json["isFeatured"] ?? false,
+      // isFeatured: false,
       listingType: json["listingType"] ?? "SALE",
       agentImage: agentImage,
       lat: lat,
       lng: lng,
+      tourUrl: json["virtualTourUrl"]?.toString(),
     );
   }
 }
