@@ -16,7 +16,7 @@ class HomeController extends GetxController {
 
   void onSearchChanged(String value) => searchQuery.value = value;
 
-  // ─── Nearby Listings ───────────────────
+  // Nearby Listings
   final isLoading = false.obs;
   final buyProperties = <PropertyModel>[].obs;
   final rentProperties = <PropertyModel>[].obs;
@@ -63,7 +63,7 @@ class HomeController extends GetxController {
     }
   }
 
-  // ─── Popular Locations ───────────────────
+  // Popular Locations
   Future<void> fetchPopularLocations() async {
     try {
       isLocationLoading(true);
@@ -87,7 +87,7 @@ class HomeController extends GetxController {
 }
 
 
-// ─────────────────────────────────────────
+// Model
 class LocationModel {
   final String id;
   final String imagePath;

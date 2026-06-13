@@ -113,8 +113,8 @@ class PropertyCard extends StatelessWidget {
                           child: CustomText(
                             title: property.price,
                             textColor: Colors.white,
-                            textSize: 36.sp,
-                            fontWeight: FontWeight.w700,
+                            textSize: 32.sp,
+                            fontWeight: FontWeight.bold,
                             maxLine: 1,
                           ),
                         ),
@@ -129,7 +129,7 @@ class PropertyCard extends StatelessWidget {
                           child: CustomText(
                             title: 'FEATURED\nPROPERTY',
                             textColor: Colors.white,
-                            textSize: 9.sp,
+                            textSize: 12.sp,
                             fontWeight: FontWeight.w700,
                             textAlign: TextAlign.center,
                             maxLine: 2,
@@ -160,13 +160,7 @@ class PropertyCard extends StatelessWidget {
                                   maxLine: 2,
                                 ),
                                 SizedBox(height: 4.h),
-                                CustomText(
-                                  title: property.address,
-                                  textColor: ConstColor.primaryColor,
-                                  textSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  maxLine: 1,
-                                ),
+
                               ],
                             ),
                           ),
@@ -182,13 +176,22 @@ class PropertyCard extends StatelessWidget {
                           ),
                         ],
                       ),
-
-                      SizedBox(height: 36.h),
+                      SizedBox(height: 6.h),
+                      CustomText(
+                        title: property.address,
+                        textColor: ConstColor.primaryColor,
+                        textSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        maxLine: 2,
+                      ),
+                      SizedBox(height: 12.h),
+                      _PropertySpecs(property: property),
+                      SizedBox(height: 20.h),
                       CustomText(
                         title: 'Added on ${property.addedDate}',
-                        textColor: ConstColor.bodyColor,
-                        textSize: 12.sp,
-                        fontWeight: FontWeight.w400,
+                        textColor: ConstColor.secondaryColor,
+                        textSize: 14.sp,
+                        fontWeight: FontWeight.w600,
                         maxLine: 1,
                       ),
                     ],
@@ -199,6 +202,67 @@ class PropertyCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+class _PropertySpecs extends StatelessWidget {
+  final PropertyModel property;
+  const _PropertySpecs({required this.property});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 12.w,
+      runSpacing: 8.h,
+      children: [
+        if (property.propertyType.isNotEmpty)
+          _SpecChip(icon: "assets/icons/detached_icon.svg", label: property.propertyType),
+        if (property.bedrooms.isNotEmpty && property.bedrooms != "0")
+          _SpecChip(icon: "assets/icons/bed_room_icon.svg", label: "${property.bedrooms} bed"),
+        if (property.bathrooms.isNotEmpty && property.bathrooms != "0")
+          _SpecChip(icon: "assets/icons/bathrooms_icon.svg", label: "${property.bathrooms} bath"),
+        if (property.squareFoot.isNotEmpty && !property.squareFoot.startsWith(" "))
+          _SpecChip(icon: "assets/icons/square_fit_icon.svg", label: property.squareFoot),
+        if (property.tenure.isNotEmpty)
+          _SpecChip(icon: "assets/icons/key_icon.svg", label: property.tenure),
+      ],
+    );
+  }
+}
+
+class _SpecChip extends StatelessWidget {
+  final String icon;
+  final String label;
+  const _SpecChip({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
+      decoration: BoxDecoration(
+        color: ConstColor.backgroundColor,
+        borderRadius: BorderRadius.circular(6.r),
+        border: Border.all(color: ConstColor.outLineColor),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            icon,
+            width: 14.w,
+            height: 14.h,
+            colorFilter: ColorFilter.mode(ConstColor.primaryColor, BlendMode.srcIn),
+          ),
+          SizedBox(width: 4.w),
+          CustomText(
+            title: label,
+            textColor: ConstColor.titleColor,
+            textSize: 11.sp,
+            fontWeight: FontWeight.w500,
+            maxLine: 1,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sanath1490_flutter_app/Widget/app_snack_bar/app_snack_bar.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../constant/app_api_url.dart';
 import '../../../../../service/api/api_service.dart';
@@ -25,7 +26,8 @@ class PropertyDetailsController extends GetxController {
         statusCodeEnd: 299,
       );
       if (response != null && response["success"] == true) {
-        isFavourite.value = response["data"]["isFavorite"] ?? !isFavourite.value;
+        isFavourite.value =
+            response["data"]["isFavorite"] ?? !isFavourite.value;
         if (Get.isRegistered<SavedController>()) {
           Get.find<SavedController>().fetchFavouriteProperties();
         }
@@ -36,7 +38,6 @@ class PropertyDetailsController extends GetxController {
       isTogglingFavourite.value = false;
     }
   }
-
 
   final images = <String>[].obs;
   final floorPlans = <String>[].obs;
@@ -96,6 +97,18 @@ class PropertyDetailsController extends GetxController {
     listedDate.value = p.addedDate;
   }
 
+  Future<void> shareProperty() async {
+    final text =
+        '''
+🏠 ${property.title}
+📍 ${property.address}
+💰 ${property.price}
+
+${property.shareUrl ?? ""}
+''';
+    await SharePlus.instance.share(ShareParams(text: text.trim()));
+  }
+
   Future<void> _fetchDetails(String id) async {
     final previousFavState = isFavourite.value;
     try {
@@ -125,10 +138,8 @@ class PropertyDetailsController extends GetxController {
         description.value = data["description"] ?? "";
         propertyType.value = _formatPropertyType(data["propertyType"] ?? "");
 
-
         final brochure = data["brochure"]?.toString() ?? "";
         brochureUrl.value = brochure.isNotEmpty ? "$baseUrl$brochure" : "";
-
 
         bedrooms.value = "${data["propertyBedrooms"] ?? ""}";
         bathrooms.value = "${data["propertyBathrooms"] ?? ""}";
@@ -140,7 +151,6 @@ class PropertyDetailsController extends GetxController {
         final tour = data["threeSixtyTour"] ?? "";
         threeSixtyTour.value = tour.isNotEmpty ? "$baseUrl$tour" : "";
         listedDate.value = _formatDate(data["createdAt"] ?? "");
-
 
         final agent = data["agentId"];
         if (agent != null) {
@@ -157,12 +167,9 @@ class PropertyDetailsController extends GetxController {
           latitude.value = coords[0].toDouble();
         }
 
-
         final rawPrice = (data["askingPrice"] as num?)?.toInt() ?? 0;
-        final formattedPrice = '£${rawPrice.toString().replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-              (m) => '${m[1]},',
-        )}';
+        final formattedPrice =
+            '£${rawPrice.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}';
         final listingType = data["listingType"] ?? "SALE";
         price.value = listingType == "RENT"
             ? "$formattedPrice pcm"
@@ -186,7 +193,7 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  // ─── Helpers ──────────────────────────────
+  // Helpers
   String _formatPropertyType(String type) {
     return type
         .split('_')
@@ -226,7 +233,7 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  //Phone Call
+  // Phone Call
   Future<void> makePhoneCall() async {
     const String phoneNumber = "(98) 9016714574";
     final Uri telUri = Uri(scheme: 'tel', path: phoneNumber);
@@ -262,8 +269,4 @@ class PropertyDetailsController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

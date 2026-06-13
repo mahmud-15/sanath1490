@@ -85,7 +85,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     options: CarouselOptions(
-                      height: 480.h,
+                      height: 550.h,
                       viewportFraction: 1.0,
                       enableInfiniteScroll: false,
                       onPageChanged: (index, reason) {

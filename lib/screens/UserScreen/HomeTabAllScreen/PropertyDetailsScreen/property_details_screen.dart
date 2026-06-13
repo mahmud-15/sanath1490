@@ -41,29 +41,29 @@ class PropertyDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               _HeroImageSection(controller: controller),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               _GalleryTourTab(property: controller.property),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               _PropertyInfoCard(controller: controller),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               _FloorPlanCard(controller: controller),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               _DescriptionCard(controller: controller),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               _PropertyFeaturesCard(controller: controller),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               Obx(() => controller.brochureUrl.value.isEmpty
                   ? const SizedBox.shrink()
                   : Column(
                 children: [
                   _BrochuresCard(controller: controller),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 14.h),
                 ],
               )),
               _CouncilTaxCard(controller: controller),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               _AgentCard(controller: controller),
-              SizedBox(height: 10.h),
+              SizedBox(height: 14.h),
               _MapCard(controller: controller),
               SizedBox(height: 40.h),
             ],
@@ -108,7 +108,7 @@ class _HeroImageSectionState extends State<_HeroImageSection> {
             if (widget.controller.images.isEmpty) {
               return Container(
                 width: double.infinity,
-                height: 220.h,
+                height: 260.h,
                 color: Colors.grey.shade200,
                 child: Center(
                   child: _showFallback
@@ -136,7 +136,7 @@ class _HeroImageSectionState extends State<_HeroImageSection> {
               child: AppImage(
                 url: widget.controller.images[index],
                 width: double.infinity,
-                height: 220.h,
+                height: 260.h,
                 fit: BoxFit.cover,
               ),
             );
@@ -278,11 +278,20 @@ class _PropertyInfoCard extends StatelessWidget {
                   child: CustomText(
                     title: controller.price.value,
                     textColor: ConstColor.primaryColor,
-                    textSize: 24.sp,
+                    textSize: 28.sp,
                     fontWeight: FontWeight.w600,
                     maxLine: 1,
                   ),
                 ),
+                GestureDetector(
+                  onTap: () => controller.shareProperty(),
+                  child: SvgPicture.asset(
+                    "assets/icons/upload_icon.svg",
+                    height: 22.h,
+                    width: 22.w,
+                  ),
+                ),
+                SizedBox(width: 18.w),
                 Obx(
                   () => TweenAnimationBuilder<double>(
                     tween: Tween(begin: 1.0, end: controller.isFavourite.value ? 1.3 : 1.0),
@@ -426,8 +435,8 @@ class _SpecItem extends StatelessWidget {
             if (showIcon) ...[
               SvgPicture.asset(
                 icon,
-                width: 16.sp,
-                height: 16.sp,
+                width: 19.sp,
+                height: 19.sp,
                 colorFilter: const ColorFilter.mode(
                   ConstColor.titleColor,
                   BlendMode.srcIn,

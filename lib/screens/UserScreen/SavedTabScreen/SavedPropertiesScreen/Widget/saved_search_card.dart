@@ -37,7 +37,6 @@ class SavedSearchCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ─── Location + new badge + close ──────────
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -74,10 +73,8 @@ class SavedSearchCard extends StatelessWidget {
                 ),
               ),
 
-              // ─── New count badge ──────────────────
 
 
-              // ─── Close / Remove button ────────────
               GestureDetector(
                 onTap: onRemove,
                 child: SvgPicture.asset(
@@ -90,7 +87,7 @@ class SavedSearchCard extends StatelessWidget {
 
           SizedBox(height: 6.h),
 
-          // ─── Price range ───────────────────────────
+          // Price range
           Row(
             children: [
               Padding(
@@ -127,10 +124,10 @@ class SavedSearchCard extends StatelessWidget {
           Divider(height: 1.h, color: ConstColor.outLineColor),
           SizedBox(height: 10.h),
 
-          // ─── Alerts toggle + View results ──────────
+          // Alerts toggle + View results
           Row(
             children: [
-              // ─── Alert toggle ─────────────────────
+              // Alert toggle
               // GestureDetector(
               //   onTap: onToggleAlert,
               //   child: Row(
@@ -158,7 +155,7 @@ class SavedSearchCard extends StatelessWidget {
 
               const Spacer(),
 
-              // ─── View results ─────────────────────
+              // View results
               GestureDetector(
                 onTap: onViewResults,
                 child: Row(

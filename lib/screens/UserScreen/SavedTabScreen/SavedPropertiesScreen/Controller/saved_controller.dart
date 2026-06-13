@@ -6,12 +6,11 @@ import '../../../../../utils/log_print.dart';
 import '../../../HomeTabAllScreen/HomeScreen/Model/property_model.dart';
 
 class SavedController extends GetxController {
-  // ─── Tab index: 0 = Properties, 1 = Searches ─────
   final selectedTab = 0.obs;
 
   void onTabChanged(int index) => selectedTab.value = index;
 
-  // ─── Saved Properties ─────────────────────────────
+  // Saved Properties
   final savedProperties = <PropertyModel>[].obs;
   final isLoading = false.obs;
 
@@ -62,8 +61,14 @@ class SavedController extends GetxController {
             listingType: model.listingType,
             isFavourite: true,
             agentImage: model.agentImage,
-            lat: model.lat,   // ← add
+            lat: model.lat,
             lng: model.lng,
+            bedrooms: model.bedrooms,
+            bathrooms: model.bathrooms,
+            propertyType: model.propertyType,
+            squareFoot: model.squareFoot,
+            tenure: model.tenure,
+            shareUrl: model.shareUrl,
           );
         }).toList();
       }
@@ -74,7 +79,7 @@ class SavedController extends GetxController {
     }
   }
 
-  // ─── Remove from favourites via API ───────────────
+  // Remove from favourites via API
   Future<void> removeProperty(int index) async {
     final property = savedProperties[index];
     savedProperties.removeAt(index);
@@ -96,7 +101,7 @@ class SavedController extends GetxController {
     }
   }
 
-  // ─── Saved Searches ───────────────────────────────
+  // Saved Searches
   final savedSearches = <SavedSearchModel>[].obs;
   final isSearchLoading = false.obs;
 
@@ -174,7 +179,7 @@ class SavedController extends GetxController {
   // }
 }
 
-// ─────────────────────────────────────────────────────
+// Model
 class SavedSearchModel {
   final String id;
   final String location;

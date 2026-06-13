@@ -16,6 +16,14 @@ class PropertyModel {
   final double lat;
   final double lng;
   final String? tourUrl;
+  final String? shareUrl;
+
+  //
+  final String bedrooms;
+  final String bathrooms;
+  final String propertyType;
+  final String squareFoot;
+  final String tenure;
 
   PropertyModel({
     this.id = "",
@@ -31,6 +39,14 @@ class PropertyModel {
     this.lat = 0.0,
     this.lng = 0.0,
     this.tourUrl,
+    this.shareUrl,
+
+    //
+    this.bedrooms = "",
+    this.bathrooms = "",
+    this.propertyType = "",
+    this.squareFoot = "",
+    this.tenure = "",
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
@@ -83,7 +99,17 @@ class PropertyModel {
       agentImage: agentImage,
       lat: lat,
       lng: lng,
-      tourUrl: json["virtualTourUrl"]?.toString(),
+      tourUrl: json["threeSixtyTour"]?.toString(),
+      //// When real domain link found then implement that line
+      // shareUrl: json["webUrl"]?.toString(),
+      shareUrl: "https://yourdomain.com/property/${json["_id"] ?? ""}",
+
+      //
+      bedrooms: "${json["propertyBedrooms"] ?? ""}",
+      bathrooms: "${json["propertyBathrooms"] ?? ""}",
+      propertyType: _formatPropertyType(json["propertyType"] ?? ""),
+      squareFoot: "${json["propertySquareFoot"] ?? ""} sq ft",
+      tenure: _capitalize(json["tenure"] ?? ""),
     );
   }
 }
@@ -98,4 +124,15 @@ String _formatDate(String isoDate) {
   } catch (_) {
     return "";
   }
+}
+String _formatPropertyType(String type) {
+  return type
+      .split('_')
+      .map((w) => w.isEmpty ? '' : '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}')
+      .join(' ');
+}
+
+String _capitalize(String value) {
+  if (value.isEmpty) return '';
+  return '${value[0].toUpperCase()}${value.substring(1).toLowerCase()}';
 }
