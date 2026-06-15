@@ -293,10 +293,11 @@ class _HomeHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppImage(
-                  path: 'assets/images/app_logo.png',
-                  width: 60.w,
-                  height: 59.h,
+                  path: 'assets/images/app_logo_2.png',
+                  width: 42.w,
+                  height: 40.h,
                 ),
+                SizedBox(width: 8.w,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

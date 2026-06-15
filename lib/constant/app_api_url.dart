@@ -22,7 +22,6 @@ class AppApiUrl {
   final String forgotVerifyOtp = "/auth/verify-email";
   final String resetPassword = "/auth/reset-password";
 
-
   // ==================== Home Screen ====================
   final String nearbyListingProperty = "/listings/nearby";
   final String listingById = "/listings";
@@ -34,7 +33,6 @@ class AppApiUrl {
   final String favouriteProperties = "/favorite-properties";
   final String savedSearches = "/saved-searches";
   final String deleteSavedSearch = "/saved-searches";
-
 
   // ==================== Enquires ====================
   final String createEnquiries = "/enquiries";
@@ -54,12 +52,10 @@ class AppApiUrl {
 
   // ==================== Banner ====================
   final String banner = "/banners";
-
-
 }
 
 String _getDomain() {
-  const String liveServer  = "http://195.35.6.13:5093";   // 🔴live URL
+  const String liveServer = "http://148.230.126.149:5001"; // 🔴live URL
   // const String localServer = "http://10.10.7.93:5001"; // 🟡 local Server
 
   try {

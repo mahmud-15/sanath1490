@@ -73,29 +73,55 @@ class PropertyCard extends StatelessWidget {
                     ),
 
                     // Image Counter
+                    // Positioned(
+                    //   top: 10.h,
+                    //   left: 10.w,
+                    //   child: Container(
+                    //     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                    //     decoration: BoxDecoration(
+                    //       color: ConstColor.primaryColor,
+                    //       borderRadius: BorderRadius.circular(6.r),
+                    //     ),
+                    //     child: Row(
+                    //       children: [
+                    //         SvgPicture.asset("assets/icons/camera_icon.svg"),
+                    //         SizedBox(width: 4.w),
+                    //         Obx(() => CustomText(
+                    //           title: '${property.currentIndex.value + 1}/${property.images.length}',
+                    //           textColor: Colors.white,
+                    //           textSize: 11.sp,
+                    //           fontWeight: FontWeight.w500,
+                    //           maxLine: 1,
+                    //         )),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // NEW DESIGN
                     Positioned(
-                      top: 10.h,
-                      left: 10.w,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                      bottom: 10.h,
+                      right: 10.w,
+                      child: Obx(() => Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                         decoration: BoxDecoration(
-                          color: ConstColor.primaryColor,
-                          borderRadius: BorderRadius.circular(6.r),
+                          color: Colors.black.withAlpha(140),
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            SvgPicture.asset("assets/icons/camera_icon.svg"),
+                            Icon(Icons.photo_camera, color: Colors.white, size: 13.sp),
                             SizedBox(width: 4.w),
-                            Obx(() => CustomText(
-                              title: '${property.currentIndex.value + 1}/${property.images.length}',
+                            CustomText(
+                              title: '${property.currentIndex.value + 1} / ${property.images.length}',
                               textColor: Colors.white,
                               textSize: 11.sp,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               maxLine: 1,
-                            )),
+                            ),
                           ],
                         ),
-                      ),
+                      )),
                     ),
                   ],
                 ),
@@ -214,7 +240,7 @@ class _PropertySpecs extends StatelessWidget {
     return Wrap(
       spacing: 12.w,
       runSpacing: 8.h,
-      children: [
+       children: [
         if (property.propertyType.isNotEmpty)
           _SpecChip(icon: "assets/icons/detached_icon.svg", label: property.propertyType),
         if (property.bedrooms.isNotEmpty && property.bedrooms != "0")

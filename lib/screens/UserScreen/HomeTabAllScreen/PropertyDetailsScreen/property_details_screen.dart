@@ -75,7 +75,7 @@ class PropertyDetailsScreen extends StatelessWidget {
   }
 }
 
-// ─── Hero Image Section ───────────────────────────────
+// Hero Image Section
 class _HeroImageSection extends StatefulWidget {
   final PropertyDetailsController controller;
 
@@ -150,23 +150,23 @@ class _HeroImageSectionState extends State<_HeroImageSection> {
         ),
 
         Positioned(
-          top: 12.h,
-          left: 12.w,
+          bottom: 10.h,
+          right: 10.w,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
             decoration: BoxDecoration(
               color: Colors.black.withAlpha(140),
-              borderRadius: BorderRadius.circular(6.r),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Row(
               children: [
-                Icon(Icons.camera_alt_outlined, size: 14.sp, color: Colors.white),
+                Icon(Icons.photo_camera, color: Colors.white, size: 13.sp),
                 SizedBox(width: 4.w),
                 Obx(() => CustomText(
                   title: '${widget.controller.currentImageIndex.value + 1}/${widget.controller.images.isEmpty ? 1 : widget.controller.images.length}',
                   textColor: Colors.white,
-                  textSize: 12.sp,
-                  fontWeight: FontWeight.w500,
+                  textSize: 11.sp,
+                  fontWeight: FontWeight.w600,
                   maxLine: 1,
                 )),
               ],
@@ -178,7 +178,7 @@ class _HeroImageSectionState extends State<_HeroImageSection> {
   }
 }
 
-// ─── Gallery / 360 Tour Tab ───────────────────────────
+// Gallery / 360 Tour Tab
 class _GalleryTourTab extends StatelessWidget {
   final PropertyModel property;
   const _GalleryTourTab({required this.property});
@@ -307,6 +307,9 @@ class _PropertyInfoCard extends StatelessWidget {
                               : "assets/icons/favourite_icon.svg",
                           height: 22.h,
                           width: 22.w,
+                          colorFilter: controller.isFavourite.value
+                              ? null
+                              : ColorFilter.mode(ConstColor.primaryDeepColor, BlendMode.srcIn),
                         ),
                       ),
                     ),
@@ -403,7 +406,7 @@ class _PropertyInfoCard extends StatelessWidget {
   }
 }
 
-// ─── Spec Item ────────────────────────────────────────
+// Spec Item
 class _SpecItem extends StatelessWidget {
   final String label;
   final String icon;
@@ -458,7 +461,7 @@ class _SpecItem extends StatelessWidget {
   }
 }
 
-// ─── Floor Plan Card ──────────────────────────────────
+// Floor Plan Card
 class _FloorPlanCard extends StatelessWidget {
   final PropertyDetailsController controller;
 
@@ -889,20 +892,25 @@ class _CouncilTaxCard extends StatelessWidget {
                 Expanded(
                   child: _TaxItem(
                     label: 'COUNCIL TAX BAND',
-                    value: controller.councilTaxBand.value,
+                    value: controller.councilTaxBand.value.isNotEmpty
+                        ? controller.councilTaxBand.value
+                        : 'Not available',
                   ),
                 ),
                 Expanded(
                   child: _TaxItem(
                     label: 'EPC RATING',
-                    value:
-                        '${controller.epcLabel.value} (${controller.epcScore.value})',
+                    value: controller.epcLabel.value.isNotEmpty
+                        ? '${controller.epcLabel.value} (${controller.epcScore.value})'
+                        : 'Not available',
                   ),
                 ),
               ],
             ),
             SizedBox(height: 14.h),
-            _TaxItem(label: 'LISTED', value: controller.listedDate.value),
+            _TaxItem(label: 'LISTED', value: controller.listedDate.value.isNotEmpty
+                ? controller.listedDate.value
+                : 'Not available',),
           ],
         ),
       ),
@@ -924,16 +932,16 @@ class _TaxItem extends StatelessWidget {
       children: [
         CustomText(
           title: label,
-          textColor: ConstColor.bodyColor,
-          textSize: 13.sp,
+          textColor: ConstColor.titleColor,
+          textSize: 14.sp,
           fontWeight: FontWeight.w500,
           maxLine: 1,
         ),
         SizedBox(height: 4.h),
         CustomText(
           title: value,
-          textColor: ConstColor.titleColor,
-          textSize: 16.sp,
+          textColor: ConstColor.bodyColor,
+          textSize: 14.sp,
           fontWeight: FontWeight.w600,
           maxLine: 1,
         ),
