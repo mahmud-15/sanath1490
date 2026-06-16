@@ -132,7 +132,7 @@ class _HeroImageSectionState extends State<_HeroImageSection> {
               );
             }
             return Hero(
-              tag: 'property_image_${widget.controller.property.id}',
+              tag: 'property_image_${widget.controller.property.id}_${widget.controller.property.hashCode}_$index',
               child: AppImage(
                 url: widget.controller.images[index],
                 width: double.infinity,

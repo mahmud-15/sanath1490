@@ -18,7 +18,6 @@ class PropertyModel {
   final String? tourUrl;
   final String? shareUrl;
 
-  //
   final String bedrooms;
   final String bathrooms;
   final String propertyType;
@@ -40,8 +39,6 @@ class PropertyModel {
     this.lng = 0.0,
     this.tourUrl,
     this.shareUrl,
-
-    //
     this.bedrooms = "",
     this.bathrooms = "",
     this.propertyType = "",
@@ -50,11 +47,16 @@ class PropertyModel {
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
-    final baseUrl = AppApiUrl.instance.imgBaseUrl;
+    final baseUrl = AppApiUrl.instance.imgBaseUrl.endsWith('/') 
+        ? AppApiUrl.instance.imgBaseUrl.substring(0, AppApiUrl.instance.imgBaseUrl.length - 1)
+        : AppApiUrl.instance.imgBaseUrl;
 
+    // Fix Property Images URL
     final List<String> photos = (json["photos"] as List? ?? [])
-        .map((e) => "$baseUrl$e")
-        .toList();
+        .map((e) {
+          final String path = e.toString().startsWith('/') ? e.toString() : '/$e';
+          return "$baseUrl$path";
+        }).toList();
 
     final rawPrice = (json["askingPrice"] as num?)?.toInt() ?? 0;
     final formattedPrice = '£${rawPrice.toString().replaceAllMapped(
@@ -66,25 +68,27 @@ class PropertyModel {
         : formattedPrice;
 
     final address = json["location"]?["address"] ?? "";
-
     final addedDate = _formatDate(json["createdAt"] ?? "");
 
-    final agent = json["agentId"];
-    final agentImage = (agent is Map)
-        ? (agent["agencyLogo"] != null && agent["agencyLogo"].toString().isNotEmpty
-        ? "$baseUrl${agent["agencyLogo"]}"
-        : agent["profileImage"] != null && agent["profileImage"].toString().isNotEmpty
-        ? "$baseUrl${agent["profileImage"]}"
-        : "")
-        : "";
+    // Fix Agent Image URL (Robust Fallback & Double Slash Prevention)
+    final agent = json["agentId"] ?? json["agent"];
+    String agentImg = "";
+    if (agent is Map) {
+      String? rawPath = (agent["agencyLogo"] != null && agent["agencyLogo"].toString().isNotEmpty)
+          ? agent["agencyLogo"].toString()
+          : (agent["profileImage"] != null && agent["profileImage"].toString().isNotEmpty)
+              ? agent["profileImage"].toString()
+              : null;
+      
+      if (rawPath != null) {
+        final String cleanPath = rawPath.startsWith('/') ? rawPath : '/$rawPath';
+        agentImg = "$baseUrl$cleanPath";
+      }
+    }
 
     final coords = json["location"]?["coordinates"];
-    final double lat = coords != null && coords.length >= 2
-        ? (coords[0] as num).toDouble()
-        : 0.0;
-    final double lng = coords != null && coords.length >= 2
-        ? (coords[1] as num).toDouble()
-        : 0.0;
+    final double lat = coords != null && coords.length >= 2 ? (coords[0] as num).toDouble() : 0.0;
+    final double lng = coords != null && coords.length >= 2 ? (coords[1] as num).toDouble() : 0.0;
 
     return PropertyModel(
       id: json["_id"] ?? "",
@@ -94,17 +98,14 @@ class PropertyModel {
       address: address,
       addedDate: addedDate,
       isFeatured: json["isFeatured"] ?? false,
-      // isFeatured: false,
       listingType: json["listingType"] ?? "SALE",
-      agentImage: agentImage,
+      agentImage: agentImg,
       lat: lat,
       lng: lng,
       tourUrl: json["threeSixtyTour"]?.toString(),
-      //// When real domain link found then implement that line
-      // shareUrl: json["webUrl"]?.toString(),
-      shareUrl: "https://yourdomain.com/property/${json["_id"] ?? ""}",
-
-      //
+      shareUrl: (json["shareLink"] != null && !json["shareLink"].toString().contains("undefined"))
+          ? json["shareLink"].toString()
+          : "http://148.230.126.149:3000/properties/${json["_id"] ?? ""}",
       bedrooms: "${json["propertyBedrooms"] ?? ""}",
       bathrooms: "${json["propertyBathrooms"] ?? ""}",
       propertyType: _formatPropertyType(json["propertyType"] ?? ""),
@@ -117,19 +118,14 @@ class PropertyModel {
 String _formatDate(String isoDate) {
   try {
     final dt = DateTime.parse(isoDate);
-    final day = dt.day.toString().padLeft(2, '0');
-    final month = dt.month.toString().padLeft(2, '0');
-    final year = dt.year;
-    return "$day/$month/$year";
+    return "${dt.day.toString().padLeft(2, '0')}/${dt.month.toString().padLeft(2, '0')}/${dt.year}";
   } catch (_) {
     return "";
   }
 }
+
 String _formatPropertyType(String type) {
-  return type
-      .split('_')
-      .map((w) => w.isEmpty ? '' : '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}')
-      .join(' ');
+  return type.split('_').map((w) => w.isEmpty ? '' : '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}').join(' ');
 }
 
 String _capitalize(String value) {

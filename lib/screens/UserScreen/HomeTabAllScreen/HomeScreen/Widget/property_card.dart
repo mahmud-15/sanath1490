@@ -52,7 +52,7 @@ class PropertyCard extends StatelessWidget {
                         itemCount: property.images.length,
                         itemBuilder: (context, index, realIndex) {
                           return Hero(
-                            tag: 'property_image_${property.id}',
+                            tag: 'property_image_${property.id}_${property.hashCode}_$index',
                             child: AppImage(
                               url: property.images[index],
                               width: double.infinity,

@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                 child: CustomText(
                   title: ConstString.propertiesNearYou,
                   textColor: ConstColor.titleColor,
-                  textSize: 18.sp,
+                  textSize: 22.sp,
                   fontWeight: FontWeight.w700,
                   maxLine: 1,
                 ),

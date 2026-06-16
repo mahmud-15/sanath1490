@@ -71,8 +71,8 @@ class PropertyDetailsController extends GetxController {
   final longitude = 0.0.obs;
 
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
     _loadFromArguments();
   }
 
@@ -98,15 +98,17 @@ class PropertyDetailsController extends GetxController {
   }
 
   Future<void> shareProperty() async {
-    final text =
-        '''
-🏠 ${property.title}
-📍 ${property.address}
-💰 ${property.price}
+    final String shareLink = property.shareUrl ?? "";
 
-${property.shareUrl ?? ""}
-''';
-    await SharePlus.instance.share(ShareParams(text: text.trim()));
+    try {
+      if (shareLink.isNotEmpty) {
+        await Share.share(shareLink, subject: property.title);
+      } else {
+        AppSnackBar.error("Share link not available for this property.");
+      }
+    } catch (e) {
+      errorLog("shareProperty", e);
+    }
   }
 
   Future<void> _fetchDetails(String id) async {
@@ -152,13 +154,28 @@ ${property.shareUrl ?? ""}
         threeSixtyTour.value = tour.isNotEmpty ? "$baseUrl$tour" : "";
         listedDate.value = _formatDate(data["createdAt"] ?? "");
 
-        final agent = data["agentId"];
-        if (agent != null) {
+        final agent = data["agentId"] ?? data["agent"];
+        // ─── DEBUG LOG ───────────────────────────────────
+        print("==============================================DEBUG: Agent Data from Backend: $agent");
+        // ──────────────────────────────────────────────────
+
+        if (agent is Map) {
           agentName.value = agent["name"] ?? "";
           agentEmail.value = agent["email"] ?? "";
-          agentImage.value = agent["profileImage"] != null
-              ? "$baseUrl${agent["profileImage"]}"
-              : "";
+          
+          final String? rawPath = (agent["agencyLogo"] != null && agent["agencyLogo"].toString().isNotEmpty)
+              ? agent["agencyLogo"].toString()
+              : (agent["profileImage"] != null && agent["profileImage"].toString().isNotEmpty)
+                  ? agent["profileImage"].toString()
+                  : null;
+
+          if (rawPath != null) {
+            final String cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
+            final String cleanPath = rawPath.startsWith('/') ? rawPath : '/$rawPath';
+            agentImage.value = "$cleanBaseUrl$cleanPath";
+          } else {
+            agentImage.value = "";
+          }
         }
 
         final coords = data["location"]?["coordinates"];
