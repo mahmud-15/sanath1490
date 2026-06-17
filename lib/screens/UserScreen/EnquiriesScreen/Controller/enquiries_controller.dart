@@ -126,9 +126,8 @@ class EnquiryModel {
     // Image
     final photos = listing["photos"] as List? ?? [];
     final rawImage = photos.isNotEmpty ? photos.first?.toString() ?? "" : "";
-    final imagePath = rawImage.isNotEmpty
-        ? (rawImage.startsWith('http') ? rawImage : "$baseUrl$rawImage")
-        : "";
+    final imagePath = AppApiUrl.resolveImageUrl(rawImage);
+
     // price
     final rawPrice    = (listing["askingPrice"] as num?)?.toInt() ?? 0;
     final formattedPrice = '£${rawPrice.toString().replaceAllMapped(
@@ -155,9 +154,7 @@ class EnquiryModel {
 
     // Agent image
     final rawAgentImage = user["profileImage"]?.toString() ?? "";
-    final agentImage = rawAgentImage.isNotEmpty
-        ? (rawAgentImage.startsWith('http') ? rawAgentImage : "$baseUrl$rawAgentImage")
-        : "";
+    final agentImage = AppApiUrl.resolveImageUrl(rawAgentImage);
 
     // Safe int fields
     int safeInt(dynamic val) =>

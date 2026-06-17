@@ -104,9 +104,8 @@ class LocationModel {
   });
 
   factory LocationModel.fromJson(Map<String, dynamic> json) {
-    final baseUrl = AppApiUrl.instance.imgBaseUrl;
     final image = json["image"] ?? "";
-    final imagePath = image.isNotEmpty ? "$baseUrl$image" : "";
+    final imagePath = AppApiUrl.resolveImageUrl(image);
 
     final List listingsRaw = json["listings"] ?? [];
     final listings = listingsRaw

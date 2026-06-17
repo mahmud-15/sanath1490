@@ -179,9 +179,7 @@ class UserInfoCard extends StatelessWidget {
       final imgPath   = service.profileImage;
 
       // ✅ Full image URL build
-      final imageUrl = imgPath.isNotEmpty
-          ? "${AppApiUrl.instance.imgBaseUrl}$imgPath"
-          : null;
+      final imageUrl = AppApiUrl.resolveImageUrl(imgPath);
 
       return Container(
         width: double.infinity,

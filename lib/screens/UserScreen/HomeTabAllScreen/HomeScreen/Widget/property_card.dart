@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -51,6 +53,7 @@ class PropertyCard extends StatelessWidget {
                       child: CarouselSlider.builder(
                         itemCount: property.images.length,
                         itemBuilder: (context, index, realIndex) {
+                          log("img Check: ${property.images[index]}");
                           return Hero(
                             tag: 'property_image_${property.id}_${property.hashCode}_$index',
                             child: AppImage(

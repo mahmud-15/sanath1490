@@ -125,15 +125,15 @@ class PropertyDetailsController extends GetxController {
         final baseUrl = AppApiUrl.instance.imgBaseUrl;
 
         images.value = (data["photos"] as List? ?? [])
-            .map((e) => "$baseUrl$e")
+            .map((e) => AppApiUrl.resolveImageUrl(e.toString()))
             .toList();
 
         videoUrls.value = (data["videos"] as List? ?? [])
-            .map((e) => "$baseUrl$e")
+            .map((e) => AppApiUrl.resolveImageUrl(e.toString()))
             .toList();
 
         floorPlans.value = (data["floorPlans"] as List? ?? [])
-            .map((e) => "$baseUrl$e")
+            .map((e) => AppApiUrl.resolveImageUrl(e.toString()))
             .toList();
 
         title.value = data["title"] ?? "";
@@ -170,9 +170,7 @@ class PropertyDetailsController extends GetxController {
                   : null;
 
           if (rawPath != null) {
-            final String cleanBaseUrl = baseUrl.endsWith('/') ? baseUrl.substring(0, baseUrl.length - 1) : baseUrl;
-            final String cleanPath = rawPath.startsWith('/') ? rawPath : '/$rawPath';
-            agentImage.value = "$cleanBaseUrl$cleanPath";
+            agentImage.value = AppApiUrl.resolveImageUrl(rawPath);
           } else {
             agentImage.value = "";
           }

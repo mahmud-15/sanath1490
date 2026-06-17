@@ -47,16 +47,10 @@ class PropertyModel {
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
-    final baseUrl = AppApiUrl.instance.imgBaseUrl.endsWith('/') 
-        ? AppApiUrl.instance.imgBaseUrl.substring(0, AppApiUrl.instance.imgBaseUrl.length - 1)
-        : AppApiUrl.instance.imgBaseUrl;
-
     // Fix Property Images URL
     final List<String> photos = (json["photos"] as List? ?? [])
-        .map((e) {
-          final String path = e.toString().startsWith('/') ? e.toString() : '/$e';
-          return "$baseUrl$path";
-        }).toList();
+        .map((e) => AppApiUrl.resolveImageUrl(e.toString()))
+        .toList();
 
     final rawPrice = (json["askingPrice"] as num?)?.toInt() ?? 0;
     final formattedPrice = '£${rawPrice.toString().replaceAllMapped(
@@ -79,10 +73,9 @@ class PropertyModel {
           : (agent["profileImage"] != null && agent["profileImage"].toString().isNotEmpty)
               ? agent["profileImage"].toString()
               : null;
-      
+
       if (rawPath != null) {
-        final String cleanPath = rawPath.startsWith('/') ? rawPath : '/$rawPath';
-        agentImg = "$baseUrl$cleanPath";
+        agentImg = AppApiUrl.resolveImageUrl(rawPath);
       }
     }
 

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,18 +86,12 @@ class _NetworkImage extends StatelessWidget {
     this.fit = BoxFit.cover,
   });
 
-  String get _resolvedUrl {
-    final uri = Uri.tryParse(imageUrl);
-    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-      return imageUrl;
-    }
-    return "${AppApiUrl.domain}$imageUrl";
-  }
-
   @override
   Widget build(BuildContext context) {
+    final String resolvedUrl = AppApiUrl.resolveImageUrl(imageUrl);
+    
     return CachedNetworkImage(
-      imageUrl: _resolvedUrl,
+      imageUrl: resolvedUrl,
       width: width,
       height: height,
       fit: fit,

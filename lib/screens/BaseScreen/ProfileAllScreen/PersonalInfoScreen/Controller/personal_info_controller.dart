@@ -68,9 +68,7 @@ class PersonalInfoController extends GetxController {
     selectedCountry.value     = profile.country     ?? '';
     selectedCountryCode.value = profile.countryCode ?? '';
 
-    avatarPath.value = profile.profileImage != null
-        ? "${AppApiUrl.instance.imgBaseUrl}${profile.profileImage}"
-        : null;
+    avatarPath.value = AppApiUrl.resolveImageUrl(profile.profileImage);
   }
 
   // ==================== PATCH Profile ====================

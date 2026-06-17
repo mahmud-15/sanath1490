@@ -52,6 +52,23 @@ class AppApiUrl {
 
   // ==================== Banner ====================
   final String banner = "/banners";
+
+  static String resolveImageUrl(String? path) {
+    if (path == null || path.isEmpty || path.toLowerCase().contains("null")) {
+      return "";
+    }
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      return path;
+    }
+
+    final String base = instance.imgBaseUrl.endsWith('/')
+        ? instance.imgBaseUrl.substring(0, instance.imgBaseUrl.length - 1)
+        : instance.imgBaseUrl;
+
+    final String cleanPath = path.startsWith('/') ? path : '/$path';
+
+    return "$base$cleanPath";
+  }
 }
 
 String _getDomain() {
