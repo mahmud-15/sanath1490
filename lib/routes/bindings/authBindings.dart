@@ -14,7 +14,6 @@ import '../../screens/BaseScreen/ProfileAllScreen/DeleteAccountBottomSheet/Delet
 import '../../screens/BaseScreen/ProfileAllScreen/InfoAllScreen/InfoController/info_controller.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/NotificationSettingsScreen/Controller/notification_settings_controller.dart';
 import '../../screens/BaseScreen/ProfileAllScreen/PersonalInfoScreen/Controller/personal_info_controller.dart';
-import '../../screens/BaseScreen/ProfileAllScreen/ProfileScreen/profile_screen.dart';
 import '../../screens/UserScreen/EnquiriesScreen/Controller/enquiries_controller.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/ContactAgentScreen/Controller/contact_agent_controller.dart';
 import '../../screens/UserScreen/HomeTabAllScreen/FilterScreen/Controller/filter_controller.dart';
