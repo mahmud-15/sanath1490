@@ -17,7 +17,11 @@ class PropertyDetailsController extends GetxController {
 
   Future<void> toggleFavourite() async {
     if (isTogglingFavourite.value) return;
+
+    final previousState = isFavourite.value;
+    isFavourite.value = !previousState;
     isTogglingFavourite.value = true;
+
     try {
       final response = await ApiServices.instance.postServices(
         url: AppApiUrl.instance.addFavouriteProperty,
@@ -25,15 +29,19 @@ class PropertyDetailsController extends GetxController {
         statusCodeStart: 200,
         statusCodeEnd: 299,
       );
+
       if (response != null && response["success"] == true) {
-        isFavourite.value =
-            response["data"]["isFavorite"] ?? !isFavourite.value;
+        isFavourite.value = response["data"]["isFavorite"] ?? isFavourite.value;
         if (Get.isRegistered<SavedController>()) {
           Get.find<SavedController>().fetchFavouriteProperties();
         }
+      } else {
+        isFavourite.value = previousState;
       }
     } catch (e) {
       errorLog("toggleFavourite", e);
+      isFavourite.value = previousState;
+      AppSnackBar.error("Failed to update favourite. Please try again.");
     } finally {
       isTogglingFavourite.value = false;
     }
@@ -178,8 +186,8 @@ class PropertyDetailsController extends GetxController {
 
         final coords = data["location"]?["coordinates"];
         if (coords != null && coords.length >= 2) {
-          longitude.value = coords[1].toDouble();
-          latitude.value = coords[0].toDouble();
+          longitude.value = coords[0].toDouble();
+          latitude.value = coords[1].toDouble();
         }
 
         final rawPrice = (data["askingPrice"] as num?)?.toInt() ?? 0;

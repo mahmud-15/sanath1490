@@ -12,12 +12,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../../Widget/app_snack_bar/app_snack_bar.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../widget/AuthAppBar/global_app_bar.dart';
 import '../../../../widget/text/custom_text.dart';
 import '../../../../widget/AppImage/app_image.dart';
 import '../../../../widget/CustomElevatedButton/custom_elevated_button.dart';
 import '../../../../widget/AppLoader/app_loader.dart';
+import '../HomeScreen/Controller/home_controller.dart';
 import '../HomeScreen/Model/property_model.dart';
 import 'Controller/property_details_controller.dart';
 
@@ -1040,11 +1042,45 @@ class _MapCard extends StatefulWidget {
 class _MapCardState extends State<_MapCard> {
   GoogleMapController? _mapController;
 
+  void _navigateToMapView(PropertyModel property) {
+    try {
+      List<PropertyModel> sourceList = [];
+
+      if (Get.isRegistered<HomeController>()) {
+        final homeController = Get.find<HomeController>();
+        sourceList = property.listingType == "RENT"
+            ? homeController.rentProperties
+            : homeController.buyProperties;
+      }
+
+      final hasCurrentProperty =
+      sourceList.any((p) => p.id == property.id && p.id.isNotEmpty);
+
+      if (sourceList.isEmpty || !hasCurrentProperty) {
+        // Fallback: HomeController না পাওয়া গেলে বা list এ property না থাকলে,
+        // অন্তত এই একটা property-এর pin দেখাবে — app crash হবে না
+        sourceList = [property];
+      }
+
+      Get.toNamed(
+        AppRoutes.propertyListScreen,
+        arguments: {
+          'properties': sourceList,
+          'highlightId': property.id,
+        },
+      );
+    } catch (e) {
+      debugPrint('[MAP_DEBUG] Navigation to map view failed: $e');
+      AppSnackBar.error("Unable to open map view. Please try again.");
+    }
+  }
+
   @override
   void dispose() {
     _mapController?.dispose();
     super.dispose();
   }
+  // ... বাকি build() method অক্ষত
 
   @override
   Widget build(BuildContext context) {
@@ -1053,6 +1089,11 @@ class _MapCardState extends State<_MapCard> {
       final lng = widget.controller.longitude.value;
       final hasLocation = lat != 0.0 && lng != 0.0;
       final targetLocation = LatLng(lat, lng);
+
+      debugPrint('------------------------------------------------------------');
+      debugPrint('[MAP_DEBUG] PropertyDetailsScreen - MapCard build');
+      debugPrint('[MAP_DEBUG] lat: $lat, lng: $lng, hasLocation: $hasLocation');
+      debugPrint('------------------------------------------------------------');
 
       return Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -1065,33 +1106,84 @@ class _MapCardState extends State<_MapCard> {
         child: Stack(
           children: [
             // ─── Map ─────────────────────────────
+            // ClipRRect(
+            //   borderRadius: BorderRadius.circular(12.r),
+            //   child: hasLocation
+            //       ? GoogleMap(
+            //     onMapCreated: (GoogleMapController controller) {
+            //       debugPrint('------------------------------------------------------------');
+            //       debugPrint('[MAP_DEBUG] PropertyDetailsScreen - GoogleMap onMapCreated triggered');
+            //       debugPrint('------------------------------------------------------------');
+            //       _mapController = controller;
+            //     },
+            //     initialCameraPosition: CameraPosition(
+            //       target: targetLocation,
+            //       zoom: 14.4746,
+            //     ),
+            //     markers: {
+            //       Marker(
+            //         markerId: const MarkerId("property"),
+            //         position: targetLocation,
+            //       ),
+            //     },
+            //     liteModeEnabled: true,
+            //     compassEnabled: false,
+            //     mapToolbarEnabled: false,
+            //     myLocationEnabled: false,
+            //     zoomControlsEnabled: false,
+            //     zoomGesturesEnabled: false,
+            //     scrollGesturesEnabled: false,
+            //     tiltGesturesEnabled: false,
+            //     rotateGesturesEnabled: false,
+            //     myLocationButtonEnabled: false,
+            //   )
+            //       : AppImage(
+            //     path: "assets/images/street_map.png",
+            //     width: double.infinity,
+            //     height: double.infinity,
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
+
+
+
+            ///new added code
             ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
               child: hasLocation
-                  ? GoogleMap(
-                onMapCreated: (GoogleMapController controller) {
-                  _mapController = controller;
-                },
-                initialCameraPosition: CameraPosition(
-                  target: targetLocation,
-                  zoom: 14.4746,
-                ),
-                markers: {
-                  Marker(
-                    markerId: const MarkerId("property"),
-                    position: targetLocation,
+                  ? GestureDetector(
+                onTap: () => _navigateToMapView(widget.controller.property),
+                child: AbsorbPointer(
+                  absorbing: true, // GoogleMap gestures disabled রেখে শুধু tap navigate করবে
+                  child: GoogleMap(
+                    onMapCreated: (GoogleMapController controller) {
+                      debugPrint('------------------------------------------------------------');
+                      debugPrint('[MAP_DEBUG] PropertyDetailsScreen - GoogleMap onMapCreated triggered');
+                      debugPrint('------------------------------------------------------------');
+                      _mapController = controller;
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: targetLocation,
+                      zoom: 14.4746,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId("property"),
+                        position: targetLocation,
+                      ),
+                    },
+                    liteModeEnabled: true,
+                    compassEnabled: false,
+                    mapToolbarEnabled: false,
+                    myLocationEnabled: false,
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: false,
+                    scrollGesturesEnabled: false,
+                    tiltGesturesEnabled: false,
+                    rotateGesturesEnabled: false,
+                    myLocationButtonEnabled: false,
                   ),
-                },
-                liteModeEnabled: true,
-                compassEnabled: false,
-                mapToolbarEnabled: false,
-                myLocationEnabled: false,
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: false,
-                scrollGesturesEnabled: false,
-                tiltGesturesEnabled: false,
-                rotateGesturesEnabled: false,
-                myLocationButtonEnabled: false,
+                ),
               )
                   : AppImage(
                 path: "assets/images/street_map.png",
@@ -1100,6 +1192,7 @@ class _MapCardState extends State<_MapCard> {
                 fit: BoxFit.cover,
               ),
             ),
+            ///new added code ended
 
             // ─── Approximate Location Badge ───────
             Positioned(

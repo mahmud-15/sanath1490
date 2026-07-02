@@ -20,7 +20,7 @@ class HomeController extends GetxController {
   final isLoading = false.obs;
   final buyProperties = <PropertyModel>[].obs;
   final rentProperties = <PropertyModel>[].obs;
-
+  final RxBool isSearchLoading = false.obs;
   final popularLocations = <LocationModel>[].obs;
   final isLocationLoading = false.obs;
 /////////////////popular location

@@ -80,8 +80,8 @@ class PropertyModel {
     }
 
     final coords = json["location"]?["coordinates"];
-    final double lat = coords != null && coords.length >= 2 ? (coords[0] as num).toDouble() : 0.0;
-    final double lng = coords != null && coords.length >= 2 ? (coords[1] as num).toDouble() : 0.0;
+    final double lng = coords != null && coords.length >= 2 ? (coords[0] as num).toDouble() : 0.0;
+    final double lat = coords != null && coords.length >= 2 ? (coords[1] as num).toDouble() : 0.0;
 
     return PropertyModel(
       id: json["_id"] ?? "",

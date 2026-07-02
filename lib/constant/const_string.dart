@@ -15,6 +15,7 @@ class ConstString {
   static const email = "Email";
   static const yourEmailExample = 'your.email@example.com';
   static const password = 'Password';
+  static const String propertyList = "Property List";
   static const enterYourPassWord = 'Enter your password';
   static const forgotPassword = 'Forgot password?';
   static const signIn = 'Sign In';

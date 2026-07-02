@@ -22,20 +22,30 @@ class PropertyListScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ConstColor.backgroundColor,
-      appBar: GlobalAppBar(
-        title: ConstString.searchResult,
-        action: GestureDetector(
-          onTap: () => controller.onFilterTap(),
-          child: SvgPicture.asset(
-            "assets/icons/filter_icon.svg",
-            colorFilter: ColorFilter.mode(ConstColor.outLineColor, BlendMode.srcIn),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Obx(
+          () => GlobalAppBar(
+            title: controller.appBarTitle.value,
+            action: GestureDetector(
+              onTap: () => controller.onFilterTap(),
+              child: SvgPicture.asset(
+                "assets/icons/filter_icon.svg",
+                colorFilter: ColorFilter.mode(
+                  ConstColor.outLineColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
           ),
         ),
       ),
 
-      body: Obx(() => controller.isListView.value
-          ? _ListView(controller: controller)
-          : _MapView(controller: controller)),
+      body: Obx(
+        () => controller.isListView.value
+            ? _ListView(controller: controller)
+            : _MapView(controller: controller),
+      ),
 
       bottomNavigationBar: _ListMapToggle(controller: controller),
     );
@@ -57,35 +67,43 @@ class _ListView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Obx(() => CustomText(
-                title: '${controller.properties.length} results',
-                textColor: ConstColor.bodyColor,
-                textSize: 14.sp,
-                fontWeight: FontWeight.w400,
-                maxLine: 1,
-              )),
-              Obx(() => GestureDetector(
-                onTap: () {
-                  Get.bottomSheet(
-                    SortBottomSheetWidget(controller: controller),
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                  );
-                },
-                child: Row(
-                  children: [
-                    CustomText(
-                      title: controller.selectedSort.value,
-                      textColor: ConstColor.titleColor,
-                      textSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      maxLine: 1,
-                    ),
-                    SizedBox(width: 4.w),
-                    Icon(Icons.keyboard_arrow_down, size: 18.sp, color: ConstColor.titleColor),
-                  ],
+              Obx(
+                () => CustomText(
+                  title: '${controller.properties.length} results',
+                  textColor: ConstColor.bodyColor,
+                  textSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  maxLine: 1,
                 ),
-              )),
+              ),
+              Obx(
+                () => GestureDetector(
+                  onTap: () {
+                    Get.bottomSheet(
+                      SortBottomSheetWidget(controller: controller),
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      CustomText(
+                        title: controller.selectedSort.value,
+                        textColor: ConstColor.titleColor,
+                        textSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        maxLine: 1,
+                      ),
+                      SizedBox(width: 4.w),
+                      Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 18.sp,
+                        color: ConstColor.titleColor,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -110,7 +128,10 @@ class _ListView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final property = controller.properties[index];
                 return PropertyCard(
-                  onTap: () => Get.toNamed(AppRoutes.propertyDetails, arguments: property),
+                  onTap: () => Get.toNamed(
+                    AppRoutes.propertyDetails,
+                    arguments: property,
+                  ),
                   property: property,
                 );
               },
@@ -153,34 +174,44 @@ class _MapViewState extends State<_MapView> {
           .entries
           .where((e) => e.value.lat != 0.0 && e.value.lng != 0.0)
           .map((e) {
-        final isSelected = e.key == selectedIndex;
-        return Marker(
-          markerId: MarkerId(e.value.id),
-          position: LatLng(e.value.lat, e.value.lng),
-          onTap: () => widget.controller.onMapMarkerTap(e.key),
-          icon: isSelected
-              ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure)
-              : BitmapDescriptor.defaultMarker,
-        );
-      }).toSet();
+            final isSelected = e.key == selectedIndex;
+            return Marker(
+              markerId: MarkerId(e.value.id),
+              position: LatLng(e.value.lat, e.value.lng),
+              onTap: () => widget.controller.onMapMarkerTap(e.key),
+              icon: isSelected
+                  ? BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueAzure,
+                    )
+                  : BitmapDescriptor.defaultMarker,
+            );
+          })
+          .toSet();
 
       // ─── Initial position ──────────────────
-      final initialTarget = properties.isNotEmpty && properties.first.lat != 0.0
-          ? LatLng(properties.first.lat, properties.first.lng)
-          : const LatLng(51.5074, -0.1278);
+      final initialTarget =
+          selectedIndex != -1 &&
+              selectedIndex < properties.length &&
+              properties[selectedIndex].lat != 0.0
+          ? LatLng(properties[selectedIndex].lat, properties[selectedIndex].lng)
+          : (properties.isNotEmpty && properties.first.lat != 0.0
+                ? LatLng(properties.first.lat, properties.first.lng)
+                : const LatLng(51.5074, -0.1278));
 
       return Stack(
         children: [
           // ─── Google Map ───────────────────────
           GoogleMap(
-            onMapCreated: (c) => _mapController = c,
+            onMapCreated: (c) {
+              _mapController = c;
+            },
             initialCameraPosition: CameraPosition(
               target: initialTarget,
               zoom: 13,
             ),
             markers: markers,
             onTap: (_) => widget.controller.selectedMapIndex.value = -1,
-            zoomControlsEnabled: true,
+            zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
             mapToolbarEnabled: false,
             compassEnabled: false,
@@ -201,9 +232,59 @@ class _MapViewState extends State<_MapView> {
                 ),
               ),
             ),
+
+          Positioned(
+            bottom: selectedIndex >= 0 ? 140.h : 16.h,
+            right: 16.w,
+            child: Column(
+              children: [
+                _ZoomButton(
+                  icon: Icons.add,
+                  onTap: () =>
+                      _mapController?.animateCamera(CameraUpdate.zoomIn()),
+                ),
+                SizedBox(height: 8.h),
+                _ZoomButton(
+                  icon: Icons.remove,
+                  onTap: () =>
+                      _mapController?.animateCamera(CameraUpdate.zoomOut()),
+                ),
+              ],
+            ),
+          ),
         ],
       );
     });
+  }
+}
+
+class _ZoomButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _ZoomButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 36.w,
+        height: 36.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withAlpha(40),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Icon(icon, size: 20.sp, color: ConstColor.titleColor),
+      ),
+    );
   }
 }
 
@@ -243,19 +324,23 @@ class _MapPropertyCard extends StatelessWidget {
                 topLeft: Radius.circular(12.r),
                 bottomLeft: Radius.circular(12.r),
               ),
-              child: property.images.isNotEmpty && property.images.first.isNotEmpty
+              child:
+                  property.images.isNotEmpty && property.images.first.isNotEmpty
                   ? AppImage(
-                url: property.images.first,
-                width: 100.w,
-                height: 100.h,
-                fit: BoxFit.cover,
-              )
+                      url: property.images.first,
+                      width: 100.w,
+                      height: 100.h,
+                      fit: BoxFit.cover,
+                    )
                   : Container(
-                width: 100.w,
-                height: 100.h,
-                color: Colors.grey.shade200,
-                child: Icon(Icons.home_outlined, color: Colors.grey.shade400),
-              ),
+                      width: 100.w,
+                      height: 100.h,
+                      color: Colors.grey.shade200,
+                      child: Icon(
+                        Icons.home_outlined,
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
             ),
 
             // ─── Info ───────────────────────────
@@ -283,8 +368,11 @@ class _MapPropertyCard extends StatelessWidget {
                     SizedBox(height: 4.h),
                     Row(
                       children: [
-                        Icon(Icons.location_on_outlined,
-                            size: 12.sp, color: ConstColor.primaryColor),
+                        Icon(
+                          Icons.location_on_outlined,
+                          size: 12.sp,
+                          color: ConstColor.primaryColor,
+                        ),
                         SizedBox(width: 2.w),
                         Expanded(
                           child: CustomText(
@@ -324,7 +412,11 @@ class _MapPropertyCard extends StatelessWidget {
                       color: Colors.grey.shade200,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.close, size: 14.sp, color: ConstColor.titleColor),
+                    child: Icon(
+                      Icons.close,
+                      size: 14.sp,
+                      color: ConstColor.titleColor,
+                    ),
                   ),
                 ),
               ),
@@ -352,37 +444,39 @@ class _ListMapToggle extends StatelessWidget {
           top: BorderSide(color: ConstColor.outLineColor, width: 1.h),
         ),
       ),
-      child: Obx(() => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom > 0
-              ? MediaQuery.of(context).padding.bottom
-              : 0,
-          top: MediaQuery.of(context).padding.bottom > 0 ? 0 : 8.h,
+      child: Obx(
+        () => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom > 0
+                ? MediaQuery.of(context).padding.bottom
+                : 0,
+            top: MediaQuery.of(context).padding.bottom > 0 ? 0 : 8.h,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _ToggleItem(
+                icon: Icons.list,
+                label: ConstString.list,
+                isSelected: controller.isListView.value,
+                onTap: () => controller.isListView.value = true,
+              ),
+              Container(
+                height: 20.h,
+                width: 1.w,
+                color: ConstColor.outLineColor,
+                margin: EdgeInsets.symmetric(horizontal: 16.w),
+              ),
+              _ToggleItem(
+                icon: Icons.map_outlined,
+                label: ConstString.map,
+                isSelected: !controller.isListView.value,
+                onTap: () => controller.isListView.value = false,
+              ),
+            ],
+          ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _ToggleItem(
-              icon: Icons.list,
-              label: ConstString.list,
-              isSelected: controller.isListView.value,
-              onTap: () => controller.isListView.value = true,
-            ),
-            Container(
-              height: 20.h,
-              width: 1.w,
-              color: ConstColor.outLineColor,
-              margin: EdgeInsets.symmetric(horizontal: 16.w),
-            ),
-            _ToggleItem(
-              icon: Icons.map_outlined,
-              label: ConstString.map,
-              isSelected: !controller.isListView.value,
-              onTap: () => controller.isListView.value = false,
-            ),
-          ],
-        ),
-      )),
+      ),
     );
   }
 }

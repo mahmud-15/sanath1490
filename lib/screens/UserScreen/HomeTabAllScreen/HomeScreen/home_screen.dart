@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:sanath1490_flutter_app/constant/const_string.dart';
 import 'package:sanath1490_flutter_app/routes/app_routes/app_routes.dart';
+import '../../../../Widget/app_snack_bar/app_snack_bar.dart';
 import '../../../../constant/app_api_url.dart';
 import '../../../../constant/const_color.dart';
 import '../../../../service/api/api_service.dart';
@@ -438,19 +439,29 @@ class _HomeHeader extends StatelessWidget {
                   ),
                   SizedBox(height: 12.h),
 
-                  CustomElevatedButton(
-                    onPressed: () async {
-                      final response = await ApiServices.instance.getServices(
-                        AppApiUrl.instance.listingsSearch,
-                        queryParameters: {
-                          'radiusInMiles': 50000,
-                        },
-                      );
+                  Obx(() => CustomElevatedButton(
+                    onPressed: controller.isSearchLoading.value
+                        ? null
+                        : () async {
+                      try {
+                        controller.isSearchLoading.value = true;
+                        final response = await ApiServices.instance.getServices(
+                          AppApiUrl.instance.listingsSearch,
+                          queryParameters: {
+                            'radiusInMiles': 50000,
+                          },
+                        );
 
-                      if (response != null && response['data'] != null) {
-                        final List data = response['data'];
-                        final results = data.map((e) => PropertyModel.fromJson(e)).toList();
-                        Get.toNamed(AppRoutes.propertyListScreen, arguments: results);
+                        if (response != null && response['data'] != null) {
+                          final List data = response['data'];
+                          final results =
+                          data.map((e) => PropertyModel.fromJson(e)).toList();
+                          Get.toNamed(AppRoutes.propertyListScreen, arguments: results);
+                        }
+                      } catch (e) {
+                        AppSnackBar.error("Failed to fetch properties. Please try again.");
+                      } finally {
+                        controller.isSearchLoading.value = false;
                       }
                     },
                     color: ConstColor.secondaryColor,
@@ -458,13 +469,22 @@ class _HomeHeader extends StatelessWidget {
                     top: 0,
                     left: 0,
                     right: 0,
-                    child: CustomText(
+                    child: controller.isSearchLoading.value
+                        ? SizedBox(
+                      width: 20.w,
+                      height: 20.w,
+                      child: const CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                      ),
+                    )
+                        : CustomText(
                       title: ConstString.searchProperties,
                       textColor: Colors.black,
                       textSize: 16.sp,
                       fontWeight: FontWeight.w600,
                     ),
-                  ),
+                  )),
                 ],
               ),
             ),

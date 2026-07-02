@@ -169,7 +169,7 @@ class _SavedPropertiesTab extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 30.h,
+                  bottom: 10.h,
                   right: 14.w,
                   child: GestureDetector(
                     onTap: () => controller.removeProperty(index),

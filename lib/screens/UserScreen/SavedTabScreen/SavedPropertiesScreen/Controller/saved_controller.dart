@@ -47,7 +47,9 @@ class SavedController extends GetxController {
       if (response != null && response["success"] == true) {
         final List data = response["data"] ?? [];
 
-        savedProperties.value = data.map((item) {
+        savedProperties.value = data
+            .where((item) => item["listingId"] is Map<String, dynamic>) // ← null/invalid entry skip
+            .map((item) {
           final listing = item["listingId"] as Map<String, dynamic>;
           final model = PropertyModel.fromJson(listing);
           return PropertyModel(
@@ -70,7 +72,8 @@ class SavedController extends GetxController {
             tenure: model.tenure,
             shareUrl: model.shareUrl,
           );
-        }).toList();
+        })
+            .toList();
       }
     } catch (e) {
       errorLog("fetchFavouriteProperties", e);
