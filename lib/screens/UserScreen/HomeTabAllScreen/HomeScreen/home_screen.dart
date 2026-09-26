@@ -408,7 +408,7 @@ class _HomeHeader extends StatelessWidget {
                                   fontFamily: 'Roboto',
                                 ),
                                 decoration: InputDecoration(
-                                  hintText: ConstString.searchByLocation,
+                                  hintText: ConstString.searchLocationOr,
                                   hintStyle: TextStyle(
                                     fontSize: 12.sp,
                                     color: ConstColor.bodyColor,
