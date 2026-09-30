@@ -71,6 +71,8 @@ class SavedController extends GetxController {
             squareFoot: model.squareFoot,
             tenure: model.tenure,
             shareUrl: model.shareUrl,
+            primaryBadge: model.primaryBadge,
+            badges: model.badges,
           );
         })
             .toList();
@@ -177,9 +179,9 @@ class SavedController extends GetxController {
       }
     } catch (_) {}
   }
-  // void viewResults(SavedSearchModel search) {
-  //   Get.toNamed(AppRoutes.propertyListScreen);
-  // }
+// void viewResults(SavedSearchModel search) {
+//   Get.toNamed(AppRoutes.propertyListScreen);
+// }
 }
 
 // Model
