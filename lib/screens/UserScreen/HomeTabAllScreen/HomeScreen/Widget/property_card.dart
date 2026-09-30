@@ -100,6 +100,14 @@ class PropertyCard extends StatelessWidget {
                     //     ),
                     //   ),
                     // ),
+                    // Status badge (Rightmove style, top-left over image)
+                    if (_showBadge(property))
+                      Positioned(
+                        top: 10.h,
+                        left: 10.w,
+                        child: _StatusBadge(badge: property.primaryBadge!),
+                      ),
+
                     // NEW DESIGN
                     Positioned(
                       bottom: 10.h,
@@ -234,6 +242,60 @@ class PropertyCard extends StatelessWidget {
     );
   }
 }
+// FEATURED already has its own bar next to the price, so skip duplicate.
+bool _showBadge(PropertyModel property) {
+  final badge = property.primaryBadge;
+  return badge != null && badge.code != 'FEATURED';
+}
+
+class _StatusBadge extends StatelessWidget {
+  final PropertyBadge badge;
+  const _StatusBadge({required this.badge});
+
+  Color get _color {
+    switch (badge.code) {
+      case 'SOLD':
+      case 'SOLD_STC':
+        return const Color(0xFF1D2939);
+      case 'REDUCED_TODAY':
+        return const Color(0xFFD92D20);
+      case 'PRICE_REDUCED':
+        return const Color(0xFFDC6803);
+      case 'BACK_ON_MARKET':
+      case 'RECENTLY_RELISTED':
+        return ConstColor.secondaryColor;
+      default:
+        return ConstColor.primaryColor;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: BoxConstraints(maxWidth: 200.w),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+      decoration: BoxDecoration(
+        color: _color,
+        borderRadius: BorderRadius.circular(6.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(40),
+            blurRadius: 4.r,
+            offset: Offset(0, 2.h),
+          ),
+        ],
+      ),
+      child: CustomText(
+        title: badge.label,
+        textColor: Colors.white,
+        textSize: 11.sp,
+        fontWeight: FontWeight.w700,
+        maxLine: 1,
+      ),
+    );
+  }
+}
+
 class _PropertySpecs extends StatelessWidget {
   final PropertyModel property;
   const _PropertySpecs({required this.property});
@@ -243,7 +305,7 @@ class _PropertySpecs extends StatelessWidget {
     return Wrap(
       spacing: 12.w,
       runSpacing: 8.h,
-       children: [
+      children: [
         if (property.propertyType.isNotEmpty)
           _SpecChip(icon: "assets/icons/detached_icon.svg", label: property.propertyType),
         if (property.bedrooms.isNotEmpty && property.bedrooms != "0")
