@@ -1,6 +1,21 @@
 import 'package:get/get.dart';
 import '../../../../../constant/app_api_url.dart';
 
+class PropertyBadge {
+  final String code;
+  final String label;
+
+  const PropertyBadge({required this.code, required this.label});
+
+  static PropertyBadge? tryParse(dynamic json) {
+    if (json is! Map) return null;
+    final code = json["code"]?.toString() ?? "";
+    final label = json["label"]?.toString() ?? "";
+    if (code.isEmpty || label.isEmpty) return null;
+    return PropertyBadge(code: code, label: label);
+  }
+}
+
 class PropertyModel {
   final String id;
   final List<String> images;
@@ -24,6 +39,10 @@ class PropertyModel {
   final String squareFoot;
   final String tenure;
 
+  /// Highest-priority badge decided by backend (shown on the card image).
+  final PropertyBadge? primaryBadge;
+  final List<PropertyBadge> badges;
+
   PropertyModel({
     this.id = "",
     required this.images,
@@ -44,6 +63,8 @@ class PropertyModel {
     this.propertyType = "",
     this.squareFoot = "",
     this.tenure = "",
+    this.primaryBadge,
+    this.badges = const [],
   }) : currentIndex = 0.obs;
 
   factory PropertyModel.fromJson(Map<String, dynamic> json) {
@@ -62,7 +83,11 @@ class PropertyModel {
         : formattedPrice;
 
     final address = json["location"]?["address"] ?? "";
-    final addedDate = _formatDate(json["createdAt"] ?? "");
+    // Same source as the badges (firstPublishedAt) so date and badge never
+    // disagree; falls back to createdAt for listings never published (e.g. SOLD).
+    final addedDate = _formatDate(
+      (json["firstPublishedAt"] ?? json["createdAt"] ?? "").toString(),
+    );
 
     // Fix Agent Image URL (Robust Fallback & Double Slash Prevention)
     final agent = json["agentId"] ?? json["agent"];
@@ -71,8 +96,8 @@ class PropertyModel {
       String? rawPath = (agent["agencyLogo"] != null && agent["agencyLogo"].toString().isNotEmpty)
           ? agent["agencyLogo"].toString()
           : (agent["profileImage"] != null && agent["profileImage"].toString().isNotEmpty)
-              ? agent["profileImage"].toString()
-              : null;
+          ? agent["profileImage"].toString()
+          : null;
 
       if (rawPath != null) {
         agentImg = AppApiUrl.resolveImageUrl(rawPath);
@@ -82,6 +107,14 @@ class PropertyModel {
     final coords = json["location"]?["coordinates"];
     final double lng = coords != null && coords.length >= 2 ? (coords[0] as num).toDouble() : 0.0;
     final double lat = coords != null && coords.length >= 2 ? (coords[1] as num).toDouble() : 0.0;
+
+    // Badges (backend decides priority; primaryBadge is the one to show)
+    final badgeList = (json["badges"] as List? ?? [])
+        .map(PropertyBadge.tryParse)
+        .whereType<PropertyBadge>()
+        .toList();
+    final primaryBadge = PropertyBadge.tryParse(json["primaryBadge"]) ??
+        (badgeList.isNotEmpty ? badgeList.first : null);
 
     return PropertyModel(
       id: json["_id"] ?? "",
@@ -104,6 +137,8 @@ class PropertyModel {
       propertyType: _formatPropertyType(json["propertyType"] ?? ""),
       squareFoot: "${json["propertySquareFoot"] ?? ""} sq ft",
       tenure: _capitalize(json["tenure"] ?? ""),
+      primaryBadge: primaryBadge,
+      badges: badgeList,
     );
   }
 }
